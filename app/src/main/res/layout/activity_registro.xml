@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <android.widget.ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/scrollViewLayoutRegistro"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        tools:context=".RegistroActivity"> <!-- Esto asegura que el ScrollView llene toda la pantalla si el contenido es poco -->
+
+        <LinearLayout
+            android:id="@+id/LinearLayoutBotonVolverIS"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="30dp"
+            android:paddingTop="30dp"
+            android:paddingEnd="30dp"
+            android:background="@color/fondo">
+
+        <ImageButton
+            android:id="@+id/imageViewVolverInicioSesion"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="start"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/ic_volver"
+            android:backgroundTint="@color/fondo"
+            tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+            <LinearLayout
+            android:id="@+id/LinearLayoutInfoDatosUsuarioRegistro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Título de la pantalla -->
+            <TextView
+                android:id="@+id/textViewRegistro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:text="@string/textoTvRegistro"
+                android:textColor="@color/color_principal"
+                android:textSize="40dp"
+                android:textStyle="bold"
+                tools:ignore="SpUsage"></TextView>
+
+            <!-- Texto de ayuda -->
+            <TextView
+                android:id="@+id/textViewIntroducirDatosRegistro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginBottom="10dp"
+                android:text="@string/textoTVtextoInfoRegistrarse"
+                android:textSize="20sp"
+                android:textColor="@color/color_texto"></TextView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/LinearLayoutDatosUsuarioRegistro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <!-- Campo para insertar el nombre del usuario -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputNombreLayoutR"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:boxBackgroundMode="outline"
+                    android:paddingStart="8dp"
+                    android:paddingTop="4dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="4dp"
+                    app:endIconMode="clear_text"
+                    app:startIconDrawable="@drawable/ic_nombre"
+                    app:startIconTint="@color/color_principal"
+                    app:startIconMinSize="16dp"
+                    app:helperText="@string/textoAyudaRegistro">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextNombreRegistro"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/textoNombre"
+                        android:inputType="textPersonName"
+                        android:maxLines="1"
+                        android:minHeight="48dp"
+                        android:paddingStart="8dp"
+                        android:paddingTop="4dp"
+                        android:paddingEnd="8dp"
+                        android:paddingBottom="4dp"
+                        android:textColor="@color/color_texto"
+                        android:textSize="18sp"
+                        tools:ignore="TextSizeCheck,TouchTargetSizeCheck,TextContrastCheck,VisualLintTextFieldSize" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Campo para insertar los apellidos del usuario -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputApellidosLayoutR"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:boxBackgroundMode="outline"
+                    android:paddingStart="8dp"
+                    android:paddingTop="4dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="4dp"
+                    app:endIconMode="clear_text"
+                    app:startIconDrawable="@drawable/ic_nombre"
+                    app:startIconTint="@color/color_principal"
+                    app:startIconMinSize="16dp"
+                    app:helperText="@string/textoAyudaRegistro">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextApellidosRegistro"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/textoApellidos"
+                        android:inputType="textPersonName"
+                        android:maxLines="1"
+                        android:minHeight="48dp"
+                        android:paddingStart="8dp"
+                        android:paddingTop="4dp"
+                        android:paddingEnd="8dp"
+                        android:paddingBottom="4dp"
+                        android:textColor="@color/color_texto"
+                        android:textSize="18sp"
+                        tools:ignore="TextSizeCheck,TouchTargetSizeCheck,TextContrastCheck,VisualLintTextFieldSize" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Campo para insertar el correo del usuario -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputCorreoLayoutR"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:boxBackgroundMode="outline"
+                    android:paddingStart="8dp"
+                    android:paddingTop="4dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="4dp"
+                    app:endIconMode="clear_text"
+                    app:startIconDrawable="@drawable/ic_correo"
+                    app:startIconTint="@color/color_principal"
+                    app:startIconMinSize="16dp"
+                    app:helperText="@string/textoAyudaRegistro">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextCorreoRegistro"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/textoCorreo"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1"
+                        android:minHeight="48dp"
+                        android:paddingStart="8dp"
+                        android:paddingTop="4dp"
+                        android:paddingEnd="8dp"
+                        android:paddingBottom="4dp"
+                        android:textColor="@color/color_texto"
+                        android:textSize="18sp"
+                        tools:ignore="TextSizeCheck,TouchTargetSizeCheck,TextContrastCheck,VisualLintTextFieldSize" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Campo para insertar teléfono del usuario -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputTelefonoLayoutR"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:boxBackgroundMode="outline"
+                    android:paddingStart="8dp"
+                    android:paddingTop="4dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="4dp"
+                    app:endIconMode="clear_text"
+                    app:startIconDrawable="@drawable/ic_telefono_contacto"
+                    app:startIconTint="@color/color_principal"
+                    app:startIconMinSize="16dp"
+                    app:helperText="@string/textoAyudaRegistro">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTelefonoRegistro"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/textoTelefono"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:minHeight="48dp"
+                        android:paddingStart="8dp"
+                        android:paddingTop="4dp"
+                        android:paddingEnd="8dp"
+                        android:paddingBottom="4dp"
+                        android:textColor="@color/color_texto"
+                        android:textSize="18sp"
+                        tools:ignore="TextSizeCheck,TouchTargetSizeCheck,TextContrastCheck,VisualLintTextFieldSize" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Campo para insertar la contraseña -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputContrasenyaLayoutR"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:endIconMode="password_toggle"
+                    android:paddingStart="8dp"
+                    android:paddingTop="4dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="4dp"
+                    app:startIconDrawable="@drawable/ic_contrasena"
+                    app:startIconTint="@color/color_principal"
+                    app:startIconMinSize="16dp"
+                    app:helperText="@string/textoAyudaRegistro">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextContrasenyaRegistro"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/textoContraseña"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:minHeight="48dp"
+                        android:paddingStart="8dp"
+                        android:paddingTop="4dp"
+                        android:paddingEnd="8dp"
+                        android:paddingBottom="4dp"
+                        android:textColor="@color/color_texto"
+                        android:textSize="18sp"
+                        tools:ignore="TextSizeCheck,TextContrastCheck,VisualLintTextFieldSize" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Campo para insertar la confirmación de contraseña -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputConfirmarContrasenyaLayoutR"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:boxBackgroundMode="outline"
+                    android:paddingStart="8dp"
+                    android:paddingTop="4dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="4dp"
+                    app:endIconMode="password_toggle"
+                    app:startIconDrawable="@drawable/ic_contrasena"
+                    app:startIconTint="@color/color_principal"
+                    app:startIconMinSize="16dp"
+                    app:helperText="@string/textoAyudaRegistro">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextConfirmarContrasenyaRegistro"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/textoConfirmarContrasenya"
+                        android:inputType="textPassword"
+                        android:minHeight="48dp"
+                        android:paddingStart="8dp"
+                        android:paddingTop="4dp"
+                        android:paddingEnd="8dp"
+                        android:paddingBottom="4dp"
+                        android:maxLines="1"
+                        android:textColor="@color/color_texto"
+                        android:textSize="18sp"
+                        tools:ignore="TextSizeCheck,VisualLintTextFieldSize" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Abrir lista para seleccionar tipo de perfil -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputSpinnerLayoutR"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:boxBackgroundMode="outline"
+                    android:paddingStart="8dp"
+                    android:paddingTop="4dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="4dp"
+                    app:startIconDrawable="@drawable/ic_seleccionar_perfil"
+                    app:startIconTint="@color/color_principal"
+                    app:startIconMinSize="16dp"
+                    app:helperText="@string/textoAyudaRegistro">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/spinnerSeleccionarPerfil"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/textoTvSeleccionarPerfil"
+                        android:inputType="none"
+                        android:minHeight="48dp"
+                        android:paddingStart="8dp"
+                        android:paddingTop="4dp"
+                        android:paddingEnd="8dp"
+                        android:paddingBottom="4dp"
+                        android:textColor="@color/color_texto"
+                        android:textSize="18sp"
+                        tools:ignore="SpeakableTextPresentCheck,VisualLintTextFieldSize" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <!-- Botón para Registrarse -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonRegistrarse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:backgroundTint="@color/color_desactivado_fondo"
+                    android:textColor="@color/color_desactivado_texto"
+                    android:gravity="center"
+                    android:text="@string/textoRegistrarse"
+                    android:textSize="18sp"
+                    app:cornerRadius="15dp"
+                    tools:ignore="TouchTargetSizeCheck" />
+
+                <TextView
+                    android:id="@+id/textViewTextoDesactivado"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/textoTvbotonDesactivado"
+                    android:textColor="@color/color_desactivado_texto"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+</android.widget.ScrollView>
+

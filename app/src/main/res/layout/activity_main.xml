@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:scrollbarAlwaysDrawVerticalTrack="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingStart="30dp"
+    android:paddingEnd="30dp"
+    android:background="@color/fondo"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:layout_marginTop="80dp"
+        android:background="@color/color_fondo_logo">
+
+        <!-- Imagen del logo de la app -->
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:scaleType="fitCenter"
+            android:src="@drawable/logo_robinauto"
+            tools:ignore="ContentDescription">
+        </ImageView>
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/LinearLayoutDatosUsuario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="5dp"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp">
+
+        <!-- Título de la pantalla  -->
+        <TextView
+            android:id="@+id/textViewInicioSesion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:text="@string/textoTvIniciaSesion"
+            android:textStyle="bold"
+            android:textColor="@color/color_principal"
+            android:textSize="40sp"></TextView>
+
+
+        <!-- Texto de ayuda que muestra una indicación para el usuario -->
+        <TextView
+            android:id="@+id/textViewIntroducirDatosIS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:text="@string/textoTVtextoInfoIncioSesion"
+            android:textSize="20sp"
+            android:textColor="@color/color_texto"></TextView>
+
+
+        <!-- Campo para insertar el correo electrónico -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputCorreoLayoutIS"
+            app:boxBackgroundMode="outline"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            app:startIconDrawable="@drawable/ic_correo"
+            app:startIconMinSize="20dp"
+            app:endIconMode="clear_text"
+            app:startIconTint="@color/color_principal">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextCorreoIS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:padding="20dp"
+                android:hint="@string/textoCorreo"
+                android:textSize="20sp"
+                android:inputType="textEmailAddress"
+                android:textColor="@color/color_texto"
+                android:maxLines="1"
+                tools:ignore="VisualLintTextFieldSize" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Campo para insertar la contraseña -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputContrasenyaLayoutIS"
+            app:boxBackgroundMode="outline"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            app:startIconDrawable="@drawable/ic_contrasena"
+            app:startIconMinSize="20dp"
+            app:endIconMode="password_toggle"
+            app:startIconTint="@color/color_principal">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextContrasenyaIS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:padding="20dp"
+                android:hint="@string/textoContraseña"
+                android:textSize="20sp"
+                android:textColor="@color/color_texto"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                tools:ignore="VisualLintTextFieldSize" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Botón para iniciar sesión -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonIniciarSesion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:backgroundTint="@color/color_principal"
+            android:gravity="center"
+            android:text="@string/textoIniciarSesion"
+            android:textColor="@color/fondo"
+            android:textSize="18dp"
+            app:cornerRadius="15dp"
+            tools:ignore="SpUsage,TextContrastCheck,TextSizeCheck" />
+
+
+
+        <!-- Enlace al Registro -->
+        <TextView
+            android:id="@+id/textViewEnlaceRegistro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:clickable="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:minHeight="48dp"
+            android:text="@string/textoEnlaceRegistro"
+            android:textColor="@color/color_principal"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText,KeyboardInaccessibleWidget,TextSizeCheck" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp">
+
+        <TextView
+            android:id="@+id/textViewTextoContacto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="start"
+            android:paddingEnd="10dp"
+            android:text="@string/textoTvtextoContacto"
+            android:textColor="@color/color_texto"
+            android:textSize="15sp"
+            tools:ignore="RtlSymmetry,TextSizeCheck"/>
+
+        <!-- Enlace para contactar por correo electrónico -->
+        <TextView
+            android:id="@+id/textViewContactarIs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:clickable="true"
+            android:gravity="center"
+            android:minHeight="48dp"
+            android:text="@string/textoTvContacto"
+            android:textColor="@color/color_principal"
+            android:textSize="15sp"
+            android:textStyle="bold|italic"
+            tools:ignore="KeyboardInaccessibleWidget,TextSizeCheck" />
+
+
+    </LinearLayout>
+
+</LinearLayout>

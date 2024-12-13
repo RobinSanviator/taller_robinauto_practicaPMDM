@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="color_texto">#FF000000</color>
+    <color name="color_error">#B60909</color>
+    <color name="fondo">#FFFFFFFF</color>
+    <color name="color_principal">#4180C8</color>
+    <color name="color_secundario">#D5FFFFFF</color>
+    <color name="color_verde">#3AB842</color>
+    <color name="color_fondo_logo">#FFFFFFFF</color>
+    <color name="color_desactivado_fondo">#E0E0E0</color>
+    <color name="color_desactivado_texto">#9E9E9E</color>
+
+    <color name="color_fondo_navegacion">#4494ED</color>
+    <color name="color_iconos_navegacion">#032949</color>
+    <color name="color_texto_navegacion">#000000</color>
+</resources>

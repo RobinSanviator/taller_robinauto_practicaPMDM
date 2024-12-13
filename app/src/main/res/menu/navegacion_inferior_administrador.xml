@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/bienvenidaAdminFragment"
+        android:icon="@drawable/ic_bienvenida"
+        android:iconTint="@color/color_principal"
+        android:title="@string/bienvenidaUsuario" />
+
+
+    <item
+        android:id="@+id/gestionEmpleadosAdminFragment"
+        android:icon="@drawable/ic_empleados"
+        android:iconTint="@color/color_principal"
+        android:title="@string/textoAltaBaja" />
+
+    <item
+        android:id="@+id/modificarUsuariosAdminFragment"
+        android:icon="@drawable/ic_seleccionar_perfil"
+        android:iconTint="@color/color_principal"
+        android:title="@string/textoModificarUsuarios"/>
+
+    <item
+        android:id="@+id/ajustesAdminFragment"
+        android:icon="@drawable/ic_configuracion"
+        android:iconTint="@color/color_principal"
+        android:title="@string/textoAjustes"/>
+
+</menu>

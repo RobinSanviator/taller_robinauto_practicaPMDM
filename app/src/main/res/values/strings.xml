@@ -1,0 +1,56 @@
+<resources>
+    <string name="app_name" translatable="false">Taller Robinauto</string>
+    <string name="textoCorreo">Correo electrónico</string>
+    <string name="textoContraseña">Contraseña</string>
+    <string name="textoIniciarSesion">Iniciar sesión</string>
+    <string name="textoEnlaceRegistro">¿No tienes cuenta?, ¡Regístrate!</string>
+    <string name="textoVolverInicioSesion">Volver inicio de sesión</string>
+    <string name="textoTvCorreo">Email</string>
+    <string name="textoTvContrasenya">Contraseña</string>
+    <string name="textoTVtextoInfoIncioSesion">Indica tus datos para acceder</string>
+    <string name="textoTvIniciaSesion">Iniciar sesión</string>
+    <string name="textoTvContacto">tallerrobinauto@gmail.com</string>
+    <string name="textoTvRegistro">Registrarse</string>
+    <string name="textoTVtextoInfoRegistrarse">Rellena el formulario para registrarte</string>
+    <string name="textoRegistrarse">Registrarse</string>
+    <string name="textoNombre">Nombre</string>
+    <string name="textoApellidos">Apellidos</string>
+    <string name="textoConfirmarContrasenya">Confirmar contraseña</string>
+    <string name="textoTvSeleccionarPerfil">Seleccionar perfil</string>
+    <string name="textoTvUsuarioAdmin">Usuario:</string>
+    <string name="textoTelefono">Teléfono</string>
+    <string name="textoAyudaObligatorio">Obligatorio*</string>
+    <string name="textoTvtextoContacto">Contactar:</string>
+    <string name="textoAyudaRegistro">Obligatorio*</string>
+    <string name="textoTyCIntroduccion">Bienvenido a Taller Robinauto. Al utilizar nuestros servicios, aceptas cumplir con los siguientes términos y condiciones. Por favor, léelos detenidamente.</string>
+    <string name="textoTyCUsoServicio">- Uso del Servicio: Esta app es para mayores de 18 años. Úsala solo para gestionar servicios automotrices de forma legal. Está prohibido el uso indebido, como actividades ilegales o difusión de contenido ofensivo.</string>
+    <string name="textoTyCPropiedadIntelectual">- Propiedad Intelectual: Todo el contenido de la app (imágenes, logotipos, diseño) es propiedad de Robinauto y no puede ser usado sin permiso.</string>
+    <string name="textoTyCPrivacidad">- Privacidad: Protegemos tus datos personales conforme a nuestra política de privacidad. Consulta más detalles en Política de Privacidad.</string>
+    <string name="textoTyCContacto">Contacto: Para consultas, escribe a tallerrobinauto@gmail.com</string>
+    <string name="textoTyCCheckboxUsoYServicio">Acepto el uso del servicio.</string>
+    <string name="textoTyCCheckboxPropiedadIntelectual">Acepto los términos de propiedad intelectual.</string>
+    <string name="textoTyCCheckboxPrivacidad">Acepto la política de privacidad.</string>
+    <string name="textoTyCCheckboxPromociones">Quiero recibir promociones y actualizaciones (opcional).</string>
+    <string name="textoTyCCheckboxAceptarTodo">Aceptar todos los términos y condiciones.</string>
+    <string name="textoTvbotonDesactivado">Botón desactivado, complete todos los campos</string>
+
+    <string-array name="tipo_usuarios">
+        <item>Administrador</item>
+        <item>Administrativo</item>
+        <item>Mecánico jefe</item>
+        <item>Mecánico</item>
+        <item>Cliente</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="textoAltaBaja">Empleados</string>
+    <string name="bienvenidaUsuario">Bienvenido</string>
+    <string name="textoModificarUsuarios">Usuarios</string>
+    <string name="textoAjustes">Ajustes</string>
+    <string name="textoNotificaciones">Notificaciones</string>
+    <string name="textoAsiganarReparacionMecanicoJefe">Reparaciones</string>
+    <string name="textoStockPiezas">Stock&amp;Pedidos</string>
+    <string name="textoPedidos">Pedidos</string>
+    <string name="textoReparaciones">Reparaciones</string>
+</resources>
