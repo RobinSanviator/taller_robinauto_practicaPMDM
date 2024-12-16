@@ -37,8 +37,8 @@
     <string-array name="tipo_usuarios">
         <item>Administrador</item>
         <item>Administrativo</item>
-        <item>Mecánico jefe</item>
-        <item>Mecánico</item>
+        <item>Mecanico jefe</item>
+        <item>Mecanico</item>
         <item>Cliente</item>
     </string-array>
 
@@ -53,4 +53,10 @@
     <string name="textoStockPiezas">Stock&amp;Pedidos</string>
     <string name="textoPedidos">Pedidos</string>
     <string name="textoReparaciones">Reparaciones</string>
+    <string name="textoDiagnosticos">Diagnósticos</string>
+    <string name="textoTareas">Tareas</string>
+    <string name="textoConsultarReparaciones">Consultas</string>
+    <string name="textoPiezas">Piezas</string>
+    <string name="textoPerfil">Perfil</string>
+    <string name="textoTvbotonVolverIncioSesion">Ya tengo cuenta, volver a inicio de sesión</string>
 </resources>

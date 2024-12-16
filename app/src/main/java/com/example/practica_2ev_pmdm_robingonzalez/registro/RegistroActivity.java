@@ -1,11 +1,10 @@
-package com.example.practica_2ev_pmdm_robingonzalez;
+package com.example.practica_2ev_pmdm_robingonzalez.registro;
 
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.Editable;
@@ -19,8 +18,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -28,16 +25,20 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.example.practica_2ev_pmdm_robingonzalez.inicio_sesion.InicioSesionActivity;
+import com.example.practica_2ev_pmdm_robingonzalez.R;
+import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.BBDDUsuariosSQLite;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 public class RegistroActivity extends AppCompatActivity {
-     TextInputEditText editTextNombre, editTexApellidos, editTextCorreoRegistro, editTextTelefono, editTextContrasenyaRegistro, editTextConfirmarContrasenya;
+     TextInputEditText editTextNombre, editTexApellidos, editTextCorreoRegistro, editTextTelefono,
+             editTextContrasenyaRegistro, editTextConfirmarContrasenya;
      AutoCompleteTextView spinnerSeleccionarPerfil;
      MaterialButton buttonRegistrarse;
-     TextView textViewTextoBotonDesactivado;
+     TextView textViewTextoVolverInicioSesion;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -46,15 +47,6 @@ public class RegistroActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_registro);
 
-       ImageView imageViewVolverInicioSesion = findViewById(R.id.imageViewVolverInicioSesion);
-
-        imageViewVolverInicioSesion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent volverInicioSesion = new Intent(RegistroActivity.this, MainActivity.class);
-                startActivity(volverInicioSesion);
-            }
-        });
 
 
         // Referencias a los elementos del formulario
@@ -66,13 +58,12 @@ public class RegistroActivity extends AppCompatActivity {
         editTextConfirmarContrasenya = findViewById(R.id.editTextConfirmarContrasenyaRegistro);
         spinnerSeleccionarPerfil = findViewById(R.id.spinnerSeleccionarPerfil);
         buttonRegistrarse = findViewById(R.id.buttonRegistrarse);
-        textViewTextoBotonDesactivado = findViewById(R.id.textViewTextoDesactivado);
+        textViewTextoVolverInicioSesion = findViewById(R.id.textViewVolverInicioSesion);
 
 
-
+        volverInicioSesion();
         seleccionarPerfil();
         configurarValidacionDinamica();
-
 
             //Cuando se haga clic en registrarse se mostrarán los términos y condiciones
             buttonRegistrarse.setOnClickListener(new View.OnClickListener() {
@@ -85,6 +76,15 @@ public class RegistroActivity extends AppCompatActivity {
 
     }
 
+
+    public void volverInicioSesion(){
+        textViewTextoVolverInicioSesion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(RegistroActivity.this, InicioSesionActivity.class));
+            }
+        });
+    }
 
     public void seleccionarPerfil(){
         // Configurar el autocompletetext como spinner para seleccionar el tipo de usuario
@@ -99,7 +99,7 @@ public class RegistroActivity extends AppCompatActivity {
                 if(hasFocus){
                     InputMethodManager teclado = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     teclado.hideSoftInputFromWindow(spinnerSeleccionarPerfil.getWindowToken(),0);
-                    spinnerSeleccionarPerfil.performClick();
+                    spinnerSeleccionarPerfil.showDropDown();
                 }
             }
         });
@@ -228,7 +228,7 @@ public class RegistroActivity extends AppCompatActivity {
     }
 
     // Método para verificar todas las validaciones y habilitar/deshabilitar el botón
-    private void verificarValidaciones() {
+    public void verificarValidaciones() {
         String nombre = editTextNombre.getText().toString();
         String apellidos = editTexApellidos.getText().toString();
         String correo = editTextCorreoRegistro.getText().toString();
@@ -247,17 +247,7 @@ public class RegistroActivity extends AppCompatActivity {
 
         // Habilitar o deshabilitar el botón según el resultado
         buttonRegistrarse.setEnabled(esValido);
-        // Cambiar el color del texto dinámicamente
-        if (esValido) {
-            buttonRegistrarse.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.color_principal));
-            buttonRegistrarse.setTextColor(ContextCompat.getColor(this, R.color.color_texto));
-            textViewTextoBotonDesactivado.setVisibility(View.INVISIBLE);
 
-        } else {
-            buttonRegistrarse.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.color_desactivado_fondo));
-            buttonRegistrarse.setTextColor(ContextCompat.getColor(this, R.color.color_desactivado_texto));
-            textViewTextoBotonDesactivado.setVisibility(View.VISIBLE);
-        }
     }
 
     public void configurarValidacionDinamica() {
@@ -291,7 +281,6 @@ public class RegistroActivity extends AppCompatActivity {
     }
 
 
-
     public void mostrarTerminosYCondicionesEnAlertDialog(){
 
         //Inflar el diseño xml para mostrarlo al pulsar el botón de Registrarse
@@ -318,15 +307,6 @@ public class RegistroActivity extends AppCompatActivity {
                 checkBoxPrivacidad.setChecked(isChecked);
                 checkBoxPromociones.setChecked(isChecked);
 
-                //Si los checkbox son seleccionados cambian el check al color azul (principal)
-                if(isChecked){
-                    checkBoxUsoServicio.setButtonTintList(ColorStateList.valueOf(getResources().getColor(R.color.color_principal)));
-                    checkBoxPropiedadIntelectual.setButtonTintList(ColorStateList.valueOf(getResources().getColor(R.color.color_principal)));
-                    checkBoxPrivacidad.setButtonTintList(ColorStateList.valueOf(getResources().getColor(R.color.color_principal)));
-                    checkBoxPromociones.setButtonTintList(ColorStateList.valueOf(getResources().getColor(R.color.color_principal)));
-                    checkBoxAceptarTodo.setButtonTintList(ColorStateList.valueOf(getResources().getColor(R.color.color_principal)));
-
-                }
             }
         });
 
@@ -369,6 +349,9 @@ public class RegistroActivity extends AppCompatActivity {
         String contrasenya = editTextContrasenyaRegistro.getText().toString();
         String tipoUsuario = spinnerSeleccionarPerfil.getText().toString();
 
+        BBDDUsuariosSQLite baseDeDatosGestionUsuarios = new BBDDUsuariosSQLite(RegistroActivity.this, "gestion_usuario_taller", null, 3);
+
+        //Insertar un nuevo registro
         ContentValues nuevoRegistro = new ContentValues();
         nuevoRegistro.put("nombre", nombre);
         nuevoRegistro.put("apellidos", apellidos);
@@ -377,14 +360,16 @@ public class RegistroActivity extends AppCompatActivity {
         nuevoRegistro.put("contrasenya", contrasenya);
         nuevoRegistro.put("tipo_usuario", tipoUsuario);
 
-        BBDDUsuariosSQLite baseDeDatosGestionUsuarios = new BBDDUsuariosSQLite(RegistroActivity.this, "gestion_usuario_taller", null, 3);
 
         SQLiteDatabase baseDeDatos = baseDeDatosGestionUsuarios.getReadableDatabase();
 
         long id = baseDeDatos.insert("usuarios", null, nuevoRegistro);
 
+
         if(id != -1){
             Log.d("RegistroActivity","Usuario registrado correctamente: " +id);
+
+            startActivity(new Intent(RegistroActivity.this, InicioSesionActivity.class));
 
         } else {
             Log.d("RegistroActivity","Error al registrar el usuario: " +id);
@@ -393,4 +378,6 @@ public class RegistroActivity extends AppCompatActivity {
         baseDeDatos.close();
 
     }
+
 }
+

@@ -1,4 +1,4 @@
-package com.example.practica_2ev_pmdm_robingonzalez;
+package com.example.practica_2ev_pmdm_robingonzalez.base_de_datos;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -49,6 +49,8 @@ public class BBDDUsuariosSQLite extends SQLiteOpenHelper {
 
     }
 
+
+
     public int obtenerVersion() {
         SQLiteDatabase db = this.getReadableDatabase();
         int version = db.getVersion();
@@ -81,6 +83,7 @@ public class BBDDUsuariosSQLite extends SQLiteOpenHelper {
         if(cursorCorreo.moveToFirst()){
             String correoCorrecto = cursorCorreo.getString(0);
             cursorCorreo.close();
+            db.close();
             return correoCorrecto;
         }
         return  null;

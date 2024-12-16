@@ -1,4 +1,4 @@
-package com.example.practica_2ev_pmdm_robingonzalez;
+package com.example.practica_2ev_pmdm_robingonzalez.administrativo;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -12,6 +12,8 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.BBDDUsuariosSQLite;
+import com.example.practica_2ev_pmdm_robingonzalez.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
@@ -30,6 +32,7 @@ public class AdministrativoActivity extends AppCompatActivity {
         });
 
         navegacionInferior = findViewById(R.id.bottomNavigationNavegacionAdministativo);
+
     }
 
     // Configuración del listener del BottomNavigationView

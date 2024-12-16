@@ -1,8 +1,6 @@
-package com.example.practica_2ev_pmdm_robingonzalez;
+package com.example.practica_2ev_pmdm_robingonzalez.administrador;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.activity.EdgeToEdge;
@@ -14,12 +12,15 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.practica_2ev_pmdm_robingonzalez.menu_y_fragmentos_comunes.AjustesFragment;
+import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.BBDDUsuariosSQLite;
+import com.example.practica_2ev_pmdm_robingonzalez.menu_y_fragmentos_comunes.BienvenidaFragment;
+import com.example.practica_2ev_pmdm_robingonzalez.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 public class AdministradorActivity extends AppCompatActivity {
 
-    BBDDUsuariosSQLite baseDeDatos;
     BottomNavigationView navegacionInferior;
     BienvenidaFragment bienvenidaFragment;
     AdministradorDarAltaFragment gestionEmpleadosFragment;
@@ -46,53 +47,31 @@ public class AdministradorActivity extends AppCompatActivity {
         gestionEmpleadosFragment = new AdministradorDarAltaFragment();
         modificarUsuariosFragment = new AdministradorModificarUsuariosFragment();
         ajustesFragment = new AjustesFragment();
-        baseDeDatos = new BBDDUsuariosSQLite(AdministradorActivity.this, "gestion_usuario_taller", null, 3);
 
-        // Crear navegación inferior
-        crearNavegacionInferior();
-        loadFragment(bienvenidaFragment); // Cargar fragmento de bienvenida inicialmente
 
-        obtenerTipoUsuario();
+        navgacionAdministradorConFragmentos();
+        cargarFragmento(bienvenidaFragment); // Cargar fragmento de bienvenida inicialmente
+
 
     }
 
-
-
-
-    // Método que obtiene el tipo de usuario desde la base de datos
-    public void obtenerTipoUsuario() {
-        String correoUsuario = getIntent().getStringExtra("correo");
-        String contrasenyaUsuario = getIntent().getStringExtra("contrasenya");
-        String tipoUsuario = baseDeDatos.obtenerTipoUsuario(correoUsuario, contrasenyaUsuario);
-
-
-            if (tipoUsuario != null && tipoUsuario.equals("Administrador")) {
-                Menu menu = navegacionInferior.getMenu();
-                // Funciones comunes en true
-                menu.findItem(R.id.ajustesAdminFragment).setVisible(true);
-                menu.findItem(R.id.bienvenidaAdminFragment).setVisible(true);
-                menu.findItem(R.id.gestionEmpleadosAdminFragment).setVisible(true);
-                menu.findItem(R.id.modificarUsuariosAdminFragment).setVisible(true);
-
-        }
-    }
 
     // Configuración del listener del BottomNavigationView
-    public void crearNavegacionInferior() {
+    public void navgacionAdministradorConFragmentos() {
         navegacionInferior.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId() == R.id.bienvenidaAdminFragment) {
-                    loadFragment(bienvenidaFragment);
+                    cargarFragmento(bienvenidaFragment);
                     return true;
                 } else if (item.getItemId() == R.id.modificarUsuariosAdminFragment) {
-                    loadFragment(modificarUsuariosFragment);
+                    cargarFragmento(modificarUsuariosFragment);
                     return true;
                 } else if (item.getItemId() == R.id.gestionEmpleadosAdminFragment) {
-                    loadFragment(gestionEmpleadosFragment);
+                    cargarFragmento(gestionEmpleadosFragment);
                     return true;
                 } else if (item.getItemId() == R.id.ajustesAdminFragment) {
-                    loadFragment(ajustesFragment);
+                    cargarFragmento(ajustesFragment);
                     return true;
                 } else {
                     return false;
@@ -101,8 +80,9 @@ public class AdministradorActivity extends AppCompatActivity {
         });
     }
 
+
     // Método para cargar los fragmentos
-    private void loadFragment(Fragment fragmento) {
+    private void cargarFragmento(Fragment fragmento) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frameLayoutContenedorFragmentoAdmin, fragmento);
         fragmentTransaction.commit();

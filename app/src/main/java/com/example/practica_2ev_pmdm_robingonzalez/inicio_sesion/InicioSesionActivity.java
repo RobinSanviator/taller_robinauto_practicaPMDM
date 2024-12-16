@@ -1,4 +1,4 @@
-package com.example.practica_2ev_pmdm_robingonzalez;
+package com.example.practica_2ev_pmdm_robingonzalez.inicio_sesion;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -15,6 +15,14 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.practica_2ev_pmdm_robingonzalez.cliente.ClienteActivity;
+import com.example.practica_2ev_pmdm_robingonzalez.R;
+import com.example.practica_2ev_pmdm_robingonzalez.administrador.AdministradorActivity;
+import com.example.practica_2ev_pmdm_robingonzalez.administrativo.AdministrativoActivity;
+import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.BBDDUsuariosSQLite;
+import com.example.practica_2ev_pmdm_robingonzalez.mecanico.MecanicoActivity;
+import com.example.practica_2ev_pmdm_robingonzalez.mecanico_jefe.MecanicoJefeActivity;
+import com.example.practica_2ev_pmdm_robingonzalez.registro.RegistroActivity;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
@@ -26,13 +34,13 @@ import com.google.android.material.textfield.TextInputEditText;
  * administrativo, mecánico jefe, mecánico, cliente) y enviar un correo de contacto.
  * @author Robin González
  */
-public class MainActivity extends AppCompatActivity {
+public class InicioSesionActivity extends AppCompatActivity {
 
-   TextInputEditText editTextCorreoIS;
-    TextInputEditText editTextContrasenya;
-    MaterialButton buttonIniciarSesion;
-    TextView textViewEnlaceRegistro;
-    TextView textViewContactarCorreo;
+    private  TextInputEditText editTextCorreoIS;
+    private  TextInputEditText editTextContrasenya;
+    private MaterialButton buttonIniciarSesion;
+    private  TextView textViewEnlaceRegistro;
+    private TextView textViewContactarCorreo;
     private boolean correoEnviado = false;
 
     /**
@@ -46,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_inicio_sesion);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -83,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         textViewEnlaceRegistro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent accederPantallaRegistro = new Intent(MainActivity.this, RegistroActivity.class);
+                Intent accederPantallaRegistro = new Intent(InicioSesionActivity.this, RegistroActivity.class);
                 startActivity(accederPantallaRegistro);
             }
         });
@@ -135,58 +143,44 @@ public class MainActivity extends AppCompatActivity {
      */
     public void validarUsuario(String correo, String contrasenya) {
         BBDDUsuariosSQLite baseDeDatosGestionUsuarios = new BBDDUsuariosSQLite(
-                MainActivity.this, "gestion_usuario_taller", null, 3);
+                InicioSesionActivity.this, "gestion_usuario_taller", null, 3);
+
+        //SQLiteDatabase baseDeDatos = baseDeDatosGestionUsuarios.getReadableDatabase();
+        //baseDeDatos.close();
+
 
         // Verificar si el correo existe
         String correoCorrecto = baseDeDatosGestionUsuarios.verificarCorreo(correo);
+
 
         if (correoCorrecto != null) {
             // Si el correo existe, verificar la contraseña
             String tipoUsuario = baseDeDatosGestionUsuarios.obtenerTipoUsuario(correo, contrasenya);
 
+
+
             if (tipoUsuario != null) {
-                // Credenciales correctas y nombre y apellido encontrado
-                Intent intentAccederPantallaUsuario;
 
                 switch (tipoUsuario) {
                     case "Administrador":
-                        intentAccederPantallaUsuario = new Intent(MainActivity.this, AdministradorActivity.class);
-                        intentAccederPantallaUsuario.putExtra("correo", correo);
-                        intentAccederPantallaUsuario.putExtra("contrasenya", contrasenya);
-                        startActivity(intentAccederPantallaUsuario);
-                        finish();
+                    inicializarIntentInicio(AdministradorActivity.class, correo, contrasenya);
                         break;
 
                     case "Administrativo":
-                        intentAccederPantallaUsuario = new Intent(MainActivity.this, AdministrativoActivity.class);
-                        intentAccederPantallaUsuario.putExtra("correo", correo);
-                        intentAccederPantallaUsuario.putExtra("contrasenya", contrasenya);
-                        startActivity(intentAccederPantallaUsuario);
-                        finish();
+                        inicializarIntentInicio(AdministrativoActivity.class, correo, contrasenya);
                         break;
 
                     case "Mecanico jefe":
-                        intentAccederPantallaUsuario = new Intent(MainActivity.this, MecanicoJefeActivity.class);
-                        intentAccederPantallaUsuario.putExtra("correo", correo);
-                        intentAccederPantallaUsuario.putExtra("contrasenya", contrasenya);
-                        startActivity(intentAccederPantallaUsuario);
-                        finish();
+                        inicializarIntentInicio(MecanicoJefeActivity.class, correo, contrasenya);
                         break;
 
                     case "Mecanico":
-                        intentAccederPantallaUsuario = new Intent(MainActivity.this, MecanicoActivity.class);
-                        intentAccederPantallaUsuario.putExtra("correo", correo);
-                        intentAccederPantallaUsuario.putExtra("contrasenya", contrasenya);
-                        startActivity(intentAccederPantallaUsuario);
+                        inicializarIntentInicio(MecanicoActivity.class, correo, contrasenya);
                         finish();
                         break;
 
                     case "Cliente":
-                        intentAccederPantallaUsuario = new Intent(MainActivity.this, ClienteActivity.class);
-                        intentAccederPantallaUsuario.putExtra("correo", correo);
-                        intentAccederPantallaUsuario.putExtra("contrasenya", contrasenya);
-                        startActivity(intentAccederPantallaUsuario);
-                        finish();
+                        inicializarIntentInicio(ClienteActivity.class, correo, contrasenya);
                         break;
 
                     default:
@@ -202,6 +196,17 @@ public class MainActivity extends AppCompatActivity {
             Snackbar.make(buttonIniciarSesion, "El correo no es válido", Snackbar.LENGTH_LONG).show();
         }
 
+
+
+    }
+
+    //Método para inicializar el intent y redirigir a la pantalla de cada usuario pasando el correo y la contraseña
+    public void inicializarIntentInicio(Class<?> claseDestino, String correo, String contrasenya) {
+        Intent intentPantallaUsuario = new Intent(InicioSesionActivity.this, claseDestino);
+        intentPantallaUsuario.putExtra("correo", correo);
+        intentPantallaUsuario.putExtra("contrasenya", contrasenya);
+        startActivity(intentPantallaUsuario);
+        finish();
     }
 
     public void verificarVersionBBDD(){

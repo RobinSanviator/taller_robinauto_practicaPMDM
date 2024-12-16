@@ -55,30 +55,35 @@
             android:id="@+id/checkBoxUsoServicio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/color_principal"
             android:text="@string/textoTyCCheckboxUsoYServicio" />
 
         <CheckBox
             android:id="@+id/checkBoxPropiedadIntelectual"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/color_principal"
             android:text="@string/textoTyCCheckboxPropiedadIntelectual" />
 
         <CheckBox
             android:id="@+id/checkBoxPrivacidad"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/color_principal"
             android:text="@string/textoTyCCheckboxPrivacidad" />
 
         <CheckBox
             android:id="@+id/checkBoxPromociones"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/color_principal"
             android:text="@string/textoTyCCheckboxPromociones" />
 
         <CheckBox
             android:id="@+id/checkBoxAceptarTodo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/color_principal"
             android:text="@string/textoTyCCheckboxAceptarTodo" />
     </LinearLayout>
 

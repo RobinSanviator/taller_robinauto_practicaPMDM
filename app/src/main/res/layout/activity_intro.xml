@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fondo"
+    tools:context=".pantalla_intro.IntroActivity">
+
+    <LinearLayout
+        android:id="@+id/linearLayoutSuperior"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="@drawable/img_fondo_forma_superior"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutTituloIntro"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageViewLogo"
+            android:layout_width="300dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/logo_app_robinauto" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutTituloIntro"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayoutBotones"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutSuperior"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp">
+
+        <TextView
+            android:id="@+id/textViewTituloIntro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:text="Bienvenido a Taller Robinauto"
+            android:textColor="@color/texto_intro"
+            android:textSize="35sp"
+            android:fontFamily="sans-serif-black"/>
+
+        <TextView
+            android:id="@+id/textViewSloganIntro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tu app, tu taller, tu tranquilidad"
+            android:textColor="@color/texto_intro"
+            android:textSize="20sp"
+            android:textStyle="italic"
+            android:fontFamily="sans-serif-black"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutBotones"
+        android:layout_width="400dp"
+        android:layout_height="250dp"
+        android:background="@drawable/img_fondo_forma_inferior"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="parent">
+
+        <!-- Botón para ir a iniciar sesión -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonIniciarSesionIntro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="90dp"
+            android:backgroundTint="@color/color_botonIntro"
+            android:gravity="center"
+            android:text="@string/textoIniciarSesion"
+            android:textColor="@color/blanco"
+            android:textSize="18dp"
+            app:cornerRadius="20dp"
+            tools:ignore="SpUsage,TextContrastCheck,TextSizeCheck" />
+
+        <!-- Botón para ir a registrarse -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonRegistrarseIntro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/color_botonIntro"
+            android:gravity="center"
+            android:text="@string/textoRegistrarse"
+            android:textColor="@color/blanco"
+            android:textSize="18dp"
+            app:cornerRadius="20dp"
+            tools:ignore="SpUsage,TextContrastCheck,TextSizeCheck" />
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

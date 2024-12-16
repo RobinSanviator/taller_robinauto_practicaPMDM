@@ -1,4 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/bienvenidaClienteFragment"
+        android:icon="@drawable/ic_bienvenida"
+        android:iconTint="@color/color_principal"
+        android:title="@string/bienvenidaUsuario" />
 
+
+    <item
+        android:id="@+id/reparacionesClienteFragment"
+        android:icon="@drawable/ic_reparacion"
+        android:iconTint="@color/color_principal"
+        android:title="@string/textoReparaciones"/>
+
+    <item
+        android:id="@+id/perfilClienteFragment"
+        android:icon="@drawable/ic_nombre"
+        android:iconTint="@color/color_principal"
+        android:title="@string/textoPerfil"/>
+
+    <item
+        android:id="@+id/ajustesCienteFragment"
+        android:icon="@drawable/ic_configuracion"
+        android:iconTint="@color/color_principal"
+        android:title="@string/textoAjustes"/>
 </menu>

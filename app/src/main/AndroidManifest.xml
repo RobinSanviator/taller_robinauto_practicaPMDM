@@ -13,35 +13,43 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
-            android:name=".ClienteActivity"
-            android:exported="false" />
+            android:name=".pantalla_intro.IntroActivity"
+            android:exported="true">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
         <activity
-            android:name=".MecanicoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MecanicoJefeActivity"
-            android:exported="false" />
-        <activity
-            android:name=".AdministrativoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".AdministradorActivity"
+            android:name=".cliente.ClienteActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".RegistroActivity"
+            android:name=".mecanico.MecanicoActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mecanico_jefe.MecanicoJefeActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".administrativo.AdministrativoActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".administrador.AdministradorActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".registro.RegistroActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".MainActivity"
+            android:name=".inicio_sesion.InicioSesionActivity"
             android:exported="true"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

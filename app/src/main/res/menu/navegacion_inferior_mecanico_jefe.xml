@@ -1,4 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item
+        android:id="@+id/bienvenidaMecanicoJefeFragment"
+        android:icon="@drawable/ic_bienvenida"
+        android:iconTint="@color/color_principal"
+        android:title="@string/bienvenidaUsuario" />
+
+
+    <item
+        android:id="@+id/diagnosticosMecanicoJefeFragment"
+        android:icon="@drawable/ic_diagnostico"
+        android:iconTint="@color/color_principal"
+        android:title="@string/textoDiagnosticos" />
+
+    <item
+        android:id="@+id/tareasMecanicoJefeFragment"
+        android:icon="@drawable/ic_tareas"
+        android:iconTint="@color/color_principal"
+        android:title="@string/textoTareas"/>
+
+    <item
+        android:id="@+id/consReparacionesMecanicoJefeFragment"
+        android:icon="@drawable/ic_consul_reparaciones"
+        android:iconTint="@color/color_principal"
+        android:title="@string/textoConsultarReparaciones"/>
+
+    <item
+        android:id="@+id/ajustesMecanicoJefeFragment"
+        android:icon="@drawable/ic_configuracion"
+        android:iconTint="@color/color_principal"
+        android:title="@string/textoAjustes"/>
+
+
 </menu>

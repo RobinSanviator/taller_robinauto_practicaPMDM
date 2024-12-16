@@ -3,16 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_iconos_navegacion"
-    tools:context=".menu_y_fragmentos_comunes.BienvenidaFragment">
+    tools:context=".mecanico_jefe.MecanicoJefeDiagnosticosFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:text="BIENVENIDA"
-        android:textSize="40sp"/>
+        android:text="@string/hello_blank_fragment" />
 
 </FrameLayout>

@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="blanco">#FFFFFF</color>
+    <color name="negro">#000000</color>
+    <color name="azul_oscuro">#0A1545</color>
+    <color name="texto_intro">#CAC9C9</color>
     <color name="color_texto">#FFFFFFFF</color>
     <color name="color_error">#FF6B6B</color>
-    <color name="fondo">#FF121212</color>
+    <color name="fondo">#000000</color>
     <color name="color_principal">#82B1FF</color>
     <color name="color_secundario">#1E88E5</color>
-    <color name="color_verde">#4CAF50</color>
-    <color name="color_fondo_logo">#FFFFFFFF</color>
+    <color name="color_fondo_intro">#030E1B</color>
+    <color name="color_degradado1">#000000</color>
+    <color name="color_degradado2">#08145F</color>
     <color name="color_desactivado_fondo">#424242</color>
     <color name="color_desactivado_texto">#BDBDBD</color>
+    <color name="color_botonIntro">#042F78</color>
 
-    <color name="color_fondo_navegacion">#032949</color>
+    <color name="color_fondo_navegacion">#000000</color>
     <color name="color_iconos_navegacion">#4494ED</color>
     <color name="color_texto_navegacion">#FFFF</color>
 </resources>
