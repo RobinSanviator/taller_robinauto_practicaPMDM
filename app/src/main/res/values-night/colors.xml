@@ -3,6 +3,7 @@
     <color name="blanco">#FFFFFF</color>
     <color name="negro">#000000</color>
     <color name="azul_oscuro">#0A1545</color>
+    <color name="verde">#4CAF50</color>
     <color name="texto_intro">#CAC9C9</color>
     <color name="color_texto">#FFFFFFFF</color>
     <color name="color_error">#FF6B6B</color>
@@ -15,8 +16,8 @@
     <color name="color_desactivado_fondo">#424242</color>
     <color name="color_desactivado_texto">#BDBDBD</color>
     <color name="color_botonIntro">#042F78</color>
+    <color name="fondo_toolbar">#141414</color>
 
     <color name="color_fondo_navegacion">#000000</color>
-    <color name="color_iconos_navegacion">#4494ED</color>
     <color name="color_texto_navegacion">#FFFF</color>
 </resources>

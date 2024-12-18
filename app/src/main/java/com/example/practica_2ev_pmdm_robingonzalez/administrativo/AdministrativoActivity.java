@@ -43,9 +43,6 @@ public class AdministrativoActivity extends AppCompatActivity {
                 if (item.getItemId() == R.id.bienvenidaAdministrativoFragment) {
 
                     return true;
-                } else if (item.getItemId() == R.id.ajustesAdministrativoFragment) {
-
-                    return true;
                 }
 
                 return false;

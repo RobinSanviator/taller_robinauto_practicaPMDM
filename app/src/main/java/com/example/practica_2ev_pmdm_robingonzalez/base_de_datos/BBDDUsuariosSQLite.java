@@ -89,21 +89,59 @@ public class BBDDUsuariosSQLite extends SQLiteOpenHelper {
         return  null;
     }
 
-    public String obtenerNombreYApellidos(String correo, String contrasenya) {
+    public String obtenerNombreYApellidos(String correo) {
         SQLiteDatabase db = this.getReadableDatabase();
-        // Consulta para obtener el nombre y apellidos del usuario
-        Cursor cursor = db.rawQuery("SELECT nombre, apellidos FROM usuarios WHERE correo = ? AND contrasenya = ?",
-                new String[]{correo, contrasenya});
+        Cursor cursor = null;
+        String nombreYApellidos = null;
 
-        if (cursor.moveToFirst()) {
-            // Si se encuentra el usuario, concatenamos el nombre y los apellidos
-            String nombreYApellidos = cursor.getString(0) + " " + cursor.getString(1);  // Concatenar nombre y apellidos
-            cursor.close();
-            return nombreYApellidos;  // Devolver el nombre y apellidos concatenados
-        } else {
-            cursor.close();
-            return null;  // Si no se encuentra el usuario, devolver null
+        try {
+            // Consulta para obtener el nombre y apellidos del usuario
+            cursor = db.rawQuery("SELECT nombre, apellidos FROM usuarios WHERE correo = ?",
+                    new String[]{correo});
+
+            if (cursor != null && cursor.moveToFirst()) {
+                // Si se encuentra el usuario, concatenamos el nombre y los apellidos
+                nombreYApellidos = cursor.getString(0) + "" + cursor.getString(1);  // Concatenar nombre y apellidos
+            }
+        } catch (Exception e) {
+            // Log para cualquier excepción
+            e.printStackTrace();
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            db.close();  // Cerrar la base de datos después de la consulta
         }
+
+        return nombreYApellidos;  // Devolver null si no se encontró
+    }
+
+    public String obtenerCorreo(String correo){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+        String correoUsuario = null;  // Inicializamos una variable para almacenar el correo
+
+        try {
+            // Consulta para obtener el correo del usuario (si es que hay más columnas relacionadas)
+            cursor = db.rawQuery("SELECT correo FROM usuarios WHERE correo = ?", new String[]{correo});
+
+            if (cursor != null && cursor.moveToFirst()) {
+                // Si se encuentra el usuario, obtenemos el correo
+                correoUsuario = cursor.getString(0);  // Obtener el correo desde la primera columna
+            }
+        } catch (Exception e) {
+            // Log para cualquier excepción
+            e.printStackTrace();
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            db.close();  // Cerrar la base de datos después de la consulta
+        }
+
+        return correoUsuario;  // Devolver el correo encontrado, o null si no se encontró
     }
 
     public String correoEnUso(String correo) {

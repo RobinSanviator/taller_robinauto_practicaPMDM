@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn ="navigation_view">
+
+    <group
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/opcionPefil"
+            android:icon="@drawable/ic_nombre"
+            android:title="@string/textoPerfil"/>
+
+        <item
+            android:id="@+id/opcionAjustes"
+            android:icon="@drawable/ic_configuracion"
+            android:title="@string/textoAjustes"/>
+
+        <item
+            android:id="@+id/opcionContactar"
+            android:icon="@drawable/ic_contactar"
+            android:title="@string/textoContactar"/>
+
+        <item
+            android:id="@+id/opcionCerrarSesionr"
+            android:icon="@drawable/ic_cerrar_sesion"
+            android:title="@string/textoCerrarSesion"/>
+
+        <item
+            android:id="@+id/opcionSalir"
+            android:icon="@drawable/ic_salir"
+            android:title="@string/textoSalir"/>
+
+    </group>
+
+</menu>

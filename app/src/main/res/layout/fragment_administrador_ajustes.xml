@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".administrador.AdministradorAjustesFragment">
+
+    <TextView
+        android:id="@+id/textViewAjustesFragmentoAdministrador"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/textoAjustes"
+        android:textSize="25sp"
+        android:textStyle="bold"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonSeleccionarTema"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:backgroundTint="@color/color_principal"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.542"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAjustesFragmentoAdministrador"
+        android:text="@string/textoTema"
+        android:textColor="@color/blanco"
+        android:textStyle="bold"
+        app:cornerRadius="20dp"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

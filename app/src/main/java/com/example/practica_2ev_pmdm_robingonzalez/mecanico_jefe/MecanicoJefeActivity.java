@@ -70,9 +70,7 @@ public class MecanicoJefeActivity extends AppCompatActivity {
                 } else if (item.getItemId() == R.id.consReparacionesMecanicoJefeFragment) {
                     cargarFragmento(consultasFragment);
                     return true;
-                } else if (item.getItemId() == R.id.ajustesMecanicoJefeFragment) {
-                    cargarFragmento(ajustesFragment);
-                    return true;
+
                 } else {
                     return false;
                 }

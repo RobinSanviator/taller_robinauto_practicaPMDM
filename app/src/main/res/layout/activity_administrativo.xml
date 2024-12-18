@@ -23,9 +23,8 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:elevation="8dp"
         app:menu="@menu/navegacion_inferior_administrativo"
-        app:labelVisibilityMode="selected"
+        app:labelVisibilityMode="labeled"
         style="@style/navegacionInferior"/>
 
 

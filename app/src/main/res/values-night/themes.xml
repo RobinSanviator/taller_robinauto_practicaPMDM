@@ -10,7 +10,6 @@
 
     <style name="navegacionInferior">
         <item name="android:background">@color/color_fondo_navegacion</item>
-        <item name="itemIconTint">@color/color_iconos_navegacion</item>
         <item name="itemTextColor">@color/color_texto_navegacion</item>
     </style>
 

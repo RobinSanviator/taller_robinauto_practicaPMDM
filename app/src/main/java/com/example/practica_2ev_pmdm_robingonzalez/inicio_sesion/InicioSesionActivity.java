@@ -111,10 +111,6 @@ public class InicioSesionActivity extends AppCompatActivity {
                     Intent intentCorreo = new Intent(Intent.ACTION_SENDTO);
                     intentCorreo.setData(Uri.parse("mailto:tallerrobinauto@gmail.com"));  // Esta línea está bien con mailto:
 
-                    // Pasar el asunto y el cuerpo del correo
-                    intentCorreo.putExtra(Intent.EXTRA_SUBJECT,"Consulta desde la app"); // Establecer el asunto
-                    intentCorreo.putExtra(Intent.EXTRA_TEXT,"Hola, tengo una consulta sobre..."); // Establecer el cuerpo del mensaje
-
                     // Usar un chooser para que el usuario pueda elegir qué app usar para enviar el correo
                     startActivity(Intent.createChooser(intentCorreo, "Elige una aplicación de correo"));
                     correoEnviado = true;

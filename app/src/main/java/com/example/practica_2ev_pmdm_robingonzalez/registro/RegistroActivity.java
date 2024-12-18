@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -175,11 +176,11 @@ public class RegistroActivity extends AppCompatActivity {
 
         }else if(!correo.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.com$")) {
 
-            textInputLayoutCorreoRegistro.setError("Correo inválido. Formato deseado:'example@gmail.com'");
+            textInputLayoutCorreoRegistro.setError("Correo electónico inválido");
             return false;
 
         } else if (verificarCorreoEnUso(correo)) {
-            textInputLayoutCorreoRegistro.setError("Este correo ya está en uso. Cambie el correo");
+            textInputLayoutCorreoRegistro.setError("Este correo ya está en uso");
             return false;
         }
 
@@ -247,6 +248,15 @@ public class RegistroActivity extends AppCompatActivity {
 
         // Habilitar o deshabilitar el botón según el resultado
         buttonRegistrarse.setEnabled(esValido);
+
+        if(buttonRegistrarse.isEnabled()){
+            buttonRegistrarse.setBackgroundColor(getColor(R.color.color_botonIntro));
+            buttonRegistrarse.setTextColor(getColor(R.color.blanco));
+
+        } else {
+            buttonRegistrarse.setBackgroundColor(getColor(R.color.color_desactivado_fondo));
+            buttonRegistrarse.setTextColor(getColor(R.color.color_desactivado_texto));
+        }
 
     }
 
@@ -322,7 +332,7 @@ public class RegistroActivity extends AppCompatActivity {
 
                 } else {
                     // Mostrar mensaje de error
-                    Snackbar.make(buttonRegistrarse, "Debes aceptar todos los términos para registrarte.", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(buttonRegistrarse, "Debes aceptar todos los términos para registrarte", Snackbar.LENGTH_SHORT).show();
                 }
             }
         });
@@ -349,7 +359,8 @@ public class RegistroActivity extends AppCompatActivity {
         String contrasenya = editTextContrasenyaRegistro.getText().toString();
         String tipoUsuario = spinnerSeleccionarPerfil.getText().toString();
 
-        BBDDUsuariosSQLite baseDeDatosGestionUsuarios = new BBDDUsuariosSQLite(RegistroActivity.this, "gestion_usuario_taller", null, 3);
+        BBDDUsuariosSQLite baseDeDatosGestionUsuarios = new BBDDUsuariosSQLite(
+                RegistroActivity.this, "gestion_usuario_taller", null, 3);
 
         //Insertar un nuevo registro
         ContentValues nuevoRegistro = new ContentValues();

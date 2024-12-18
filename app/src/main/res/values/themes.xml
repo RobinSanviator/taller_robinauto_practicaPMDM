@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="AppTheme"  parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/color_principal</item>
         <item name="colorSecondary">@color/color_secundario</item>
         <item name="colorOnPrimary">@color/color_texto</item>
@@ -10,8 +10,16 @@
 
     <style name="navegacionInferior">
         <item name="android:background">@color/color_fondo_navegacion</item>
-        <item name="itemIconTint">@color/color_iconos_navegacion</item>
         <item name="itemTextColor">@color/color_texto_navegacion</item>
     </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

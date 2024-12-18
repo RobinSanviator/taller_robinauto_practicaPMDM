@@ -20,9 +20,4 @@
         android:title="@string/textoPiezas" />
 
 
-    <item
-        android:id="@+id/ajustesMecanicoJefeFragment"
-        android:icon="@drawable/ic_configuracion"
-        android:iconTint="@color/color_principal"
-        android:title="@string/textoAjustes"/>
 </menu>

@@ -57,7 +57,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Tu app, tu taller, tu tranquilidad"
-            android:textColor="@color/texto_intro"
+            android:textColor="@color/color_principal"
             android:textSize="20sp"
             android:textStyle="italic"
             android:fontFamily="sans-serif-black"/>

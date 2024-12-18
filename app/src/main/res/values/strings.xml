@@ -42,7 +42,6 @@
         <item>Cliente</item>
     </string-array>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="textoAltaBaja">Empleados</string>
     <string name="bienvenidaUsuario">Bienvenido</string>
@@ -59,4 +58,19 @@
     <string name="textoPiezas">Piezas</string>
     <string name="textoPerfil">Perfil</string>
     <string name="textoTvbotonVolverIncioSesion">Ya tengo cuenta, volver a inicio de sesión</string>
+    <string name="textoToolBarOpciones">Opciones</string>
+    <string name="textoTema">Seleccionar tema</string>
+    <string name="textoSalir">Salir</string>
+    <string name="textoCerrarSesion">Cerrar sesión</string>
+    <string name="textoTemaClaro">Tema claro</string>
+    <string name="textoTemaOscuro">Tema Oscuro</string>
+    <string name="textoActivadoOscuro">Activar modo oscuro</string>
+    <string name="textoTemaPorDefecto">Tema por defecto</string>
+    <string name="textoNombrApp">Taller Robinauto</string>
+
+    <string name="abrir_navegacion">Abrir Navigation Drawer</string>
+    <string name="cerrar_navegacion">Cerrar Navigation Drawer</string>
+    <string name="textoContactar">Contacta con nosotros</string>
+
+
 </resources>
