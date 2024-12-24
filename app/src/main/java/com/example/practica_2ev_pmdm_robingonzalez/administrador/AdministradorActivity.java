@@ -1,53 +1,37 @@
 package com.example.practica_2ev_pmdm_robingonzalez.administrador;
 
 import android.annotation.SuppressLint;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.FrameLayout;
 
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
-import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.BBDDUsuariosSQLite;
-import com.example.practica_2ev_pmdm_robingonzalez.inicio_sesion.InicioSesionActivity;
-import com.example.practica_2ev_pmdm_robingonzalez.menu_y_fragmentos_comunes.BienvenidaFragment;
 import com.example.practica_2ev_pmdm_robingonzalez.R;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
-import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
+import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 
 public class AdministradorActivity extends AppCompatActivity {
 
-    // objetos privados de la navegación inferior y sus fragmentos
-    private BottomNavigationView navegacionInferior;
-    private BienvenidaFragment bienvenidaFragment;
-    private AdministradorDarAltaFragment gestionEmpleadosFragment;
-    private AdministradorModificarUsuariosFragment modificarUsuariosFragment;
+    private ChipNavigationBar chipNavigationBarNavegacionInferior;
+    private Fragment fragment;
+    private FrameLayout frameLayoutContenedorFragmento;
 
-    // objetos privados de la navegación lateral y sus fragmentos
-    private DrawerLayout navegacionLateral;
-    private ImageButton imageButtonAbrirMenuLateral;
-    private NavigationView navigationViewNavegacionLateral;
-    private Fragment fragmentoPerfil;
-    private Fragment fragmentoAjustes;
-    ImageView imageViewPerfil;
-    private TextView textViewNombre;
-    private TextView textViewCorreo;
+    private  boolean correoEnviado;
 
 
     @SuppressLint("MissingInflatedId")
@@ -55,139 +39,94 @@ public class AdministradorActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_administrador);
+        setContentView(R.layout.administrador_activity);
 
-        // Configuración de las ventanas
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.drawerLayoutNavegacionLateralAdministrador), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        // Inicializar vistas y fragmentos de la navegacion inferior(BottomNavigation)
-        navegacionInferior = findViewById(R.id.bottomNavigationNavegacionAdministrador);
-        bienvenidaFragment = new BienvenidaFragment();
-        gestionEmpleadosFragment = new AdministradorDarAltaFragment();
-        modificarUsuariosFragment = new AdministradorModificarUsuariosFragment();
 
-        // Inicializar vistas y fragmentos de la navegacion lateral(DrawerNavigation)
-        navegacionLateral = findViewById(R.id.drawerLayoutNavegacionLateralAdministrador);
-        navigationViewNavegacionLateral = findViewById(R.id.navigationViewNavegacionLateral);
-        imageButtonAbrirMenuLateral = findViewById(R.id.imageButtonAbrirNavegacionLateral);
-        fragmentoPerfil = new AdministradorPerfilFragment();
-        fragmentoAjustes = new AdministradorAjustesFragment();
-        imageViewPerfil = findViewById(R.id.imageViewPerfilCabecera);
-
-        View vistaCabecera = navigationViewNavegacionLateral.getHeaderView(0);
-        textViewNombre = vistaCabecera.findViewById(R.id.textViewNombreUsuarioCabecera);
-        textViewCorreo = vistaCabecera.findViewById(R.id.textViewCorreoUsuarioCabecera);
-
-
-
-        crearNavegacionLateral();
-        seleccionarNavegacionLateral();
-        crearBottomNavigation();
-        cargarFragmentoNavegacion(bienvenidaFragment); // Cargar fragmento de bienvenida de la navegación inferior inicialmente
-
+        // Inicialización de los elementos para la navegación inferior
+        chipNavigationBarNavegacionInferior =findViewById(R.id.chipNavigationNavegacionAdministrador);
+        crearNavegacionInferior();
+        //Seleccionar el icono del menú principal como opción predeterminada
+        chipNavigationBarNavegacionInferior.setItemSelected(R.id.menuPrincipal, true);
+        //Cargar de manera inicial el menú principal del administrador
+        cargarFragmentoNavegacionInferiorAdministrador(new AdministradorMenuPrincipalFragment());
 
     }
 
-    public void crearNavegacionLateral(){
-        imageButtonAbrirMenuLateral.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               navegacionLateral.open();
-                // Supón que el correo lo obtienes del Intent de la actividad anterior
-                String correo = getIntent().getStringExtra("correo");
 
-                // Llamar al método para obtener los datos del usuario
-                obtenerDatosUsuarioCabecera(correo);
-            }
-        });
-    }
+    private final ActivityResultLauncher<Intent> verificarEnviarCorreo = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == RESULT_OK) {
+                        Snackbar.make(frameLayoutContenedorFragmento, "Correo enviado", Snackbar.LENGTH_LONG).show();
 
-    public void seleccionarNavegacionLateral() {
-        navigationViewNavegacionLateral.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-                int idSeleccionado = item.getItemId();
-
-                // Cargar el fragmento correspondiente según la opción seleccionada
-                if (idSeleccionado == R.id.opcionPefil) {
-                    cargarFragmentoNavegacion(new AdministradorPerfilFragment());
-                } else if (idSeleccionado == R.id.opcionAjustes) {
-                    cargarFragmentoNavegacion(new AdministradorAjustesFragment());
-                } else if (idSeleccionado == R.id.opcionContactar) {
-                    Snackbar.make(navigationViewNavegacionLateral, "Has seleccionado contactar con nosotros", Snackbar.LENGTH_SHORT).show();
-                } else if (idSeleccionado == R.id.opcionCerrarSesionr) {
-                    startActivity(new Intent(AdministradorActivity.this, InicioSesionActivity.class));
-                    finish();
-                } else if (idSeleccionado == R.id.opcionSalir) {
-                    finish();
-                    Snackbar.make(navigationViewNavegacionLateral, "Has seleccionado Salir", Snackbar.LENGTH_SHORT).show();
+                    } else {
+                        Snackbar.make(frameLayoutContenedorFragmento, "Se ha cancelado el envio", Snackbar.LENGTH_LONG).show();
+                    }
                 }
-
-                // Cerrar el menú lateral después de seleccionar una opción
-                navegacionLateral.closeDrawer(GravityCompat.START);
-
-                return true; // Devolver true para marcar la selección del ítem
-            }
-        });
-    }
+            });
 
 
-    public void obtenerDatosUsuarioCabecera(String correo) {
-        BBDDUsuariosSQLite baseDeDatosGestionUsuarios = new BBDDUsuariosSQLite(
-                AdministradorActivity.this, "gestion_usuario_taller", null, 3);
+    public void enviarCorreoContacto() {
+        try {
+            Intent intentCorreo = new Intent(Intent.ACTION_SENDTO);
+            intentCorreo.setData(Uri.parse("mailto:tallerrobinauto@gmail.com"));
+            verificarEnviarCorreo.launch(Intent.createChooser(intentCorreo, "Elige una aplicación de correo"));
 
-        // Obtén el nombre completo y el correo desde la base de datos
-        String nombreCompleto = baseDeDatosGestionUsuarios.obtenerNombreYApellidos(correo);
-        String correoUsuario = baseDeDatosGestionUsuarios.obtenerCorreo(correo);
-
-        // Verifica si obtuviste el nombre completo y el correo
-        if (nombreCompleto != null && correoUsuario != null) {
-            // Establece el nombre y correo en los TextViews de la cabecera
-            textViewNombre.setText(nombreCompleto);
-            textViewCorreo.setText(correoUsuario);
-        } else {
-            // Si no se encontró el usuario, puedes mostrar un mensaje predeterminado o dejar los campos vacíos
-            textViewNombre.setText("Nombre no disponible");
-            textViewCorreo.setText("Correo no disponible");
+        } catch (ActivityNotFoundException e) {
+            Snackbar.make(frameLayoutContenedorFragmento, "No hay aplicaciones de correo disponibles", Snackbar.LENGTH_LONG).show();
         }
     }
 
 
-    // Configuración del listener del BottomNavigationView
-    public void crearBottomNavigation() {
-        navegacionInferior.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+    public void crearNavegacionInferior(){
+        chipNavigationBarNavegacionInferior.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if (item.getItemId() == R.id.bienvenidaAdminFragment) {
-                    cargarFragmentoNavegacion(bienvenidaFragment);
-                    return true;
-                } else if (item.getItemId() == R.id.modificarUsuariosAdminFragment) {
-                    cargarFragmentoNavegacion(modificarUsuariosFragment);
-                    return true;
-                } else if (item.getItemId() == R.id.gestionEmpleadosAdminFragment) {
-                    cargarFragmentoNavegacion(gestionEmpleadosFragment);
-                    return true;
-                } else {
-                    return false;
+            public void onItemSelected(int idSeleccionado) {
+                if (idSeleccionado == R.id.menuPrincipal) {
+                    cargarFragmentoNavegacionInferiorAdministrador(new AdministradorMenuPrincipalFragment());
+                } else if (idSeleccionado == R.id.opcionPefil) {
+                    cargarFragmentoNavegacionInferiorAdministrador(new AdministradorPerfilFragment());
+                } else if (idSeleccionado == R.id.opcionAjustes) {
+                    cargarFragmentoNavegacionInferiorAdministrador(new AdministradorAjustesFragment());
                 }
             }
         });
-    }
 
-    // Método para cargar los fragmentos
-    public void cargarFragmentoNavegacion(Fragment fragmento) {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.frameLayoutContenedorFragmentoAdmin, fragmento);
-        fragmentTransaction.commit();
     }
 
 
-}
+    public void cargarFragmentoNavegacionInferiorAdministrador(Fragment fragmento) {
+
+        if (fragment == null) {
+            FragmentTransaction fragmentTransaction = AdministradorActivity.this.getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frameLayoutContenedorFragmentoAdmin, fragmento);
+            fragmentTransaction.addToBackStack(null); //Agregar el fragmento al back stack para que se pueda navegar hacia atrás
+            fragmentTransaction.commit();
+        }
+    }
+
+    public void deseleccionarItemMenuPrincipal(){
+        chipNavigationBarNavegacionInferior =  AdministradorActivity.this.findViewById(R.id.chipNavigationNavegacionAdministrador);
+        chipNavigationBarNavegacionInferior.setItemSelected(R.id.menuPrincipal, false);
+
+    }
+
+    public void seleccionarItemMenuPrincipal(){
+        chipNavigationBarNavegacionInferior =  AdministradorActivity.this.findViewById(R.id.chipNavigationNavegacionAdministrador);
+        chipNavigationBarNavegacionInferior.setItemSelected(R.id.menuPrincipal, true);
+
+    }
+
+    }
+
 
 
 

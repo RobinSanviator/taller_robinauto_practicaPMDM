@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawerLayoutNavegacionLateralAdministrador"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fondo"
+    tools:context=".administrador.AdministradorActivity">
+
+        <!-- Contenedor para los fragmentos -->
+    <FrameLayout
+        android:id="@+id/frameLayoutContenedorFragmentoAdmin"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/chipNavigationNavegacionAdministrador"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.9"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- ChipNavigationBar en la parte inferior -->
+        <com.ismaeldivita.chipnavigation.ChipNavigationBar
+            android:id="@+id/chipNavigationNavegacionAdministrador"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_margin="30dp"
+            android:background="@drawable/fondo_boton_redondo"
+            android:elevation="8dp"
+            app:cnb_iconSize="32dp"
+            app:cnb_menuResource="@menu/navegacion_inferior"
+            app:cnb_orientationMode="horizontal"
+            app:cnb_radius="8dp"
+            app:cnb_unselectedColor="@color/color_texto"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+

@@ -61,6 +61,6 @@ public class MecanicoJefeConsultasFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_mecanico_jefe_consultas, container, false);
+        return inflater.inflate(R.layout.mecanico_jefe_consultas_fragment, container, false);
     }
 }

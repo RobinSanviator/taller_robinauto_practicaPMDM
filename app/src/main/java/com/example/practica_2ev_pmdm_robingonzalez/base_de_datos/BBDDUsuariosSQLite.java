@@ -2,6 +2,7 @@ package com.example.practica_2ev_pmdm_robingonzalez.base_de_datos;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -58,105 +59,100 @@ public class BBDDUsuariosSQLite extends SQLiteOpenHelper {
         return version;
     }
 
-    public String obtenerTipoUsuario(String correo, String contrasenya){
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT tipo_usuario FROM usuarios WHERE correo = ? AND contrasenya = ?", new String[]{correo, contrasenya});
+    public String obtenerTipoUsuario(String correo, String contrasenya) {
+        SQLiteDatabase db = null;
+        Cursor cursor = null;
+        String tipoUsuario = null;
 
-        if(cursor.moveToFirst()){
-            String tipoUsuario = cursor.getString(0);
-            // Log para verificar el resultado
-           // Log.d("BBDDUsuariosSQLite", "Tipo de usuario encontrado: " + tipoUsuario);
+        try {
+
+            db = this.getReadableDatabase();
+            cursor = db.rawQuery("SELECT tipo_usuario FROM usuarios WHERE correo = ? AND contrasenya = ? ", new String[]{correo, contrasenya});
+
+            if (cursor != null && cursor.moveToFirst()) {
+                tipoUsuario = cursor.getString(0);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        } finally {
             cursor.close();
-            return tipoUsuario;
+            db.close();
 
-        } else{
-         cursor.close();
-         return null;
         }
 
+        return tipoUsuario; // Retornar null si no se encontró el tipo de usuario
     }
 
-    public String verificarCorreo(String correo){
+    public String verificarCorreo(String correo) {
+        SQLiteDatabase db = null;
+        Cursor cursor = null;
+        String correoCorrecto = null;
 
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursorCorreo = db.rawQuery("SELECT correo FROM usuarios WHERE correo = ?", new String[]{correo});
-        if(cursorCorreo.moveToFirst()){
-            String correoCorrecto = cursorCorreo.getString(0);
-            cursorCorreo.close();
+        try {
+            db = this.getReadableDatabase();
+            cursor = db.rawQuery("SELECT correo FROM usuarios WHERE correo = ?", new String[]{correo});
+
+            if (cursor!= null && cursor.moveToFirst()) {
+                correoCorrecto = cursor.getString(0);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            cursor.close();
             db.close();
-            return correoCorrecto;
+
         }
-        return  null;
+
+        return correoCorrecto; // Retornar null si no se encontró el correo
     }
 
     public String obtenerNombreYApellidos(String correo) {
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase db = null;
         Cursor cursor = null;
         String nombreYApellidos = null;
 
         try {
-            // Consulta para obtener el nombre y apellidos del usuario
-            cursor = db.rawQuery("SELECT nombre, apellidos FROM usuarios WHERE correo = ?",
-                    new String[]{correo});
+            db = this.getReadableDatabase();
+            cursor = db.rawQuery("SELECT nombre, apellidos FROM usuarios WHERE correo = ?", new String[]{correo});
 
             if (cursor != null && cursor.moveToFirst()) {
-                // Si se encuentra el usuario, concatenamos el nombre y los apellidos
-                nombreYApellidos = cursor.getString(0) + "" + cursor.getString(1);  // Concatenar nombre y apellidos
+                nombreYApellidos = cursor.getString(0) + " " + cursor.getString(1);  // Concatenar nombre y apellidos
             }
-        } catch (Exception e) {
-            // Log para cualquier excepción
+        } catch (SQLException e) {
             e.printStackTrace();
 
         } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-            db.close();  // Cerrar la base de datos después de la consulta
+            cursor.close();
+            db.close();
+
         }
 
-        return nombreYApellidos;  // Devolver null si no se encontró
-    }
-
-    public String obtenerCorreo(String correo){
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = null;
-        String correoUsuario = null;  // Inicializamos una variable para almacenar el correo
-
-        try {
-            // Consulta para obtener el correo del usuario (si es que hay más columnas relacionadas)
-            cursor = db.rawQuery("SELECT correo FROM usuarios WHERE correo = ?", new String[]{correo});
-
-            if (cursor != null && cursor.moveToFirst()) {
-                // Si se encuentra el usuario, obtenemos el correo
-                correoUsuario = cursor.getString(0);  // Obtener el correo desde la primera columna
-            }
-        } catch (Exception e) {
-            // Log para cualquier excepción
-            e.printStackTrace();
-
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-            db.close();  // Cerrar la base de datos después de la consulta
-        }
-
-        return correoUsuario;  // Devolver el correo encontrado, o null si no se encontró
+        return nombreYApellidos; // Devolver null si no se encontró el nombre y apellidos
     }
 
     public String correoEnUso(String correo) {
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase db = null;
         Cursor cursor = null;
+        String correoEnUso = null;
 
-            // Consulta para buscar el correo exacto
+        try {
+            db = this.getReadableDatabase();
             cursor = db.rawQuery("SELECT correo FROM usuarios WHERE correo = ?", new String[]{correo});
-            if (cursor.moveToFirst()) {
-                // Devolver el correo si existe
-                return cursor.getString(0);
-            } else {
 
-                cursor.close();
+            if (cursor != null && cursor.moveToFirst()) {
+                correoEnUso = cursor.getString(0);
             }
-            return null;
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        } finally {
+            cursor.close();
+            db.close();
+
+        }
+
+        return correoEnUso; // Retornar null si no se encuentra el correo
     }
+
 }

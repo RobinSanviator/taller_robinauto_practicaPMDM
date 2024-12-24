@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menuPrincipal"
+        android:icon="@drawable/ic_bienvenida"
+        app:cnb_iconColor="@color/color_principal"
+        app:cnb_textColor="@color/color_texto"
+        android:title="@string/textoMenuPrincipal"/>
+
+    <item
+        android:id="@+id/opcionPefil"
+        android:icon="@drawable/ic_nombre"
+        app:cnb_iconColor="@color/color_principal"
+        app:cnb_textColor="@color/color_texto"
+        android:title="@string/textoPerfil"/>
+
+
+    <item
+        android:id="@+id/opcionAjustes"
+        android:icon="@drawable/ic_configuracion"
+        app:cnb_iconColor="@color/color_principal"
+        app:cnb_textColor="@color/color_texto"
+        android:title="@string/textoAjustes"/>
+
+</menu>

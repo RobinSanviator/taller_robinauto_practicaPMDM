@@ -8,9 +8,6 @@
         <item name="colorError">@color/color_error</item>
     </style>
 
-    <style name="navegacionInferior">
-        <item name="android:background">@color/color_fondo_navegacion</item>
-        <item name="itemTextColor">@color/color_texto_navegacion</item>
-    </style>
+
 
 </resources>

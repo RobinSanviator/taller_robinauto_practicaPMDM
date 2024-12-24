@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:scrollbarAlwaysDrawVerticalTrack="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/fondo"
+    tools:context=".inicio_sesion.InicioSesionActivity">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/img_fondo_forma_superior_izquierda"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- Título de la pantalla  -->
+        <TextView
+            android:id="@+id/textViewInicioSesion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginStart="10dp"
+            android:padding="32dp"
+            android:text="@string/textoTvIniciaSesion"
+            android:textColor="@color/color_texto"
+            android:textSize="40sp"
+            android:textStyle="bold"></TextView>
+
+
+        <!-- Texto de ayuda que muestra una indicación para el usuario -->
+        <TextView
+            android:id="@+id/textViewIntroducirDatosIS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginStart="10dp"
+            android:padding="8dp"
+            android:text="@string/textoTVtextoInfoIncioSesion"
+            android:textColor="@color/color_texto"
+            android:textSize="20sp"></TextView>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/LinearLayoutDatosUsuario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="80dp"
+        android:layout_marginBottom="80dp"
+        android:orientation="vertical"
+        android:paddingStart="40dp"
+        android:paddingEnd="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+
+        <!-- Campo para insertar el correo electrónico -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputCorreoLayoutIS"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            app:boxBackgroundMode="outline"
+            app:endIconMode="clear_text"
+            app:startIconDrawable="@drawable/ic_correo"
+            app:startIconMinSize="20dp"
+            app:startIconTint="@color/color_principal">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextCorreoIS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="@string/textoCorreo"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:padding="16dp"
+                android:textColor="@color/color_texto"
+                android:textSize="20sp"
+                tools:ignore="VisualLintTextFieldSize" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Campo para insertar la contraseña -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputContrasenyaLayoutIS"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            app:boxBackgroundMode="outline"
+            app:endIconMode="password_toggle"
+            app:startIconDrawable="@drawable/ic_contrasena"
+            app:startIconMinSize="20dp"
+            app:startIconTint="@color/color_principal">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextContrasenyaIS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:hint="@string/textoContraseña"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:padding="16dp"
+                android:textColor="@color/color_texto"
+                android:textSize="20sp"
+                tools:ignore="VisualLintTextFieldSize" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!-- Botón para iniciar sesión -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonIniciarSesion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:backgroundTint="@color/color_botonIntro"
+            android:gravity="center"
+            android:text="@string/textoIniciarSesion"
+            android:textColor="@color/blanco"
+            android:textSize="18dp"
+            app:cornerRadius="15dp"
+            tools:ignore="SpUsage,TextContrastCheck,TextSizeCheck" />
+
+
+        <!-- Enlace al Registro -->
+        <TextView
+            android:id="@+id/textViewEnlaceRegistro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:clickable="true"
+            android:gravity="center"
+            android:minHeight="48dp"
+            android:padding="24dp"
+            android:text="@string/textoEnlaceRegistro"
+            android:textColor="@color/color_principal"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText,KeyboardInaccessibleWidget,TextSizeCheck" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/LinearLayoutImagenInferior"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/img_forma_fondo_inferior_derecha"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.995"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/LinearLayoutDatosUsuario"
+        app:layout_constraintVertical_bias="1.0">
+
+        <ImageView
+            android:id="@+id/imageViewLogoIS"
+            android:layout_width="200dp"
+            android:layout_height="180dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/logo_app_robinauto" />
+
+    </LinearLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,12 +1,12 @@
 package com.example.practica_2ev_pmdm_robingonzalez.inicio_sesion;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -41,7 +41,7 @@ public class InicioSesionActivity extends AppCompatActivity {
     private MaterialButton buttonIniciarSesion;
     private  TextView textViewEnlaceRegistro;
     private TextView textViewContactarCorreo;
-    private boolean correoEnviado = false;
+
 
     /**
      * Método que se ejecuta cuando se crea la actividad.
@@ -54,7 +54,7 @@ public class InicioSesionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_inicio_sesion);
+        setContentView(R.layout.inicio_sesion_activity);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -73,15 +73,20 @@ public class InicioSesionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String correo = editTextCorreoIS.getText().toString();
-                String contrasenya =  editTextContrasenya.getText().toString();
+                String contrasenya = editTextContrasenya.getText().toString();
 
-                validarUsuario(correo,contrasenya);
+                //Ocultar el teclado una vez que se haga clic en el botón
+                if(v != null){
+                    InputMethodManager teclado = (InputMethodManager) getSystemService((Context.INPUT_METHOD_SERVICE));
+                    teclado.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+
+                validarUsuario(correo, contrasenya);
 
             }
         });
 
         irPantallaRegistro();
-        enviarCorreoContacto();
 
     }
 
@@ -97,41 +102,7 @@ public class InicioSesionActivity extends AppCompatActivity {
         });
     }
 
-    public void enviarCorreoContacto(){
-        // Referencia al ImageView para contactar por correo
-        textViewContactarCorreo = findViewById(R.id.textViewContactarIs);
 
-
-        // Establecer el comportamiento al hacer clic en el ImageView para enviar un correo
-        textViewContactarCorreo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    // Crear un Intent para enviar un correo con Gmail
-                    Intent intentCorreo = new Intent(Intent.ACTION_SENDTO);
-                    intentCorreo.setData(Uri.parse("mailto:tallerrobinauto@gmail.com"));  // Esta línea está bien con mailto:
-
-                    // Usar un chooser para que el usuario pueda elegir qué app usar para enviar el correo
-                    startActivity(Intent.createChooser(intentCorreo, "Elige una aplicación de correo"));
-                    correoEnviado = true;
-
-                } catch(Exception e){
-                    Snackbar.make(v, "Error al enviar el mensaje", Snackbar.LENGTH_LONG).show();
-                }
-
-            }
-        });
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if(correoEnviado){
-            Snackbar.make(textViewContactarCorreo, "Mensaje enviado con éxito", Snackbar.LENGTH_LONG).show();
-            correoEnviado = false;
-        }
-    }
 
     /**
      * Método que valida si los campos de correo y contraseña están vacíos en la pantalla de inicio de sesión.
@@ -140,67 +111,51 @@ public class InicioSesionActivity extends AppCompatActivity {
     public void validarUsuario(String correo, String contrasenya) {
         BBDDUsuariosSQLite baseDeDatosGestionUsuarios = new BBDDUsuariosSQLite(
                 InicioSesionActivity.this, "gestion_usuario_taller", null, 3);
-
-        //SQLiteDatabase baseDeDatos = baseDeDatosGestionUsuarios.getReadableDatabase();
-        //baseDeDatos.close();
-
-
         // Verificar si el correo existe
         String correoCorrecto = baseDeDatosGestionUsuarios.verificarCorreo(correo);
 
-
         if (correoCorrecto != null) {
-            // Si el correo existe, verificar la contraseña
+            // Obtener tipo de usuario
             String tipoUsuario = baseDeDatosGestionUsuarios.obtenerTipoUsuario(correo, contrasenya);
-
-
 
             if (tipoUsuario != null) {
 
                 switch (tipoUsuario) {
                     case "Administrador":
-                    inicializarIntentInicio(AdministradorActivity.class, correo, contrasenya);
+                    inicializarIntentInicio(AdministradorActivity.class, correo, tipoUsuario);
                         break;
-
                     case "Administrativo":
-                        inicializarIntentInicio(AdministrativoActivity.class, correo, contrasenya);
+                        inicializarIntentInicio(AdministrativoActivity.class, correo, tipoUsuario);
                         break;
-
                     case "Mecanico jefe":
-                        inicializarIntentInicio(MecanicoJefeActivity.class, correo, contrasenya);
+                        inicializarIntentInicio(MecanicoJefeActivity.class, correo, tipoUsuario);
                         break;
-
                     case "Mecanico":
-                        inicializarIntentInicio(MecanicoActivity.class, correo, contrasenya);
+                        inicializarIntentInicio(MecanicoActivity.class, correo, tipoUsuario);
                         finish();
                         break;
-
                     case "Cliente":
-                        inicializarIntentInicio(ClienteActivity.class, correo, contrasenya);
+                        inicializarIntentInicio(ClienteActivity.class, correo, tipoUsuario);
                         break;
-
                     default:
                         Snackbar.make(buttonIniciarSesion, "No se ha encontrado ningún usuario válido", Snackbar.LENGTH_LONG).show();
                         break;
                 }
             } else {
 
-                Snackbar.make(buttonIniciarSesion, "Contraseña incorrecta", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(buttonIniciarSesion, "Error al iniciar sesión, completa correctamente los campos", Snackbar.LENGTH_LONG).show();
             }
         } else {
 
-            Snackbar.make(buttonIniciarSesion, "El correo no es válido", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(buttonIniciarSesion, "Error al iniciar sesión, completa correctamente los campos", Snackbar.LENGTH_LONG).show();
         }
-
-
-
     }
 
     //Método para inicializar el intent y redirigir a la pantalla de cada usuario pasando el correo y la contraseña
-    public void inicializarIntentInicio(Class<?> claseDestino, String correo, String contrasenya) {
+    public void inicializarIntentInicio(Class<?> claseDestino, String correo, String tipoUsuario){
         Intent intentPantallaUsuario = new Intent(InicioSesionActivity.this, claseDestino);
         intentPantallaUsuario.putExtra("correo", correo);
-        intentPantallaUsuario.putExtra("contrasenya", contrasenya);
+        intentPantallaUsuario.putExtra("tipo_usuario", correo);
         startActivity(intentPantallaUsuario);
         finish();
     }

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/bienvenidaClienteFragment"
+        android:id="@+id/menuPrincipalClienteFragment"
         android:icon="@drawable/ic_bienvenida"
         android:iconTint="@color/color_principal"
-        android:title="@string/bienvenidaUsuario" />
+        android:title="@string/textoMenuPrincipal" />
 
 
     <item

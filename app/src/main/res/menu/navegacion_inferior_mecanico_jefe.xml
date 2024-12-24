@@ -2,26 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/bienvenidaMecanicoJefeFragment"
+        android:id="@+id/menuPrincipalMecanicoJefeFragment"
         android:icon="@drawable/ic_bienvenida"
         android:iconTint="@color/color_principal"
-        android:title="@string/bienvenidaUsuario" />
+        android:title="@string/textoMenuPrincipal" />
 
 
     <item
-        android:id="@+id/diagnosticosMecanicoJefeFragment"
-        android:icon="@drawable/ic_diagnostico"
-        android:iconTint="@color/color_principal"
-        android:title="@string/textoDiagnosticos" />
-
-    <item
-        android:id="@+id/tareasMecanicoJefeFragment"
+        android:id="@+id/tareasYdiagnosticosMecanicoJefeFragment"
         android:icon="@drawable/ic_tareas"
         android:iconTint="@color/color_principal"
         android:title="@string/textoTareas"/>
 
     <item
-        android:id="@+id/consReparacionesMecanicoJefeFragment"
+        android:id="@+id/consultasRepMecanicoJefeFragment"
         android:icon="@drawable/ic_consul_reparaciones"
         android:iconTint="@color/color_principal"
         android:title="@string/textoConsultarReparaciones"/>

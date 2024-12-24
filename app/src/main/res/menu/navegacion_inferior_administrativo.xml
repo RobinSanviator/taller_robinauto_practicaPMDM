@@ -1,27 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/bienvenidaAdministrativoFragment"
+        android:id="@+id/menuPrincipalAdministrativoFragment"
         android:icon="@drawable/ic_bienvenida"
-        android:iconTint="@color/color_principal"
-        android:title="@string/bienvenidaUsuario" />
+        android:title="@string/textoMenuPrincipal" />
 
     <item
         android:id="@+id/reparacionesAdministrativoFragment"
         android:icon="@drawable/ic_reparacion"
-        android:iconTint="@color/color_principal"
         android:title="@string/textoReparaciones" />
 
     <item
         android:id="@+id/stockYpedidosAdministrativoFragment"
         android:icon="@drawable/ic_stock_piezas"
-        android:iconTint="@color/color_principal"
         android:title="@string/textoStockPiezas" />
 
     <item
         android:id="@+id/notificacionesAdministrativoFragment"
         android:icon="@drawable/ic_enviar_notificacion"
-        android:iconTint="@color/color_principal"
         android:title="@string/textoNotificaciones" />
 
 </menu>

@@ -71,6 +71,14 @@
     <string name="abrir_navegacion">Abrir Navigation Drawer</string>
     <string name="cerrar_navegacion">Cerrar Navigation Drawer</string>
     <string name="textoContactar">Contacta con nosotros</string>
+    <string name="textoMenuPrincipal">Inicio</string>
+    <string name="textoTyC">Términos y condiciones</string>
+    <string name="slogan">Tu app, tu taller, tu tranquilidad</string>
+    <string name="tituloCabeceraMenuPrincipal">Menu principal</string>
+    <string name="tituloCabeceraPerfil">Perfil</string>
+    <string name="tituloCabeceraAjustes">Ajustes</string>
+    <string name="textoAdministrador">Administrador</string>
+    <string name="textoHola">Hola</string>
 
 
 </resources>

@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -18,13 +17,12 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import com.example.practica_2ev_pmdm_robingonzalez.inicio_sesion.InicioSesionActivity;
 import com.example.practica_2ev_pmdm_robingonzalez.R;
@@ -46,7 +44,7 @@ public class RegistroActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_registro);
+        setContentView(R.layout.registro_activity);
 
 
 
@@ -116,9 +114,9 @@ public class RegistroActivity extends AppCompatActivity {
             textInputLayoutNombreRegistro.setHelperText("Obligatorio*");
            return false;
 
+        } else {
+            textInputLayoutNombreRegistro.setHelperText(null);
         }
-
-        textInputLayoutNombreRegistro.setHelperText("¡Muy bien!");
         return true;
     }
 
@@ -131,88 +129,91 @@ public class RegistroActivity extends AppCompatActivity {
             textInputLayoutApellidos.setHelperText("Obligatorio*");
             return false;
 
+        } else {
+            textInputLayoutApellidos.setHelperText(null);
         }
 
-        textInputLayoutApellidos.setHelperText("¡Muy bien!");
         return true;
     }
 
-    public boolean validarTelefono(String telefono){
-        TextInputLayout textInputLayoutTelefonoRegistro = findViewById(R.id.textInputTelefonoLayoutR);
 
-        if(editTextTelefono.getText().toString().trim().isEmpty()){
-            textInputLayoutTelefonoRegistro.setHelperText("Obligatorio*");
+    public boolean validarCorreo(String correo){
+        TextInputLayout textInputLayoutCorreoRegistro = findViewById(R.id.textInputCorreoLayoutR);
+
+        if (editTextCorreoRegistro.getText().toString().trim().isEmpty()) {
+            textInputLayoutCorreoRegistro.setHelperText("Obligatorio*");
+            textInputLayoutCorreoRegistro.setError(null);
             return false;
-
-        } else if(!telefono.matches("^[0-9]{9}$")){
-
-            textInputLayoutTelefonoRegistro.setError("El teléfono debe tener 9 dígitos");
+        } else if (!correo.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.com$")) {
+            textInputLayoutCorreoRegistro.setError("Correo electrónico inválido");
+            textInputLayoutCorreoRegistro.setHelperText(null);
             return false;
-
+        } else if (verificarCorreoEnUso(correo)) {
+            textInputLayoutCorreoRegistro.setError("Correo electrónico en uso");
+            textInputLayoutCorreoRegistro.setHelperText(null);
+            return false;
+        } else {
+            textInputLayoutCorreoRegistro.setError(null);
+            textInputLayoutCorreoRegistro.setHelperText(null);
         }
 
-        textInputLayoutTelefonoRegistro.setHelperText("¡Muy bien!");
         return true;
     }
 
     public boolean verificarCorreoEnUso(String correo) {
         // Crear o usar una instancia de la base de datos
         BBDDUsuariosSQLite baseDeDatos = new BBDDUsuariosSQLite(this, "gestion_usuario_taller", null, 3);
-
         // Llamar al método de la base de datos para verificar el correo
         String correoEncontrado = baseDeDatos.correoEnUso(correo);
-
         // Retornar true si el correo ya está en uso, false si no
         return correoEncontrado != null;
     }
 
-    public boolean validarCorreo(String correo){
-        TextInputLayout textInputLayoutCorreoRegistro = findViewById(R.id.textInputCorreoLayoutR);
+    public boolean validarTelefono(String telefono){
+        TextInputLayout textInputLayoutTelefonoRegistro = findViewById(R.id.textInputTelefonoLayoutR);
 
-        if(editTextCorreoRegistro.getText().toString().trim().isEmpty()){
-
-            textInputLayoutCorreoRegistro.setHelperText("Obligatorio*");
+        if (editTextTelefono.getText().toString().trim().isEmpty()) {
+            textInputLayoutTelefonoRegistro.setHelperText("Obligatorio*");
+            textInputLayoutTelefonoRegistro.setError(null);
             return false;
-
-        }else if(!correo.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.com$")) {
-
-            textInputLayoutCorreoRegistro.setError("Correo electónico inválido");
+        } else if (!telefono.matches("^[0-9]{9}$")) {
+            textInputLayoutTelefonoRegistro.setError("El teléfono debe tener 9 dígitos");
+            textInputLayoutTelefonoRegistro.setHelperText(null);
             return false;
-
-        } else if (verificarCorreoEnUso(correo)) {
-            textInputLayoutCorreoRegistro.setError("Este correo ya está en uso");
-            return false;
+        } else {
+            textInputLayoutTelefonoRegistro.setError(null);
+            textInputLayoutTelefonoRegistro.setHelperText(null);
         }
 
-        textInputLayoutCorreoRegistro.setHelperText("¡Muy bien!");
         return true;
     }
 
     public boolean validarContrasenyas(String contrasenya, String confirmarContrasenya){
+        TextInputLayout textInputLayoutContrasenya = findViewById(R.id.textInputContrasenyaLayoutR);
         TextInputLayout textInputLayoutConfirmarContrasenya = findViewById(R.id.textInputConfirmarContrasenyaLayoutR);
-        TextInputLayout textInputLayoutLayoutContrasenya = findViewById(R.id.textInputContrasenyaLayoutR);
 
-        if (editTextContrasenyaRegistro.getText().toString().trim().isEmpty()){
-
-            textInputLayoutLayoutContrasenya.setHelperText("Obligatorio*");
+        if (editTextContrasenyaRegistro.getText().toString().trim().isEmpty()) {
+            textInputLayoutContrasenya.setHelperText("Obligatorio*");
+            textInputLayoutContrasenya.setError(null);
             return false;
-
+        } else {
+            textInputLayoutContrasenya.setHelperText(null);
         }
 
-        if(editTextConfirmarContrasenya.getText().toString().trim().isEmpty()) {
-
-            textInputLayoutLayoutContrasenya.setHelperText("Obligatorio*");
+        if (editTextConfirmarContrasenya.getText().toString().trim().isEmpty()) {
+            textInputLayoutConfirmarContrasenya.setError("Obligatorio*");
+            textInputLayoutConfirmarContrasenya.setHelperText(null);
             return false;
-
-        }else if(!contrasenya.equals(confirmarContrasenya)){
-
+        } else if (!contrasenya.equals(confirmarContrasenya)) {
             textInputLayoutConfirmarContrasenya.setError("La contraseña no coincide");
+            textInputLayoutConfirmarContrasenya.setHelperText(null);
             return false;
+        } else {
+            textInputLayoutConfirmarContrasenya.setError(null);
+            textInputLayoutConfirmarContrasenya.setHelperText(null);
         }
 
-        textInputLayoutLayoutContrasenya.setHelperText("¡Muy bien!");
-        textInputLayoutConfirmarContrasenya.setHelperText("¡Muy bien!");
-        return  true;
+        return true;
     }
 
     public boolean validarSeleccionarPerfil(String perfil){
@@ -222,9 +223,10 @@ public class RegistroActivity extends AppCompatActivity {
            textInputLayoutSeleccionarPerfil.setHelperText("Obligatorio*");
            return false;
 
+       } else {
+           textInputLayoutSeleccionarPerfil.setHelperText(null);
        }
 
-       textInputLayoutSeleccionarPerfil.setHelperText("¡Muy bien!");
         return true;
     }
 
@@ -261,8 +263,6 @@ public class RegistroActivity extends AppCompatActivity {
     }
 
     public void configurarValidacionDinamica() {
-
-
         // Crear un único TextWatcher
         TextWatcher textWatcherCambios = new TextWatcher() {
             @Override
@@ -270,7 +270,7 @@ public class RegistroActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                verificarValidaciones(); // Llamar directamente al método de verificación
+                verificarValidaciones(); // Llamar al método de verificación
             }
 
             @Override
@@ -375,7 +375,6 @@ public class RegistroActivity extends AppCompatActivity {
         SQLiteDatabase baseDeDatos = baseDeDatosGestionUsuarios.getReadableDatabase();
 
         long id = baseDeDatos.insert("usuarios", null, nuevoRegistro);
-
 
         if(id != -1){
             Log.d("RegistroActivity","Usuario registrado correctamente: " +id);
