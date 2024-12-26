@@ -33,11 +33,13 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 public class RegistroActivity extends AppCompatActivity {
-     TextInputEditText editTextNombre, editTexApellidos, editTextCorreoRegistro, editTextTelefono,
-             editTextContrasenyaRegistro, editTextConfirmarContrasenya;
-     AutoCompleteTextView spinnerSeleccionarPerfil;
-     MaterialButton buttonRegistrarse;
-     TextView textViewTextoVolverInicioSesion;
+    TextInputEditText editTextNombre, editTexApellidos, editTextCorreoRegistro, editTextTelefono,
+            editTextContrasenyaRegistro, editTextConfirmarContrasenya;
+    AutoCompleteTextView spinnerSeleccionarPerfil;
+    MaterialButton buttonRegistrarse;
+    TextView textViewTextoVolverInicioSesion;
+    CheckBox checkBoxUsoServicio, checkBoxPropiedadIntelectual, checkBoxPrivacidad, checkBoxPromociones,
+            checkBoxAceptarTodo;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -59,22 +61,24 @@ public class RegistroActivity extends AppCompatActivity {
         buttonRegistrarse = findViewById(R.id.buttonRegistrarse);
         textViewTextoVolverInicioSesion = findViewById(R.id.textViewVolverInicioSesion);
 
-
+        registrarse();
         volverInicioSesion();
         seleccionarPerfil();
         configurarValidacionDinamica();
 
-            //Cuando se haga clic en registrarse se mostrarán los términos y condiciones
-            buttonRegistrarse.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
 
-                    mostrarTerminosYCondicionesEnAlertDialog();
-                }
-            });
 
     }
 
+    public void registrarse(){
+        buttonRegistrarse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mostrarTerminosYCondicionesEnAlertDialog();
+            }
+        });
+    }
 
     public void volverInicioSesion(){
         textViewTextoVolverInicioSesion.setOnClickListener(new View.OnClickListener() {
@@ -112,7 +116,7 @@ public class RegistroActivity extends AppCompatActivity {
         if(editTextNombre.getText().toString().trim().isEmpty()){
 
             textInputLayoutNombreRegistro.setHelperText("Obligatorio*");
-           return false;
+            return false;
 
         } else {
             textInputLayoutNombreRegistro.setHelperText(null);
@@ -217,15 +221,15 @@ public class RegistroActivity extends AppCompatActivity {
     }
 
     public boolean validarSeleccionarPerfil(String perfil){
-       TextInputLayout textInputLayoutSeleccionarPerfil = findViewById(R.id.textInputSpinnerLayoutR);
+        TextInputLayout textInputLayoutSeleccionarPerfil = findViewById(R.id.textInputSpinnerLayoutR);
 
-       if(spinnerSeleccionarPerfil.getText().toString().trim().isEmpty()){
-           textInputLayoutSeleccionarPerfil.setHelperText("Obligatorio*");
-           return false;
+        if(spinnerSeleccionarPerfil.getText().toString().trim().isEmpty()){
+            textInputLayoutSeleccionarPerfil.setHelperText("Obligatorio*");
+            return false;
 
-       } else {
-           textInputLayoutSeleccionarPerfil.setHelperText(null);
-       }
+        } else {
+            textInputLayoutSeleccionarPerfil.setHelperText(null);
+        }
 
         return true;
     }
@@ -303,22 +307,7 @@ public class RegistroActivity extends AppCompatActivity {
         builderTyC.setView(vistaDialogo);
 
         //Configurar checkboxes para aceptar todos al seleccionar el checkbox 'aceptar todos'
-        CheckBox checkBoxUsoServicio = vistaDialogo.findViewById(R.id.checkBoxUsoServicio);
-        CheckBox checkBoxPropiedadIntelectual = vistaDialogo.findViewById(R.id.checkBoxPropiedadIntelectual);
-        CheckBox checkBoxPrivacidad = vistaDialogo.findViewById(R.id.checkBoxPrivacidad);
-        CheckBox checkBoxPromociones = vistaDialogo.findViewById(R.id.checkBoxPromociones);
-        CheckBox checkBoxAceptarTodo = vistaDialogo.findViewById(R.id.checkBoxAceptarTodo);
-
-        checkBoxAceptarTodo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                checkBoxUsoServicio.setChecked(isChecked);
-                checkBoxPropiedadIntelectual.setChecked(isChecked);
-                checkBoxPrivacidad.setChecked(isChecked);
-                checkBoxPromociones.setChecked(isChecked);
-
-            }
-        });
+        configurarCheckBoxesAlertDialog(vistaDialogo);
 
         //Configurar botones de Aceptar y Cancelar
         builderTyC.setPositiveButton("Aceptar", new DialogInterface.OnClickListener(){
@@ -350,6 +339,26 @@ public class RegistroActivity extends AppCompatActivity {
         alertDialogTyC.show();
     }
 
+    public void configurarCheckBoxesAlertDialog(View vistaDialogo){
+      checkBoxUsoServicio = vistaDialogo.findViewById(R.id.checkBoxUsoServicio);
+      checkBoxPropiedadIntelectual = vistaDialogo.findViewById(R.id.checkBoxPropiedadIntelectual);
+      checkBoxPrivacidad = vistaDialogo.findViewById(R.id.checkBoxPrivacidad);
+      checkBoxPromociones = vistaDialogo.findViewById(R.id.checkBoxPromociones);
+      checkBoxAceptarTodo = vistaDialogo.findViewById(R.id.checkBoxAceptarTodo);
+
+        checkBoxAceptarTodo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                checkBoxUsoServicio.setChecked(isChecked);
+                checkBoxPropiedadIntelectual.setChecked(isChecked);
+                checkBoxPrivacidad.setChecked(isChecked);
+                checkBoxPromociones.setChecked(isChecked);
+
+            }
+        });
+
+    }
+
     //Este método se llama al aceptar los términos y condiciones del alert dialog
     public void guardarUsuariosEnBaseDeDatos(){
         String nombre = editTextNombre.getText().toString();
@@ -377,12 +386,11 @@ public class RegistroActivity extends AppCompatActivity {
         long id = baseDeDatos.insert("usuarios", null, nuevoRegistro);
 
         if(id != -1){
-            Log.d("RegistroActivity","Usuario registrado correctamente: " +id);
 
             startActivity(new Intent(RegistroActivity.this, InicioSesionActivity.class));
 
         } else {
-            Log.d("RegistroActivity","Error al registrar el usuario: " +id);
+            Snackbar.make(buttonRegistrarse, "Error en el registro", Snackbar.LENGTH_LONG).show();
         }
 
         baseDeDatos.close();

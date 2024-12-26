@@ -9,7 +9,7 @@
 
     <item
         android:id="@+id/reparacionesClienteFragment"
-        android:icon="@drawable/ic_reparacion"
+        android:icon="@drawable/reparacion_coches"
         android:iconTint="@color/color_principal"
         android:title="@string/textoReparaciones"/>
 

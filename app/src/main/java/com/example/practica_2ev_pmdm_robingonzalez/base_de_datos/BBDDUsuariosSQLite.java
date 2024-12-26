@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 
 public class BBDDUsuariosSQLite extends SQLiteOpenHelper {
 
-    String sqlCreacion = "CREATE DATABASE gestion_usuario_taller";
+    //String sqlCreacion = "CREATE DATABASE gestion_usuario_taller";
     String sqlCreacionTablaUsuarios = "CREATE TABLE usuarios(id_usuario INTEGER PRIMARY KEY AUTOINCREMENT, " +
             "nombre TEXT," +
             "apellidos TEXT," +
@@ -46,7 +46,11 @@ public class BBDDUsuariosSQLite extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        if (oldVersion < newVersion) {
+            db.execSQL("DROP TABLE IF EXISTS usuarios");
+            db.execSQL("DROP TABLE IF EXISTS historial_cambios");
+            onCreate(db);
+        }
 
     }
 

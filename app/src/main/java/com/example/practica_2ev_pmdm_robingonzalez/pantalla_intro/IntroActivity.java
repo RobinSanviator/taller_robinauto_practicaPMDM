@@ -2,6 +2,7 @@ package com.example.practica_2ev_pmdm_robingonzalez.pantalla_intro;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.system.Os;
 import android.view.View;
 import android.widget.Button;
 
@@ -14,11 +15,11 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.practica_2ev_pmdm_robingonzalez.R;
 import com.example.practica_2ev_pmdm_robingonzalez.inicio_sesion.InicioSesionActivity;
 import com.example.practica_2ev_pmdm_robingonzalez.registro.RegistroActivity;
+import com.google.android.material.button.MaterialButton;
 
 public class IntroActivity extends AppCompatActivity {
 
-    private Button buttonIrInicioSesion;
-    private Button buttonIrRegistrarse;
+    private MaterialButton materialButtonBoton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,36 +32,26 @@ public class IntroActivity extends AppCompatActivity {
             return insets;
         });
 
-        accederApp();
 
+        // Configura los botones de iniciar sesión y registrarse
+       configurarBoton(R.id.buttonIniciarSesionIntro, InicioSesionActivity.class);
+       configurarBoton(R.id.buttonRegistrarseIntro, RegistroActivity.class);
     }
 
-    public void accederApp(){
-        buttonIrInicioSesion = findViewById(R.id.buttonIniciarSesionIntro);
-
-
-       if(buttonIrInicioSesion.isEnabled()){
-           buttonIrInicioSesion.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   startActivity(new Intent(IntroActivity.this, InicioSesionActivity.class));
-                   finish();
-               }
-           });
-       }
-
-        buttonIrRegistrarse = findViewById(R.id.buttonRegistrarseIntro);
-       if(buttonIrRegistrarse.isEnabled()){
-           buttonIrRegistrarse.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   startActivity(new Intent(IntroActivity.this, RegistroActivity.class));
-                   finish();
-               }
-           });
-       }
+    // Método para configurar un botón y su acción
+    public void configurarBoton(int idBoton, Class<?> activityDestino){
+        materialButtonBoton = findViewById(idBoton);
+        materialButtonBoton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Inicia la actividad correspondiente
+                startActivity(new Intent(IntroActivity.this, activityDestino));
+            }
+        });
+    }
 
     }
 
 
-}
+
+

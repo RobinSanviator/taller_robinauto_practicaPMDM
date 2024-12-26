@@ -47,9 +47,9 @@
     <string name="bienvenidaUsuario">Bienvenido</string>
     <string name="textoModificarUsuarios">Usuarios</string>
     <string name="textoAjustes">Ajustes</string>
-    <string name="textoNotificaciones">Notificaciones</string>
+    <string name="textoNotificaciones">Notificar cliente</string>
     <string name="textoAsiganarReparacionMecanicoJefe">Reparaciones</string>
-    <string name="textoStockPiezas">Stock&amp;Pedidos</string>
+    <string name="textoStockPiezas">Stock y Pedidos</string>
     <string name="textoPedidos">Pedidos</string>
     <string name="textoReparaciones">Reparaciones</string>
     <string name="textoDiagnosticos">Diagnósticos</string>
@@ -67,7 +67,6 @@
     <string name="textoActivadoOscuro">Activar modo oscuro</string>
     <string name="textoTemaPorDefecto">Tema por defecto</string>
     <string name="textoNombrApp">Taller Robinauto</string>
-
     <string name="abrir_navegacion">Abrir Navigation Drawer</string>
     <string name="cerrar_navegacion">Cerrar Navigation Drawer</string>
     <string name="textoContactar">Contacta con nosotros</string>
@@ -78,7 +77,9 @@
     <string name="tituloCabeceraPerfil">Perfil</string>
     <string name="tituloCabeceraAjustes">Ajustes</string>
     <string name="textoAdministrador">Administrador</string>
-    <string name="textoHola">Hola</string>
+    <string name="textoHola">Bienvenido a Robinauto</string>
+    <string name="textoAdministrativo">Administrativo</string>
+    <string name="textoRegistroCoches">Registrar coches</string>
 
 
 </resources>

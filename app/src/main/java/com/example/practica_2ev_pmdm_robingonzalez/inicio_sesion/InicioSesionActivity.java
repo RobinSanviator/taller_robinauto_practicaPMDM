@@ -27,28 +27,14 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
-/**
- * La actividad principal de la aplicación, que gestiona la pantalla de inicio de sesión.
- * Esta actividad permite al usuario ingresar su correo y contraseña, además de ofrecer opciones
- * para navegar a la pantalla de registro y a las pantallas de usuario correspondiente (administrador,
- * administrativo, mecánico jefe, mecánico, cliente) y enviar un correo de contacto.
- * @author Robin González
- */
 public class InicioSesionActivity extends AppCompatActivity {
 
-    private  TextInputEditText editTextCorreoIS;
-    private  TextInputEditText editTextContrasenya;
+    private TextInputEditText editTextCorreoIS;
+    private TextInputEditText editTextContrasenya;
     private MaterialButton buttonIniciarSesion;
-    private  TextView textViewEnlaceRegistro;
-    private TextView textViewContactarCorreo;
+    private TextView textViewEnlaceRegistro;
 
 
-    /**
-     * Método que se ejecuta cuando se crea la actividad.
-     * Configura la vista, las referencias de los elementos UI y los listeners para los botones.
-     *
-     * @param savedInstanceState El estado guardado de la actividad si está disponible.
-     */
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,108 +49,91 @@ public class InicioSesionActivity extends AppCompatActivity {
 
 
         //Referencias a los elementos de la pantalla de inicio de sesión
-         editTextCorreoIS = findViewById(R.id.editTextCorreoIS);
-         editTextContrasenya = findViewById(R.id.editTextContrasenyaIS);
-         buttonIniciarSesion = findViewById(R.id.buttonIniciarSesion);
-         textViewEnlaceRegistro = findViewById(R.id.textViewEnlaceRegistro);
+        editTextCorreoIS = findViewById(R.id.editTextCorreoIS);
+        editTextContrasenya = findViewById(R.id.editTextContrasenyaIS);
+        buttonIniciarSesion = findViewById(R.id.buttonIniciarSesion);
+        textViewEnlaceRegistro = findViewById(R.id.textViewEnlaceRegistro);
 
-        // Establecer el comportamiento del botón de iniciar sesión
+        iniciarSesion();
+        irPantallaRegistro();
+
+    }
+
+    public void iniciarSesion() {
         buttonIniciarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String correo = editTextCorreoIS.getText().toString();
                 String contrasenya = editTextContrasenya.getText().toString();
 
-                //Ocultar el teclado una vez que se haga clic en el botón
-                if(v != null){
-                    InputMethodManager teclado = (InputMethodManager) getSystemService((Context.INPUT_METHOD_SERVICE));
-                    teclado.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                }
-
                 validarUsuario(correo, contrasenya);
-
             }
         });
-
-        irPantallaRegistro();
-
     }
 
-
-
-    public void irPantallaRegistro(){
+    public void irPantallaRegistro() {
         textViewEnlaceRegistro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent accederPantallaRegistro = new Intent(InicioSesionActivity.this, RegistroActivity.class);
-                startActivity(accederPantallaRegistro);
+               startActivity(new Intent(InicioSesionActivity.this, RegistroActivity.class));
             }
         });
     }
 
-
-
-    /**
-     * Método que valida si los campos de correo y contraseña están vacíos en la pantalla de inicio de sesión.
-     * Este método puede ser utilizado para habilitar o deshabilitar el botón de inicio de sesión según el estado de los campos.
-     */
+    // Método para validar al usuario en la base de datos
     public void validarUsuario(String correo, String contrasenya) {
         BBDDUsuariosSQLite baseDeDatosGestionUsuarios = new BBDDUsuariosSQLite(
                 InicioSesionActivity.this, "gestion_usuario_taller", null, 3);
-        // Verificar si el correo existe
+
         String correoCorrecto = baseDeDatosGestionUsuarios.verificarCorreo(correo);
 
         if (correoCorrecto != null) {
-            // Obtener tipo de usuario
             String tipoUsuario = baseDeDatosGestionUsuarios.obtenerTipoUsuario(correo, contrasenya);
-
             if (tipoUsuario != null) {
-
-                switch (tipoUsuario) {
-                    case "Administrador":
-                    inicializarIntentInicio(AdministradorActivity.class, correo, tipoUsuario);
-                        break;
-                    case "Administrativo":
-                        inicializarIntentInicio(AdministrativoActivity.class, correo, tipoUsuario);
-                        break;
-                    case "Mecanico jefe":
-                        inicializarIntentInicio(MecanicoJefeActivity.class, correo, tipoUsuario);
-                        break;
-                    case "Mecanico":
-                        inicializarIntentInicio(MecanicoActivity.class, correo, tipoUsuario);
-                        finish();
-                        break;
-                    case "Cliente":
-                        inicializarIntentInicio(ClienteActivity.class, correo, tipoUsuario);
-                        break;
-                    default:
-                        Snackbar.make(buttonIniciarSesion, "No se ha encontrado ningún usuario válido", Snackbar.LENGTH_LONG).show();
-                        break;
-                }
+                // Redirigir según el tipo de usuario
+                navegarPorTipoUsuario(tipoUsuario, correo);
             } else {
-
-                Snackbar.make(buttonIniciarSesion, "Error al iniciar sesión, completa correctamente los campos", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(buttonIniciarSesion, "Error al iniciar sesión, verifica los datos", Snackbar.LENGTH_LONG).show();
             }
         } else {
-
-            Snackbar.make(buttonIniciarSesion, "Error al iniciar sesión, completa correctamente los campos", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(buttonIniciarSesion, "Error al iniciar sesión, verifica los datos", Snackbar.LENGTH_LONG).show();
         }
     }
 
-    //Método para inicializar el intent y redirigir a la pantalla de cada usuario pasando el correo y la contraseña
-    public void inicializarIntentInicio(Class<?> claseDestino, String correo, String tipoUsuario){
-        Intent intentPantallaUsuario = new Intent(InicioSesionActivity.this, claseDestino);
+    // Método para redirigir según el tipo de usuario
+    public void navegarPorTipoUsuario(String tipoUsuario, String correo) {
+        Intent intentPantallaUsuario;
+        switch (tipoUsuario) {
+            case "Administrador":
+                intentPantallaUsuario = new Intent(InicioSesionActivity.this, AdministradorActivity.class);
+                break;
+            case "Administrativo":
+                intentPantallaUsuario = new Intent(InicioSesionActivity.this, AdministrativoActivity.class);
+                break;
+            case "Mecanico jefe":
+                intentPantallaUsuario = new Intent(InicioSesionActivity.this, MecanicoJefeActivity.class);
+                break;
+            case "Mecanico":
+                intentPantallaUsuario = new Intent(InicioSesionActivity.this, MecanicoActivity.class);
+                break;
+            case "Cliente":
+                intentPantallaUsuario = new Intent(InicioSesionActivity.this, ClienteActivity.class);
+                break;
+            default:
+                Snackbar.make(buttonIniciarSesion, "Tipo de usuario no reconocido.", Snackbar.LENGTH_LONG).show();
+                return;
+        }
         intentPantallaUsuario.putExtra("correo", correo);
-        intentPantallaUsuario.putExtra("tipo_usuario", correo);
+        intentPantallaUsuario.putExtra("tipo_usuario", tipoUsuario);
         startActivity(intentPantallaUsuario);
         finish();
     }
 
-    public void verificarVersionBBDD(){
-        //Verificar la version de la base de datos
-        BBDDUsuariosSQLite baseDeDatos = new BBDDUsuariosSQLite(this, "gestion_usuario_taller", null, 3);
-        int version = baseDeDatos.obtenerVersion();
-        Log.d("MainActivity", "Version base de datos " +version);
-    }
+    public void verificarVersionBBDD () {
+            //Verificar la version de la base de datos
+            BBDDUsuariosSQLite baseDeDatos = new BBDDUsuariosSQLite(this, "gestion_usuario_taller", null, 3);
+            int version = baseDeDatos.obtenerVersion();
+            Log.d("MainActivity", "Version base de datos " + version);
+        }
 
-}
+    }

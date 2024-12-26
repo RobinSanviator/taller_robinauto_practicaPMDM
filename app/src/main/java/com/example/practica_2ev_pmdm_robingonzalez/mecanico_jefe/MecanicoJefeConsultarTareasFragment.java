@@ -12,10 +12,10 @@ import com.example.practica_2ev_pmdm_robingonzalez.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link MecanicoJefeTareasYDiagnosticosFragment#newInstance} factory method to
+ * Use the {@link MecanicoJefeConsultarTareasFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MecanicoJefeTareasYDiagnosticosFragment extends Fragment {
+public class MecanicoJefeConsultarTareasFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class MecanicoJefeTareasYDiagnosticosFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public MecanicoJefeTareasYDiagnosticosFragment() {
+    public MecanicoJefeConsultarTareasFragment() {
         // Required empty public constructor
     }
 
@@ -36,11 +36,11 @@ public class MecanicoJefeTareasYDiagnosticosFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment MecanicoJefeTareasFragment.
+     * @return A new instance of fragment MecanicoJefeConsultasFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static MecanicoJefeTareasYDiagnosticosFragment newInstance(String param1, String param2) {
-        MecanicoJefeTareasYDiagnosticosFragment fragment = new MecanicoJefeTareasYDiagnosticosFragment();
+    public static MecanicoJefeConsultarTareasFragment newInstance(String param1, String param2) {
+        MecanicoJefeConsultarTareasFragment fragment = new MecanicoJefeConsultarTareasFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,6 +61,6 @@ public class MecanicoJefeTareasYDiagnosticosFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.mecanico_jefe_tareas_fragment, container, false);
+        return inflater.inflate(R.layout.mecanico_jefe_consultar_tareas_fragment, container, false);
     }
 }

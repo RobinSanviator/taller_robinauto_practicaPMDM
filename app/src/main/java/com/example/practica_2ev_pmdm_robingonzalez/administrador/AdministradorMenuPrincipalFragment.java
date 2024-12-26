@@ -12,14 +12,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
-import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.BBDDUsuariosSQLite;
-import com.ismaeldivita.chipnavigation.ChipNavigationBar;
+import com.example.practica_2ev_pmdm_robingonzalez.navegacion.ManejadorFragmento;
+import com.example.practica_2ev_pmdm_robingonzalez.navegacion.ManejadorNavegacionInferior;
 
 
 public class AdministradorMenuPrincipalFragment extends Fragment {
 
     private TextView textViewNombreCabecera;
     private CardView cardViewEmpleados, cardViewUsuarios;
+    private ManejadorFragmento manejadorFragmento;
+    private ManejadorNavegacionInferior manejadorNavegacionInferior;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,59 +38,52 @@ public class AdministradorMenuPrincipalFragment extends Fragment {
         //Inflar diseño del layout del menú principal
         View vista = inflater.inflate(R.layout.administrador_menu_principal_fragment, container, false);
 
-        textViewNombreCabecera = vista.findViewById(R.id.textViewNombreUsuarioCabeceraAdmin);
-        cardViewEmpleados = vista.findViewById(R.id.cardViewDarAltaBajaAdministrador);
-        cardViewUsuarios = vista.findViewById(R.id.cardViewUsuariosAdministrador);
-
+        inicializarComponentes(vista);
+        obtenerManejadoresNavegacion();
         obtenerDatosUsuarioCabecera();
-        mostrarFragmentoEmpleados();
-        mostrarFragmentoUsuarios();
+        inicializarListeners();
 
         return vista;
     }
 
-    public void obtenerDatosUsuarioCabecera() {
+    private void inicializarComponentes(View vista){
+        textViewNombreCabecera = vista.findViewById(R.id.textViewNombreUsuarioCabeceraAdmin);
+        cardViewEmpleados = vista.findViewById(R.id.cardViewDarAltaBajaAdministrador);
+        cardViewUsuarios = vista.findViewById(R.id.cardViewUsuariosAdministrador);
+    }
 
-            if (getActivity() != null) {
+    private void obtenerManejadoresNavegacion(){
+        if(getActivity() instanceof AdministradorActivity){
+            manejadorFragmento= (((AdministradorActivity) getActivity()).getManejadorFragmento());
+            manejadorNavegacionInferior = (((AdministradorActivity) getActivity()).getManejadorNavegacionInferior());
 
-                BBDDUsuariosSQLite baseDeDatosGestionUsuarios = new BBDDUsuariosSQLite(
-                        getActivity(), "gestion_usuario_taller", null, 3);
+        }
 
-                String correo  = getActivity().getIntent().getStringExtra("correo");
+    }
 
-                // Obtén el nombre completo del usuario desde la base de datos
-                String nombreCompleto = baseDeDatosGestionUsuarios.obtenerNombreYApellidos(correo);
+    private void obtenerDatosUsuarioCabecera() {
+        String correo = getActivity().getIntent().getStringExtra("correo");
+        if(manejadorFragmento != null && correo != null){
+            manejadorFragmento.obtenerDatosUsuario(correo, textViewNombreCabecera);
+        }
+    }
 
-                // Establece 'Administrador' por defecto en caso de error en la consulta
-                if (nombreCompleto != null) {
-                    textViewNombreCabecera.setText(nombreCompleto);
+    private void inicializarListeners(){
+        //Mostrar pantalla de empleados
+        configurarOnclick(cardViewEmpleados, new AdministradorGestionEmpleadosFragment());
+        //Mostrar pantalla de usuarios
+        configurarOnclick(cardViewUsuarios, new AdministradorModificarUsuariosFragment());
+    }
+
+    private void configurarOnclick(CardView cardView, Fragment fragmento){
+        cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(manejadorFragmento != null && manejadorNavegacionInferior != null){
+                    manejadorFragmento.cargarFragmento(fragmento);
+                    manejadorNavegacionInferior.deseleccionarItemMenuPrincipal();
                 } else {
-                    textViewNombreCabecera.setText("Administrador");
-                }
-            }
-    }
-
-    public void mostrarFragmentoEmpleados(){
-        cardViewEmpleados.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                 //Obtener la actividad e instanciar Administrador y llamar a sus métodos
-                    if(getActivity() instanceof  AdministradorActivity){
-                        ((AdministradorActivity) getActivity()).cargarFragmentoNavegacionInferiorAdministrador(new AdministradorGestionEmpleadosFragment());
-                        ((AdministradorActivity) getActivity()).deseleccionarItemMenuPrincipal();
-                    }
-            }
-        });
-    }
-
-    public void mostrarFragmentoUsuarios(){
-        cardViewUsuarios.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Obtener la actividad e instanciar Administrador y llamar a sus métodos
-                if(getActivity() instanceof  AdministradorActivity){
-                    ((AdministradorActivity) getActivity()).cargarFragmentoNavegacionInferiorAdministrador(new AdministradorModificarUsuariosFragment());
-                    ((AdministradorActivity) getActivity()).deseleccionarItemMenuPrincipal();
+                   manejadorFragmento.cargarFragmento(new AdministradorMenuPrincipalFragment());
                 }
             }
         });

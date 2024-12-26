@@ -17,6 +17,10 @@
     <color name="color_degradado2_cardview1">#008BFF</color>
     <color name="color_degradado1_cardview2">#3E3704</color>
     <color name="color_degradado2_cardview2">#EFCA44</color>
+    <color name="color_degradado1_cardview3">#09240C</color>
+    <color name="color_degradado2_cardview3">#0B9523</color>
+    <color name="color_degradado1_cardview4">#18053E</color>
+    <color name="color_degradado2_cardview4">#8726EB</color>
     <color name="color_desactivado_fondo">#424242</color>
     <color name="color_desactivado_texto">#BDBDBD</color>
     <color name="color_botonIntro">#042F78</color>

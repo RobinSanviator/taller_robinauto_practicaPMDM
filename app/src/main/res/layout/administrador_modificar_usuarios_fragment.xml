@@ -10,7 +10,7 @@
         android:id="@+id/linearLayoutAppBar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        android:background="@drawable/img_fondo_degradado_cardview1"
+        android:background="@drawable/img_fondo_degradado_cardview2"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

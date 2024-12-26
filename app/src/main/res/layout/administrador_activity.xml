@@ -3,13 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/drawerLayoutNavegacionLateralAdministrador"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/fondo"
     tools:context=".administrador.AdministradorActivity">
 
-        <!-- Contenedor para los fragmentos -->
+    <!-- Contenedor para los fragmentos -->
     <FrameLayout
         android:id="@+id/frameLayoutContenedorFragmentoAdmin"
         android:layout_width="match_parent"

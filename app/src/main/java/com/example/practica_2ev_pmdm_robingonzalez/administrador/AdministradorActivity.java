@@ -1,35 +1,34 @@
 package com.example.practica_2ev_pmdm_robingonzalez.administrador;
 
 import android.annotation.SuppressLint;
-import android.content.ActivityNotFoundException;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.widget.FrameLayout;
 
 
 import androidx.activity.EdgeToEdge;
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
-import com.google.android.material.snackbar.Snackbar;
+import com.example.practica_2ev_pmdm_robingonzalez.administrativo.AdministrativoActivity;
+import com.example.practica_2ev_pmdm_robingonzalez.administrativo.AdministrativoMenuPrincipalFragment;
+import com.example.practica_2ev_pmdm_robingonzalez.navegacion.ManejadorFragmento;
+import com.example.practica_2ev_pmdm_robingonzalez.navegacion.ManejadorNavegacionInferior;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class AdministradorActivity extends AppCompatActivity {
 
-    private ChipNavigationBar chipNavigationBarNavegacionInferior;
-    private Fragment fragment;
-    private FrameLayout frameLayoutContenedorFragmento;
+    private ChipNavigationBar chipNavigationBarNavegacionInferior; // Referencia al ChipNavigationBar
+    private ManejadorFragmento manejadorFragmento; // Instancia del manejador de fragmentos
+    private ManejadorNavegacionInferior manejadorNavegacionInferior;
+    private int frameLayoutContenedorFragmento;
+
 
     private  boolean correoEnviado;
 
@@ -41,26 +40,61 @@ public class AdministradorActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.administrador_activity);
 
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.drawerLayoutNavegacionLateralAdministrador), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-
-        // Inicialización de los elementos para la navegación inferior
-        chipNavigationBarNavegacionInferior =findViewById(R.id.chipNavigationNavegacionAdministrador);
-        crearNavegacionInferior();
-        //Seleccionar el icono del menú principal como opción predeterminada
-        chipNavigationBarNavegacionInferior.setItemSelected(R.id.menuPrincipal, true);
-        //Cargar de manera inicial el menú principal del administrador
-        cargarFragmentoNavegacionInferiorAdministrador(new AdministradorMenuPrincipalFragment());
+        inicializarComponentes();
+        obtenerManejadores();
+        cargarOpcionesNavegacionInferior();
+        cargarMenuPrincipalPorDefecto();
 
     }
 
+    private void inicializarComponentes(){
+        chipNavigationBarNavegacionInferior =findViewById(R.id.chipNavigationNavegacionAdministrador);
+        frameLayoutContenedorFragmento = (R.id.frameLayoutContenedorFragmentoAdmin);
+    }
 
-    private final ActivityResultLauncher<Intent> verificarEnviarCorreo = registerForActivityResult(
+    private void obtenerManejadores(){
+        manejadorFragmento = new ManejadorFragmento(AdministradorActivity.this, frameLayoutContenedorFragmento);
+        manejadorNavegacionInferior = new ManejadorNavegacionInferior(
+                AdministradorActivity.this, chipNavigationBarNavegacionInferior, manejadorFragmento);
+    }
+
+    private void cargarOpcionesNavegacionInferior(){
+        Map<Integer, Fragment> opcionesDeMenu = new HashMap<>();
+        opcionesDeMenu.put(R.id.menuPrincipal, new AdministradorMenuPrincipalFragment());
+        opcionesDeMenu.put(R.id.opcionPefil, new AdministradorPerfilFragment());
+        opcionesDeMenu.put(R.id.opcionAjustes, new AdministradorAjustesFragment());
+
+        //Utilizando la clase ManejadorNavegación llamar al método configurarNavegacionInferior
+        manejadorNavegacionInferior.configurarNavegacionInferior(opcionesDeMenu);
+    }
+
+    public void cargarMenuPrincipalPorDefecto(){
+        manejadorFragmento.cargarFragmento(new AdministradorMenuPrincipalFragment());
+    }
+
+    //Método que se llamará desde los fragmentos de Administrador para volver al fragmento menú prinipal
+    public void volverMenuPrincipal(){
+        manejadorFragmento.cargarFragmento(new AdministradorMenuPrincipalFragment());
+        manejadorNavegacionInferior.seleccionarItemMenuPrincipal();
+    }
+
+    public ManejadorFragmento getManejadorFragmento() {
+        return manejadorFragmento;
+    }
+
+    public ManejadorNavegacionInferior getManejadorNavegacionInferior() {
+        return manejadorNavegacionInferior;
+    }
+
+
+
+   /* private final ActivityResultLauncher<Intent> verificarEnviarCorreo = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
@@ -83,49 +117,12 @@ public class AdministradorActivity extends AppCompatActivity {
         } catch (ActivityNotFoundException e) {
             Snackbar.make(frameLayoutContenedorFragmento, "No hay aplicaciones de correo disponibles", Snackbar.LENGTH_LONG).show();
         }
-    }
+    }*/
 
 
-    public void crearNavegacionInferior(){
-        chipNavigationBarNavegacionInferior.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(int idSeleccionado) {
-                if (idSeleccionado == R.id.menuPrincipal) {
-                    cargarFragmentoNavegacionInferiorAdministrador(new AdministradorMenuPrincipalFragment());
-                } else if (idSeleccionado == R.id.opcionPefil) {
-                    cargarFragmentoNavegacionInferiorAdministrador(new AdministradorPerfilFragment());
-                } else if (idSeleccionado == R.id.opcionAjustes) {
-                    cargarFragmentoNavegacionInferiorAdministrador(new AdministradorAjustesFragment());
-                }
-            }
-        });
 
     }
 
-
-    public void cargarFragmentoNavegacionInferiorAdministrador(Fragment fragmento) {
-
-        if (fragment == null) {
-            FragmentTransaction fragmentTransaction = AdministradorActivity.this.getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.frameLayoutContenedorFragmentoAdmin, fragmento);
-            fragmentTransaction.addToBackStack(null); //Agregar el fragmento al back stack para que se pueda navegar hacia atrás
-            fragmentTransaction.commit();
-        }
-    }
-
-    public void deseleccionarItemMenuPrincipal(){
-        chipNavigationBarNavegacionInferior =  AdministradorActivity.this.findViewById(R.id.chipNavigationNavegacionAdministrador);
-        chipNavigationBarNavegacionInferior.setItemSelected(R.id.menuPrincipal, false);
-
-    }
-
-    public void seleccionarItemMenuPrincipal(){
-        chipNavigationBarNavegacionInferior =  AdministradorActivity.this.findViewById(R.id.chipNavigationNavegacionAdministrador);
-        chipNavigationBarNavegacionInferior.setItemSelected(R.id.menuPrincipal, true);
-
-    }
-
-    }
 
 
 

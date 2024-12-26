@@ -1,4 +1,4 @@
-package com.example.practica_2ev_pmdm_robingonzalez.administrativo;
+package com.example.practica_2ev_pmdm_robingonzalez.mecanico_jefe;
 
 import android.os.Bundle;
 
@@ -12,10 +12,10 @@ import com.example.practica_2ev_pmdm_robingonzalez.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link AdministrativoStockPedidosFragment#newInstance} factory method to
+ * Use the {@link MecanicoJefeDiagnosticosFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AdministrativoStockPedidosFragment extends Fragment {
+public class MecanicoJefeDiagnosticosFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class AdministrativoStockPedidosFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public AdministrativoStockPedidosFragment() {
+    public MecanicoJefeDiagnosticosFragment() {
         // Required empty public constructor
     }
 
@@ -36,11 +36,11 @@ public class AdministrativoStockPedidosFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment AdministrativoStockPedidosFragment.
+     * @return A new instance of fragment MecanicoJefeTareasFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static AdministrativoStockPedidosFragment newInstance(String param1, String param2) {
-        AdministrativoStockPedidosFragment fragment = new AdministrativoStockPedidosFragment();
+    public static MecanicoJefeDiagnosticosFragment newInstance(String param1, String param2) {
+        MecanicoJefeDiagnosticosFragment fragment = new MecanicoJefeDiagnosticosFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,6 +61,6 @@ public class AdministrativoStockPedidosFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.administrativo_stock_pedidos_fragment, container, false);
+        return inflater.inflate(R.layout.mecanico_jefe_diagnosticos_fragment, container, false);
     }
 }

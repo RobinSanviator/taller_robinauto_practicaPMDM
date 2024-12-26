@@ -11,12 +11,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
-import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 public class AdministradorGestionEmpleadosFragment extends Fragment {
 
     private ImageView imageViewVolver;
-    private ChipNavigationBar chipNavigationBarNavegacionInferior;
+    private AdministradorActivity administradorActivity;
 
 
     @Override
@@ -32,22 +31,24 @@ public class AdministradorGestionEmpleadosFragment extends Fragment {
         // Inflar diseño del layout gestion de empleados
         View vista = inflater.inflate(R.layout.administrador_gestion_empleados_fragment, container, false);
         imageViewVolver = vista.findViewById(R.id.imageViewVolverMenuPrincipalDesdeEmpleados);
+        obtenerMétodosAdministrador();
         volverMenuPrincipalDesdeEmpleados();
 
         return vista;
+    }
+
+    public void obtenerMétodosAdministrador(){
+        if(getActivity() instanceof AdministradorActivity){
+            administradorActivity = (AdministradorActivity) getActivity();
+        }
     }
 
     public void volverMenuPrincipalDesdeEmpleados(){
         imageViewVolver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                  //Obtener la actividad e instanciar Administrador y llamar a sus métodos
-                  if (getActivity() instanceof AdministradorActivity) {
-                      ((AdministradorActivity)getActivity()).cargarFragmentoNavegacionInferiorAdministrador(new AdministradorMenuPrincipalFragment());
-                      ((AdministradorActivity) getActivity()).seleccionarItemMenuPrincipal();
-                  }
-              }
-
+                administradorActivity.volverMenuPrincipal();
+            }
         });
     }
 
