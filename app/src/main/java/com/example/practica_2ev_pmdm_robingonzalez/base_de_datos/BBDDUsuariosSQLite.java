@@ -159,4 +159,40 @@ public class BBDDUsuariosSQLite extends SQLiteOpenHelper {
         return correoEnUso; // Retornar null si no se encuentra el correo
     }
 
+
+    public String[] obtenerDatosUsuario(String correo) {
+        SQLiteDatabase db = null;
+        Cursor cursor = null;
+        String[] datosUsuario = null;
+
+        try {
+            db = this.getReadableDatabase();
+            cursor = db.rawQuery(
+                    "SELECT nombre, apellidos, correo, telefono FROM usuarios WHERE correo = ?",
+                    new String[]{correo}
+            );
+
+            if (cursor != null && cursor.moveToFirst()) {
+                int indiceNombre = cursor.getColumnIndex("nombre");
+                int indiceApellidos = cursor.getColumnIndex("apellidos");
+                int indiceCorreo = cursor.getColumnIndex("correo");
+                int indiceTelefono = cursor.getColumnIndex("telefono");
+
+                if (indiceNombre != -1 && indiceApellidos != -1 && indiceCorreo != -1 && indiceTelefono != -1) {
+                    datosUsuario = new String[]{
+                            cursor.getString(indiceNombre),
+                            cursor.getString(indiceApellidos),
+                            cursor.getString(indiceCorreo),
+                            cursor.getString(indiceTelefono)
+                    };
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            cursor.close();
+            db.close();
+        }
+        return datosUsuario;
+    }
 }

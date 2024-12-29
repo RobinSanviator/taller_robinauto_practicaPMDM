@@ -6,22 +6,24 @@ import android.os.Bundle;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
-import com.example.practica_2ev_pmdm_robingonzalez.navegacion.ManejadorFragmento;
-import com.example.practica_2ev_pmdm_robingonzalez.navegacion.ManejadorNavegacionInferior;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperFragmento;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperNavegacionInferior;
 
 
 public class AdministradorMenuPrincipalFragment extends Fragment {
 
     private TextView textViewNombreCabecera;
     private CardView cardViewEmpleados, cardViewUsuarios;
-    private ManejadorFragmento manejadorFragmento;
-    private ManejadorNavegacionInferior manejadorNavegacionInferior;
+    private HelperFragmento helperFragmento;
+    private HelperNavegacionInferior helperNavegacionInferior;
+    private AdministradorActivity activityAdministrador;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,17 +56,22 @@ public class AdministradorMenuPrincipalFragment extends Fragment {
 
     private void obtenerManejadoresNavegacion(){
         if(getActivity() instanceof AdministradorActivity){
-            manejadorFragmento= (((AdministradorActivity) getActivity()).getManejadorFragmento());
-            manejadorNavegacionInferior = (((AdministradorActivity) getActivity()).getManejadorNavegacionInferior());
+            activityAdministrador = ((AdministradorActivity) getActivity());
+            helperFragmento = activityAdministrador.getHelperFragmento();
+            helperNavegacionInferior = activityAdministrador.getHelperNavegacionInferior();
 
         }
 
     }
 
     private void obtenerDatosUsuarioCabecera() {
-        String correo = getActivity().getIntent().getStringExtra("correo");
-        if(manejadorFragmento != null && correo != null){
-            manejadorFragmento.obtenerDatosUsuario(correo, textViewNombreCabecera);
+
+        if (helperFragmento != null && activityAdministrador != null) {
+            String correo = activityAdministrador.getCorreo();
+            helperFragmento.obtenerDatosUsuario(correo, textViewNombreCabecera);
+        } else {
+            Log.e("Error", "El correo es null o el manejador no está inicializado");
+            textViewNombreCabecera.setText("Usuario no disponible");
         }
     }
 
@@ -79,11 +86,12 @@ public class AdministradorMenuPrincipalFragment extends Fragment {
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(manejadorFragmento != null && manejadorNavegacionInferior != null){
-                    manejadorFragmento.cargarFragmento(fragmento);
-                    manejadorNavegacionInferior.deseleccionarItemMenuPrincipal();
-                } else {
-                   manejadorFragmento.cargarFragmento(new AdministradorMenuPrincipalFragment());
+                if(helperFragmento != null && helperNavegacionInferior != null){
+                    helperFragmento.cargarFragmento(fragmento);
+                    helperNavegacionInferior.deseleccionarItemMenuPrincipal();
+                }  else {
+                    Log.e("Error", "Los manejadores no están inicializados.");
+                    helperFragmento.cargarFragmento(new AdministradorMenuPrincipalFragment());
                 }
             }
         });

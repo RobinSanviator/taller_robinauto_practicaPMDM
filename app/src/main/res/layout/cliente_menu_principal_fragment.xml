@@ -1,17 +1,206 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/img_fondo_degradado"
     tools:context=".cliente.ClienteMenuPrincipalFragment">
 
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/linearLayoutCabeceraTituloMenuPrincipalCliente"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textSize="80dp"
-        android:text="MENU PRINCIPAL CLIENTE" />
+        android:layout_height="200dp"
+        android:background="@drawable/img_fondo_forma_cabecera"
+        android:orientation="vertical"
+        android:padding="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textViewNombreUsuarioCabeceraCliente"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="@string/textoNombre"
+            android:textColor="@color/color_texto"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.026"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewHolaCliente"
+            app:layout_constraintVertical_bias="0.18" />
+
+        <TextView
+            android:id="@+id/textViewHolaCliente"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="48dp"
+            android:padding="8dp"
+            android:text="@string/textoHola"
+            android:textColor="@color/color_texto"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewTipoUsuarioCliente"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:padding="8dp"
+            android:text="@string/textoCliente"
+            android:textColor="@color/color_texto"
+            android:textSize="15sp"
+            android:textStyle="italic"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.972"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardViewImagenCliente"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewImagenCliente"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/blanco"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            app:layout_constraintBottom_toTopOf="@+id/textViewTipoUsuarioCliente"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.882"
+            app:layout_constraintStart_toEndOf="@+id/textViewHolaCliente"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.166">
+
+            <ImageView
+                android:id="@+id/imageViewCliente"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/cliente" />
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutLayoutContenidoMenuPrincipalCliente"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:padding="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutCabeceraTituloMenuPrincipalCliente">
 
 
-</FrameLayout>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewContactarTallerCliente"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:cardBackgroundColor="@color/verde"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:cardCornerRadius="32dp"
+            app:cardElevation="8dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:layout_marginBottom="20dp">
+
+            <RelativeLayout
+                android:id="@+id/relativeLayoutCantactarTallerCliente"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/img_fondo_degradado_cardview1">
+
+                <ImageView
+                    android:id="@+id/imageViewCantactarTallerCliente"
+                    android:layout_width="128dp"
+                    android:layout_height="128dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="25dp"
+                    android:padding="8dp"
+                    android:src="@drawable/contactar" />
+
+                <TextView
+                    android:id="@+id/textViewCantactarTallerCliente"
+                    android:layout_width="166dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_toStartOf="@+id/imageViewCantactarTallerCliente"
+                    android:padding="16dp"
+                    android:text="@string/textoContactar"
+                    android:textColor="@color/blanco"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewReparacionesCliente"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:cardBackgroundColor="@color/fondo"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:cardCornerRadius="32dp"
+            app:cardElevation="8dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:layout_marginBottom="20dp">
+
+            <RelativeLayout
+                android:id="@+id/relativeLayoutReparacionesCliente"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/img_fondo_degradado_cardview2">
+
+                <ImageView
+                    android:id="@+id/imageViewReparacionesCliente"
+                    android:layout_width="128dp"
+                    android:layout_height="128dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="25dp"
+                    android:padding="8dp"
+                    android:src="@drawable/reparacion_coches" />
+
+                <TextView
+                    android:id="@+id/textViewReparacionesCliente"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginEnd="34dp"
+                    android:layout_toStartOf="@+id/imageViewReparacionesCliente"
+                    android:padding="16dp"
+                    android:text="@string/textoReparaciones"
+                    android:textColor="@color/blanco"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,19 +12,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
-import com.example.practica_2ev_pmdm_robingonzalez.administrador.AdministradorActivity;
-import com.example.practica_2ev_pmdm_robingonzalez.administrador.AdministradorGestionEmpleadosFragment;
-import com.example.practica_2ev_pmdm_robingonzalez.administrador.AdministradorMenuPrincipalFragment;
-import com.example.practica_2ev_pmdm_robingonzalez.administrador.AdministradorModificarUsuariosFragment;
-import com.example.practica_2ev_pmdm_robingonzalez.navegacion.ManejadorFragmento;
-import com.example.practica_2ev_pmdm_robingonzalez.navegacion.ManejadorNavegacionInferior;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperFragmento;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperNavegacionInferior;
 
 
 public class MecanicoJefeMenuPrincipalFragment extends Fragment {
     private TextView textViewNombreCabecera;
     private CardView cardViewDiagnosticos, cardViewTareas;
-    private ManejadorFragmento manejadorFragmento;
-    private ManejadorNavegacionInferior manejadorNavegacionInferior;
+    private HelperFragmento helperFragmento;
+    private HelperNavegacionInferior helperNavegacionInferior;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,8 +50,8 @@ public class MecanicoJefeMenuPrincipalFragment extends Fragment {
 
     private void obtenerManejadoresNavegacion(){
         if (getActivity() instanceof MecanicoJefeActivity) {
-            manejadorFragmento = ((MecanicoJefeActivity) getActivity()).getManejadorFragmento();
-            manejadorNavegacionInferior = ((MecanicoJefeActivity) getActivity()).getManejadorNavegacionInferior();
+            helperFragmento = ((MecanicoJefeActivity) getActivity()).getManejadorFragmento();
+            helperNavegacionInferior = ((MecanicoJefeActivity) getActivity()).getManejadorNavegacionInferior();
         } else {
             Log.e("Error", "La actividad no pertenece a MecanicoJefeActivity");
         }
@@ -64,8 +60,8 @@ public class MecanicoJefeMenuPrincipalFragment extends Fragment {
 
     private void obtenerDatosUsuarioCabecera() {
         String correo = getActivity().getIntent().getStringExtra("correo");
-        if (correo != null && manejadorFragmento != null) {
-            manejadorFragmento.obtenerDatosUsuario(correo, textViewNombreCabecera);
+        if (correo != null && helperFragmento != null) {
+            helperFragmento.obtenerDatosUsuario(correo, textViewNombreCabecera);
         } else {
             Log.e("Error", "El correo es null o el manejador no está inicializado");
             textViewNombreCabecera.setText("Usuario no disponible");
@@ -83,12 +79,12 @@ public class MecanicoJefeMenuPrincipalFragment extends Fragment {
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(manejadorFragmento != null && manejadorNavegacionInferior != null){
-                    manejadorFragmento.cargarFragmento(fragmento);
-                    manejadorNavegacionInferior.deseleccionarItemMenuPrincipal();
+                if(helperFragmento != null && helperNavegacionInferior != null){
+                    helperFragmento.cargarFragmento(fragmento);
+                    helperNavegacionInferior.deseleccionarItemMenuPrincipal();
                 } else {
                     Log.e("Error", "Los manejadores no están inicializados.");
-                    manejadorFragmento.cargarFragmento(new AdministradorMenuPrincipalFragment());
+                    helperFragmento.cargarFragmento(new MecanicoJefeMenuPrincipalFragment());
                 }
             }
         });

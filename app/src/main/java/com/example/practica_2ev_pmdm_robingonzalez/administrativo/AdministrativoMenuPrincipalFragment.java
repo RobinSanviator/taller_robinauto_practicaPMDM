@@ -11,21 +11,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
-import com.example.practica_2ev_pmdm_robingonzalez.administrador.AdministradorActivity;
-import com.example.practica_2ev_pmdm_robingonzalez.administrador.AdministradorGestionEmpleadosFragment;
 import com.example.practica_2ev_pmdm_robingonzalez.administrador.AdministradorMenuPrincipalFragment;
-import com.example.practica_2ev_pmdm_robingonzalez.administrador.AdministradorModificarUsuariosFragment;
-import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.BBDDUsuariosSQLite;
-import com.example.practica_2ev_pmdm_robingonzalez.navegacion.ManejadorFragmento;
-import com.example.practica_2ev_pmdm_robingonzalez.navegacion.ManejadorNavegacionInferior;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperFragmento;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperNavegacionInferior;
 
 
 public class AdministrativoMenuPrincipalFragment extends Fragment {
 
     private TextView textViewNombreCabecera;
     private CardView cardViewRegistroCoches, cardViewReparaciones, cardViewNotificaciones, cardViewInventario ;
-    private ManejadorFragmento manejadorFragmento;
-    private ManejadorNavegacionInferior manejadorNavegacionInferior;
+    private HelperFragmento helperFragmento;
+    private HelperNavegacionInferior helperNavegacionInferior;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,8 +53,8 @@ public class AdministrativoMenuPrincipalFragment extends Fragment {
 
     private void obtenerManejadoresNavegacion(){
         if(getActivity() instanceof AdministrativoActivity){
-            manejadorFragmento= (((AdministrativoActivity) getActivity()).getManejadorFragmento());
-            manejadorNavegacionInferior = (((AdministrativoActivity) getActivity()).getManejadorNavegacionInferior());
+            helperFragmento = (((AdministrativoActivity) getActivity()).getManejadorFragmento());
+            helperNavegacionInferior = (((AdministrativoActivity) getActivity()).getManejadorNavegacionInferior());
 
         }
 
@@ -66,8 +62,8 @@ public class AdministrativoMenuPrincipalFragment extends Fragment {
 
     private void obtenerDatosUsuarioCabecera() {
         String correo = getActivity().getIntent().getStringExtra("correo");
-        if(manejadorFragmento != null && correo != null){
-            manejadorFragmento.obtenerDatosUsuario(correo, textViewNombreCabecera);
+        if(helperFragmento != null && correo != null){
+            helperFragmento.obtenerDatosUsuario(correo, textViewNombreCabecera);
         }
     }
 
@@ -86,11 +82,11 @@ public class AdministrativoMenuPrincipalFragment extends Fragment {
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(manejadorFragmento != null && manejadorNavegacionInferior != null){
-                    manejadorFragmento.cargarFragmento(fragmento);
-                    manejadorNavegacionInferior.deseleccionarItemMenuPrincipal();
+                if(helperFragmento != null && helperNavegacionInferior != null){
+                    helperFragmento.cargarFragmento(fragmento);
+                    helperNavegacionInferior.deseleccionarItemMenuPrincipal();
                 } else {
-                    manejadorFragmento.cargarFragmento(new AdministradorMenuPrincipalFragment());
+                    helperFragmento.cargarFragmento(new AdministradorMenuPrincipalFragment());
                 }
             }
         });

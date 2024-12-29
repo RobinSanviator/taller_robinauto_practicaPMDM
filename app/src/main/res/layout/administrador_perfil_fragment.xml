@@ -1,26 +1,393 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".administrador.AdministradorPerfilFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".administrador.AdministradorPerfilFragment"
+    android:background="@drawable/img_fondo_degradado">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutToolBarAdministrador"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageViewVolverMenuPrincipalPerfilAdmin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:clickable="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_volver"
+            android:tint="@color/color_texto"
+            tools:ignore="UseAppTint,TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+        <TextView
+           android:id="@+id/textViewTextoPerfilAdmin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/textoPerfil"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="@color/color_texto"/>
+
+    </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayoutInfoAdmin"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="8dp">
-        <TextView
-            android:id="@+id/textViewTituloCabeceraPerfil"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:padding="8dp"
+        android:layout_marginTop="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayoutToolBarAdministrador">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayoutContendorInfoAdmin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewImagenPerfilAdministrador"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="20dp"
+                app:cardBackgroundColor="@color/blanco"
+                app:cardCornerRadius="50dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/imageViewImagenPerfilAdministrador"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:src="@drawable/administrador"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintVertical_bias="1.0" />
+
+            </androidx.cardview.widget.CardView>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/floatingBotonImagenPerfilAdministrador"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="140dp"
+                android:layout_marginBottom="4dp"
+                android:backgroundTint="@color/color_fondo_boton_img"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_camara"
+                app:layout_constraintBottom_toBottomOf="@+id/cardViewImagenPerfilAdministrador"
+                app:layout_constraintEnd_toEndOf="@+id/cardViewImagenPerfilAdministrador"
+                app:layout_constraintTop_toTopOf="@+id/cardViewImagenPerfilAdministrador"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <TextView
+                android:id="@+id/textViewNombrePerfilAdmin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:padding="2dp"
+                android:text="@string/textoNombre"
+                android:textColor="@color/color_texto"
+                android:textSize="30dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardViewImagenPerfilAdministrador" />
+
+
+            <TextView
+                android:id="@+id/textViewCorreoPerfilAdmin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="@string/textoCorreo"
+                android:textColor="@color/color_texto"
+                android:textSize="20dp"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toBottomOf="@+id/textViewTipoUsuarioPerfilAdmin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewNombrePerfilAdmin"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/textViewTipoUsuarioPerfilAdmin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:text="@string/textoAdministrador"
+                android:textColor="@color/color_texto"
+                android:textSize="15dp"
+                app:layout_constraintBottom_toBottomOf="@+id/viewLineaDivisorInfoPerfilAdministrador"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewCorreoPerfilAdmin"
+                tools:ignore="TextSizeCheck" />
+
+            <View
+                android:id="@+id/viewLineaDivisorInfoPerfilAdministrador"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_principal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewCorreoPerfilAdmin" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ScrollView
+            android:id="@+id/scrollViewDatosPerfilAdmin"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="8dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="@string/tituloCabeceraPerfil"
-            android:textStyle="bold"
-            android:textSize="20dp"
-            android:textColor="@color/color_texto"/>
+            android:scrollbars="none">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewDatosPerfilAdministrador"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/fondo"
+                app:cardCornerRadius="32dp"
+                app:cardElevation="8dp">
+
+                <LinearLayout
+                    android:id="@+id/linearLayoutDatosPerfilAdministrador"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_margin="15dp"
+                    android:layout_gravity="start"
+                    android:padding="10dp">
+
+
+                    <LinearLayout
+                        android:id="@+id/linearLayoutPerfilNombreAdmin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/imageViewPerfilNombreAdmin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_nombre"/>
+
+                        <TextView
+                            android:id="@+id/textViewTextoPerfilNombreAdmin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:text="@string/textoNombre"
+                            android:textColor="@color/color_texto"
+                            android:textStyle="bold"
+                            android:textSize="16dp"/>
+
+                        <TextView
+                            android:id="@+id/textViewDatoPerfilNombreAdmin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="25dp"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:text="@string/textoNombre"
+                            android:textColor="@color/color_texto"
+                            android:textSize="16dp"
+                            />
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/viewDivisorPerfilNombreAdmin"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/color_desactivado_fondo"/>
+
+                    <LinearLayout
+                        android:id="@+id/linearLayoutPerfilApellidoAdmin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/imageViewPerfilApellidoAdmin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_nombre"/>
+
+                        <TextView
+                            android:id="@+id/textViewTextoPerfilApellidoAdmin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:text="@string/textoApellidos"
+                            android:textColor="@color/color_texto"
+                            android:textStyle="bold"
+                            android:textSize="16dp"/>
+
+                        <TextView
+                            android:id="@+id/textViewDatoPerfilApellidoAdmin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="25dp"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:text="@string/textoApellidos"
+                            android:textColor="@color/color_texto"
+                            android:textSize="16dp"
+                            />
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/viewDivisorPerfilApellidoAdmin"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/color_desactivado_fondo"/>
+
+                    <LinearLayout
+                        android:id="@+id/linearLayoutPerfilCorreoAdmin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/imageViewPerfilCorreoAdmin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_correo"/>
+
+                        <TextView
+                            android:id="@+id/textViewTextoPerfilCorreoAdmin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:text="@string/textoCorreoAcortado"
+                            android:textColor="@color/color_texto"
+                            android:textStyle="bold"
+                            android:textSize="16dp"/>
+
+                        <TextView
+                            android:id="@+id/textViewDatoPerfilCorreoAdmin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="25dp"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:text="@string/textoCorreoAcortado"
+                            android:textColor="@color/color_texto"
+                            android:textSize="16dp"
+                            />
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/viewDivisorPerfilCorreoAdmin"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/color_desactivado_fondo"/>
+
+                    <LinearLayout
+                        android:id="@+id/linearLayoutPerfilTelefonoAdmin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/imageViewPerfilTelefonoAdmin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_telefono_contacto"/>
+
+                        <TextView
+                            android:id="@+id/textViewTextoPerfilTelefonoAdmin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:text="@string/textoTelefono"
+                            android:textColor="@color/color_texto"
+                            android:textStyle="bold"
+                            android:textSize="16dp"/>
+
+                        <TextView
+                            android:id="@+id/textViewDatoPerfilTelefonoAdmin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="25dp"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:text="@string/textoTelefono"
+                            android:textColor="@color/color_texto"
+                            android:textSize="16dp"
+                            />
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/viewDivisorPerfilTelefonoAdmin"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/color_desactivado_fondo"/>
+
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </ScrollView>
+
     </LinearLayout>
 
-
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

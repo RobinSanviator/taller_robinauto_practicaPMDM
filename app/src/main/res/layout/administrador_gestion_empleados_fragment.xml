@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/img_fondo_degradado"
     tools:context=".administrador.AdministradorGestionEmpleadosFragment">
 
     <LinearLayout
-        android:id="@+id/linearLayoutAppBar"
+        android:id="@+id/linearLayoutAppBarEmpleados"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:background="@drawable/img_fondo_degradado_cardview1"
@@ -35,7 +36,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutAppBar" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutAppBarEmpleados" />
 
 
 

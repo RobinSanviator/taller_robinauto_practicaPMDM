@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/img_fondo_degradado"
-    tools:context=".administrativo.AdministrativoAjustesFragment">
+    tools:context=".cliente.ClienteContactarTallerFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

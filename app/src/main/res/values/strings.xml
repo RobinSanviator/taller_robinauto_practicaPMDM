@@ -20,7 +20,6 @@
     <string name="textoTvUsuarioAdmin">Usuario:</string>
     <string name="textoTelefono">Teléfono</string>
     <string name="textoAyudaObligatorio">Obligatorio*</string>
-    <string name="textoTvtextoContacto">Contactar:</string>
     <string name="textoAyudaRegistro">Obligatorio*</string>
     <string name="textoTyCIntroduccion">Bienvenido a Taller Robinauto. Al utilizar nuestros servicios, aceptas cumplir con los siguientes términos y condiciones. Por favor, léelos detenidamente.</string>
     <string name="textoTyCUsoServicio">- Uso del Servicio: Esta app es para mayores de 18 años. Úsala solo para gestionar servicios automotrices de forma legal. Está prohibido el uso indebido, como actividades ilegales o difusión de contenido ofensivo.</string>
@@ -69,7 +68,7 @@
     <string name="textoNombrApp">Taller Robinauto</string>
     <string name="abrir_navegacion">Abrir Navigation Drawer</string>
     <string name="cerrar_navegacion">Cerrar Navigation Drawer</string>
-    <string name="textoContactar">Contacta con nosotros</string>
+    <string name="textoContactar">Contactar con Robinauto</string>
     <string name="textoMenuPrincipal">Inicio</string>
     <string name="textoTyC">Términos y condiciones</string>
     <string name="slogan">Tu app, tu taller, tu tranquilidad</string>
@@ -80,6 +79,10 @@
     <string name="textoHola">Bienvenido a Robinauto</string>
     <string name="textoAdministrativo">Administrativo</string>
     <string name="textoRegistroCoches">Registrar coches</string>
+    <string name="textoMecanicoJefe">Mecánico jefe</string>
+    <string name="textoMecanico">Mecánico</string>
+    <string name="textoCliente">Cliente</string>
+    <string name="textoCorreoAcortado">Correo</string>
 
 
 </resources>

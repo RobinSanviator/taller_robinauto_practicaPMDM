@@ -1,4 +1,4 @@
-package com.example.practica_2ev_pmdm_robingonzalez.navegacion;
+package com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda;
 
 import android.widget.TextView;
 
@@ -8,12 +8,12 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.BBDDUsuariosSQLite;
 
-public class ManejadorFragmento {
+public class HelperFragmento {
     private AppCompatActivity activityActividad;
     private int frameLayoutContenedorFragmento;
 
-    public ManejadorFragmento(AppCompatActivity activityActividad,
-                              int frameLayoutContenedorFragmento) {
+    public HelperFragmento(AppCompatActivity activityActividad,
+                           int frameLayoutContenedorFragmento) {
         this.activityActividad = activityActividad;
         this.frameLayoutContenedorFragmento = frameLayoutContenedorFragmento;
     }

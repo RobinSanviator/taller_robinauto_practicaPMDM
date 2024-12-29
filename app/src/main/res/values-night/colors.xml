@@ -24,6 +24,10 @@
     <color name="color_desactivado_fondo">#424242</color>
     <color name="color_desactivado_texto">#BDBDBD</color>
     <color name="color_botonIntro">#042F78</color>
-    <color name="color_fondo_navegacion">#000000</color>
-    <color name="color_texto_navegacion">#FFFF</color>
+    <color name="color_fondo_boton_img">#33EF9A</color>
+    <color name="color_fondo_modo_oscuro">#AE8FEB</color>
+    <color name="color_fondo_tyc">#084985</color>
+    <color name="color_fondo_cerrar_sesion">#572E8C</color>
+    <color name="color_fondo_salir">#83290E</color>
+
 </resources>

@@ -2,65 +2,92 @@ package com.example.practica_2ev_pmdm_robingonzalez.cliente;
 
 import android.os.Bundle;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
+import com.example.practica_2ev_pmdm_robingonzalez.mecanico.MecanicoMenuPrincipalFragment;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperFragmento;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperNavegacionInferior;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ClienteMenuPrincipalFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ClienteMenuPrincipalFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public ClienteMenuPrincipalFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ClienteMenuPrincipalFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ClienteMenuPrincipalFragment newInstance(String param1, String param2) {
-        ClienteMenuPrincipalFragment fragment = new ClienteMenuPrincipalFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private TextView textViewNombreCabecera;
+    private CardView cardViewContactarTaller, cardViewReparaciones;
+    private HelperFragmento helperFragmento;
+    private HelperNavegacionInferior helperNavegacionInferior;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.cliente_menu_principal_fragment, container, false);
+        // Inflar diseño del layout del menú principal
+        View vista = inflater.inflate(R.layout.cliente_menu_principal_fragment, container, false);
+
+        inicializarComponentes(vista);
+        obtenerManejadoresNavegacion();
+        obtenerDatosUsuarioCabecera();
+        inicializarListeners();
+
+        return vista;
     }
+
+    private void inicializarComponentes(View vista){
+        textViewNombreCabecera = vista.findViewById(R.id.textViewNombreUsuarioCabeceraCliente);
+        cardViewContactarTaller = vista.findViewById(R.id.cardViewContactarTallerCliente);
+        cardViewReparaciones = vista.findViewById(R.id.cardViewReparacionesCliente);
+    }
+
+    private void obtenerManejadoresNavegacion(){
+        if(getActivity() instanceof ClienteActivity){
+            helperFragmento = (((ClienteActivity) getActivity()).getManejadorFragmento());
+            helperNavegacionInferior = (((ClienteActivity) getActivity()).getManejadorNavegacionInferior());
+
+        }
+
+    }
+
+    private void obtenerDatosUsuarioCabecera() {
+        String correo = getActivity().getIntent().getStringExtra("correo");
+        if (correo != null && helperFragmento != null) {
+            helperFragmento.obtenerDatosUsuario(correo, textViewNombreCabecera);
+        } else {
+            Log.e("Error", "El correo es null o el manejador no está inicializado");
+            textViewNombreCabecera.setText("Usuario no disponible");
+        }
+    }
+
+    private void inicializarListeners(){
+        //Mostrar pantalla de tareas
+        configurarOnclick(cardViewContactarTaller, new ClienteContactarTallerFragment());
+        //Mostrar pantalla de solicitud de piezas
+        configurarOnclick(cardViewReparaciones, new ClienteReparacionesFragment());
+    }
+
+    private void configurarOnclick(CardView cardView, Fragment fragmento){
+        cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(helperFragmento != null && helperNavegacionInferior != null){
+                    helperFragmento.cargarFragmento(fragmento);
+                    helperNavegacionInferior.deseleccionarItemMenuPrincipal();
+                } else {
+                    Log.e("Error", "Los manejadores no están inicializados.");
+                    helperFragmento.cargarFragmento(new MecanicoMenuPrincipalFragment());
+                }
+            }
+        });
+    }
+
 }

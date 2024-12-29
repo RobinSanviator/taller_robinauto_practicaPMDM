@@ -48,21 +48,26 @@ public class InicioSesionActivity extends AppCompatActivity {
         });
 
 
-        //Referencias a los elementos de la pantalla de inicio de sesión
-        editTextCorreoIS = findViewById(R.id.editTextCorreoIS);
-        editTextContrasenya = findViewById(R.id.editTextContrasenyaIS);
-        buttonIniciarSesion = findViewById(R.id.buttonIniciarSesion);
-        textViewEnlaceRegistro = findViewById(R.id.textViewEnlaceRegistro);
-
+        inicializarComponenetes();
         iniciarSesion();
         irPantallaRegistro();
 
     }
 
-    public void iniciarSesion() {
+    private void inicializarComponenetes(){
+        //Referencias a los elementos de la pantalla de inicio de sesión
+        editTextCorreoIS = findViewById(R.id.editTextCorreoIS);
+        editTextContrasenya = findViewById(R.id.editTextContrasenyaIS);
+        buttonIniciarSesion = findViewById(R.id.buttonIniciarSesion);
+        textViewEnlaceRegistro = findViewById(R.id.textViewEnlaceRegistro);
+    }
+
+    private void iniciarSesion() {
         buttonIniciarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                cerrarTeclado();
+
                 String correo = editTextCorreoIS.getText().toString();
                 String contrasenya = editTextContrasenya.getText().toString();
 
@@ -71,7 +76,17 @@ public class InicioSesionActivity extends AppCompatActivity {
         });
     }
 
-    public void irPantallaRegistro() {
+    private void cerrarTeclado(){
+        //Obtener la vista actual
+        View vista = getCurrentFocus();
+        if(vista != null){
+            InputMethodManager teclado = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            teclado.hideSoftInputFromWindow(vista.getWindowToken(), 0);
+        }
+
+    }
+
+    private void irPantallaRegistro() {
         textViewEnlaceRegistro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,7 +96,7 @@ public class InicioSesionActivity extends AppCompatActivity {
     }
 
     // Método para validar al usuario en la base de datos
-    public void validarUsuario(String correo, String contrasenya) {
+    private void validarUsuario(String correo, String contrasenya) {
         BBDDUsuariosSQLite baseDeDatosGestionUsuarios = new BBDDUsuariosSQLite(
                 InicioSesionActivity.this, "gestion_usuario_taller", null, 3);
 
@@ -101,7 +116,7 @@ public class InicioSesionActivity extends AppCompatActivity {
     }
 
     // Método para redirigir según el tipo de usuario
-    public void navegarPorTipoUsuario(String tipoUsuario, String correo) {
+    private void navegarPorTipoUsuario(String tipoUsuario, String correo) {
         Intent intentPantallaUsuario;
         switch (tipoUsuario) {
             case "Administrador":

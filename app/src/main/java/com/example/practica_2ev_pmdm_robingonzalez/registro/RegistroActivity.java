@@ -24,6 +24,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.practica_2ev_pmdm_robingonzalez.administrador.AdministradorActivity;
 import com.example.practica_2ev_pmdm_robingonzalez.inicio_sesion.InicioSesionActivity;
 import com.example.practica_2ev_pmdm_robingonzalez.R;
 import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.BBDDUsuariosSQLite;
@@ -40,6 +41,7 @@ public class RegistroActivity extends AppCompatActivity {
     TextView textViewTextoVolverInicioSesion;
     CheckBox checkBoxUsoServicio, checkBoxPropiedadIntelectual, checkBoxPrivacidad, checkBoxPromociones,
             checkBoxAceptarTodo;
+    BBDDUsuariosSQLite baseDeDatosGestionUsuarios;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -48,8 +50,15 @@ public class RegistroActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.registro_activity);
 
+        inicializarComponentes();
+        registrarse();
+        volverInicioSesion();
+        seleccionarPerfil();
+        configurarValidacionDinamica();
 
+    }
 
+    private void inicializarComponentes(){
         // Referencias a los elementos del formulario
         editTextNombre = findViewById(R.id.editTextNombreRegistro);
         editTexApellidos = findViewById(R.id.editTextApellidosRegistro);
@@ -60,17 +69,14 @@ public class RegistroActivity extends AppCompatActivity {
         spinnerSeleccionarPerfil = findViewById(R.id.spinnerSeleccionarPerfil);
         buttonRegistrarse = findViewById(R.id.buttonRegistrarse);
         textViewTextoVolverInicioSesion = findViewById(R.id.textViewVolverInicioSesion);
-
-        registrarse();
-        volverInicioSesion();
-        seleccionarPerfil();
-        configurarValidacionDinamica();
-
-
-
     }
 
-    public void registrarse(){
+    public BBDDUsuariosSQLite obtenerInstanciaBaseDeDatos() {
+        baseDeDatosGestionUsuarios = new BBDDUsuariosSQLite(RegistroActivity.this, "gestion_usuario_taller", null, 3);
+        return baseDeDatosGestionUsuarios;
+    }
+
+    private void registrarse(){
         buttonRegistrarse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,7 +86,7 @@ public class RegistroActivity extends AppCompatActivity {
         });
     }
 
-    public void volverInicioSesion(){
+    private void volverInicioSesion(){
         textViewTextoVolverInicioSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,7 +95,7 @@ public class RegistroActivity extends AppCompatActivity {
         });
     }
 
-    public void seleccionarPerfil(){
+    private void seleccionarPerfil(){
         // Configurar el autocompletetext como spinner para seleccionar el tipo de usuario
 
         String[] perfiles = getResources().getStringArray(R.array.tipo_usuarios);
@@ -110,7 +116,7 @@ public class RegistroActivity extends AppCompatActivity {
 
     }
 
-    public boolean validarNombre(String nombre){
+    private boolean validarNombre(String nombre){
         TextInputLayout textInputLayoutNombreRegistro = findViewById(R.id.textInputNombreLayoutR);
 
         if(editTextNombre.getText().toString().trim().isEmpty()){
@@ -124,7 +130,7 @@ public class RegistroActivity extends AppCompatActivity {
         return true;
     }
 
-    public boolean validarApellidos(String apellidos){
+    private boolean validarApellidos(String apellidos){
 
         TextInputLayout textInputLayoutApellidos = findViewById(R.id.textInputApellidosLayoutR);
 
@@ -140,8 +146,7 @@ public class RegistroActivity extends AppCompatActivity {
         return true;
     }
 
-
-    public boolean validarCorreo(String correo){
+    private boolean validarCorreo(String correo){
         TextInputLayout textInputLayoutCorreoRegistro = findViewById(R.id.textInputCorreoLayoutR);
 
         if (editTextCorreoRegistro.getText().toString().trim().isEmpty()) {
@@ -164,7 +169,7 @@ public class RegistroActivity extends AppCompatActivity {
         return true;
     }
 
-    public boolean verificarCorreoEnUso(String correo) {
+    private boolean verificarCorreoEnUso(String correo) {
         // Crear o usar una instancia de la base de datos
         BBDDUsuariosSQLite baseDeDatos = new BBDDUsuariosSQLite(this, "gestion_usuario_taller", null, 3);
         // Llamar al método de la base de datos para verificar el correo
@@ -173,7 +178,7 @@ public class RegistroActivity extends AppCompatActivity {
         return correoEncontrado != null;
     }
 
-    public boolean validarTelefono(String telefono){
+    private boolean validarTelefono(String telefono){
         TextInputLayout textInputLayoutTelefonoRegistro = findViewById(R.id.textInputTelefonoLayoutR);
 
         if (editTextTelefono.getText().toString().trim().isEmpty()) {
@@ -192,7 +197,7 @@ public class RegistroActivity extends AppCompatActivity {
         return true;
     }
 
-    public boolean validarContrasenyas(String contrasenya, String confirmarContrasenya){
+    private boolean validarContrasenyas(String contrasenya, String confirmarContrasenya){
         TextInputLayout textInputLayoutContrasenya = findViewById(R.id.textInputContrasenyaLayoutR);
         TextInputLayout textInputLayoutConfirmarContrasenya = findViewById(R.id.textInputConfirmarContrasenyaLayoutR);
 
@@ -220,7 +225,7 @@ public class RegistroActivity extends AppCompatActivity {
         return true;
     }
 
-    public boolean validarSeleccionarPerfil(String perfil){
+    private boolean validarSeleccionarPerfil(String perfil){
         TextInputLayout textInputLayoutSeleccionarPerfil = findViewById(R.id.textInputSpinnerLayoutR);
 
         if(spinnerSeleccionarPerfil.getText().toString().trim().isEmpty()){
@@ -235,7 +240,7 @@ public class RegistroActivity extends AppCompatActivity {
     }
 
     // Método para verificar todas las validaciones y habilitar/deshabilitar el botón
-    public void verificarValidaciones() {
+    private void verificarValidaciones() {
         String nombre = editTextNombre.getText().toString();
         String apellidos = editTexApellidos.getText().toString();
         String correo = editTextCorreoRegistro.getText().toString();
@@ -266,7 +271,7 @@ public class RegistroActivity extends AppCompatActivity {
 
     }
 
-    public void configurarValidacionDinamica() {
+    private void configurarValidacionDinamica() {
         // Crear un único TextWatcher
         TextWatcher textWatcherCambios = new TextWatcher() {
             @Override
@@ -294,33 +299,25 @@ public class RegistroActivity extends AppCompatActivity {
         verificarValidaciones();
     }
 
-
-    public void mostrarTerminosYCondicionesEnAlertDialog(){
-
-        //Inflar el diseño xml para mostrarlo al pulsar el botón de Registrarse
+    private void mostrarTerminosYCondicionesEnAlertDialog() {
         LayoutInflater inflaterTerminosCondiciones = getLayoutInflater();
         View vistaDialogo = inflaterTerminosCondiciones.inflate(R.layout.alert_dialog_terminos_condiciones, null);
 
-        //Configurar el AlertDialog
         AlertDialog.Builder builderTyC = new AlertDialog.Builder(this);
         builderTyC.setTitle("Términos y Condiciones");
         builderTyC.setView(vistaDialogo);
 
-        //Configurar checkboxes para aceptar todos al seleccionar el checkbox 'aceptar todos'
+        // Configuración de Checkboxes
         configurarCheckBoxesAlertDialog(vistaDialogo);
 
-        //Configurar botones de Aceptar y Cancelar
-        builderTyC.setPositiveButton("Aceptar", new DialogInterface.OnClickListener(){
-
+        // Botones del diálogo
+        builderTyC.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (checkBoxUsoServicio.isChecked() && checkBoxPropiedadIntelectual.isChecked() && checkBoxPrivacidad.isChecked()) {
-                    //Guardar el usuario en la base de datos
                     guardarUsuariosEnBaseDeDatos();
                     finish();
-
                 } else {
-                    // Mostrar mensaje de error
                     Snackbar.make(buttonRegistrarse, "Debes aceptar todos los términos para registrarte", Snackbar.LENGTH_SHORT).show();
                 }
             }
@@ -329,22 +326,19 @@ public class RegistroActivity extends AppCompatActivity {
         builderTyC.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //Cerrar el diálogo en caso de pulsar en cancelar
                 dialog.dismiss();
             }
         });
 
-        //Crear y mostrar el alertDialog
-        AlertDialog alertDialogTyC = builderTyC.create();
-        alertDialogTyC.show();
+        builderTyC.show(); // Muestra el diálogo
     }
 
-    public void configurarCheckBoxesAlertDialog(View vistaDialogo){
-      checkBoxUsoServicio = vistaDialogo.findViewById(R.id.checkBoxUsoServicio);
-      checkBoxPropiedadIntelectual = vistaDialogo.findViewById(R.id.checkBoxPropiedadIntelectual);
-      checkBoxPrivacidad = vistaDialogo.findViewById(R.id.checkBoxPrivacidad);
-      checkBoxPromociones = vistaDialogo.findViewById(R.id.checkBoxPromociones);
-      checkBoxAceptarTodo = vistaDialogo.findViewById(R.id.checkBoxAceptarTodo);
+    private void configurarCheckBoxesAlertDialog(View vistaDialogo) {
+        checkBoxUsoServicio = vistaDialogo.findViewById(R.id.checkBoxUsoServicio);
+        checkBoxPropiedadIntelectual = vistaDialogo.findViewById(R.id.checkBoxPropiedadIntelectual);
+        checkBoxPrivacidad = vistaDialogo.findViewById(R.id.checkBoxPrivacidad);
+        checkBoxPromociones = vistaDialogo.findViewById(R.id.checkBoxPromociones);
+        checkBoxAceptarTodo = vistaDialogo.findViewById(R.id.checkBoxAceptarTodo);
 
         checkBoxAceptarTodo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -353,23 +347,22 @@ public class RegistroActivity extends AppCompatActivity {
                 checkBoxPropiedadIntelectual.setChecked(isChecked);
                 checkBoxPrivacidad.setChecked(isChecked);
                 checkBoxPromociones.setChecked(isChecked);
-
             }
         });
-
     }
 
+
     //Este método se llama al aceptar los términos y condiciones del alert dialog
-    public void guardarUsuariosEnBaseDeDatos(){
+    private void guardarUsuariosEnBaseDeDatos(){
+
+        baseDeDatosGestionUsuarios = obtenerInstanciaBaseDeDatos();
+        //Obtener texto de los editText
         String nombre = editTextNombre.getText().toString();
         String apellidos = editTexApellidos.getText().toString();
         String correo = editTextCorreoRegistro.getText().toString();
         String telefono = editTextTelefono.getText().toString();
         String contrasenya = editTextContrasenyaRegistro.getText().toString();
         String tipoUsuario = spinnerSeleccionarPerfil.getText().toString();
-
-        BBDDUsuariosSQLite baseDeDatosGestionUsuarios = new BBDDUsuariosSQLite(
-                RegistroActivity.this, "gestion_usuario_taller", null, 3);
 
         //Insertar un nuevo registro
         ContentValues nuevoRegistro = new ContentValues();
@@ -381,21 +374,23 @@ public class RegistroActivity extends AppCompatActivity {
         nuevoRegistro.put("tipo_usuario", tipoUsuario);
 
 
-        SQLiteDatabase baseDeDatos = baseDeDatosGestionUsuarios.getReadableDatabase();
+        //Leer la base de datos
+        SQLiteDatabase baseDeDatosSQLite = baseDeDatosGestionUsuarios.getReadableDatabase();
 
-        long id = baseDeDatos.insert("usuarios", null, nuevoRegistro);
+        long id = baseDeDatosSQLite.insert("usuarios", null, nuevoRegistro);
 
         if(id != -1){
-
             startActivity(new Intent(RegistroActivity.this, InicioSesionActivity.class));
 
         } else {
             Snackbar.make(buttonRegistrarse, "Error en el registro", Snackbar.LENGTH_LONG).show();
         }
 
-        baseDeDatos.close();
+        baseDeDatosGestionUsuarios.close();
+
 
     }
+
 
 }
 

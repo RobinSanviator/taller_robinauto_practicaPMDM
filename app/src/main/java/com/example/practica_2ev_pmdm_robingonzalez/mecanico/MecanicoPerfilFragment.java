@@ -2,65 +2,119 @@ package com.example.practica_2ev_pmdm_robingonzalez.mecanico;
 
 import android.os.Bundle;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
+import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.BBDDUsuariosSQLite;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperFragmento;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperNavegacionInferior;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperPerfil;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link MecanicoPerfilFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class MecanicoPerfilFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private CardView cardViewDatosPerfil;
+    private TextView textViewNombre, textViewApellidos, textViewCorreo, textViewTelefono;
+    private TextView textViewNombreCabecera,  textViewCorreoCabecera;
+    private ImageView imageViewMenuPrincipal;
+    private String correo;
+    private MecanicoActivity activityMecanico;
+    private HelperPerfil helperPerfil;
+    private BBDDUsuariosSQLite baseDeDatos;
+    private HelperFragmento helperFragmento;
+    private HelperNavegacionInferior helperNavegacionInferior;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
-    public MecanicoPerfilFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MecanicoPerfilFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static MecanicoPerfilFragment newInstance(String param1, String param2) {
-        MecanicoPerfilFragment fragment = new MecanicoPerfilFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.mecanico_perfil_fragment, container, false);
+        // Inflar el diseño del layout de perfil
+        View vista = inflater.inflate(R.layout.mecanico_perfil_fragment, container, false);
+
+        inicializarComponentes(vista);
+        obtenerManejadores();
+        volverMenuPrincipal();
+        introducirDatosPerfilCabecera();
+        introducirDatosEnPerfil();
+
+        return vista;
     }
+
+    private void inicializarComponentes(View vista) {
+        imageViewMenuPrincipal = vista.findViewById(R.id.imageViewVolverMenuPrincipalPerfilMecanico);
+        cardViewDatosPerfil = vista.findViewById(R.id.cardViewDatosPerfilMecanico);
+        textViewNombreCabecera = vista.findViewById(R.id.textViewNombrePerfilMecanico);
+        textViewCorreoCabecera = vista.findViewById(R.id.textViewCorreoPerfilMecanico);
+        textViewNombre = vista.findViewById(R.id.textViewDatoPerfilNombreMecanico);
+        textViewApellidos = vista.findViewById(R.id.textViewDatoPerfilApellidoMecanico);
+        textViewCorreo = vista.findViewById(R.id.textViewDatoPerfilCorreoMecanico);
+        textViewTelefono = vista.findViewById(R.id.textViewDatoPerfilTelefonoMecanico);
+    }
+
+
+    private void obtenerManejadores() {
+        if (getActivity() instanceof MecanicoActivity) {
+            activityMecanico = ((MecanicoActivity) getActivity());
+            helperPerfil = activityMecanico.getManejadorPerfil();
+            helperFragmento = activityMecanico.getManejadorFragmento();
+            helperNavegacionInferior = activityMecanico.getManejadorNavegacionInferior();
+            baseDeDatos = activityMecanico.obtenerInstanciaBaseDeDatos();
+        }
+
+    }
+
+    private void volverMenuPrincipal(){
+        imageViewMenuPrincipal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(helperFragmento != null){
+                    helperFragmento.cargarFragmento(new MecanicoMenuPrincipalFragment());
+                    helperNavegacionInferior.seleccionarItemMenuPrincipal();
+                } else {
+                    Log.e("Error", "MecanicoMenuPrincipalFragment null");
+                }
+
+            }
+        });
+    }
+
+    private void introducirDatosPerfilCabecera(){
+        correo = activityMecanico.getCorreo();
+        String nombre = baseDeDatos.obtenerNombreYApellidos(correo);
+
+        if(correo != null && nombre != null){
+            textViewNombreCabecera.setText(nombre);
+            textViewCorreoCabecera.setText(correo);
+
+        } else {
+            Log.e("Error", "Correo o nombre null");
+        }
+
+    }
+
+    private void introducirDatosEnPerfil() {
+        correo = activityMecanico.getCorreo();
+        if (correo != null) {
+            helperPerfil.cargarDatosPerfil(correo,baseDeDatos, textViewNombre, textViewApellidos, textViewCorreo, textViewTelefono);
+        } else {
+            Log.e("Error", "Correo es null");
+        }
+
+    }
+
 }

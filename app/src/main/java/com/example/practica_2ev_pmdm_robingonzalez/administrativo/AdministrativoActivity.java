@@ -1,7 +1,6 @@
 package com.example.practica_2ev_pmdm_robingonzalez.administrativo;
 
 import android.os.Bundle;
-import android.widget.FrameLayout;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,15 +8,12 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
-import com.example.practica_2ev_pmdm_robingonzalez.administrador.AdministradorActivity;
-import com.example.practica_2ev_pmdm_robingonzalez.administrador.AdministradorAjustesFragment;
-import com.example.practica_2ev_pmdm_robingonzalez.administrador.AdministradorMenuPrincipalFragment;
-import com.example.practica_2ev_pmdm_robingonzalez.administrador.AdministradorPerfilFragment;
-import com.example.practica_2ev_pmdm_robingonzalez.navegacion.ManejadorFragmento;
-import com.example.practica_2ev_pmdm_robingonzalez.navegacion.ManejadorNavegacionInferior;
+import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.BBDDUsuariosSQLite;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperFragmento;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperNavegacionInferior;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperPerfil;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 import java.util.HashMap;
@@ -26,8 +22,10 @@ import java.util.Map;
 public class AdministrativoActivity extends AppCompatActivity {
 
     private ChipNavigationBar chipNavigationBarNavegacionInferior; // Referencia al ChipNavigationBar
-    private ManejadorFragmento manejadorFragmento; // Instancia del manejador de fragmentos
-    private ManejadorNavegacionInferior manejadorNavegacionInferior;
+    private HelperFragmento helperFragmento; // Instancia del manejador de fragmentos
+    private HelperNavegacionInferior helperNavegacionInferior;
+    private HelperPerfil helperPerfil;
+    private BBDDUsuariosSQLite  baseDeDatosGestionUsuarios;
     private int frameLayoutContenedorFragmento;
 
     @Override
@@ -55,9 +53,15 @@ public class AdministrativoActivity extends AppCompatActivity {
     }
 
     private void obtenerManejadores(){
-        manejadorFragmento = new ManejadorFragmento(AdministrativoActivity.this, frameLayoutContenedorFragmento);
-        manejadorNavegacionInferior = new ManejadorNavegacionInferior(
-                AdministrativoActivity.this, chipNavigationBarNavegacionInferior, manejadorFragmento);
+        helperFragmento = new HelperFragmento(AdministrativoActivity.this, frameLayoutContenedorFragmento);
+        helperNavegacionInferior = new HelperNavegacionInferior(
+                AdministrativoActivity.this, chipNavigationBarNavegacionInferior, helperFragmento);
+        helperPerfil = new HelperPerfil();
+    }
+
+    public BBDDUsuariosSQLite obtenerInstanciaBaseDeDatos() {
+        baseDeDatosGestionUsuarios = new BBDDUsuariosSQLite(AdministrativoActivity.this, "gestion_usuario_taller", null, 3);
+        return  baseDeDatosGestionUsuarios;
     }
 
     public void cargarOpcionesNavegacionInferior(){
@@ -67,26 +71,34 @@ public class AdministrativoActivity extends AppCompatActivity {
         opcionesDeMenu.put(R.id.opcionAjustes, new AdministrativoAjustesFragment());
 
         //Utilizando la clase ManejadorNavegación llamar al método configurarNavegacionInferior
-        manejadorNavegacionInferior.configurarNavegacionInferior(opcionesDeMenu);
+        helperNavegacionInferior.configurarNavegacionInferior(opcionesDeMenu);
     }
 
     public void cargarMenuPrincipalPorDefecto(){
-        manejadorFragmento.cargarFragmento(new AdministrativoMenuPrincipalFragment());
+        helperFragmento.cargarFragmento(new AdministrativoMenuPrincipalFragment());
     }
 
 
     //Método que se llamará desde los fragmentos de Administrativo para volver al fragmento menú prinipal
     public void volverMenuPrincipal(){
-        manejadorFragmento.cargarFragmento(new AdministrativoMenuPrincipalFragment());
-        manejadorNavegacionInferior.seleccionarItemMenuPrincipal();
+        helperFragmento.cargarFragmento(new AdministrativoMenuPrincipalFragment());
+        helperNavegacionInferior.seleccionarItemMenuPrincipal();
+    }
+
+    public String getCorreo(){
+        return getIntent().getStringExtra("correo");
     }
 
 
-    public ManejadorFragmento getManejadorFragmento() {
-        return manejadorFragmento;
+    public HelperFragmento getManejadorFragmento() {
+        return helperFragmento;
     }
 
-    public ManejadorNavegacionInferior getManejadorNavegacionInferior() {
-        return manejadorNavegacionInferior;
+    public HelperNavegacionInferior getManejadorNavegacionInferior() {
+        return helperNavegacionInferior;
+    }
+
+    public HelperPerfil getManejadorPerfil(){
+        return helperPerfil;
     }
 }

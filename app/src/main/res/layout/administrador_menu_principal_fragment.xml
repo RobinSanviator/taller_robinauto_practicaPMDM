@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/fondo"
+    android:background="@drawable/img_fondo_degradado"
     tools:context=".administrador.AdministradorMenuPrincipalFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -67,6 +67,7 @@
             app:layout_constraintTop_toBottomOf="@+id/cardViewImagenAdministrador"
             app:layout_constraintVertical_bias="0.0" />
 
+
         <androidx.cardview.widget.CardView
             android:id="@+id/cardViewImagenAdministrador"
             android:layout_width="wrap_content"
@@ -81,13 +82,15 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.166">
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/imageViewAdministrador"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/administrador" />
+
         </androidx.cardview.widget.CardView>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

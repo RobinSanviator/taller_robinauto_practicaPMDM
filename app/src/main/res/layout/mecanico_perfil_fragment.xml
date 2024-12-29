@@ -1,14 +1,393 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".mecanico.MecanicoPerfilFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".mecanico.MecanicoPerfilFragment"
+    android:background="@drawable/img_fondo_degradado">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
+        android:id="@+id/relativeLayoutToolBarMecanico"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="?actionBarSize"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</FrameLayout>
+        <ImageView
+            android:id="@+id/imageViewVolverMenuPrincipalPerfilMecanico"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:clickable="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_volver"
+            android:tint="@color/color_texto"
+            tools:ignore="UseAppTint,TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+        <TextView
+            android:id="@+id/textViewTextoPerfilMecanico"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/textoPerfil"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="@color/color_texto"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutInfoMecanico"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:padding="8dp"
+        android:layout_marginTop="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayoutToolBarMecanico">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayoutContendorInfoMecanico"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewImagenPerfilMecanico"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:cardCornerRadius="50dp"
+                app:cardBackgroundColor="@color/blanco">
+
+                <ImageView
+                    android:id="@+id/imageViewImagenPerfilMecanico"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:src="@drawable/mecanico"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView"
+                    app:layout_constraintVertical_bias="1.0" />
+
+            </androidx.cardview.widget.CardView>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/floatingBotonImagenPerfilMecanico"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="140dp"
+                android:layout_marginBottom="4dp"
+                android:backgroundTint="@color/color_fondo_boton_img"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_camara"
+                app:layout_constraintBottom_toBottomOf="@+id/cardViewImagenPerfilMecanico"
+                app:layout_constraintEnd_toEndOf="@+id/cardViewImagenPerfilMecanico"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <TextView
+                android:id="@+id/textViewNombrePerfilMecanico"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:padding="2dp"
+                android:text="@string/textoNombre"
+                android:textColor="@color/color_texto"
+                android:textSize="30dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardViewImagenPerfilMecanico" />
+
+
+            <TextView
+                android:id="@+id/textViewCorreoPerfilMecanico"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/textViewTipoUsuarioPerfilMecanico"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewNombrePerfilMecanico"
+                app:layout_constraintVertical_bias="0.0"
+                android:text="@string/textoCorreo"
+                android:textSize="20dp"
+                android:textStyle="italic"
+                android:textColor="@color/color_texto"/>
+
+            <TextView
+                android:id="@+id/textViewTipoUsuarioPerfilMecanico"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="@+id/viewLineaDivisorInfoPerfilMecanico"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewCorreoPerfilMecanico"
+                tools:ignore="TextSizeCheck"
+                android:text="@string/textoMecanico"
+                android:textSize="15dp"
+                android:textColor="@color/color_texto"/>
+
+            <View
+                android:id="@+id/viewLineaDivisorInfoPerfilMecanico"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_principal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewCorreoPerfilMecanico" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ScrollView
+            android:id="@+id/scrollViewDatosPerfilMecanico"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewDatosPerfilMecanico"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/fondo"
+                app:cardCornerRadius="32dp"
+                app:cardElevation="8dp">
+
+                <LinearLayout
+                    android:id="@+id/linearLayoutDatosPerfilMecanico"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_margin="15dp"
+                    android:layout_gravity="start"
+                    android:padding="10dp">
+
+
+                    <LinearLayout
+                        android:id="@+id/linearLayoutPerfilNombreMecanico"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/imageViewPerfilNombreMecanico"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_nombre"/>
+
+                        <TextView
+                            android:id="@+id/textViewTextoPerfilNombreMecanico"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:text="@string/textoNombre"
+                            android:textColor="@color/color_texto"
+                            android:textStyle="bold"
+                            android:textSize="16dp"/>
+
+                        <TextView
+                            android:id="@+id/textViewDatoPerfilNombreMecanico"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="25dp"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:text="@string/textoNombre"
+                            android:textColor="@color/color_texto"
+                            android:textSize="16dp"
+                            />
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/viewDivisorPerfilNombreMecanico"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/color_desactivado_fondo"/>
+
+                    <LinearLayout
+                        android:id="@+id/linearLayoutPerfilApellidoMecanico"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/imageViewPerfilApellidoMecanico"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_nombre"/>
+
+                        <TextView
+                            android:id="@+id/textViewTextoPerfilApellidoMecanico"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:text="@string/textoApellidos"
+                            android:textColor="@color/color_texto"
+                            android:textStyle="bold"
+                            android:textSize="16dp"/>
+
+                        <TextView
+                            android:id="@+id/textViewDatoPerfilApellidoMecanico"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="25dp"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:text="@string/textoApellidos"
+                            android:textColor="@color/color_texto"
+                            android:textSize="16dp"
+                            />
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/viewDivisorPerfilApellidoMecanico"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/color_desactivado_fondo"/>
+
+                    <LinearLayout
+                        android:id="@+id/linearLayoutPerfilCorreoMecanico"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/imageViewPerfilCorreoMecanico"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_correo"/>
+
+                        <TextView
+                            android:id="@+id/textViewTextoPerfilCorreoMecanico"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:text="@string/textoCorreoAcortado"
+                            android:textColor="@color/color_texto"
+                            android:textStyle="bold"
+                            android:textSize="16dp"/>
+
+                        <TextView
+                            android:id="@+id/textViewDatoPerfilCorreoMecanico"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="25dp"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:text="@string/textoCorreoAcortado"
+                            android:textColor="@color/color_texto"
+                            android:textSize="16dp"
+                            />
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/viewDivisorPerfilCorreoMecanico"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/color_desactivado_fondo"/>
+
+                    <LinearLayout
+                        android:id="@+id/linearLayoutPerfilTelefonoMecanico"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/imageViewPerfilTelefonoMecanico"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_telefono_contacto"/>
+
+                        <TextView
+                            android:id="@+id/textViewTextoPerfilTelefonoMecanico"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:text="@string/textoTelefono"
+                            android:textColor="@color/color_texto"
+                            android:textStyle="bold"
+                            android:textSize="16dp"/>
+
+                        <TextView
+                            android:id="@+id/textViewDatoPerfilTelefonoMecanico"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="25dp"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:text="@string/textoTelefono"
+                            android:textColor="@color/color_texto"
+                            android:textSize="16dp"
+                            />
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/viewDivisorPerfilTelefonoMecanico"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/color_desactivado_fondo"/>
+
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

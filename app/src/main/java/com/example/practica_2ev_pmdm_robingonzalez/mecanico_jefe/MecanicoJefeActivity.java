@@ -10,12 +10,10 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
-import com.example.practica_2ev_pmdm_robingonzalez.administrador.AdministradorActivity;
-import com.example.practica_2ev_pmdm_robingonzalez.administrador.AdministradorAjustesFragment;
-import com.example.practica_2ev_pmdm_robingonzalez.administrador.AdministradorMenuPrincipalFragment;
-import com.example.practica_2ev_pmdm_robingonzalez.administrador.AdministradorPerfilFragment;
-import com.example.practica_2ev_pmdm_robingonzalez.navegacion.ManejadorFragmento;
-import com.example.practica_2ev_pmdm_robingonzalez.navegacion.ManejadorNavegacionInferior;
+import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.BBDDUsuariosSQLite;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperFragmento;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperNavegacionInferior;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperPerfil;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 import java.util.HashMap;
@@ -24,8 +22,10 @@ import java.util.Map;
 public class MecanicoJefeActivity extends AppCompatActivity {
 
     private ChipNavigationBar chipNavigationBarNavegacionInferior; // Referencia al ChipNavigationBar
-    private ManejadorFragmento manejadorFragmento; // Instancia del manejador de fragmentos
-    private ManejadorNavegacionInferior manejadorNavegacionInferior;
+    private HelperFragmento helperFragmento; // Instancia del manejador de fragmentos
+    private HelperNavegacionInferior helperNavegacionInferior;
+    private HelperPerfil helperPerfil;
+    private BBDDUsuariosSQLite baseDeDatosGestionUsuarios;
     private int frameLayoutContenedorFragmento;
 
 
@@ -53,9 +53,15 @@ public class MecanicoJefeActivity extends AppCompatActivity {
     }
 
     private void obtenerManejadores(){
-        manejadorFragmento = new ManejadorFragmento(MecanicoJefeActivity.this, frameLayoutContenedorFragmento);
-        manejadorNavegacionInferior = new ManejadorNavegacionInferior(
-                MecanicoJefeActivity.this, chipNavigationBarNavegacionInferior, manejadorFragmento);
+        helperFragmento = new HelperFragmento(MecanicoJefeActivity.this, frameLayoutContenedorFragmento);
+        helperNavegacionInferior = new HelperNavegacionInferior(
+                MecanicoJefeActivity.this, chipNavigationBarNavegacionInferior, helperFragmento);
+        helperPerfil = new HelperPerfil();
+    }
+
+    public BBDDUsuariosSQLite obtenerInstanciaBaseDeDatos() {
+        baseDeDatosGestionUsuarios = new BBDDUsuariosSQLite(MecanicoJefeActivity.this, "gestion_usuario_taller", null, 3);
+        return  baseDeDatosGestionUsuarios;
     }
 
     private void cargarOpcionesNavegacionInferior(){
@@ -65,27 +71,34 @@ public class MecanicoJefeActivity extends AppCompatActivity {
         opcionesDeMenu.put(R.id.opcionAjustes, new MecanicoJefeAjustesFragment());
 
         //Utilizando la clase ManejadorNavegación llamar al método configurarNavegacionInferior
-        manejadorNavegacionInferior.configurarNavegacionInferior(opcionesDeMenu);
+        helperNavegacionInferior.configurarNavegacionInferior(opcionesDeMenu);
     }
 
     public void cargarMenuPrincipalPorDefecto(){
-        manejadorFragmento.cargarFragmento(new MecanicoJefeMenuPrincipalFragment());
+        helperFragmento.cargarFragmento(new MecanicoJefeMenuPrincipalFragment());
     }
 
     //Método que se llamará desde los fragmentos de Mecánico jefe para volver al fragmento menú prinipal
     public void volverMenuPrincipal(){
-        manejadorFragmento.cargarFragmento(new MecanicoJefeMenuPrincipalFragment());
-        manejadorNavegacionInferior.seleccionarItemMenuPrincipal();
+        helperFragmento.cargarFragmento(new MecanicoJefeMenuPrincipalFragment());
+        helperNavegacionInferior.seleccionarItemMenuPrincipal();
     }
 
-    public ManejadorFragmento getManejadorFragmento() {
-        return manejadorFragmento;
+    public String getCorreo(){
+        return getIntent().getStringExtra("correo");
     }
 
-    public ManejadorNavegacionInferior getManejadorNavegacionInferior() {
-        return manejadorNavegacionInferior;
+    public HelperFragmento getManejadorFragmento() {
+        return helperFragmento;
     }
 
+    public HelperNavegacionInferior getManejadorNavegacionInferior() {
+        return helperNavegacionInferior;
+    }
+
+    public HelperPerfil getManejadorPerfil(){
+        return helperPerfil;
+    }
 
 }
 

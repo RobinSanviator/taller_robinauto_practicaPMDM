@@ -1,4 +1,4 @@
-package com.example.practica_2ev_pmdm_robingonzalez.navegacion;
+package com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda;
 
 
 
@@ -6,28 +6,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
-import com.example.practica_2ev_pmdm_robingonzalez.administrador.AdministradorAjustesFragment;
-import com.example.practica_2ev_pmdm_robingonzalez.administrador.AdministradorMenuPrincipalFragment;
-import com.example.practica_2ev_pmdm_robingonzalez.administrador.AdministradorPerfilFragment;
-import com.example.practica_2ev_pmdm_robingonzalez.administrativo.AdministrativoAjustesFragment;
-import com.example.practica_2ev_pmdm_robingonzalez.administrativo.AdministrativoMenuPrincipalFragment;
-import com.example.practica_2ev_pmdm_robingonzalez.administrativo.AdministrativoPerfilFragment;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
-import java.util.HashMap;
 import java.util.Map;
 
 
-public class ManejadorNavegacionInferior {
+public class HelperNavegacionInferior {
     private AppCompatActivity activityActividad;
     private ChipNavigationBar chipNavigationBarNavegacionInferior;
-    private ManejadorFragmento manejadorFragmentoNavegacion;
+    private HelperFragmento helperFragmentoNavegacion;
 
-    public ManejadorNavegacionInferior(AppCompatActivity activityActividad,
-                                       ChipNavigationBar chipNavigationBarNavegacionInferior, ManejadorFragmento manejadorFragmentoNavegacion) {
+    public HelperNavegacionInferior(AppCompatActivity activityActividad,
+                                    ChipNavigationBar chipNavigationBarNavegacionInferior, HelperFragmento helperFragmentoNavegacion) {
         this.activityActividad = activityActividad;
         this.chipNavigationBarNavegacionInferior = chipNavigationBarNavegacionInferior;
-        this.manejadorFragmentoNavegacion = manejadorFragmentoNavegacion;
+        this.helperFragmentoNavegacion = helperFragmentoNavegacion;
 
     }
 
@@ -37,7 +30,7 @@ public class ManejadorNavegacionInferior {
             @Override
             public void onItemSelected(int idSeleccionado) {
                 if (opcionesDeMenu.containsKey(idSeleccionado)) {
-                    manejadorFragmentoNavegacion.cargarFragmento(opcionesDeMenu.get(idSeleccionado));
+                    helperFragmentoNavegacion.cargarFragmento(opcionesDeMenu.get(idSeleccionado));
                 }
             }
         });

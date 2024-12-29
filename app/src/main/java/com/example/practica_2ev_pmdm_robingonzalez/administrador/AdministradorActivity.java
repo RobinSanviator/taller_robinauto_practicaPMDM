@@ -12,10 +12,11 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
-import com.example.practica_2ev_pmdm_robingonzalez.administrativo.AdministrativoActivity;
-import com.example.practica_2ev_pmdm_robingonzalez.administrativo.AdministrativoMenuPrincipalFragment;
-import com.example.practica_2ev_pmdm_robingonzalez.navegacion.ManejadorFragmento;
-import com.example.practica_2ev_pmdm_robingonzalez.navegacion.ManejadorNavegacionInferior;
+import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.BBDDUsuariosSQLite;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperAjustes;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperFragmento;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperNavegacionInferior;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperPerfil;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 import java.util.HashMap;
@@ -25,10 +26,12 @@ import java.util.Map;
 public class AdministradorActivity extends AppCompatActivity {
 
     private ChipNavigationBar chipNavigationBarNavegacionInferior; // Referencia al ChipNavigationBar
-    private ManejadorFragmento manejadorFragmento; // Instancia del manejador de fragmentos
-    private ManejadorNavegacionInferior manejadorNavegacionInferior;
+    private HelperFragmento helperFragmento; // Instancia del manejador de fragmentos
+    private HelperNavegacionInferior helperNavegacionInferior;
+    private HelperPerfil helperPerfil;
+    private HelperAjustes helperAjustes;
+    private BBDDUsuariosSQLite  baseDeDatosGestionUsuarios;
     private int frameLayoutContenedorFragmento;
-
 
     private  boolean correoEnviado;
 
@@ -59,9 +62,18 @@ public class AdministradorActivity extends AppCompatActivity {
     }
 
     private void obtenerManejadores(){
-        manejadorFragmento = new ManejadorFragmento(AdministradorActivity.this, frameLayoutContenedorFragmento);
-        manejadorNavegacionInferior = new ManejadorNavegacionInferior(
-                AdministradorActivity.this, chipNavigationBarNavegacionInferior, manejadorFragmento);
+        helperFragmento = new HelperFragmento(AdministradorActivity.this, frameLayoutContenedorFragmento);
+        helperNavegacionInferior = new HelperNavegacionInferior(
+                AdministradorActivity.this, chipNavigationBarNavegacionInferior, helperFragmento);
+
+        helperPerfil = new HelperPerfil();
+        helperAjustes = new HelperAjustes(helperFragmento,helperNavegacionInferior);
+
+    }
+
+    public BBDDUsuariosSQLite obtenerInstanciaBaseDeDatos() {
+        baseDeDatosGestionUsuarios = new BBDDUsuariosSQLite(AdministradorActivity.this, "gestion_usuario_taller", null, 3);
+        return  baseDeDatosGestionUsuarios;
     }
 
     private void cargarOpcionesNavegacionInferior(){
@@ -71,28 +83,40 @@ public class AdministradorActivity extends AppCompatActivity {
         opcionesDeMenu.put(R.id.opcionAjustes, new AdministradorAjustesFragment());
 
         //Utilizando la clase ManejadorNavegación llamar al método configurarNavegacionInferior
-        manejadorNavegacionInferior.configurarNavegacionInferior(opcionesDeMenu);
+        helperNavegacionInferior.configurarNavegacionInferior(opcionesDeMenu);
     }
 
     public void cargarMenuPrincipalPorDefecto(){
-        manejadorFragmento.cargarFragmento(new AdministradorMenuPrincipalFragment());
+        helperFragmento.cargarFragmento(new AdministradorMenuPrincipalFragment());
     }
 
     //Método que se llamará desde los fragmentos de Administrador para volver al fragmento menú prinipal
     public void volverMenuPrincipal(){
-        manejadorFragmento.cargarFragmento(new AdministradorMenuPrincipalFragment());
-        manejadorNavegacionInferior.seleccionarItemMenuPrincipal();
+        helperFragmento.cargarFragmento(new AdministradorMenuPrincipalFragment());
+        helperNavegacionInferior.seleccionarItemMenuPrincipal();
     }
 
-    public ManejadorFragmento getManejadorFragmento() {
-        return manejadorFragmento;
-    }
-
-    public ManejadorNavegacionInferior getManejadorNavegacionInferior() {
-        return manejadorNavegacionInferior;
+    public String getCorreo(){
+        return getIntent().getStringExtra("correo");
     }
 
 
+
+    public HelperFragmento getHelperFragmento() {
+        return helperFragmento;
+    }
+
+    public HelperNavegacionInferior getHelperNavegacionInferior() {
+        return helperNavegacionInferior;
+    }
+
+    public HelperPerfil getHelperPerfil() {
+        return helperPerfil;
+    }
+
+    public HelperAjustes getHelperAjustes() {
+        return helperAjustes;
+    }
 
    /* private final ActivityResultLauncher<Intent> verificarEnviarCorreo = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
@@ -118,8 +142,6 @@ public class AdministradorActivity extends AppCompatActivity {
             Snackbar.make(frameLayoutContenedorFragmento, "No hay aplicaciones de correo disponibles", Snackbar.LENGTH_LONG).show();
         }
     }*/
-
-
 
     }
 

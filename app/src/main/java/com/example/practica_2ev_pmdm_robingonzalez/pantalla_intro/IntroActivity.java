@@ -1,6 +1,8 @@
 package com.example.practica_2ev_pmdm_robingonzalez.pantalla_intro;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.system.Os;
 import android.view.View;
@@ -8,6 +10,7 @@ import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -36,6 +39,8 @@ public class IntroActivity extends AppCompatActivity {
         // Configura los botones de iniciar sesión y registrarse
        configurarBoton(R.id.buttonIniciarSesionIntro, InicioSesionActivity.class);
        configurarBoton(R.id.buttonRegistrarseIntro, RegistroActivity.class);
+
+       aplicarPreferenciasGlobales();
     }
 
     // Método para configurar un botón y su acción
@@ -50,7 +55,20 @@ public class IntroActivity extends AppCompatActivity {
         });
     }
 
+    // Aplicar las preferencias globales como el modo oscuro
+    private void aplicarPreferenciasGlobales() {
+        SharedPreferences sharedPreferences = getSharedPreferences("ajustes", Context.MODE_PRIVATE);
+        boolean modoOscuroActivado = sharedPreferences.getBoolean("modoOscuro", false);
+
+        if (modoOscuroActivado) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
     }
+
+
+}
 
 
 
