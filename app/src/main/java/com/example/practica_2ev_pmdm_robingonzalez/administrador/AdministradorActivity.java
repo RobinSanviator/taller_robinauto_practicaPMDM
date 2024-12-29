@@ -12,7 +12,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
-import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.BBDDUsuariosSQLite;
+import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.TallerRobinautoSQLite;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperAjustes;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperFragmento;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperNavegacionInferior;
@@ -30,7 +30,7 @@ public class AdministradorActivity extends AppCompatActivity {
     private HelperNavegacionInferior helperNavegacionInferior;
     private HelperPerfil helperPerfil;
     private HelperAjustes helperAjustes;
-    private BBDDUsuariosSQLite  baseDeDatosGestionUsuarios;
+    private TallerRobinautoSQLite baseDeDatosGestionUsuarios;
     private int frameLayoutContenedorFragmento;
 
     private  boolean correoEnviado;
@@ -50,7 +50,7 @@ public class AdministradorActivity extends AppCompatActivity {
         });
 
         inicializarComponentes();
-        obtenerManejadores();
+        obtenerHelper();
         cargarOpcionesNavegacionInferior();
         cargarMenuPrincipalPorDefecto();
 
@@ -61,7 +61,7 @@ public class AdministradorActivity extends AppCompatActivity {
         frameLayoutContenedorFragmento = (R.id.frameLayoutContenedorFragmentoAdmin);
     }
 
-    private void obtenerManejadores(){
+    private void obtenerHelper(){
         helperFragmento = new HelperFragmento(AdministradorActivity.this, frameLayoutContenedorFragmento);
         helperNavegacionInferior = new HelperNavegacionInferior(
                 AdministradorActivity.this, chipNavigationBarNavegacionInferior, helperFragmento);
@@ -71,8 +71,9 @@ public class AdministradorActivity extends AppCompatActivity {
 
     }
 
-    public BBDDUsuariosSQLite obtenerInstanciaBaseDeDatos() {
-        baseDeDatosGestionUsuarios = new BBDDUsuariosSQLite(AdministradorActivity.this, "gestion_usuario_taller", null, 3);
+
+    public TallerRobinautoSQLite obtenerInstanciaBaseDeDatos() {
+        baseDeDatosGestionUsuarios = new TallerRobinautoSQLite(AdministradorActivity.this, "gestion_usuario_taller", null, 5);
         return  baseDeDatosGestionUsuarios;
     }
 
@@ -100,8 +101,6 @@ public class AdministradorActivity extends AppCompatActivity {
         return getIntent().getStringExtra("correo");
     }
 
-
-
     public HelperFragmento getHelperFragmento() {
         return helperFragmento;
     }
@@ -117,6 +116,7 @@ public class AdministradorActivity extends AppCompatActivity {
     public HelperAjustes getHelperAjustes() {
         return helperAjustes;
     }
+
 
    /* private final ActivityResultLauncher<Intent> verificarEnviarCorreo = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {

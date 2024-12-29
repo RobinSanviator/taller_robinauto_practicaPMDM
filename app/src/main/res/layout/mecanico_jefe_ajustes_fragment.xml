@@ -1,14 +1,256 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".mecanico_jefe.MecanicoJefeAjustesFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".mecanico_jefe.MecanicoJefeAjustesFragment"
+    android:background="@drawable/img_fondo_degradado">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
+        android:id="@+id/relativeLayoutToolBarAjustesMjefe"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="?actionBarSize"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</FrameLayout>
+        <ImageView
+            android:id="@+id/imageViewVolverMenuPrincipalAjustesMjefe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:clickable="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_volver"
+            android:tint="@color/color_texto"
+            tools:ignore="UseAppTint,TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+        <TextView
+            android:id="@+id/textViewTextoPerfilMjefe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/textoAjustes"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="@color/color_texto"/>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/scrollViewAjustesMjefe"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        android:scrollbars="none"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayoutToolBarAjustesMjefe"
+        tools:layout_editor_absoluteX="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewImagenAjustesMjefe"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                app:cardBackgroundColor="@color/blanco"
+                app:cardCornerRadius="50dp">
+
+                <ImageView
+                    android:id="@+id/imageViewImagenAjustesMjefe"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/mecanico_jefe"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView"
+                    app:layout_constraintVertical_bias="1.0" />
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/textViewNombreAjustesMjefe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:padding="2dp"
+                android:text="@string/textoNombre"
+                android:textColor="@color/color_texto"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardViewImagenAjustesMjefe" />
+
+            <View
+                android:id="@+id/viewLineaDivisorInfoAjustesMjefe"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/color_principal" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:padding="8dp"
+                android:background="@drawable/fondo_boton_redondo"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/relativeLayoutModoOscuroAjustesMjefe"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp">
+
+                    <ImageView
+                        android:id="@+id/imageViewAjustesModoOscuroMjefe"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/ic_modo_oscuro"
+                        app:tint="@color/color_fondo_modo_oscuro" />
+
+                    <TextView
+                        android:id="@+id/textViewModoOscuroAjustesMjefe"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="10dp"
+                        android:layout_toEndOf="@+id/imageViewAjustesModoOscuroMjefe"
+                        android:text="@string/textoTemaOscuro"
+                        android:textColor="@color/color_texto"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switchBotonModoOscuroAjustesMjefe"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:minWidth="48dp"
+                        android:minHeight="48dp"
+                        android:switchMinWidth="50dp"
+                        android:theme="@style/switchModoOscuro" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/relativeLayoutTyCAjustesMjefe"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:clickable="true"
+                    android:background="@drawable/selector_presionar">
+
+                    <ImageView
+                        android:id="@+id/imageViewTyCAjustesMjefe"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/ic_terminos_condiciones"
+                        app:tint="@color/color_fondo_tyc" />
+
+                    <TextView
+                        android:id="@+id/textViewTyCAjustesMjefe"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="10dp"
+                        android:layout_toEndOf="@+id/imageViewTyCAjustesMjefe"
+                        android:text="@string/textoTyC"
+                        android:textColor="@color/color_texto"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/relativeLayoutSesionAjustesMjefe"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:clickable="true"
+                    android:background="@drawable/selector_presionar">
+
+                    <ImageView
+                        android:id="@+id/imageViewSesionAjustesMjefe"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/ic_cerrar_sesion"
+                        app:tint="@color/color_fondo_cerrar_sesion" />
+
+                    <TextView
+                        android:id="@+id/textViewSesionAjustesMjefe"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="10dp"
+                        android:layout_toEndOf="@+id/imageViewSesionAjustesMjefe"
+                        android:text="@string/textoCerrarSesion"
+                        android:textColor="@color/color_texto"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/relativeLayoutSalirAjustesMjefe"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:background="@drawable/selector_presionar">
+
+                    <ImageView
+                        android:id="@+id/imageViewSalirAjustesMjefe"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/ic_salir"
+                        app:tint="@color/color_fondo_salir" />
+
+                    <TextView
+                        android:id="@+id/textViewSalirAjustesMjefe"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="10dp"
+                        android:layout_toEndOf="@+id/imageViewSalirAjustesMjefe"
+                        android:text="@string/textoSalir"
+                        android:textColor="@color/color_texto"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
+
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/progressBarModoOscuroAjustesMjefe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/color_principal"
+        android:indeterminateTintMode="src_in"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/relativeLayoutToolBarAjustesMjefe" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

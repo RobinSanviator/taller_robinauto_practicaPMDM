@@ -51,8 +51,8 @@ public class ClienteMenuPrincipalFragment extends Fragment {
 
     private void obtenerManejadoresNavegacion(){
         if(getActivity() instanceof ClienteActivity){
-            helperFragmento = (((ClienteActivity) getActivity()).getManejadorFragmento());
-            helperNavegacionInferior = (((ClienteActivity) getActivity()).getManejadorNavegacionInferior());
+            helperFragmento = (((ClienteActivity) getActivity()).getHelperFragmento());
+            helperNavegacionInferior = (((ClienteActivity) getActivity()).getHelperNavegacionInferior());
 
         }
 

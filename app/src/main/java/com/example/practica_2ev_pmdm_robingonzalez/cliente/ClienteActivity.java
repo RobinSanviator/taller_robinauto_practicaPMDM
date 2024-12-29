@@ -36,7 +36,7 @@ public class ClienteActivity extends AppCompatActivity {
         });
 
         inicializarComponentes();
-        obtenerManejadores();
+        obtenerHelper();
         cargarOpcionesNavegacionInferior();
         cargarMenuPrincipalPorDefecto();
 
@@ -47,7 +47,7 @@ public class ClienteActivity extends AppCompatActivity {
         frameLayoutContenedorFragmento = (R.id.frameLayoutContenedorFragmentoCliente);
     }
 
-    private void obtenerManejadores(){
+    private void obtenerHelper(){
         helperFragmento = new HelperFragmento(ClienteActivity.this, frameLayoutContenedorFragmento);
         helperNavegacionInferior = new HelperNavegacionInferior(
                 ClienteActivity.this, chipNavigationBarNavegacionInferior, helperFragmento);
@@ -73,11 +73,11 @@ public class ClienteActivity extends AppCompatActivity {
         helperNavegacionInferior.seleccionarItemMenuPrincipal();
     }
 
-    public HelperFragmento getManejadorFragmento() {
+    public HelperFragmento getHelperFragmento() {
         return helperFragmento;
     }
 
-    public HelperNavegacionInferior getManejadorNavegacionInferior() {
+    public HelperNavegacionInferior getHelperNavegacionInferior() {
         return helperNavegacionInferior;
     }
 

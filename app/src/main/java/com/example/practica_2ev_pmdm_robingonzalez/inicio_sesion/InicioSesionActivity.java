@@ -19,7 +19,7 @@ import com.example.practica_2ev_pmdm_robingonzalez.cliente.ClienteActivity;
 import com.example.practica_2ev_pmdm_robingonzalez.R;
 import com.example.practica_2ev_pmdm_robingonzalez.administrador.AdministradorActivity;
 import com.example.practica_2ev_pmdm_robingonzalez.administrativo.AdministrativoActivity;
-import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.BBDDUsuariosSQLite;
+import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.TallerRobinautoSQLite;
 import com.example.practica_2ev_pmdm_robingonzalez.mecanico.MecanicoActivity;
 import com.example.practica_2ev_pmdm_robingonzalez.mecanico_jefe.MecanicoJefeActivity;
 import com.example.practica_2ev_pmdm_robingonzalez.registro.RegistroActivity;
@@ -97,8 +97,8 @@ public class InicioSesionActivity extends AppCompatActivity {
 
     // Método para validar al usuario en la base de datos
     private void validarUsuario(String correo, String contrasenya) {
-        BBDDUsuariosSQLite baseDeDatosGestionUsuarios = new BBDDUsuariosSQLite(
-                InicioSesionActivity.this, "gestion_usuario_taller", null, 3);
+        TallerRobinautoSQLite baseDeDatosGestionUsuarios = new TallerRobinautoSQLite(
+                InicioSesionActivity.this, "gestion_usuario_taller", null, 5);
 
         String correoCorrecto = baseDeDatosGestionUsuarios.verificarCorreo(correo);
 
@@ -144,11 +144,5 @@ public class InicioSesionActivity extends AppCompatActivity {
         finish();
     }
 
-    public void verificarVersionBBDD () {
-            //Verificar la version de la base de datos
-            BBDDUsuariosSQLite baseDeDatos = new BBDDUsuariosSQLite(this, "gestion_usuario_taller", null, 3);
-            int version = baseDeDatos.obtenerVersion();
-            Log.d("MainActivity", "Version base de datos " + version);
-        }
 
     }

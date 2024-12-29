@@ -53,8 +53,8 @@ public class AdministrativoMenuPrincipalFragment extends Fragment {
 
     private void obtenerManejadoresNavegacion(){
         if(getActivity() instanceof AdministrativoActivity){
-            helperFragmento = (((AdministrativoActivity) getActivity()).getManejadorFragmento());
-            helperNavegacionInferior = (((AdministrativoActivity) getActivity()).getManejadorNavegacionInferior());
+            helperFragmento = (((AdministrativoActivity) getActivity()).getHelperFragmento());
+            helperNavegacionInferior = (((AdministrativoActivity) getActivity()).getHelperNavegacionInferior());
 
         }
 

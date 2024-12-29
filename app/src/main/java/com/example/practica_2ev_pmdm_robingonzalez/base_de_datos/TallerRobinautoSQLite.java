@@ -9,7 +9,7 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-public class BBDDUsuariosSQLite extends SQLiteOpenHelper {
+public class TallerRobinautoSQLite extends SQLiteOpenHelper {
 
     //String sqlCreacion = "CREATE DATABASE gestion_usuario_taller";
     String sqlCreacionTablaUsuarios = "CREATE TABLE usuarios(id_usuario INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -23,14 +23,16 @@ public class BBDDUsuariosSQLite extends SQLiteOpenHelper {
     String sqlCreacionTablaHistorial = "CREATE TABLE historial_cambios (" +
             "id_cambio INTEGER PRIMARY KEY AUTOINCREMENT, " +  // Identificador único de cada cambio
             "id_usuario INTEGER NOT NULL, " +  // Referencia al usuario afectado por el cambio
-            "tipo_cambio TEXT NOT NULL CHECK(tipo_cambio IN ('Alta', 'Modificación', 'Baja')), " +  // Tipo de cambio
+            "tipo_cambio TEXT NOT NULL CHECK(tipo_cambio IN ('Alta', 'Modificacion', 'Baja')), " +  // Tipo de cambio
+            "entidad_afectada TEXT NOT NULL, " +
+            "detalles TEXT, "+
             "fecha_cambio DATETIME DEFAULT CURRENT_TIMESTAMP, " +  // Fecha del cambio (automáticamente la hora actual)
             "FOREIGN KEY(id_usuario) REFERENCES usuarios(id_usuario) ON DELETE CASCADE);";  // Clave foránea que referencia la tabla usuarios
 
     String sqlBorradoTablaUsuarios = "DROP TABLE IF EXISTS usuarios;";
     String sqlBorradoTablaHistorialCambios = "DROP TABLE IF EXISTS historial_cambios;";
 
-    public BBDDUsuariosSQLite(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
+    public TallerRobinautoSQLite(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
 
 
@@ -47,12 +49,19 @@ public class BBDDUsuariosSQLite extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion < newVersion) {
+            // Borrar las tablas existentes
             db.execSQL("DROP TABLE IF EXISTS usuarios");
             db.execSQL("DROP TABLE IF EXISTS historial_cambios");
-            onCreate(db);
-        }
 
+            // Crear las nuevas tablas con los cambios
+            db.execSQL(sqlCreacionTablaUsuarios);
+            db.execSQL(sqlCreacionTablaHistorial);
+
+            Log.d("BBDD", "Base de datos eliminada y recreada con nuevas tablas.");
+        }
     }
+
+
 
 
 
@@ -127,8 +136,12 @@ public class BBDDUsuariosSQLite extends SQLiteOpenHelper {
             e.printStackTrace();
 
         } finally {
-            cursor.close();
-            db.close();
+            if (cursor != null) {
+                cursor.close();
+            }
+            if (db != null) {
+                db.close();
+            }
 
         }
 
@@ -151,8 +164,12 @@ public class BBDDUsuariosSQLite extends SQLiteOpenHelper {
             e.printStackTrace();
 
         } finally {
-            cursor.close();
-            db.close();
+            if (cursor != null) {
+                cursor.close();
+            }
+            if (db != null) {
+                db.close();
+            }
 
         }
 

@@ -1,12 +1,13 @@
 package com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda;
 
+import android.util.Log;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.BBDDUsuariosSQLite;
+import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.TallerRobinautoSQLite;
 
 public class HelperFragmento {
     private AppCompatActivity activityActividad;
@@ -20,10 +21,14 @@ public class HelperFragmento {
 
     public void cargarFragmento(Fragment fragmento) {
         if (fragmento != null && activityActividad != null) {
-            FragmentTransaction fragmentTransaction = activityActividad.getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(frameLayoutContenedorFragmento, fragmento);
-            fragmentTransaction.addToBackStack(null); //Agregar el fragmento al back stack para que se pueda navegar hacia atrás
-            fragmentTransaction.commit();
+            if (!activityActividad.isDestroyed() && !activityActividad.isFinishing()) {
+                FragmentTransaction fragmentTransaction = activityActividad.getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(frameLayoutContenedorFragmento, fragmento);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            } else {
+                Log.e("HelperFragmento", "No se puede realizar la transacción");
+            }
         }
     }
 
@@ -31,8 +36,8 @@ public class HelperFragmento {
     public void obtenerDatosUsuario(String correo, TextView textViewNombreCabecera) {
         if (activityActividad != null) {
             // Accede a la base de datos desde la actividad
-            BBDDUsuariosSQLite baseDeDatosGestionUsuarios = new BBDDUsuariosSQLite(
-                    activityActividad, "gestion_usuario_taller", null, 3);
+            TallerRobinautoSQLite baseDeDatosGestionUsuarios = new TallerRobinautoSQLite(
+                    activityActividad, "gestion_usuario_taller", null, 5);
 
             // Obtiene el nombre completo del usuario desde la base de datos
             String nombreCompleto = baseDeDatosGestionUsuarios.obtenerNombreYApellidos(correo);

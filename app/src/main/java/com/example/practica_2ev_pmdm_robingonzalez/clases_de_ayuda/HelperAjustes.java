@@ -9,11 +9,15 @@ import android.util.Log;
 import android.widget.CompoundButton;
 import android.widget.ProgressBar;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
+
+import com.example.practica_2ev_pmdm_robingonzalez.R;
 import com.example.practica_2ev_pmdm_robingonzalez.administrador.AdministradorMenuPrincipalFragment;
 import com.example.practica_2ev_pmdm_robingonzalez.inicio_sesion.InicioSesionActivity;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class HelperAjustes {
 
@@ -26,9 +30,9 @@ public class HelperAjustes {
     }
 
 
+
     // Método para configurar el modo oscuro y la visibilidad del ProgressBar
-    public void modoOscuro( SwitchCompat switchCompatBotonModoOscuro, ProgressBar progressBarModoOscuro,
-                                   Context context) {
+    public void modoOscuro(SwitchCompat switchCompatBotonModoOscuro, ProgressBar progressBarModoOscuro, Context context) {
         switchCompatBotonModoOscuro.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -36,23 +40,29 @@ public class HelperAjustes {
                     // Mostrar ProgressBar mientras se realiza el cambio de tema
                     mostrarProgressBar(progressBarModoOscuro);
 
-                    // Usar Handler para retrasar el cambio y evitar parpadeo
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
+                    if (context instanceof AppCompatActivity) {
+                        AppCompatActivity activity = (AppCompatActivity) context;
+                        // Verificar que la actividad no esté destruida ni finalizando
+                        if (!activity.isFinishing() && !activity.isDestroyed()) {
+                            // Realizar el cambio de modo
                             if (isChecked) {
                                 activarModoOscuro();
                             } else {
                                 desactivarModoOscuro();
                             }
 
+                            // Guardar la preferencia del modo oscuro
                             guardarPreferenciaModoOscuro(isChecked, context);
 
-                            // Hacer la ProgressBar invisible después del cambio de tema
+                            // Hacer la ProgressBar invisible después de hacer el cambio de tema
                             ocultarProgressBar(progressBarModoOscuro);
+
+                            // Cargar el fragmento y seleccionar el item del menú
                             cargarFragmentoEitem();
+                        } else {
+                            Log.e("HelperAjustes", "No se pudo cargar el fragmento");
                         }
-                    }, 500); // 500ms de retraso antes de aplicar el cambio
+                    }
                 }
             }
         });
@@ -71,19 +81,18 @@ public class HelperAjustes {
     // Mostrar el ProgressBar con una animación de entrada
     private static void mostrarProgressBar(ProgressBar progressBarModoOscuro) {
         progressBarModoOscuro.setVisibility(ProgressBar.VISIBLE);
-        progressBarModoOscuro.setAlpha(0f);  // Comenzamos con transparencia
         progressBarModoOscuro.animate().alpha(1f).setDuration(2000);  // Animación para hacerlo visible suavemente
     }
 
     // Ocultar el ProgressBar con una animación de desvanecimiento
     private static void ocultarProgressBar(ProgressBar progressBarModoOscuro) {
-        progressBarModoOscuro.animate().alpha(0f).setDuration(500);  // Desvanecer ProgressBar
+        progressBarModoOscuro.animate().alpha(0f).setDuration(1000);  // Desvanecer ProgressBar
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 progressBarModoOscuro.setVisibility(ProgressBar.GONE); // Finalmente lo ocultamos completamente
             }
-        }, 500); // Esperamos a que termine la animación para ocultarlo
+        }, 1000); // Esperamos a que termine la animación para ocultarlo
     }
 
     // Activar el modo oscuro
@@ -121,11 +130,11 @@ public class HelperAjustes {
     }
 
     public void cerrarSesion(Context context) {
-        // Crear el AlertDialog para mostrar un mensaje de advertencia
-        AlertDialog.Builder builderCerrarSesion = new AlertDialog.Builder(context);
+        // Crear el MaterialAlertDialog para mostrar un mensaje de advertencia
+        MaterialAlertDialogBuilder builderCerrarSesion = new MaterialAlertDialogBuilder(context);
         builderCerrarSesion.setTitle("Cerrar sesión")
                 .setMessage("¿Estás seguro de que deseas cerrar sesión?")
-                .setCancelable(false) // No se puede cancelar tocando fuera del dialogo
+                .setIcon(R.drawable.ic_cerrar_sesion)
                 .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -142,10 +151,36 @@ public class HelperAjustes {
                     }
                 });
 
-        // Mostrar el AlertDialog
-        AlertDialog dialog = builderCerrarSesion.create();
-        dialog.show();
+        // Mostrar el MaterialAlertDialog
+        builderCerrarSesion.show();
+    }
 
-}
+    public  void salir(Context context){
+        // Crear el AlertDialog para mostrar un mensaje de advertencia
+       MaterialAlertDialogBuilder builderSalir = new MaterialAlertDialogBuilder(context);
+        builderSalir.setTitle("Salir")
+                .setMessage("¿Estás seguro de que deseas salir de la app?")
+                .setIcon(R.drawable.ic_salir)
+                .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Si el usuario confirma, se cierra sale de la app
+                        if(context instanceof AppCompatActivity){
+                          AppCompatActivity activityActividad = (AppCompatActivity) context;
+                          activityActividad.finishAffinity();
+                        }
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Si el usuario cancela, no hacer nada
+                        dialog.dismiss();
+                    }
+                });
+
+        // Mostrar el AlertDialog
+        builderSalir.show();
+    }
 
 }

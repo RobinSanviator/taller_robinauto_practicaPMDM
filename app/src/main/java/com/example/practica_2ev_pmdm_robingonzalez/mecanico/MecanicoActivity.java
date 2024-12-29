@@ -10,7 +10,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
-import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.BBDDUsuariosSQLite;
+import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.TallerRobinautoSQLite;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperFragmento;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperNavegacionInferior;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperPerfil;
@@ -25,7 +25,7 @@ public class MecanicoActivity extends AppCompatActivity {
     private HelperFragmento helperFragmento; // Instancia del manejador de fragmentos
     private HelperNavegacionInferior helperNavegacionInferior;
     private HelperPerfil helperPerfil;
-    private BBDDUsuariosSQLite baseDeDatosGestionUsuarios;
+    private TallerRobinautoSQLite baseDeDatosGestionUsuarios;
     private int frameLayoutContenedorFragmento;
 
     @Override
@@ -58,8 +58,8 @@ public class MecanicoActivity extends AppCompatActivity {
         helperPerfil = new HelperPerfil();
     }
 
-    public BBDDUsuariosSQLite obtenerInstanciaBaseDeDatos() {
-        baseDeDatosGestionUsuarios = new BBDDUsuariosSQLite(MecanicoActivity.this, "gestion_usuario_taller", null, 3);
+    public TallerRobinautoSQLite obtenerInstanciaBaseDeDatos() {
+        baseDeDatosGestionUsuarios = new TallerRobinautoSQLite(MecanicoActivity.this, "gestion_usuario_taller", null, 4);
         return  baseDeDatosGestionUsuarios;
     }
 
@@ -87,15 +87,15 @@ public class MecanicoActivity extends AppCompatActivity {
         return getIntent().getStringExtra("correo");
     }
 
-    public HelperFragmento getManejadorFragmento() {
+    public HelperFragmento getHelperFragmento() {
         return helperFragmento;
     }
 
-    public HelperNavegacionInferior getManejadorNavegacionInferior() {
+    public HelperNavegacionInferior getHelperNavegacionInferior() {
         return helperNavegacionInferior;
     }
 
-    public HelperPerfil getManejadorPerfil(){
+    public HelperPerfil getHelperPerfil(){
         return helperPerfil;
     }
 

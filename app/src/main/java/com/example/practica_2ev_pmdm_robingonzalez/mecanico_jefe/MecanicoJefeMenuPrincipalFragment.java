@@ -50,8 +50,8 @@ public class MecanicoJefeMenuPrincipalFragment extends Fragment {
 
     private void obtenerManejadoresNavegacion(){
         if (getActivity() instanceof MecanicoJefeActivity) {
-            helperFragmento = ((MecanicoJefeActivity) getActivity()).getManejadorFragmento();
-            helperNavegacionInferior = ((MecanicoJefeActivity) getActivity()).getManejadorNavegacionInferior();
+            helperFragmento = ((MecanicoJefeActivity) getActivity()).getHelperFragmento();
+            helperNavegacionInferior = ((MecanicoJefeActivity) getActivity()).getHelperNavegacionInferior();
         } else {
             Log.e("Error", "La actividad no pertenece a MecanicoJefeActivity");
         }

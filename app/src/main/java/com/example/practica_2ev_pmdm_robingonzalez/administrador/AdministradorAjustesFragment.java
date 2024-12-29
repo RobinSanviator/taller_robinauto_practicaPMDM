@@ -1,29 +1,24 @@
 package com.example.practica_2ev_pmdm_robingonzalez.administrador;
 
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatDelegate;
+
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
-import android.os.Handler;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
-import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.BBDDUsuariosSQLite;
+import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.TallerRobinautoSQLite;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperAjustes;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperFragmento;
-import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperNavegacionInferior;
-import com.google.android.material.snackbar.Snackbar;
 
 
 public class AdministradorAjustesFragment extends Fragment {
@@ -33,12 +28,11 @@ public class AdministradorAjustesFragment extends Fragment {
     private ImageView imageViewVolverMenu;
     private TextView textViewNombre;
     private String correo;
-    private RelativeLayout relativeLayoutCerrarSesion;
+    private RelativeLayout relativeLayoutCerrarSesion, relativeLayoutSalir;
     private AdministradorActivity activityAdministrador;
-    private BBDDUsuariosSQLite baseDeDatos;
+    private TallerRobinautoSQLite baseDeDatos;
     private HelperFragmento helperFragmento;
     private HelperAjustes helperAjustes;
-    private HelperNavegacionInferior helperNavegacionInferior;
 
 
     @Override
@@ -53,13 +47,16 @@ public class AdministradorAjustesFragment extends Fragment {
                              Bundle savedInstanceState) {
         //inflar diseño del layout de ajustes
         View vista = inflater.inflate(R.layout.administrador_ajustes_fragment, container, false);
+
         inicializarComponentes(vista);
-        obtenerManejadores();
+        obtenerHelper();
         cargarPreferenciaModoOscuro();
         modoOscuro();
         volverAlMenuDesdeAjustes();
         introducirNombreUsuarioAjustes();
         cerrarSesion();
+        salir();
+
         return vista;
 
     }
@@ -70,35 +67,28 @@ public class AdministradorAjustesFragment extends Fragment {
         imageViewVolverMenu = vista.findViewById(R.id.imageViewVolverMenuPrincipalAjustesAdmin);
         textViewNombre = vista.findViewById(R.id.textViewNombreAjustesAdmin);
         relativeLayoutCerrarSesion = vista.findViewById(R.id.relativeLayoutSesionAjustesAdmin);
+        relativeLayoutSalir = vista.findViewById(R.id.relativeLayoutSalirAjustesAdmin);
 
     }
 
-    private void obtenerManejadores() {
+    private void obtenerHelper() {
         if (getActivity() instanceof AdministradorActivity) {
             activityAdministrador = ((AdministradorActivity) getActivity());
             helperFragmento = activityAdministrador.getHelperFragmento();
-            helperNavegacionInferior = activityAdministrador.getHelperNavegacionInferior();
             helperAjustes = activityAdministrador.getHelperAjustes();
             baseDeDatos = activityAdministrador.obtenerInstanciaBaseDeDatos();
         }
     }
 
-    private void irAMenuPrincipal(){
-        if(helperFragmento != null && helperNavegacionInferior != null){
-            helperFragmento.cargarFragmento(new AdministradorMenuPrincipalFragment());
-            helperNavegacionInferior.seleccionarItemMenuPrincipal();
-
-        }
-    }
 
     private void volverAlMenuDesdeAjustes(){
         imageViewVolverMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(helperFragmento != null){
-                    irAMenuPrincipal();
+                    activityAdministrador.volverMenuPrincipal();
                 } else {
-                    Log.e("Error", "helperFragmento null");
+                    Log.e("Error", "helperFragmento null: no se pudo volver al menú principal");
                 }
 
             }
@@ -133,16 +123,35 @@ public class AdministradorAjustesFragment extends Fragment {
       if(helperAjustes != null){
           helperAjustes.cargarPreferenciaModoOscuro(switchCompatBotonModoOscuro, getContext());
       }else{
-          Log.e("Error", "helperAjustes null");
+          Log.e("Error", "helperAjustes null: no se pudo cargar la precerencia de modo oscuro");
       }
     }
+
 
     private void cerrarSesion(){
         relativeLayoutCerrarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                helperAjustes.cerrarSesion(getContext());
+                if(helperAjustes != null){
+                    helperAjustes.cerrarSesion(getContext());
 
+                } else {
+                    Log.e("Error", "helperAjustes null: no se pudo cerrar sesión");
+                }
+            }
+        });
+    }
+
+    private void salir(){
+        relativeLayoutSalir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(helperAjustes != null){
+                    helperAjustes.salir(getContext());
+
+                } else {
+                    Log.e("Error", "helperAjustes null: no se pudo salir de la app");
+                }
             }
         });
     }

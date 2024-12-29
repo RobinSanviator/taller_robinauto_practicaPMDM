@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -17,17 +16,15 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.practica_2ev_pmdm_robingonzalez.administrador.AdministradorActivity;
 import com.example.practica_2ev_pmdm_robingonzalez.inicio_sesion.InicioSesionActivity;
 import com.example.practica_2ev_pmdm_robingonzalez.R;
-import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.BBDDUsuariosSQLite;
+import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.TallerRobinautoSQLite;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
@@ -41,7 +38,7 @@ public class RegistroActivity extends AppCompatActivity {
     TextView textViewTextoVolverInicioSesion;
     CheckBox checkBoxUsoServicio, checkBoxPropiedadIntelectual, checkBoxPrivacidad, checkBoxPromociones,
             checkBoxAceptarTodo;
-    BBDDUsuariosSQLite baseDeDatosGestionUsuarios;
+    TallerRobinautoSQLite baseDeDatosGestionUsuarios;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -71,8 +68,8 @@ public class RegistroActivity extends AppCompatActivity {
         textViewTextoVolverInicioSesion = findViewById(R.id.textViewVolverInicioSesion);
     }
 
-    public BBDDUsuariosSQLite obtenerInstanciaBaseDeDatos() {
-        baseDeDatosGestionUsuarios = new BBDDUsuariosSQLite(RegistroActivity.this, "gestion_usuario_taller", null, 3);
+    public TallerRobinautoSQLite obtenerInstanciaBaseDeDatos() {
+        baseDeDatosGestionUsuarios = new TallerRobinautoSQLite(RegistroActivity.this, "gestion_usuario_taller", null, 5);
         return baseDeDatosGestionUsuarios;
     }
 
@@ -171,7 +168,7 @@ public class RegistroActivity extends AppCompatActivity {
 
     private boolean verificarCorreoEnUso(String correo) {
         // Crear o usar una instancia de la base de datos
-        BBDDUsuariosSQLite baseDeDatos = new BBDDUsuariosSQLite(this, "gestion_usuario_taller", null, 3);
+        TallerRobinautoSQLite baseDeDatos = new TallerRobinautoSQLite(this, "gestion_usuario_taller", null, 3);
         // Llamar al método de la base de datos para verificar el correo
         String correoEncontrado = baseDeDatos.correoEnUso(correo);
         // Retornar true si el correo ya está en uso, false si no

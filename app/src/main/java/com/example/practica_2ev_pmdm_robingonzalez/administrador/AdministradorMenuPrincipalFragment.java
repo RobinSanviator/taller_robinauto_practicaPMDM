@@ -21,6 +21,7 @@ public class AdministradorMenuPrincipalFragment extends Fragment {
 
     private TextView textViewNombreCabecera;
     private CardView cardViewEmpleados, cardViewUsuarios;
+    private String correo;
     private HelperFragmento helperFragmento;
     private HelperNavegacionInferior helperNavegacionInferior;
     private AdministradorActivity activityAdministrador;
@@ -41,7 +42,7 @@ public class AdministradorMenuPrincipalFragment extends Fragment {
         View vista = inflater.inflate(R.layout.administrador_menu_principal_fragment, container, false);
 
         inicializarComponentes(vista);
-        obtenerManejadoresNavegacion();
+        obtenerHelper();
         obtenerDatosUsuarioCabecera();
         inicializarListeners();
 
@@ -54,7 +55,7 @@ public class AdministradorMenuPrincipalFragment extends Fragment {
         cardViewUsuarios = vista.findViewById(R.id.cardViewUsuariosAdministrador);
     }
 
-    private void obtenerManejadoresNavegacion(){
+    private void obtenerHelper(){
         if(getActivity() instanceof AdministradorActivity){
             activityAdministrador = ((AdministradorActivity) getActivity());
             helperFragmento = activityAdministrador.getHelperFragmento();

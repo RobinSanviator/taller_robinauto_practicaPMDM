@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
-import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.BBDDUsuariosSQLite;
+import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.TallerRobinautoSQLite;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperFragmento;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperNavegacionInferior;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperPerfil;
@@ -28,7 +28,7 @@ public class MecanicoPerfilFragment extends Fragment {
     private String correo;
     private MecanicoActivity activityMecanico;
     private HelperPerfil helperPerfil;
-    private BBDDUsuariosSQLite baseDeDatos;
+    private TallerRobinautoSQLite baseDeDatos;
     private HelperFragmento helperFragmento;
     private HelperNavegacionInferior helperNavegacionInferior;
 
@@ -70,9 +70,9 @@ public class MecanicoPerfilFragment extends Fragment {
     private void obtenerManejadores() {
         if (getActivity() instanceof MecanicoActivity) {
             activityMecanico = ((MecanicoActivity) getActivity());
-            helperPerfil = activityMecanico.getManejadorPerfil();
-            helperFragmento = activityMecanico.getManejadorFragmento();
-            helperNavegacionInferior = activityMecanico.getManejadorNavegacionInferior();
+            helperPerfil = activityMecanico.getHelperPerfil();
+            helperFragmento = activityMecanico.getHelperFragmento();
+            helperNavegacionInferior = activityMecanico.getHelperNavegacionInferior();
             baseDeDatos = activityMecanico.obtenerInstanciaBaseDeDatos();
         }
 

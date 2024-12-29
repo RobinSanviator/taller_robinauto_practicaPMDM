@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
-import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.BBDDUsuariosSQLite;
+import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.TallerRobinautoSQLite;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperFragmento;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperNavegacionInferior;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperPerfil;
@@ -28,7 +28,7 @@ public class AdministradorPerfilFragment extends Fragment {
     private String correo;
     private AdministradorActivity activityAdministrador;
     private HelperPerfil helperPerfil;
-    private BBDDUsuariosSQLite baseDeDatos;
+    private TallerRobinautoSQLite baseDeDatos;
     private HelperFragmento helperFragmento;
     private HelperNavegacionInferior helperNavegacionInferior;
 
@@ -45,7 +45,7 @@ public class AdministradorPerfilFragment extends Fragment {
         View vista = inflater.inflate(R.layout.administrador_perfil_fragment, container, false);
 
         inicializarComponentes(vista);
-        obtenerManejadores();
+        obtenerHelper();
         volverMenuPrincipal();
         introducirDatosPerfilCabecera();
         introducirDatosEnPerfil();
@@ -65,7 +65,7 @@ public class AdministradorPerfilFragment extends Fragment {
     }
 
 
-    private void obtenerManejadores() {
+    private void obtenerHelper() {
         if (getActivity() instanceof AdministradorActivity) {
             activityAdministrador = ((AdministradorActivity) getActivity());
             helperPerfil = activityAdministrador.getHelperPerfil();

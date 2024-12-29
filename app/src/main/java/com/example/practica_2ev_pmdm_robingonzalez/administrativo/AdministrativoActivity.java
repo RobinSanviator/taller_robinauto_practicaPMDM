@@ -10,7 +10,8 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
-import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.BBDDUsuariosSQLite;
+import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.TallerRobinautoSQLite;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperAjustes;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperFragmento;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperNavegacionInferior;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperPerfil;
@@ -25,7 +26,8 @@ public class AdministrativoActivity extends AppCompatActivity {
     private HelperFragmento helperFragmento; // Instancia del manejador de fragmentos
     private HelperNavegacionInferior helperNavegacionInferior;
     private HelperPerfil helperPerfil;
-    private BBDDUsuariosSQLite  baseDeDatosGestionUsuarios;
+    private HelperAjustes helperAjustes;
+    private TallerRobinautoSQLite baseDeDatosGestionUsuarios;
     private int frameLayoutContenedorFragmento;
 
     @Override
@@ -57,10 +59,11 @@ public class AdministrativoActivity extends AppCompatActivity {
         helperNavegacionInferior = new HelperNavegacionInferior(
                 AdministrativoActivity.this, chipNavigationBarNavegacionInferior, helperFragmento);
         helperPerfil = new HelperPerfil();
+        helperAjustes = new HelperAjustes(helperFragmento,helperNavegacionInferior);
     }
 
-    public BBDDUsuariosSQLite obtenerInstanciaBaseDeDatos() {
-        baseDeDatosGestionUsuarios = new BBDDUsuariosSQLite(AdministrativoActivity.this, "gestion_usuario_taller", null, 3);
+    public TallerRobinautoSQLite obtenerInstanciaBaseDeDatos() {
+        baseDeDatosGestionUsuarios = new TallerRobinautoSQLite(AdministrativoActivity.this, "gestion_usuario_taller", null, 4);
         return  baseDeDatosGestionUsuarios;
     }
 
@@ -90,15 +93,21 @@ public class AdministrativoActivity extends AppCompatActivity {
     }
 
 
-    public HelperFragmento getManejadorFragmento() {
+    public HelperFragmento getHelperFragmento() {
         return helperFragmento;
     }
 
-    public HelperNavegacionInferior getManejadorNavegacionInferior() {
+    public HelperNavegacionInferior getHelperNavegacionInferior() {
         return helperNavegacionInferior;
     }
 
     public HelperPerfil getManejadorPerfil(){
         return helperPerfil;
     }
+
+    public HelperAjustes getHelperAjustes() {
+        return helperAjustes;
+    }
+
+
 }

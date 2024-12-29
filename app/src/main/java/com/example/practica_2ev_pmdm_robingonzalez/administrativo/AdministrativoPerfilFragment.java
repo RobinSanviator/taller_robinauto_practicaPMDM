@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
 
-import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.BBDDUsuariosSQLite;
+import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.TallerRobinautoSQLite;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperFragmento;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperNavegacionInferior;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperPerfil;
@@ -29,7 +29,7 @@ public class AdministrativoPerfilFragment extends Fragment {
     private String correo;
     private AdministrativoActivity activityAdministrativo;
     private HelperPerfil helperPerfil;
-    private BBDDUsuariosSQLite baseDeDatos;
+    private TallerRobinautoSQLite baseDeDatos;
     private HelperFragmento helperFragmento;
     private HelperNavegacionInferior helperNavegacionInferior;
 
@@ -71,8 +71,8 @@ public class AdministrativoPerfilFragment extends Fragment {
         if (getActivity() instanceof AdministrativoActivity) {
             activityAdministrativo = ((AdministrativoActivity) getActivity());
             helperPerfil = activityAdministrativo.getManejadorPerfil();
-            helperFragmento = activityAdministrativo.getManejadorFragmento();
-            helperNavegacionInferior = activityAdministrativo.getManejadorNavegacionInferior();
+            helperFragmento = activityAdministrativo.getHelperFragmento();
+            helperNavegacionInferior = activityAdministrativo.getHelperNavegacionInferior();
             baseDeDatos = activityAdministrativo.obtenerInstanciaBaseDeDatos();
         }
 
