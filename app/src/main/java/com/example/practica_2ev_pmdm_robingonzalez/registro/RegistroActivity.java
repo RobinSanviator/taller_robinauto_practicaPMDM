@@ -1,14 +1,13 @@
 package com.example.practica_2ev_pmdm_robingonzalez.registro;
 
 import android.annotation.SuppressLint;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -21,24 +20,38 @@ import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
+import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.UsuarioConsultas;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.FirebaseUtils;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.UsuarioUtils;
 import com.example.practica_2ev_pmdm_robingonzalez.inicio_sesion.InicioSesionActivity;
 import com.example.practica_2ev_pmdm_robingonzalez.R;
 import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.TallerRobinautoSQLite;
+import com.example.practica_2ev_pmdm_robingonzalez.modelo.Usuario;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Map;
 
 public class RegistroActivity extends AppCompatActivity {
-    TextInputEditText editTextNombre, editTexApellidos, editTextCorreoRegistro, editTextTelefono,
+  private  TextInputEditText editTextNombre, editTexApellidos, editTextCorreoRegistro, editTextTelefono,
             editTextContrasenyaRegistro, editTextConfirmarContrasenya;
-    AutoCompleteTextView spinnerSeleccionarPerfil;
-    MaterialButton buttonRegistrarse;
-    TextView textViewTextoVolverInicioSesion;
-    CheckBox checkBoxUsoServicio, checkBoxPropiedadIntelectual, checkBoxPrivacidad, checkBoxPromociones,
+  private AutoCompleteTextView spinnerSeleccionarPerfil;
+  private  MaterialButton buttonRegistrarse;
+  private  TextView textViewTextoVolverInicioSesion;
+  private  CheckBox checkBoxUsoServicio, checkBoxPropiedadIntelectual, checkBoxPrivacidad, checkBoxPromociones,
             checkBoxAceptarTodo;
-    TallerRobinautoSQLite baseDeDatosGestionUsuarios;
+  private TallerRobinautoSQLite baseDeDatosGestionUsuarios;
+  private UsuarioConsultas usuarioConsultas;
+
+
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -46,12 +59,20 @@ public class RegistroActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.registro_activity);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+
 
         inicializarComponentes();
+        inicializarBaseDeDatos();
         registrarse();
         volverInicioSesion();
         seleccionarPerfil();
         configurarValidacionDinamica();
+
 
     }
 
@@ -66,11 +87,14 @@ public class RegistroActivity extends AppCompatActivity {
         spinnerSeleccionarPerfil = findViewById(R.id.spinnerSeleccionarPerfil);
         buttonRegistrarse = findViewById(R.id.buttonRegistrarse);
         textViewTextoVolverInicioSesion = findViewById(R.id.textViewVolverInicioSesion);
+
     }
 
-    public TallerRobinautoSQLite obtenerInstanciaBaseDeDatos() {
-        baseDeDatosGestionUsuarios = new TallerRobinautoSQLite(RegistroActivity.this, "gestion_usuario_taller", null, 5);
-        return baseDeDatosGestionUsuarios;
+    private void inicializarBaseDeDatos(){
+        // Usar el Singleton para obtener la instancia de la base de datos
+        baseDeDatosGestionUsuarios = TallerRobinautoSQLite.getInstance(RegistroActivity.this);
+        // Obtener la instancia de UsuarioConsultas
+        usuarioConsultas = baseDeDatosGestionUsuarios.obtenerUsuarioConsultas();
     }
 
     private void registrarse(){
@@ -167,12 +191,11 @@ public class RegistroActivity extends AppCompatActivity {
     }
 
     private boolean verificarCorreoEnUso(String correo) {
-        // Crear o usar una instancia de la base de datos
-        TallerRobinautoSQLite baseDeDatos = new TallerRobinautoSQLite(this, "gestion_usuario_taller", null, 3);
+
         // Llamar al método de la base de datos para verificar el correo
-        String correoEncontrado = baseDeDatos.correoEnUso(correo);
+        boolean correoEncontrado = usuarioConsultas.correoEnUso(correo);
         // Retornar true si el correo ya está en uso, false si no
-        return correoEncontrado != null;
+        return correoEncontrado;
     }
 
     private boolean validarTelefono(String telefono){
@@ -198,11 +221,11 @@ public class RegistroActivity extends AppCompatActivity {
         TextInputLayout textInputLayoutContrasenya = findViewById(R.id.textInputContrasenyaLayoutR);
         TextInputLayout textInputLayoutConfirmarContrasenya = findViewById(R.id.textInputConfirmarContrasenyaLayoutR);
 
-        if (editTextContrasenyaRegistro.getText().toString().trim().isEmpty()) {
-            textInputLayoutContrasenya.setHelperText("Obligatorio*");
-            textInputLayoutContrasenya.setError(null);
+        if (editTextContrasenyaRegistro.getText().toString().trim().isEmpty() || editTextContrasenyaRegistro.length() < 6) {
+            textInputLayoutContrasenya.setError("La contraseña debe contener al menos 6 caracteres");
             return false;
         } else {
+            textInputLayoutContrasenya.setError(null);
             textInputLayoutContrasenya.setHelperText(null);
         }
 
@@ -297,6 +320,11 @@ public class RegistroActivity extends AppCompatActivity {
     }
 
     private void mostrarTerminosYCondicionesEnAlertDialog() {
+
+        if (isFinishing()) {
+            return; // Evita mostrar el diálogo si la actividad está en proceso de finalización
+        }
+
         LayoutInflater inflaterTerminosCondiciones = getLayoutInflater();
         View vistaDialogo = inflaterTerminosCondiciones.inflate(R.layout.alert_dialog_terminos_condiciones, null);
 
@@ -312,7 +340,8 @@ public class RegistroActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (checkBoxUsoServicio.isChecked() && checkBoxPropiedadIntelectual.isChecked() && checkBoxPrivacidad.isChecked()) {
-                    guardarUsuariosEnBaseDeDatos();
+                    guardarUsuario();
+                    startActivity(new Intent(RegistroActivity.this, InicioSesionActivity.class));
                     finish();
                 } else {
                     Snackbar.make(buttonRegistrarse, "Debes aceptar todos los términos para registrarte", Snackbar.LENGTH_SHORT).show();
@@ -349,11 +378,9 @@ public class RegistroActivity extends AppCompatActivity {
     }
 
 
-    //Este método se llama al aceptar los términos y condiciones del alert dialog
-    private void guardarUsuariosEnBaseDeDatos(){
 
-        baseDeDatosGestionUsuarios = obtenerInstanciaBaseDeDatos();
-        //Obtener texto de los editText
+    private void guardarUsuario() {
+        // Obtener texto de los editText
         String nombre = editTextNombre.getText().toString();
         String apellidos = editTexApellidos.getText().toString();
         String correo = editTextCorreoRegistro.getText().toString();
@@ -361,31 +388,68 @@ public class RegistroActivity extends AppCompatActivity {
         String contrasenya = editTextContrasenyaRegistro.getText().toString();
         String tipoUsuario = spinnerSeleccionarPerfil.getText().toString();
 
-        //Insertar un nuevo registro
-        ContentValues nuevoRegistro = new ContentValues();
-        nuevoRegistro.put("nombre", nombre);
-        nuevoRegistro.put("apellidos", apellidos);
-        nuevoRegistro.put("correo", correo);
-        nuevoRegistro.put("telefono", telefono);
-        nuevoRegistro.put("contrasenya", contrasenya);
-        nuevoRegistro.put("tipo_usuario", tipoUsuario);
+        // Crear un objeto Usuario con los datos obtenidos
+        Usuario nuevoUsuario = new Usuario(nombre, apellidos, correo, telefono, contrasenya, tipoUsuario);
 
+        // Guardar en la base de datos local SQLite
+        long idUsuario = usuarioConsultas.insertarUsuario(nuevoUsuario);
+        Log.d("ID Usuario", "Id usuario" + idUsuario);
 
-        //Leer la base de datos
-        SQLiteDatabase baseDeDatosSQLite = baseDeDatosGestionUsuarios.getReadableDatabase();
-
-        long id = baseDeDatosSQLite.insert("usuarios", null, nuevoRegistro);
-
-        if(id != -1){
-            startActivity(new Intent(RegistroActivity.this, InicioSesionActivity.class));
+        if (idUsuario != -1) {
+            // Inserción exitosa en SQLite, ahora guardar en Firebase
+            Map<String, Object> mapUsuario = UsuarioUtils.anadirUsuarioFirebase(nuevoUsuario);
+            guardarUsuarioEnFirebase(correo, contrasenya, mapUsuario);
 
         } else {
+            // Error al registrar en la base de datos local
+            Log.e("Error", "Error al insertar usuario ");
             Snackbar.make(buttonRegistrarse, "Error en el registro", Snackbar.LENGTH_LONG).show();
+            recargarInterfaz();
         }
+    }
 
-        baseDeDatosGestionUsuarios.close();
+    private void guardarUsuarioEnFirebase(String correo, String contrasenya, Map<String, Object> mapUsuario) {
+        // Usar FirebaseUtils para registrar al usuario
+        FirebaseUtils.registrarUsuarioConEmailYContrasena(correo, contrasenya, task -> {
+            if (task.isSuccessful()) {
+                // El usuario fue registrado con éxito, ahora obtenemos el userId
+                String userId = FirebaseUtils.obtenerUserId();
+                if (userId != null) {
+                    // Guardar los datos del usuario en la base de datos
+                    FirebaseUtils.guardarUsuarioEnFirebaseDatabase(userId, mapUsuario, dbTask -> {
+                        if (dbTask.isSuccessful()) {
+                            // Datos guardados correctamente
+                            Log.d("Firebase guardarusuario", "Se completó el registro");
+                            Snackbar.make(buttonRegistrarse, "Usuario registrado con éxito", Snackbar.LENGTH_LONG).show();
+                            // Redirigir a la pantalla de inicio de sesión
+                            startActivity(new Intent(RegistroActivity.this, InicioSesionActivity.class));
+                            finish();  // Opcional: para asegurarse de que no se puede volver a esta actividad
+                        } else {
+                            // Error al guardar los datos del usuario
+                            Log.e("Firebase guardarusuario", "Error al guardar datos en Firebase", dbTask.getException());
+                            Snackbar.make(buttonRegistrarse, "Error al guardar datos del usuario", Snackbar.LENGTH_LONG).show();
+                        }
+                    });
+                } else {
+                    // Error al obtener el ID del usuario
+                    Log.e("Firebase", "No se pudo obtener el ID del usuario");
+                    Snackbar.make(buttonRegistrarse, "Error en el registro", Snackbar.LENGTH_LONG).show();
+                }
+            } else {
+                // Error en el registro
+                Log.e("Firebase", "Error al registrar usuario", task.getException());
+                Snackbar.make(buttonRegistrarse, "Error en el registro: " + task.getException().getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        });
+
+}
 
 
+
+    private void recargarInterfaz(){
+        editTextCorreoRegistro.getText().clear();
+        editTextContrasenyaRegistro.getText().clear();
+        editTextConfirmarContrasenya.getText().clear();
     }
 
 

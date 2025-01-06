@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
-import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperFragmento;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperMenuPrincipal;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperNavegacionInferior;
 
 
@@ -20,7 +20,7 @@ public class MecanicoMenuPrincipalFragment extends Fragment {
 
     private TextView textViewNombreCabecera;
     private CardView cardViewTareas, cardViewPiezas;
-    private HelperFragmento helperFragmento;
+    private HelperMenuPrincipal helperMenuPrincipal;
     private HelperNavegacionInferior helperNavegacionInferior;
 
     @Override
@@ -35,8 +35,9 @@ public class MecanicoMenuPrincipalFragment extends Fragment {
         // Inflar el diseño del layout del menú principal
         View vista = inflater.inflate(R.layout.mecanico_menu_principal_fragment, container, false);
 
+
         inicializarComponentes(vista);
-        obtenerManejadoresNavegacion();
+        obtenerHelper();
         obtenerDatosUsuarioCabecera();
         inicializarListeners();
 
@@ -49,9 +50,9 @@ public class MecanicoMenuPrincipalFragment extends Fragment {
         cardViewPiezas = vista.findViewById(R.id.cardViewPiezasMecanico);
     }
 
-    private void obtenerManejadoresNavegacion(){
+    private void obtenerHelper(){
         if(getActivity() instanceof MecanicoActivity){
-            helperFragmento = (((MecanicoActivity) getActivity()).getHelperFragmento());
+            helperMenuPrincipal = (((MecanicoActivity) getActivity()).getHelperFragmento());
             helperNavegacionInferior = (((MecanicoActivity) getActivity()).getHelperNavegacionInferior());
 
         }
@@ -60,18 +61,18 @@ public class MecanicoMenuPrincipalFragment extends Fragment {
 
     private void obtenerDatosUsuarioCabecera() {
         String correo = getActivity().getIntent().getStringExtra("correo");
-        if (correo != null && helperFragmento != null) {
-            helperFragmento.obtenerDatosUsuario(correo, textViewNombreCabecera);
-        } else {
-            Log.e("Error", "El correo es null o el manejador no está inicializado");
+        if(helperMenuPrincipal != null && correo != null){
+            helperMenuPrincipal.obtenerDatosUsuario(correo, textViewNombreCabecera);
+        }else {
+            Log.e("MecanicoMenuPrincipalFragment", "Error al obtener los datos del usuario en la cabecera");
             textViewNombreCabecera.setText("Usuario no disponible");
         }
     }
 
     private void inicializarListeners(){
-        //Mostrar pantalla de tareas
+        //Mostrar pantalla de registro de entrada de coches
         configurarOnclick(cardViewTareas, new MecanicoTareasFragment());
-        //Mostrar pantalla de solicitud de piezas
+        //Mostrar pantalla de reparaciones
         configurarOnclick(cardViewPiezas, new MecanicoPiezasFragment());
     }
 
@@ -79,15 +80,14 @@ public class MecanicoMenuPrincipalFragment extends Fragment {
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(helperFragmento != null && helperNavegacionInferior != null){
-                    helperFragmento.cargarFragmento(fragmento);
+                if(helperMenuPrincipal != null && helperNavegacionInferior != null){
+                    helperMenuPrincipal.cargarFragmento(fragmento);
                     helperNavegacionInferior.deseleccionarItemMenuPrincipal();
-                } else {
-                    Log.e("Error", "Los manejadores no están inicializados.");
-                    helperFragmento.cargarFragmento(new MecanicoMenuPrincipalFragment());
+                }  else {
+                    Log.e("MecanicoMenuPrincipalFragment", "Error en configurarOnClick de los cardView");
+
                 }
             }
         });
     }
-
 }

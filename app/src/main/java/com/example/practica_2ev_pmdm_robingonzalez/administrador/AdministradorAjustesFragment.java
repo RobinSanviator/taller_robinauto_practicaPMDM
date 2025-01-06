@@ -17,8 +17,10 @@ import android.widget.TextView;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
 import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.TallerRobinautoSQLite;
+import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.UsuarioConsultas;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperAjustes;
-import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperFragmento;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperMenuPrincipal;
+import com.google.firebase.auth.FirebaseAuth;
 
 
 public class AdministradorAjustesFragment extends Fragment {
@@ -30,9 +32,12 @@ public class AdministradorAjustesFragment extends Fragment {
     private String correo;
     private RelativeLayout relativeLayoutCerrarSesion, relativeLayoutSalir;
     private AdministradorActivity activityAdministrador;
-    private TallerRobinautoSQLite baseDeDatos;
-    private HelperFragmento helperFragmento;
+    private TallerRobinautoSQLite baseDeDatosGestionUsuarios;
+    private UsuarioConsultas usuarioConsultas;
+    private HelperMenuPrincipal helperMenuPrincipal;
     private HelperAjustes helperAjustes;
+    //Firebase
+    private FirebaseAuth firebaseAuth;
 
 
     @Override
@@ -68,24 +73,25 @@ public class AdministradorAjustesFragment extends Fragment {
         textViewNombre = vista.findViewById(R.id.textViewNombreAjustesAdmin);
         relativeLayoutCerrarSesion = vista.findViewById(R.id.relativeLayoutSesionAjustesAdmin);
         relativeLayoutSalir = vista.findViewById(R.id.relativeLayoutSalirAjustesAdmin);
+        baseDeDatosGestionUsuarios = TallerRobinautoSQLite.getInstance(getContext());
+        usuarioConsultas = baseDeDatosGestionUsuarios.obtenerUsuarioConsultas();
 
     }
 
     private void obtenerHelper() {
         if (getActivity() instanceof AdministradorActivity) {
             activityAdministrador = ((AdministradorActivity) getActivity());
-            helperFragmento = activityAdministrador.getHelperFragmento();
+            helperMenuPrincipal = activityAdministrador.getHelperFragmento();
             helperAjustes = activityAdministrador.getHelperAjustes();
-            baseDeDatos = activityAdministrador.obtenerInstanciaBaseDeDatos();
+
         }
     }
-
 
     private void volverAlMenuDesdeAjustes(){
         imageViewVolverMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(helperFragmento != null){
+                if(helperMenuPrincipal != null){
                     activityAdministrador.volverMenuPrincipal();
                 } else {
                     Log.e("Error", "helperFragmento null: no se pudo volver al menú principal");
@@ -97,7 +103,7 @@ public class AdministradorAjustesFragment extends Fragment {
 
     private void introducirNombreUsuarioAjustes(){
         correo = activityAdministrador.getCorreo();
-        String nombre = baseDeDatos.obtenerNombreYApellidos(correo);
+        String nombre = usuarioConsultas.obtenerNombreYApellidos(correo);
 
         if(correo != null && nombre != null){
             textViewNombre.setText(nombre);

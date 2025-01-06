@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "421102131226",
-    "project_id": "gestortallervehiculos",
-    "storage_bucket": "gestortallervehiculos.firebasestorage.app"
+    "project_number": "952536594889",
+    "project_id": "gestortaller-b9308",
+    "storage_bucket": "gestortaller-b9308.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:421102131226:android:767ba737c5cfc79a1059a3",
+        "mobilesdk_app_id": "1:952536594889:android:f6335b08ac7a1fe0a9d018",
         "android_client_info": {
           "package_name": "com.example.practica_2ev_pmdm_robingonzalez"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBNTcu8ymjLi1XO3ABNvg3y93_pnjvlFEs"
+          "current_key": "AIzaSyA0XcYETiRdFyzWh_xtQcwazm6nHhhhPAk"
         }
       ],
       "services": {

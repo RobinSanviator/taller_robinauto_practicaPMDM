@@ -11,8 +11,9 @@ import androidx.fragment.app.Fragment;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
 import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.TallerRobinautoSQLite;
+import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.UsuarioConsultas;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperAjustes;
-import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperFragmento;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperMenuPrincipal;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperNavegacionInferior;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperPerfil;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
@@ -23,11 +24,12 @@ import java.util.Map;
 public class AdministrativoActivity extends AppCompatActivity {
 
     private ChipNavigationBar chipNavigationBarNavegacionInferior; // Referencia al ChipNavigationBar
-    private HelperFragmento helperFragmento; // Instancia del manejador de fragmentos
+    private HelperMenuPrincipal helperMenuPrincipal; // Instancia del manejador de fragmentos
     private HelperNavegacionInferior helperNavegacionInferior;
     private HelperPerfil helperPerfil;
     private HelperAjustes helperAjustes;
     private TallerRobinautoSQLite baseDeDatosGestionUsuarios;
+    private UsuarioConsultas usuarioConsultas;
     private int frameLayoutContenedorFragmento;
 
     @Override
@@ -42,7 +44,8 @@ public class AdministrativoActivity extends AppCompatActivity {
         });
 
         inicializarComponentes();
-        obtenerManejadores();
+        inicializarBaseDeDatos();
+        obtenerHelper();
         cargarOpcionesNavegacionInferior();
         cargarMenuPrincipalPorDefecto();
 
@@ -54,18 +57,20 @@ public class AdministrativoActivity extends AppCompatActivity {
 
     }
 
-    private void obtenerManejadores(){
-        helperFragmento = new HelperFragmento(AdministrativoActivity.this, frameLayoutContenedorFragmento);
-        helperNavegacionInferior = new HelperNavegacionInferior(
-                AdministrativoActivity.this, chipNavigationBarNavegacionInferior, helperFragmento);
-        helperPerfil = new HelperPerfil();
-        helperAjustes = new HelperAjustes(helperFragmento,helperNavegacionInferior);
+    private void inicializarBaseDeDatos(){
+        baseDeDatosGestionUsuarios = TallerRobinautoSQLite.getInstance(AdministrativoActivity.this);
+        // Obtener la instancia de UsuarioConsultas
+        usuarioConsultas = baseDeDatosGestionUsuarios.obtenerUsuarioConsultas();
     }
 
-    public TallerRobinautoSQLite obtenerInstanciaBaseDeDatos() {
-        baseDeDatosGestionUsuarios = new TallerRobinautoSQLite(AdministrativoActivity.this, "gestion_usuario_taller", null, 4);
-        return  baseDeDatosGestionUsuarios;
+    private void obtenerHelper(){
+        helperMenuPrincipal = new HelperMenuPrincipal(AdministrativoActivity.this, frameLayoutContenedorFragmento);
+        helperNavegacionInferior = new HelperNavegacionInferior(
+                AdministrativoActivity.this, chipNavigationBarNavegacionInferior, helperMenuPrincipal);
+        helperPerfil = new HelperPerfil(baseDeDatosGestionUsuarios);
+        helperAjustes = new HelperAjustes(helperMenuPrincipal,helperNavegacionInferior);
     }
+
 
     public void cargarOpcionesNavegacionInferior(){
         Map<Integer, Fragment> opcionesDeMenu = new HashMap<>();
@@ -78,13 +83,13 @@ public class AdministrativoActivity extends AppCompatActivity {
     }
 
     public void cargarMenuPrincipalPorDefecto(){
-        helperFragmento.cargarFragmento(new AdministrativoMenuPrincipalFragment());
+        helperMenuPrincipal.cargarFragmento(new AdministrativoMenuPrincipalFragment());
     }
 
 
     //Método que se llamará desde los fragmentos de Administrativo para volver al fragmento menú prinipal
     public void volverMenuPrincipal(){
-        helperFragmento.cargarFragmento(new AdministrativoMenuPrincipalFragment());
+        helperMenuPrincipal.cargarFragmento(new AdministrativoMenuPrincipalFragment());
         helperNavegacionInferior.seleccionarItemMenuPrincipal();
     }
 
@@ -93,8 +98,8 @@ public class AdministrativoActivity extends AppCompatActivity {
     }
 
 
-    public HelperFragmento getHelperFragmento() {
-        return helperFragmento;
+    public HelperMenuPrincipal getHelperFragmento() {
+        return helperMenuPrincipal;
     }
 
     public HelperNavegacionInferior getHelperNavegacionInferior() {

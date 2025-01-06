@@ -11,7 +11,9 @@ import androidx.fragment.app.Fragment;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
 import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.TallerRobinautoSQLite;
-import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperFragmento;
+import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.UsuarioConsultas;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperAjustes;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperMenuPrincipal;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperNavegacionInferior;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperPerfil;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
@@ -22,10 +24,12 @@ import java.util.Map;
 public class MecanicoActivity extends AppCompatActivity {
 
     private ChipNavigationBar chipNavigationBarNavegacionInferior; // Referencia al ChipNavigationBar
-    private HelperFragmento helperFragmento; // Instancia del manejador de fragmentos
+    private HelperMenuPrincipal helperMenuPrincipal; // Instancia del manejador de fragmentos
     private HelperNavegacionInferior helperNavegacionInferior;
     private HelperPerfil helperPerfil;
+    private HelperAjustes helperAjustes;
     private TallerRobinautoSQLite baseDeDatosGestionUsuarios;
+    private UsuarioConsultas usuarioConsultas;
     private int frameLayoutContenedorFragmento;
 
     @Override
@@ -40,7 +44,8 @@ public class MecanicoActivity extends AppCompatActivity {
         });
 
         inicializarComponentes();
-        obtenerManejadores();
+        inicializarBaseDeDatos();
+        obtenerHelper();
         cargarOpcionesNavegacionInferior();
         cargarMenuPrincipalPorDefecto();
 
@@ -51,17 +56,22 @@ public class MecanicoActivity extends AppCompatActivity {
         frameLayoutContenedorFragmento = (R.id.frameLayoutContenedorFragmentoMecanico);
     }
 
-    private void obtenerManejadores(){
-        helperFragmento = new HelperFragmento(MecanicoActivity.this, frameLayoutContenedorFragmento);
-        helperNavegacionInferior = new HelperNavegacionInferior(
-                MecanicoActivity.this, chipNavigationBarNavegacionInferior, helperFragmento);
-        helperPerfil = new HelperPerfil();
+    private void inicializarBaseDeDatos(){
+        baseDeDatosGestionUsuarios = TallerRobinautoSQLite.getInstance(MecanicoActivity.this);
+        // Obtener la instancia de UsuarioConsultas
+        usuarioConsultas = baseDeDatosGestionUsuarios.obtenerUsuarioConsultas();
     }
 
-    public TallerRobinautoSQLite obtenerInstanciaBaseDeDatos() {
-        baseDeDatosGestionUsuarios = new TallerRobinautoSQLite(MecanicoActivity.this, "gestion_usuario_taller", null, 4);
-        return  baseDeDatosGestionUsuarios;
+    private void obtenerHelper(){
+        helperMenuPrincipal = new HelperMenuPrincipal(MecanicoActivity.this, frameLayoutContenedorFragmento);
+        helperNavegacionInferior = new HelperNavegacionInferior(
+                MecanicoActivity.this, chipNavigationBarNavegacionInferior, helperMenuPrincipal);
+
+        helperPerfil = new HelperPerfil(baseDeDatosGestionUsuarios);
+        helperAjustes = new HelperAjustes(helperMenuPrincipal,helperNavegacionInferior);
+
     }
+
 
     private void cargarOpcionesNavegacionInferior(){
         Map<Integer, Fragment> opcionesDeMenu = new HashMap<>();
@@ -74,12 +84,12 @@ public class MecanicoActivity extends AppCompatActivity {
     }
 
     public void cargarMenuPrincipalPorDefecto(){
-        helperFragmento.cargarFragmento(new MecanicoMenuPrincipalFragment());
+        helperMenuPrincipal.cargarFragmento(new MecanicoMenuPrincipalFragment());
     }
 
-    //Método que se llamará desde los fragmentos de Administrador para volver al fragmento menú prinipal
+    //Método que se llamará desde los fragmentos de Mecanico para volver al fragmento menú prinipal
     public void volverMenuPrincipal(){
-        helperFragmento.cargarFragmento(new MecanicoMenuPrincipalFragment());
+        helperMenuPrincipal.cargarFragmento(new MecanicoMenuPrincipalFragment());
         helperNavegacionInferior.seleccionarItemMenuPrincipal();
     }
 
@@ -87,16 +97,20 @@ public class MecanicoActivity extends AppCompatActivity {
         return getIntent().getStringExtra("correo");
     }
 
-    public HelperFragmento getHelperFragmento() {
-        return helperFragmento;
+    public HelperMenuPrincipal getHelperFragmento() {
+        return helperMenuPrincipal;
     }
 
     public HelperNavegacionInferior getHelperNavegacionInferior() {
         return helperNavegacionInferior;
     }
 
-    public HelperPerfil getHelperPerfil(){
+    public HelperPerfil getHelperPerfil() {
         return helperPerfil;
+    }
+
+    public HelperAjustes getHelperAjustes() {
+        return helperAjustes;
     }
 
 }

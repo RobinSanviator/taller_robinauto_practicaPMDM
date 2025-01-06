@@ -14,7 +14,8 @@ import android.widget.TextView;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
 import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.TallerRobinautoSQLite;
-import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperFragmento;
+import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.UsuarioConsultas;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperMenuPrincipal;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperNavegacionInferior;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperPerfil;
 
@@ -28,9 +29,11 @@ public class MecanicoPerfilFragment extends Fragment {
     private String correo;
     private MecanicoActivity activityMecanico;
     private HelperPerfil helperPerfil;
-    private TallerRobinautoSQLite baseDeDatos;
-    private HelperFragmento helperFragmento;
+    private TallerRobinautoSQLite baseDeDatosGestionUsuarios;
+    private UsuarioConsultas usuarioConsultas;
+    private HelperMenuPrincipal helperMenuPrincipal;
     private HelperNavegacionInferior helperNavegacionInferior;
+
 
 
 
@@ -47,7 +50,7 @@ public class MecanicoPerfilFragment extends Fragment {
         View vista = inflater.inflate(R.layout.mecanico_perfil_fragment, container, false);
 
         inicializarComponentes(vista);
-        obtenerManejadores();
+        obtenerHelper();
         volverMenuPrincipal();
         introducirDatosPerfilCabecera();
         introducirDatosEnPerfil();
@@ -67,13 +70,14 @@ public class MecanicoPerfilFragment extends Fragment {
     }
 
 
-    private void obtenerManejadores() {
+    private void obtenerHelper() {
         if (getActivity() instanceof MecanicoActivity) {
             activityMecanico = ((MecanicoActivity) getActivity());
             helperPerfil = activityMecanico.getHelperPerfil();
-            helperFragmento = activityMecanico.getHelperFragmento();
+            helperMenuPrincipal = activityMecanico.getHelperFragmento();
             helperNavegacionInferior = activityMecanico.getHelperNavegacionInferior();
-            baseDeDatos = activityMecanico.obtenerInstanciaBaseDeDatos();
+            baseDeDatosGestionUsuarios = TallerRobinautoSQLite.getInstance(getContext());
+            usuarioConsultas = baseDeDatosGestionUsuarios.obtenerUsuarioConsultas();
         }
 
     }
@@ -82,8 +86,8 @@ public class MecanicoPerfilFragment extends Fragment {
         imageViewMenuPrincipal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(helperFragmento != null){
-                    helperFragmento.cargarFragmento(new MecanicoMenuPrincipalFragment());
+                if(helperMenuPrincipal != null){
+                    helperMenuPrincipal.cargarFragmento(new MecanicoMenuPrincipalFragment());
                     helperNavegacionInferior.seleccionarItemMenuPrincipal();
                 } else {
                     Log.e("Error", "MecanicoMenuPrincipalFragment null");
@@ -95,14 +99,14 @@ public class MecanicoPerfilFragment extends Fragment {
 
     private void introducirDatosPerfilCabecera(){
         correo = activityMecanico.getCorreo();
-        String nombre = baseDeDatos.obtenerNombreYApellidos(correo);
+        String nombre = usuarioConsultas.obtenerNombreYApellidos(correo);
 
         if(correo != null && nombre != null){
             textViewNombreCabecera.setText(nombre);
             textViewCorreoCabecera.setText(correo);
 
         } else {
-            Log.e("Error", "Correo o nombre null");
+            helperPerfil.cargarDatosPerfilCabeceraDesdeFirebase(correo, textViewNombreCabecera, textViewCorreoCabecera);
         }
 
     }
@@ -110,11 +114,13 @@ public class MecanicoPerfilFragment extends Fragment {
     private void introducirDatosEnPerfil() {
         correo = activityMecanico.getCorreo();
         if (correo != null) {
-            helperPerfil.cargarDatosPerfil(correo,baseDeDatos, textViewNombre, textViewApellidos, textViewCorreo, textViewTelefono);
+            helperPerfil.cargarDatosPerfil(correo,textViewNombre, textViewApellidos, textViewCorreo, textViewTelefono);
         } else {
-            Log.e("Error", "Correo es null");
+            Log.e("MecanicoPerfilFragment", "Correo es null");
         }
 
     }
+
+
 
 }

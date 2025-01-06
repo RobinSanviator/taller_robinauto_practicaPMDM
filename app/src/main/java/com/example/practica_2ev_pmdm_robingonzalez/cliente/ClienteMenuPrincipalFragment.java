@@ -13,14 +13,14 @@ import android.widget.TextView;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
 import com.example.practica_2ev_pmdm_robingonzalez.mecanico.MecanicoMenuPrincipalFragment;
-import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperFragmento;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperMenuPrincipal;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperNavegacionInferior;
 
 public class ClienteMenuPrincipalFragment extends Fragment {
 
     private TextView textViewNombreCabecera;
     private CardView cardViewContactarTaller, cardViewReparaciones;
-    private HelperFragmento helperFragmento;
+    private HelperMenuPrincipal helperMenuPrincipal;
     private HelperNavegacionInferior helperNavegacionInferior;
 
     @Override
@@ -51,7 +51,7 @@ public class ClienteMenuPrincipalFragment extends Fragment {
 
     private void obtenerManejadoresNavegacion(){
         if(getActivity() instanceof ClienteActivity){
-            helperFragmento = (((ClienteActivity) getActivity()).getHelperFragmento());
+            helperMenuPrincipal = (((ClienteActivity) getActivity()).getHelperFragmento());
             helperNavegacionInferior = (((ClienteActivity) getActivity()).getHelperNavegacionInferior());
 
         }
@@ -60,8 +60,8 @@ public class ClienteMenuPrincipalFragment extends Fragment {
 
     private void obtenerDatosUsuarioCabecera() {
         String correo = getActivity().getIntent().getStringExtra("correo");
-        if (correo != null && helperFragmento != null) {
-            helperFragmento.obtenerDatosUsuario(correo, textViewNombreCabecera);
+        if (correo != null && helperMenuPrincipal != null) {
+            helperMenuPrincipal.obtenerDatosUsuario(correo, textViewNombreCabecera);
         } else {
             Log.e("Error", "El correo es null o el manejador no está inicializado");
             textViewNombreCabecera.setText("Usuario no disponible");
@@ -79,12 +79,12 @@ public class ClienteMenuPrincipalFragment extends Fragment {
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(helperFragmento != null && helperNavegacionInferior != null){
-                    helperFragmento.cargarFragmento(fragmento);
+                if(helperMenuPrincipal != null && helperNavegacionInferior != null){
+                    helperMenuPrincipal.cargarFragmento(fragmento);
                     helperNavegacionInferior.deseleccionarItemMenuPrincipal();
                 } else {
                     Log.e("Error", "Los manejadores no están inicializados.");
-                    helperFragmento.cargarFragmento(new MecanicoMenuPrincipalFragment());
+                    helperMenuPrincipal.cargarFragmento(new MecanicoMenuPrincipalFragment());
                 }
             }
         });

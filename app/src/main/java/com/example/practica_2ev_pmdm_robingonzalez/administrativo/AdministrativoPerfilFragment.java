@@ -15,7 +15,8 @@ import android.widget.TextView;
 import com.example.practica_2ev_pmdm_robingonzalez.R;
 
 import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.TallerRobinautoSQLite;
-import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperFragmento;
+import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.UsuarioConsultas;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperMenuPrincipal;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperNavegacionInferior;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperPerfil;
 
@@ -29,8 +30,9 @@ public class AdministrativoPerfilFragment extends Fragment {
     private String correo;
     private AdministrativoActivity activityAdministrativo;
     private HelperPerfil helperPerfil;
-    private TallerRobinautoSQLite baseDeDatos;
-    private HelperFragmento helperFragmento;
+    private TallerRobinautoSQLite baseDeDatosGestionUsuarios;
+    private UsuarioConsultas usuarioConsultas;
+    private HelperMenuPrincipal helperMenuPrincipal;
     private HelperNavegacionInferior helperNavegacionInferior;
 
 
@@ -47,7 +49,7 @@ public class AdministrativoPerfilFragment extends Fragment {
         View vista = inflater.inflate(R.layout.administrativo_perfil_fragment, container, false);
 
         inicializarComponentes(vista);
-        obtenerManejadores();
+        obtenerHelper();
         volverMenuPrincipal();
         introducirDatosPerfilCabecera();
         introducirDatosEnPerfil();
@@ -67,13 +69,14 @@ public class AdministrativoPerfilFragment extends Fragment {
     }
 
 
-    private void obtenerManejadores() {
+    private void obtenerHelper() {
         if (getActivity() instanceof AdministrativoActivity) {
             activityAdministrativo = ((AdministrativoActivity) getActivity());
             helperPerfil = activityAdministrativo.getManejadorPerfil();
-            helperFragmento = activityAdministrativo.getHelperFragmento();
+            helperMenuPrincipal = activityAdministrativo.getHelperFragmento();
             helperNavegacionInferior = activityAdministrativo.getHelperNavegacionInferior();
-            baseDeDatos = activityAdministrativo.obtenerInstanciaBaseDeDatos();
+            baseDeDatosGestionUsuarios = TallerRobinautoSQLite.getInstance(getContext());
+            usuarioConsultas = baseDeDatosGestionUsuarios.obtenerUsuarioConsultas();
         }
 
     }
@@ -82,8 +85,8 @@ public class AdministrativoPerfilFragment extends Fragment {
         imageViewMenuPrincipal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(helperFragmento != null){
-                    helperFragmento.cargarFragmento(new AdministrativoMenuPrincipalFragment());
+                if(helperMenuPrincipal != null){
+                    helperMenuPrincipal.cargarFragmento(new AdministrativoMenuPrincipalFragment());
                     helperNavegacionInferior.seleccionarItemMenuPrincipal();
                 } else {
                     Log.e("Error", "AdministrativoMenuPrincipalFragment null");
@@ -95,14 +98,14 @@ public class AdministrativoPerfilFragment extends Fragment {
 
     private void introducirDatosPerfilCabecera(){
         correo = activityAdministrativo.getCorreo();
-        String nombre = baseDeDatos.obtenerNombreYApellidos(correo);
+        String nombre = usuarioConsultas.obtenerNombreYApellidos(correo);
 
         if(correo != null && nombre != null){
             textViewNombreCabecera.setText(nombre);
             textViewCorreoCabecera.setText(correo);
 
         } else {
-            Log.e("Error", "Correo o nombre null");
+            helperPerfil.cargarDatosPerfilCabeceraDesdeFirebase(correo, textViewNombreCabecera, textViewCorreoCabecera);
         }
 
     }
@@ -110,9 +113,9 @@ public class AdministrativoPerfilFragment extends Fragment {
     private void introducirDatosEnPerfil() {
         correo = activityAdministrativo.getCorreo();
         if (correo != null) {
-            helperPerfil.cargarDatosPerfil(correo,baseDeDatos, textViewNombre, textViewApellidos, textViewCorreo, textViewTelefono);
+            helperPerfil.cargarDatosPerfil(correo,textViewNombre, textViewApellidos, textViewCorreo, textViewTelefono);
         } else {
-            Log.e("Error", "Correo es null");
+            Log.e("AdministrativoPerfilFragment", "Correo es null");
         }
 
     }

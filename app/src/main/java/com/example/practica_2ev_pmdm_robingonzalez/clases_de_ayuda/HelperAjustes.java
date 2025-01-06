@@ -4,11 +4,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Handler;
 import android.util.Log;
 import android.widget.CompoundButton;
 import android.widget.ProgressBar;
-import androidx.appcompat.app.AlertDialog;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
@@ -18,14 +17,15 @@ import com.example.practica_2ev_pmdm_robingonzalez.R;
 import com.example.practica_2ev_pmdm_robingonzalez.administrador.AdministradorMenuPrincipalFragment;
 import com.example.practica_2ev_pmdm_robingonzalez.inicio_sesion.InicioSesionActivity;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class HelperAjustes {
 
-    private HelperFragmento helperFragmento;
+    private HelperMenuPrincipal helperMenuPrincipal;
     private HelperNavegacionInferior helperNavegacionInferior;
 
-    public HelperAjustes(HelperFragmento helperFragmento, HelperNavegacionInferior helperNavegacionInferior){
-        this.helperFragmento = helperFragmento;
+    public HelperAjustes(HelperMenuPrincipal helperMenuPrincipal, HelperNavegacionInferior helperNavegacionInferior){
+        this.helperMenuPrincipal = helperMenuPrincipal;
         this.helperNavegacionInferior = helperNavegacionInferior;
     }
 
@@ -70,8 +70,8 @@ public class HelperAjustes {
 
     private void cargarFragmentoEitem(){
         Fragment menuPrincipal = new AdministradorMenuPrincipalFragment();
-        if (helperFragmento != null && helperNavegacionInferior != null) {
-            helperFragmento.cargarFragmento(new AdministradorMenuPrincipalFragment());
+        if (helperMenuPrincipal != null && helperNavegacionInferior != null) {
+            helperMenuPrincipal.cargarFragmento(new AdministradorMenuPrincipalFragment());
             helperNavegacionInferior.seleccionarItemMenuPrincipal();
         } else {
             Log.e("HelperAjustes", "HelperFragmento no está inicializado.");
@@ -81,18 +81,21 @@ public class HelperAjustes {
     // Mostrar el ProgressBar con una animación de entrada
     private static void mostrarProgressBar(ProgressBar progressBarModoOscuro) {
         progressBarModoOscuro.setVisibility(ProgressBar.VISIBLE);
-        progressBarModoOscuro.animate().alpha(1f).setDuration(2000);  // Animación para hacerlo visible suavemente
+        progressBarModoOscuro.animate()
+                .alpha(1f)
+                .setDuration(2000)
+                .start();
     }
 
     // Ocultar el ProgressBar con una animación de desvanecimiento
     private static void ocultarProgressBar(ProgressBar progressBarModoOscuro) {
-        progressBarModoOscuro.animate().alpha(0f).setDuration(1000);  // Desvanecer ProgressBar
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                progressBarModoOscuro.setVisibility(ProgressBar.GONE); // Finalmente lo ocultamos completamente
-            }
-        }, 1000); // Esperamos a que termine la animación para ocultarlo
+        progressBarModoOscuro.animate()
+                .alpha(0f)
+                .setDuration(1000)
+                .withEndAction(() -> { // Acción que se ejecuta después de terminar la animación
+                    progressBarModoOscuro.setVisibility(ProgressBar.GONE); // Ocultar el ProgressBar completamente
+                })
+                .start();
     }
 
     // Activar el modo oscuro
@@ -138,7 +141,11 @@ public class HelperAjustes {
                 .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // Si el usuario confirma, se cierra la sesión y se redirige a la actividad de inicio de sesión
+                        // Limpiar datos sensibles del usuario
+                        limpiarDatosSesion(context);
+                        // Cerrar sesión de Firebase
+                        FirebaseAuth.getInstance().signOut();
+                        // Si el usuario confirma, se cierra la sesión y enviarle a inicio de sesión
                         Intent intentInicioSesion = new Intent(context, InicioSesionActivity.class);
                         context.startActivity(intentInicioSesion);
                     }
@@ -164,6 +171,10 @@ public class HelperAjustes {
                 .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        // Limpiar datos sensibles del usuario
+                        limpiarDatosSesion(context);
+                        // Cerrar sesión de Firebase
+                        FirebaseAuth.getInstance().signOut();
                         // Si el usuario confirma, se cierra sale de la app
                         if(context instanceof AppCompatActivity){
                           AppCompatActivity activityActividad = (AppCompatActivity) context;
@@ -183,4 +194,11 @@ public class HelperAjustes {
         builderSalir.show();
     }
 
+    private void limpiarDatosSesion(Context context) {
+        // Limpiar las preferencias de sesión
+        SharedPreferences sharedPreferences = context.getSharedPreferences("usuario", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();  // Eliminar todas las preferencias guardadas
+        editor.apply();
+    }
 }

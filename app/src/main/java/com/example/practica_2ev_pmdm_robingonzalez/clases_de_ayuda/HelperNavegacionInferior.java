@@ -14,13 +14,13 @@ import java.util.Map;
 public class HelperNavegacionInferior {
     private AppCompatActivity activityActividad;
     private ChipNavigationBar chipNavigationBarNavegacionInferior;
-    private HelperFragmento helperFragmentoNavegacion;
+    private HelperMenuPrincipal helperMenuPrincipalNavegacion;
 
     public HelperNavegacionInferior(AppCompatActivity activityActividad,
-                                    ChipNavigationBar chipNavigationBarNavegacionInferior, HelperFragmento helperFragmentoNavegacion) {
+                                    ChipNavigationBar chipNavigationBarNavegacionInferior, HelperMenuPrincipal helperMenuPrincipalNavegacion) {
         this.activityActividad = activityActividad;
         this.chipNavigationBarNavegacionInferior = chipNavigationBarNavegacionInferior;
-        this.helperFragmentoNavegacion = helperFragmentoNavegacion;
+        this.helperMenuPrincipalNavegacion = helperMenuPrincipalNavegacion;
 
     }
 
@@ -30,7 +30,7 @@ public class HelperNavegacionInferior {
             @Override
             public void onItemSelected(int idSeleccionado) {
                 if (opcionesDeMenu.containsKey(idSeleccionado)) {
-                    helperFragmentoNavegacion.cargarFragmento(opcionesDeMenu.get(idSeleccionado));
+                    helperMenuPrincipalNavegacion.cargarFragmento(opcionesDeMenu.get(idSeleccionado));
                 }
             }
         });

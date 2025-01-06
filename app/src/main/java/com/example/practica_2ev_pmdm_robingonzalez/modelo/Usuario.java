@@ -10,7 +10,11 @@ public class Usuario {
     private String tipoUsuario;
 
 
-    public Usuario(int idUsuario, String nombre, String apellidos, String correo,
+    // Constructor vacío
+    public Usuario() {
+    }
+
+    public Usuario(String nombre, String apellidos, String correo,
                    String telefono, String contrasenya, String tipoUsuario) {
 
         this.idUsuario = idUsuario;

@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
-import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperFragmento;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperMenuPrincipal;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperNavegacionInferior;
 
 
@@ -22,7 +22,7 @@ public class AdministradorMenuPrincipalFragment extends Fragment {
     private TextView textViewNombreCabecera;
     private CardView cardViewEmpleados, cardViewUsuarios;
     private String correo;
-    private HelperFragmento helperFragmento;
+    private HelperMenuPrincipal helperMenuPrincipal;
     private HelperNavegacionInferior helperNavegacionInferior;
     private AdministradorActivity activityAdministrador;
 
@@ -53,25 +53,29 @@ public class AdministradorMenuPrincipalFragment extends Fragment {
         textViewNombreCabecera = vista.findViewById(R.id.textViewNombreUsuarioCabeceraAdmin);
         cardViewEmpleados = vista.findViewById(R.id.cardViewDarAltaBajaAdministrador);
         cardViewUsuarios = vista.findViewById(R.id.cardViewUsuariosAdministrador);
+
     }
 
     private void obtenerHelper(){
-        if(getActivity() instanceof AdministradorActivity){
+        if(getActivity() instanceof AdministradorActivity) {
             activityAdministrador = ((AdministradorActivity) getActivity());
-            helperFragmento = activityAdministrador.getHelperFragmento();
+            helperMenuPrincipal = activityAdministrador.getHelperFragmento();
             helperNavegacionInferior = activityAdministrador.getHelperNavegacionInferior();
 
-        }
+        }else {
+                Log.e("AdministradorMenuPrincipalFragment", "Error al obtener helper");
+            }
 
     }
 
     private void obtenerDatosUsuarioCabecera() {
 
-        if (helperFragmento != null && activityAdministrador != null) {
-            String correo = activityAdministrador.getCorreo();
-            helperFragmento.obtenerDatosUsuario(correo, textViewNombreCabecera);
+        if (helperMenuPrincipal != null && activityAdministrador != null) {
+            correo = activityAdministrador.getCorreo();
+            helperMenuPrincipal.obtenerDatosUsuario(correo, textViewNombreCabecera);
+            helperNavegacionInferior.seleccionarItemMenuPrincipal();
         } else {
-            Log.e("Error", "El correo es null o el manejador no está inicializado");
+            Log.e("AdministradorMenuPrincipalFragment", "Error al obtener los datos del usuario en la cabecera");
             textViewNombreCabecera.setText("Usuario no disponible");
         }
     }
@@ -87,12 +91,12 @@ public class AdministradorMenuPrincipalFragment extends Fragment {
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(helperFragmento != null && helperNavegacionInferior != null){
-                    helperFragmento.cargarFragmento(fragmento);
+                if(helperMenuPrincipal != null && helperNavegacionInferior != null){
+                    helperMenuPrincipal.cargarFragmento(fragmento);
                     helperNavegacionInferior.deseleccionarItemMenuPrincipal();
                 }  else {
-                    Log.e("Error", "Los manejadores no están inicializados.");
-                    helperFragmento.cargarFragmento(new AdministradorMenuPrincipalFragment());
+                    Log.e("AdministradorMenuPrincipalFragment", "Error en configurarOnClick de los cardView");
+
                 }
             }
         });

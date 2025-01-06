@@ -11,7 +11,8 @@ import androidx.fragment.app.Fragment;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
 import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.TallerRobinautoSQLite;
-import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperFragmento;
+import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.UsuarioConsultas;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperMenuPrincipal;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperNavegacionInferior;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperPerfil;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
@@ -22,10 +23,11 @@ import java.util.Map;
 public class MecanicoJefeActivity extends AppCompatActivity {
 
     private ChipNavigationBar chipNavigationBarNavegacionInferior; // Referencia al ChipNavigationBar
-    private HelperFragmento helperFragmento; // Instancia del manejador de fragmentos
+    private HelperMenuPrincipal helperMenuPrincipal; // Instancia del manejador de fragmentos
     private HelperNavegacionInferior helperNavegacionInferior;
     private HelperPerfil helperPerfil;
     private TallerRobinautoSQLite baseDeDatosGestionUsuarios;
+    private UsuarioConsultas usuarioConsultas;
     private int frameLayoutContenedorFragmento;
 
 
@@ -41,7 +43,8 @@ public class MecanicoJefeActivity extends AppCompatActivity {
         });
 
         inicializarComponentes();
-        obtenerManejadores();
+        inicializarBaseDeDatos();
+        obtenerHelper();
         cargarOpcionesNavegacionInferior();
         cargarMenuPrincipalPorDefecto();
 
@@ -52,17 +55,20 @@ public class MecanicoJefeActivity extends AppCompatActivity {
         frameLayoutContenedorFragmento = (R.id.frameLayoutContenedorFragmentoMecanicoJefe);
     }
 
-    private void obtenerManejadores(){
-        helperFragmento = new HelperFragmento(MecanicoJefeActivity.this, frameLayoutContenedorFragmento);
-        helperNavegacionInferior = new HelperNavegacionInferior(
-                MecanicoJefeActivity.this, chipNavigationBarNavegacionInferior, helperFragmento);
-        helperPerfil = new HelperPerfil();
+    private void inicializarBaseDeDatos(){
+        baseDeDatosGestionUsuarios = TallerRobinautoSQLite.getInstance(MecanicoJefeActivity.this);
+        // Obtener la instancia de UsuarioConsultas
+        usuarioConsultas = baseDeDatosGestionUsuarios.obtenerUsuarioConsultas();
     }
 
-    public TallerRobinautoSQLite obtenerInstanciaBaseDeDatos() {
-        baseDeDatosGestionUsuarios = new TallerRobinautoSQLite(MecanicoJefeActivity.this, "gestion_usuario_taller", null, 4);
-        return  baseDeDatosGestionUsuarios;
+    private void obtenerHelper(){
+        helperMenuPrincipal = new HelperMenuPrincipal(MecanicoJefeActivity.this, frameLayoutContenedorFragmento);
+        helperNavegacionInferior = new HelperNavegacionInferior(
+                MecanicoJefeActivity.this, chipNavigationBarNavegacionInferior, helperMenuPrincipal);
+        helperPerfil = new HelperPerfil(baseDeDatosGestionUsuarios);
     }
+
+
 
     private void cargarOpcionesNavegacionInferior(){
         Map<Integer, Fragment> opcionesDeMenu = new HashMap<>();
@@ -75,12 +81,12 @@ public class MecanicoJefeActivity extends AppCompatActivity {
     }
 
     public void cargarMenuPrincipalPorDefecto(){
-        helperFragmento.cargarFragmento(new MecanicoJefeMenuPrincipalFragment());
+        helperMenuPrincipal.cargarFragmento(new MecanicoJefeMenuPrincipalFragment());
     }
 
     //Método que se llamará desde los fragmentos de Mecánico jefe para volver al fragmento menú prinipal
     public void volverMenuPrincipal(){
-        helperFragmento.cargarFragmento(new MecanicoJefeMenuPrincipalFragment());
+        helperMenuPrincipal.cargarFragmento(new MecanicoJefeMenuPrincipalFragment());
         helperNavegacionInferior.seleccionarItemMenuPrincipal();
     }
 
@@ -88,8 +94,8 @@ public class MecanicoJefeActivity extends AppCompatActivity {
         return getIntent().getStringExtra("correo");
     }
 
-    public HelperFragmento getHelperFragmento() {
-        return helperFragmento;
+    public HelperMenuPrincipal getHelperFragmento() {
+        return helperMenuPrincipal;
     }
 
     public HelperNavegacionInferior getHelperNavegacionInferior() {

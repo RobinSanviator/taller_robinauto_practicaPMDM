@@ -8,13 +8,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.TallerRobinautoSQLite;
+import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.UsuarioConsultas;
 
-public class HelperFragmento {
+public class HelperMenuPrincipal {
     private AppCompatActivity activityActividad;
     private int frameLayoutContenedorFragmento;
 
-    public HelperFragmento(AppCompatActivity activityActividad,
-                           int frameLayoutContenedorFragmento) {
+    public HelperMenuPrincipal(AppCompatActivity activityActividad,
+                               int frameLayoutContenedorFragmento) {
         this.activityActividad = activityActividad;
         this.frameLayoutContenedorFragmento = frameLayoutContenedorFragmento;
     }
@@ -36,11 +37,11 @@ public class HelperFragmento {
     public void obtenerDatosUsuario(String correo, TextView textViewNombreCabecera) {
         if (activityActividad != null) {
             // Accede a la base de datos desde la actividad
-            TallerRobinautoSQLite baseDeDatosGestionUsuarios = new TallerRobinautoSQLite(
-                    activityActividad, "gestion_usuario_taller", null, 5);
+            TallerRobinautoSQLite baseDeDatosGestionUsuarios = TallerRobinautoSQLite.getInstance(activityActividad);
+            UsuarioConsultas usuarioConsultas = baseDeDatosGestionUsuarios.obtenerUsuarioConsultas();
 
             // Obtiene el nombre completo del usuario desde la base de datos
-            String nombreCompleto = baseDeDatosGestionUsuarios.obtenerNombreYApellidos(correo);
+            String nombreCompleto = usuarioConsultas.obtenerNombreYApellidos(correo);
 
             // Si hay un nombre completo, lo establece en el TextView
             if (nombreCompleto != null) {

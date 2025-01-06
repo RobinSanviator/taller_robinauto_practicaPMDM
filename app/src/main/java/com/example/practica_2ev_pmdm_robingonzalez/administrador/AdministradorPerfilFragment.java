@@ -14,7 +14,8 @@ import android.widget.TextView;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
 import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.TallerRobinautoSQLite;
-import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperFragmento;
+import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.UsuarioConsultas;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperMenuPrincipal;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperNavegacionInferior;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperPerfil;
 
@@ -28,8 +29,9 @@ public class AdministradorPerfilFragment extends Fragment {
     private String correo;
     private AdministradorActivity activityAdministrador;
     private HelperPerfil helperPerfil;
-    private TallerRobinautoSQLite baseDeDatos;
-    private HelperFragmento helperFragmento;
+    private TallerRobinautoSQLite baseDeDatosGestionUsuarios;
+    private UsuarioConsultas usuarioConsultas;
+    private HelperMenuPrincipal helperMenuPrincipal;
     private HelperNavegacionInferior helperNavegacionInferior;
 
     @Override
@@ -69,9 +71,10 @@ public class AdministradorPerfilFragment extends Fragment {
         if (getActivity() instanceof AdministradorActivity) {
             activityAdministrador = ((AdministradorActivity) getActivity());
             helperPerfil = activityAdministrador.getHelperPerfil();
-            helperFragmento = activityAdministrador.getHelperFragmento();
+            helperMenuPrincipal = activityAdministrador.getHelperFragmento();
             helperNavegacionInferior = activityAdministrador.getHelperNavegacionInferior();
-            baseDeDatos = activityAdministrador.obtenerInstanciaBaseDeDatos();
+            baseDeDatosGestionUsuarios = TallerRobinautoSQLite.getInstance(getActivity().getApplicationContext());
+            usuarioConsultas = baseDeDatosGestionUsuarios.obtenerUsuarioConsultas();
         }
 
     }
@@ -80,11 +83,11 @@ public class AdministradorPerfilFragment extends Fragment {
         imageViewMenuPrincipal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(helperFragmento != null){
-                    helperFragmento.cargarFragmento(new AdministradorMenuPrincipalFragment());
+                if(helperMenuPrincipal != null){
+                    helperMenuPrincipal.cargarFragmento(new AdministradorMenuPrincipalFragment());
                     helperNavegacionInferior.seleccionarItemMenuPrincipal();
                 } else {
-                    Log.e("Error", "AdministradorMenuPrincipalFragment null");
+                    Log.e("AdministradorPerfilFragment", "Error al volver al menú principal");
                 }
 
             }
@@ -93,14 +96,13 @@ public class AdministradorPerfilFragment extends Fragment {
 
     private void introducirDatosPerfilCabecera(){
         correo = activityAdministrador.getCorreo();
-        String nombre = baseDeDatos.obtenerNombreYApellidos(correo);
+        String nombre = usuarioConsultas.obtenerNombreYApellidos(correo);
 
-        if(correo != null && nombre != null){
+        if (correo != null && nombre != null) {
             textViewNombreCabecera.setText(nombre);
             textViewCorreoCabecera.setText(correo);
-
         } else {
-            Log.e("Error", "Correo o nombre null");
+            helperPerfil.cargarDatosPerfilCabeceraDesdeFirebase(correo, textViewNombreCabecera, textViewCorreoCabecera);
         }
 
     }
@@ -108,9 +110,9 @@ public class AdministradorPerfilFragment extends Fragment {
     private void introducirDatosEnPerfil() {
         correo = activityAdministrador.getCorreo();
         if (correo != null) {
-            helperPerfil.cargarDatosPerfil(correo,baseDeDatos, textViewNombre, textViewApellidos, textViewCorreo, textViewTelefono);
+            helperPerfil.cargarDatosPerfil(correo, textViewNombre, textViewApellidos, textViewCorreo, textViewTelefono);
         } else {
-            Log.e("Error", "Correo es null");
+            Log.e("AdministradorPerfilFragment", "Error al introducir los datos en el perfil");
         }
 
     }

@@ -10,7 +10,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
-import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperFragmento;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperMenuPrincipal;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperNavegacionInferior;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
@@ -20,7 +20,7 @@ import java.util.Map;
 public class ClienteActivity extends AppCompatActivity {
 
     private ChipNavigationBar chipNavigationBarNavegacionInferior; // Referencia al ChipNavigationBar
-    private HelperFragmento helperFragmento; // Instancia del manejador de fragmentos
+    private HelperMenuPrincipal helperMenuPrincipal; // Instancia del manejador de fragmentos
     private HelperNavegacionInferior helperNavegacionInferior;
     private int frameLayoutContenedorFragmento;
 
@@ -48,9 +48,9 @@ public class ClienteActivity extends AppCompatActivity {
     }
 
     private void obtenerHelper(){
-        helperFragmento = new HelperFragmento(ClienteActivity.this, frameLayoutContenedorFragmento);
+        helperMenuPrincipal = new HelperMenuPrincipal(ClienteActivity.this, frameLayoutContenedorFragmento);
         helperNavegacionInferior = new HelperNavegacionInferior(
-                ClienteActivity.this, chipNavigationBarNavegacionInferior, helperFragmento);
+                ClienteActivity.this, chipNavigationBarNavegacionInferior, helperMenuPrincipal);
     }
 
     private void cargarOpcionesNavegacionInferior(){
@@ -64,17 +64,17 @@ public class ClienteActivity extends AppCompatActivity {
     }
 
     public void cargarMenuPrincipalPorDefecto(){
-        helperFragmento.cargarFragmento(new ClienteMenuPrincipalFragment());
+        helperMenuPrincipal.cargarFragmento(new ClienteMenuPrincipalFragment());
     }
 
     //Método que se llamará desde los fragmentos de Administrador para volver al fragmento menú prinipal
     public void volverMenuPrincipal(){
-        helperFragmento.cargarFragmento(new ClienteMenuPrincipalFragment());
+        helperMenuPrincipal.cargarFragmento(new ClienteMenuPrincipalFragment());
         helperNavegacionInferior.seleccionarItemMenuPrincipal();
     }
 
-    public HelperFragmento getHelperFragmento() {
-        return helperFragmento;
+    public HelperMenuPrincipal getHelperFragmento() {
+        return helperMenuPrincipal;
     }
 
     public HelperNavegacionInferior getHelperNavegacionInferior() {

@@ -145,7 +145,7 @@
                     android:padding="16dp"
                     android:text="@string/textoContactar"
                     android:textColor="@color/blanco"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
             </RelativeLayout>
@@ -191,10 +191,11 @@
                     android:layout_marginStart="18dp"
                     android:layout_marginEnd="34dp"
                     android:layout_toStartOf="@+id/imageViewReparacionesCliente"
-                    android:padding="16dp"
+                    android:padding="8dp"
                     android:text="@string/textoReparaciones"
+                    android:maxLines="1"
                     android:textColor="@color/blanco"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
             </RelativeLayout>
