@@ -41,6 +41,13 @@
         <item>Cliente</item>
     </string-array>
 
+    <string-array name="tipo_empleados">
+        <item>Administrativo</item>
+        <item>Mecanico jefe</item>
+        <item>Mecanico</item>
+    </string-array>
+
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="textoAltaBaja">Empleados</string>
     <string name="bienvenidaUsuario">Bienvenido</string>
@@ -83,6 +90,10 @@
     <string name="textoMecanico">Mecánico</string>
     <string name="textoCliente">Cliente</string>
     <string name="textoCorreoAcortado">Correo</string>
-
+    <string name="textoAlta">Alta empleado</string>
+    <string name="textoBaja">Baja Empleado</string>
+    <string name="textoValidarCorreo">Foramto válido \'ejemplo@ejemplo.com\'</string>
+    <string name="textoValidarContraseña">"Al menos 6 caracteres "</string>
+    <string name="textoEliminar">Dar de baja</string>
 
 </resources>

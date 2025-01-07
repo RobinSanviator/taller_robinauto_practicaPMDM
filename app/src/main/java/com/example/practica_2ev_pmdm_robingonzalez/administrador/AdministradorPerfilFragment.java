@@ -71,7 +71,7 @@ public class AdministradorPerfilFragment extends Fragment {
         if (getActivity() instanceof AdministradorActivity) {
             activityAdministrador = ((AdministradorActivity) getActivity());
             helperPerfil = activityAdministrador.getHelperPerfil();
-            helperMenuPrincipal = activityAdministrador.getHelperFragmento();
+            helperMenuPrincipal = activityAdministrador.getHelperMenuPrincipal();
             helperNavegacionInferior = activityAdministrador.getHelperNavegacionInferior();
             baseDeDatosGestionUsuarios = TallerRobinautoSQLite.getInstance(getActivity().getApplicationContext());
             usuarioConsultas = baseDeDatosGestionUsuarios.obtenerUsuarioConsultas();

@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.example.practica_2ev_pmdm_robingonzalez.R;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperMenuPrincipal;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperNavegacionInferior;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperPerfil;
 
 
 public class AdministradorMenuPrincipalFragment extends Fragment {
@@ -50,17 +51,17 @@ public class AdministradorMenuPrincipalFragment extends Fragment {
     }
 
     private void inicializarComponentes(View vista){
-        textViewNombreCabecera = vista.findViewById(R.id.textViewNombreUsuarioCabeceraAdmin);
         cardViewEmpleados = vista.findViewById(R.id.cardViewDarAltaBajaAdministrador);
         cardViewUsuarios = vista.findViewById(R.id.cardViewUsuariosAdministrador);
+        textViewNombreCabecera = vista.findViewById(R.id.textViewNombreUsuarioCabeceraAdmin);
 
     }
 
     private void obtenerHelper(){
         if(getActivity() instanceof AdministradorActivity) {
             activityAdministrador = ((AdministradorActivity) getActivity());
-            helperMenuPrincipal = activityAdministrador.getHelperFragmento();
             helperNavegacionInferior = activityAdministrador.getHelperNavegacionInferior();
+            helperMenuPrincipal = activityAdministrador.getHelperMenuPrincipal();
 
         }else {
                 Log.e("AdministradorMenuPrincipalFragment", "Error al obtener helper");
@@ -69,15 +70,14 @@ public class AdministradorMenuPrincipalFragment extends Fragment {
     }
 
     private void obtenerDatosUsuarioCabecera() {
-
-        if (helperMenuPrincipal != null && activityAdministrador != null) {
             correo = activityAdministrador.getCorreo();
-            helperMenuPrincipal.obtenerDatosUsuario(correo, textViewNombreCabecera);
-            helperNavegacionInferior.seleccionarItemMenuPrincipal();
+        if (correo != null) {
+           helperMenuPrincipal.obtenerDatosUsuario(correo, textViewNombreCabecera);
+           helperMenuPrincipal.cargarNombreCabeceraDesdeFirebase(correo,textViewNombreCabecera);
         } else {
-            Log.e("AdministradorMenuPrincipalFragment", "Error al obtener los datos del usuario en la cabecera");
-            textViewNombreCabecera.setText("Usuario no disponible");
+            helperMenuPrincipal.cargarNombreCabeceraDesdeFirebase(correo,textViewNombreCabecera);
         }
+
     }
 
     private void inicializarListeners(){

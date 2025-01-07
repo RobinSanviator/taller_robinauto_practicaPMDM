@@ -1,14 +1,22 @@
 package com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda;
 
+import android.app.Activity;
 import android.util.Log;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.TallerRobinautoSQLite;
 import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.UsuarioConsultas;
+import com.example.practica_2ev_pmdm_robingonzalez.modelo.Usuario;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 public class HelperMenuPrincipal {
     private AppCompatActivity activityActividad;
@@ -52,5 +60,42 @@ public class HelperMenuPrincipal {
             }
         }
     }
+
+    // Método para cargar el nombre y apellidos del usuario en el TextView de la cabecera
+    public void cargarNombreCabeceraDesdeFirebase(String correo, TextView textViewNombreCabecera) {
+        // Obtener la referencia a la base de datos de Firebase
+        DatabaseReference usuariosRef = FirebaseUtils.getDatabaseReference();
+
+        // Buscar el usuario por correo en la base de datos de Firebase
+        usuariosRef.orderByChild("correo").equalTo(correo)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                // Obtener el usuario desde Firebase
+                                Usuario usuario = snapshot.getValue(Usuario.class);
+
+                                if (usuario != null) {
+                                    // Concatenar nombre y apellidos
+                                    String nombreCompleto = usuario.getNombre() + " " + usuario.getApellidos();
+                                    // Asignar el nombre completo
+                                    textViewNombreCabecera.setText(nombreCompleto);
+
+                                }
+                            }
+                        } else {
+                            Log.d("FirebaseQuery", "No se encontraron usuarios con ese correo.");
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.e("FirebaseQuery", "Error al obtener datos: " + databaseError.getMessage());
+                    }
+                });
+    }
+
 
 }

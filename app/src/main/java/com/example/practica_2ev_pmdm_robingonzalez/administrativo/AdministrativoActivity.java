@@ -30,6 +30,8 @@ public class AdministrativoActivity extends AppCompatActivity {
     private HelperAjustes helperAjustes;
     private TallerRobinautoSQLite baseDeDatosGestionUsuarios;
     private UsuarioConsultas usuarioConsultas;
+
+
     private int frameLayoutContenedorFragmento;
 
     @Override
@@ -98,9 +100,10 @@ public class AdministrativoActivity extends AppCompatActivity {
     }
 
 
-    public HelperMenuPrincipal getHelperFragmento() {
+    public HelperMenuPrincipal getHelperMenuPrincipal() {
         return helperMenuPrincipal;
     }
+
 
     public HelperNavegacionInferior getHelperNavegacionInferior() {
         return helperNavegacionInferior;

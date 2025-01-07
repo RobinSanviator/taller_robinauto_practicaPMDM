@@ -69,7 +69,6 @@ public class InicioSesionActivity extends AppCompatActivity {
         iniciarSesion();
         irPantallaRegistro();
 
-
     }
 
     private void inicializarComponenetes(){
@@ -80,14 +79,12 @@ public class InicioSesionActivity extends AppCompatActivity {
         textViewEnlaceRegistro = findViewById(R.id.textViewEnlaceRegistro);
     }
 
-
     private void inicializarBaseDeDatos(){
         // Usar el Singleton para obtener la instancia de la base de datos
         baseDeDatosGestionUsuarios = TallerRobinautoSQLite.getInstance(InicioSesionActivity.this);
         // Obtener la instancia de UsuarioConsultas
         usuarioConsultas = baseDeDatosGestionUsuarios.obtenerUsuarioConsultas();
     }
-
 
     private void iniciarSesion() {
         buttonIniciarSesion.setOnClickListener(new View.OnClickListener() {
@@ -173,7 +170,7 @@ public class InicioSesionActivity extends AppCompatActivity {
                   }
               } else {
                   Log.d("FirebaseQuery", "No se encontraron usuarios con ese correo.");
-                  Snackbar.make(buttonIniciarSesion, "No se encontraron usuarios con ese correo.", Snackbar.LENGTH_LONG).show();
+                  Snackbar.make(buttonIniciarSesion, "No se ha podido iniciar sesion, inténtalo de nuevo", Snackbar.LENGTH_LONG).show();
               }
           }
 
@@ -184,8 +181,6 @@ public class InicioSesionActivity extends AppCompatActivity {
       });
 
     }
-
-
 
     private void navegarPorTipoUsuario(String tipoUsuario, String correo) {
         Log.d("InicioSesion", "Tipo de usuario recibido: '" + tipoUsuario + "'");

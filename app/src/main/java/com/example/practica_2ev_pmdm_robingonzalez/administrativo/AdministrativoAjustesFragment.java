@@ -76,7 +76,7 @@ public class AdministrativoAjustesFragment extends Fragment {
     private void obtenerHelper() {
         if (getActivity() instanceof AdministrativoActivity) {
             activityAdministrativo = ((AdministrativoActivity) getActivity());
-            helperMenuPrincipal = activityAdministrativo.getHelperFragmento();
+            helperMenuPrincipal = activityAdministrativo.getHelperMenuPrincipal();
             helperAjustes = activityAdministrativo.getHelperAjustes();
 
         }

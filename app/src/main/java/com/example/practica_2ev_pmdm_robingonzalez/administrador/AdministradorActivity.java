@@ -27,7 +27,7 @@ import java.util.Map;
 public class AdministradorActivity extends AppCompatActivity {
 
     private ChipNavigationBar chipNavigationBarNavegacionInferior; // Referencia al ChipNavigationBar
-    private HelperMenuPrincipal helperMenuPrincipal; // Instancia del manejador de fragmentos
+    private HelperMenuPrincipal helperMenuPrincipal;
     private HelperNavegacionInferior helperNavegacionInferior;
     private HelperPerfil helperPerfil;
     private HelperAjustes helperAjustes;
@@ -103,7 +103,7 @@ public class AdministradorActivity extends AppCompatActivity {
         return getIntent().getStringExtra("correo");
     }
 
-    public HelperMenuPrincipal getHelperFragmento() {
+    public HelperMenuPrincipal getHelperMenuPrincipal() {
         return helperMenuPrincipal;
     }
 

@@ -73,7 +73,6 @@ public class RegistroActivity extends AppCompatActivity {
         seleccionarPerfil();
         configurarValidacionDinamica();
 
-
     }
 
     private void inicializarComponentes(){
@@ -377,8 +376,6 @@ public class RegistroActivity extends AppCompatActivity {
         });
     }
 
-
-
     private void guardarUsuario() {
         // Obtener texto de los editText
         String nombre = editTextNombre.getText().toString();
@@ -443,8 +440,6 @@ public class RegistroActivity extends AppCompatActivity {
         });
 
 }
-
-
 
     private void recargarInterfaz(){
         editTextCorreoRegistro.getText().clear();

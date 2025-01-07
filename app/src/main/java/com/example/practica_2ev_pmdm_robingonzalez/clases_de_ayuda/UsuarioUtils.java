@@ -1,11 +1,23 @@
 package com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda;
 
+import android.content.Context;
 import android.util.Log;
-import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 import com.example.practica_2ev_pmdm_robingonzalez.modelo.Usuario;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class UsuarioUtils {
@@ -26,5 +38,77 @@ public class UsuarioUtils {
         return mapUsuario;
     }
 
+    // Método para guardar un empleado en Firebase
+    public static void guardarEmpleadoEnFirebase(Context context, String nombre, String apellidos, String correo, String telefono, String contrasenya, String tipoUsuarioActual) {
+        // Primero, intentamos registrar el usuario en Firebase Authentication
+        FirebaseUtils.registrarUsuarioConEmailYContrasena(correo, contrasenya, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    // Si el registro es exitoso, obtenemos el ID del usuario autenticado
+                    FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                    if (firebaseUser != null) {
+                        String userId = firebaseUser.getUid(); // Obtener el ID del usuario autenticado
+
+                        // Crear el objeto Usuario con los detalles proporcionados
+                        Usuario usuario = new Usuario(nombre, apellidos, correo, telefono, contrasenya, tipoUsuarioActual);
+
+                        // Convertir el objeto Usuario a un Map<String, Object> para almacenarlo en Firebase
+                        Map<String, Object> usuarioMap = anadirUsuarioFirebase(usuario);
+
+                        // Llamar al método para guardar los datos del usuario en Firebase Database
+                        FirebaseUtils.guardarUsuarioEnFirebaseDatabase(userId, usuarioMap, new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Log.d("UsuarioUtils", "Empleado guardado exitosamente.");
+                                } else {
+                                    Log.e("UsuarioUtils", "Error al guardar el empleado: " + task.getException().getMessage());
+                                }
+                            }
+                        });
+                    } else {
+                        // El usuario no se ha autenticado correctamente
+                        Log.e("UsuarioUtils", "Error al obtener el ID del usuario.");
+                    }
+                } else {
+                    // Si el registro falla, manejar el error
+                    Log.e("UsuarioUtils", "Error al registrar el usuario: " + task.getException().getMessage());
+                }
+            }
+        });
+    }
+
+
+    // Método para cargar usuarios según el tipo
+    public static void cargarUsuariosPorTipo(String tipoUsuario, usuariosCargadosListener listener) {
+        FirebaseUtils.getDatabaseReference()
+                .orderByChild("tipoUsuario")
+                .equalTo(tipoUsuario)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        List<Usuario> usuariosList = new ArrayList<>();
+                        for (DataSnapshot data : snapshot.getChildren()) {
+                            Usuario usuario = data.getValue(Usuario.class);
+                            if (usuario != null) {
+                                usuariosList.add(usuario);
+                            }
+                        }
+                        listener.onUsuariosCargados(usuariosList);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        listener.onError(error.toException());
+                    }
+                });
+    }
+
+    // Interfaz para manejar callbacks de carga de usuarios
+    public interface usuariosCargadosListener {
+        void onUsuariosCargados(List<Usuario> usuarios);
+        void onError(Exception e);
+    }
 
 }

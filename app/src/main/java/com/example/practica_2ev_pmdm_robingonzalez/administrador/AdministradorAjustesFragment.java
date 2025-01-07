@@ -81,7 +81,7 @@ public class AdministradorAjustesFragment extends Fragment {
     private void obtenerHelper() {
         if (getActivity() instanceof AdministradorActivity) {
             activityAdministrador = ((AdministradorActivity) getActivity());
-            helperMenuPrincipal = activityAdministrador.getHelperFragmento();
+            helperMenuPrincipal = activityAdministrador.getHelperMenuPrincipal();
             helperAjustes = activityAdministrador.getHelperAjustes();
 
         }
@@ -142,7 +142,7 @@ public class AdministradorAjustesFragment extends Fragment {
                     helperAjustes.cerrarSesion(getContext());
 
                 } else {
-                    Log.e("Error", "helperAjustes null: no se pudo cerrar sesión");
+                    Log.e("AdministradorAjustesFragment", "helperAjustes null: no se pudo cerrar sesión");
                 }
             }
         });

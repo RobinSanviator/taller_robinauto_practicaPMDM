@@ -37,7 +37,7 @@ public class HelperPerfil {
             textViewApellido.setText(datosUsuario[1]);
             textViewCorreo.setText(datosUsuario[2]);
             textViewTelefono.setText(datosUsuario[3]);
-        }else {
+        } else {
             // Si no encontramos los datos en SQLite, obtenemos los datos de Firebase
             obtenerDatosUsuarioDesdeFirebase(correo, textViewNombre, textViewApellido, textViewCorreo, textViewTelefono);
         }
@@ -81,44 +81,46 @@ public class HelperPerfil {
     }
 
     // Método para cargar el nombre y apellidos del usuario en el TextView de la cabecera
-    public void cargarDatosPerfilCabeceraDesdeFirebase( String correo,TextView textViewNombreCabecera,
-                                                        TextView textViewCorreoCabecera) {
-            // Obtener la referencia a la base de datos de Firebase
-            DatabaseReference usuariosRef = FirebaseUtils.getDatabaseReference();
+    public void cargarDatosPerfilCabeceraDesdeFirebase(String correo, TextView textViewNombreCabecera,
+                                                       TextView textViewCorreoCabecera) {
+        // Obtener la referencia a la base de datos de Firebase
+        DatabaseReference usuariosRef = FirebaseUtils.getDatabaseReference();
 
-            // Buscar el usuario por correo en la base de datos de Firebase
-            usuariosRef.orderByChild("correo").equalTo(correo)
-                    .addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.exists()) {
-                                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                    // Obtener el usuario desde Firebase
-                                    Usuario usuario = snapshot.getValue(Usuario.class);
+        // Buscar el usuario por correo en la base de datos de Firebase
+        usuariosRef.orderByChild("correo").equalTo(correo)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                // Obtener el usuario desde Firebase
+                                Usuario usuario = snapshot.getValue(Usuario.class);
 
-                                    if (usuario != null) {
-                                        // Concatenar nombre y apellidos
-                                        String nombreCompleto = usuario.getNombre() + " " + usuario.getApellidos();
-                                        String correo = usuario.getCorreo();
+                                if (usuario != null) {
+                                    // Concatenar nombre y apellidos
+                                    String nombreCompleto = usuario.getNombre() + " " + usuario.getApellidos();
+                                    String correo = usuario.getCorreo();
 
-                                        // Asignar el nombre completo y el correo a los TextViews
-                                        textViewNombreCabecera.setText(nombreCompleto);
-                                        textViewCorreoCabecera.setText(correo);
-                                    }
+                                    // Asignar el nombre completo y el correo a los TextViews
+                                    textViewNombreCabecera.setText(nombreCompleto);
+                                    textViewCorreoCabecera.setText(correo);
                                 }
-                            } else {
-                                Log.d("FirebaseQuery", "No se encontraron usuarios con ese correo.");
-                                Snackbar.make(((Activity) textViewNombreCabecera.getContext()).findViewById(android.R.id.content),
-                                        "No se encontraron usuarios con ese correo.", Snackbar.LENGTH_LONG).show();
                             }
+                        } else {
+                            Log.d("FirebaseQuery", "No se encontraron usuarios con ese correo.");
+                            Snackbar.make(((Activity) textViewNombreCabecera.getContext()).findViewById(android.R.id.content),
+                                    "No se encontraron usuarios con ese correo.", Snackbar.LENGTH_LONG).show();
                         }
+                    }
 
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                            Log.e("FirebaseQuery", "Error al obtener datos: " + databaseError.getMessage());
-                        }
-                    });
-        }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.e("FirebaseQuery", "Error al obtener datos: " + databaseError.getMessage());
+                    }
+                });
     }
+
+
+}
 
 

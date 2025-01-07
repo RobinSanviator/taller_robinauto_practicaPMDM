@@ -1,14 +1,10 @@
 package com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda;
-
-import android.util.Log;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
 import java.util.Map;
 
 public class FirebaseUtils {

@@ -22,6 +22,8 @@ public class AdministrativoMenuPrincipalFragment extends Fragment {
     private CardView cardViewRegistroCoches, cardViewReparaciones, cardViewNotificaciones, cardViewInventario ;
     private HelperMenuPrincipal helperMenuPrincipal;
     private HelperNavegacionInferior helperNavegacionInferior;
+    private AdministrativoActivity activityAdministrativo;
+    private String correo;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,21 +54,25 @@ public class AdministrativoMenuPrincipalFragment extends Fragment {
     }
 
     private void obtenerHelper(){
-        if(getActivity() instanceof AdministrativoActivity){
-            helperMenuPrincipal = (((AdministrativoActivity) getActivity()).getHelperFragmento());
-            helperNavegacionInferior = (((AdministrativoActivity) getActivity()).getHelperNavegacionInferior());
+        if(getActivity() instanceof AdministrativoActivity) {
+            activityAdministrativo = ((AdministrativoActivity) getActivity());
+            helperNavegacionInferior = activityAdministrativo.getHelperNavegacionInferior();
+            helperMenuPrincipal = activityAdministrativo.getHelperMenuPrincipal();
 
+        }else {
+            Log.e("AdministrativoMenuPrincipalFragment", "Error al obtener helper");
         }
+
 
     }
 
     private void obtenerDatosUsuarioCabecera() {
-        String correo = getActivity().getIntent().getStringExtra("correo");
-        if(helperMenuPrincipal != null && correo != null){
+        correo = activityAdministrativo.getCorreo();
+        if (correo != null) {
             helperMenuPrincipal.obtenerDatosUsuario(correo, textViewNombreCabecera);
-        }else {
-            Log.e("AdministrativoMenuPrincipalFragment", "Error al obtener los datos del usuario en la cabecera");
-            textViewNombreCabecera.setText("Usuario no disponible");
+            helperMenuPrincipal.cargarNombreCabeceraDesdeFirebase(correo,textViewNombreCabecera);
+        } else {
+            helperMenuPrincipal.cargarNombreCabeceraDesdeFirebase(correo,textViewNombreCabecera);
         }
     }
 
