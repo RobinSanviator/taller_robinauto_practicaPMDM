@@ -91,7 +91,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/color_texto"
                 android:gravity="center"
-                android:text="@string/textoAdministrativo"
+                android:text="@string/bienvenidaUsuario"
                 android:textColor="@color/fondo"
                 android:textSize="12sp"
                 android:textStyle="italic" />

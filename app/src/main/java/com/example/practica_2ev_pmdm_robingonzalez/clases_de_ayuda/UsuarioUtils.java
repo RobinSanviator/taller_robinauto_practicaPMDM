@@ -13,9 +13,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +57,7 @@ public class UsuarioUtils {
 
                         // Convertir el objeto Usuario a un Map<String, Object> para almacenarlo en Firebase
                         Map<String, Object> usuarioMap = anadirUsuarioFirebase(usuario);
-
+                        Log.d("UsuarioUtils", "Datos del Usuario: " + usuarioMap.toString());
                         // Llamar al método para guardar los datos del usuario en Firebase Database
                         FirebaseUtils.guardarUsuarioEnFirebaseDatabase(userId, usuarioMap, new OnCompleteListener<Void>() {
                             @Override
@@ -79,6 +81,71 @@ public class UsuarioUtils {
         });
     }
 
+    public static void actualizarUsuarioEnFirebase(Usuario usuario) {
+        // Obtener la referencia a la base de datos de Firebase
+        DatabaseReference databaseReference = FirebaseUtils.getDatabaseReference();
+
+        // Buscar al usuario en Firebase mediante su correo electrónico
+        databaseReference.orderByChild("correo").equalTo(usuario.getCorreo()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Verificar si el usuario existe en Firebase
+                if (dataSnapshot.exists()) {
+                    // Asumimos que el usuario tiene un campo 'correo' en la base de datos
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        String userId = snapshot.getKey();  // Obtener el ID del usuario
+
+                        // Crear un mapa con los datos que queremos actualizar
+                        Map<String, Object> actualizarUsuario = new HashMap<>();
+                        actualizarUsuario.put("nombre", usuario.getNombre());
+                        actualizarUsuario.put("apellidos", usuario.getApellidos());
+                        actualizarUsuario.put("telefono", usuario.getTelefono());
+
+                        // Actualizar los datos del usuario en Firebase
+                        databaseReference.child(userId).updateChildren(actualizarUsuario)
+                                .addOnCompleteListener(task -> {
+                                    if (task.isSuccessful()) {
+                                        Log.d("ActualizarUsuarioEnFirebase","Usuario actualizado correctamente");
+                                    } else {
+                                        Log.e("ActualizarUsuarioEnFirebase", "Error al actualizar usuario");
+                                    }
+                                });
+                    }
+                } else {
+                    // Si no se encuentra el usuario en Firebase
+                    Log.e("ActualizarUsuarioEnFirebase", "Error al obtener los usuarios");
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("ActualizarUsuarioEnFirebase", "Error al acceder a la base de datos");
+            }
+        });
+    }
+
+
+    public static void cargarUsuariosBBBDD(usuariosCargadosListener listener){
+        FirebaseUtils.getDatabaseReference()
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        List<Usuario> usuariosList = new ArrayList<>();
+                        for (DataSnapshot data : snapshot.getChildren()) {
+                            Usuario usuario = data.getValue(Usuario.class);
+                            if (usuario != null) {
+                                usuariosList.add(usuario);
+                            }
+                        }
+                        listener.onUsuariosCargados(usuariosList);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        listener.onError(error.toException());
+                    }
+                });
+    }
 
     // Método para cargar usuarios según el tipo
     public static void cargarUsuariosPorTipo(String tipoUsuario, usuariosCargadosListener listener) {

@@ -29,6 +29,7 @@ import com.example.practica_2ev_pmdm_robingonzalez.modelo.Usuario;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.play.core.integrity.g;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -327,7 +328,7 @@ public class AdministradorGestionEmpleadosFragment extends Fragment {
         // Si todos los campos son válidos, guardar el empleado
         if (camposValidos) {
             // Llamar al método para guardar los datos del empleado
-            UsuarioUtils.guardarEmpleadoEnFirebase(requireContext(), nombre, apellidos, correo, telefono, contrasenya, tipoUsuario);
+            UsuarioUtils.guardarEmpleadoEnFirebase(getContext(), nombre, apellidos, correo, telefono, contrasenya, tipoUsuario);
             Snackbar.make(getActivity().findViewById(android.R.id.content), "Se ha guardado el empleado correctamente", Snackbar.LENGTH_SHORT).show();
         } else {
             Snackbar.make(getActivity().findViewById(android.R.id.content), "Por favor, corrige los errores antes de guardar", Snackbar.LENGTH_SHORT).show();

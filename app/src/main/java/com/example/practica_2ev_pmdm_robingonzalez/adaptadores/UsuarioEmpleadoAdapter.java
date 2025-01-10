@@ -14,7 +14,6 @@ import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.UsuarioConsulta
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.FirebaseUtils;
 import com.example.practica_2ev_pmdm_robingonzalez.modelo.Usuario;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import java.util.List;
@@ -111,15 +110,6 @@ public class UsuarioEmpleadoAdapter extends RecyclerView.Adapter<UsuarioEmpleado
 
     // Método para eliminar un usuario de la base de datos de Firebase
     public void eliminarEmpleadoFirebase(String correoEmpleado) {
-        // Obtener el usuario activo
-        FirebaseUser usuarioActivo = FirebaseUtils.getFirebaseAuth().getCurrentUser();
-        String correoActivo = usuarioActivo != null ? usuarioActivo.getEmail() : "";
-
-        // Verificar que no se elimine el usuario activo
-        if (correoEmpleado.equals(correoActivo)) {
-            Log.e("EliminarUsuario", "No puedes eliminar al usuario activo.");
-            return;
-        }
         // Referencia a la base de datos en Firebase Realtime Database
         DatabaseReference databaseRef = FirebaseUtils.getDatabaseReference();
         // Obtener todos los usuarios sin usar un índice

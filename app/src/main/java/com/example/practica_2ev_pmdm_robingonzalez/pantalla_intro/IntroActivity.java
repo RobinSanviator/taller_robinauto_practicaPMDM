@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-
 import com.example.practica_2ev_pmdm_robingonzalez.R;
 import com.example.practica_2ev_pmdm_robingonzalez.inicio_sesion.InicioSesionActivity;
 import com.example.practica_2ev_pmdm_robingonzalez.registro.RegistroActivity;

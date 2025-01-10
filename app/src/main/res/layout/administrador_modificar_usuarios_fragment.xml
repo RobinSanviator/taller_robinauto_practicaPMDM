@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/textoModificarUsuariosCliente"
+            android:text="@string/textoModificarUsuariosUsuarios"
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@color/color_texto"/>

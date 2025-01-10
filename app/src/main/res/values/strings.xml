@@ -51,7 +51,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="textoAltaBaja">Empleados</string>
     <string name="bienvenidaUsuario">Bienvenido</string>
-    <string name="textoModificarUsuarios">Usuarios</string>
+    <string name="textoModificarUsuarios">Modificar usuario</string>
     <string name="textoAjustes">Ajustes</string>
     <string name="textoNotificaciones">Notificar cliente</string>
     <string name="textoAsiganarReparacionMecanicoJefe">Reparaciones</string>
@@ -96,7 +96,7 @@
     <string name="textoValidarContraseña">"Al menos 6 caracteres "</string>
     <string name="textoEliminar">Dar de baja</string>
     <string name="textoAltaBajaEmpleado">Alta y baja de empleados</string>
-    <string name="textoModificarUsuariosCliente">Modificar cliente</string>
     <string name="textoGuardarModifCliente">Guardar cambios</string>
+    <string name="textoModificarUsuariosUsuarios">Modificar usuarios</string>
 
 </resources>

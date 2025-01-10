@@ -125,6 +125,7 @@ public class RegistroActivity extends AppCompatActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(hasFocus){
+                    //Ocultar teclado cuando se foculiza en el spinner
                     InputMethodManager teclado = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     teclado.hideSoftInputFromWindow(spinnerSeleccionarPerfil.getWindowToken(),0);
                     spinnerSeleccionarPerfil.showDropDown();

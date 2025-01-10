@@ -18,6 +18,7 @@ import android.widget.ImageView;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
 import com.example.practica_2ev_pmdm_robingonzalez.adaptadores.UsuarioEmpleadoAdapter;
+import com.example.practica_2ev_pmdm_robingonzalez.adaptadores.UsuarioModificarUsuariosAdapter;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.UsuarioUtils;
 import com.example.practica_2ev_pmdm_robingonzalez.modelo.Usuario;
 import com.google.android.material.snackbar.Snackbar;
@@ -30,7 +31,7 @@ public class AdministradorModificarUsuariosFragment extends Fragment {
     private ImageView imageViewVolver;
     private AdministradorActivity administradorActivity;
     private List<Usuario> usuariosList;
-    private UsuarioEmpleadoAdapter usuariosModificarAdapter;
+    private UsuarioModificarUsuariosAdapter usuariosModificarAdapter;
     private RecyclerView recyclerViewUsuarios;
     private Usuario usuario;
 
@@ -83,34 +84,33 @@ public class AdministradorModificarUsuariosFragment extends Fragment {
     private void configurarRecyclerView(){
         recyclerViewUsuarios.setLayoutManager(new LinearLayoutManager(getContext()));
         usuariosList = new ArrayList<>();
-        usuariosModificarAdapter = new UsuarioEmpleadoAdapter(usuariosList, getContext());
+        usuariosModificarAdapter = new UsuarioModificarUsuariosAdapter(usuariosList, getContext());
         recyclerViewUsuarios.setAdapter(usuariosModificarAdapter);
     }
 
 
     private void cargarUsuarios() {
-       String tipoUsuario = usuario.getTipoUsuario();
-        if(hayConexionInternet()){
-            UsuarioUtils.cargarUsuariosPorTipo(tipoUsuario, new UsuarioUtils.usuariosCargadosListener() {
+        if (hayConexionInternet()) {
+            // Cargar los usuarios desde Firebase sin necesidad del tipo de usuario
+            UsuarioUtils.cargarUsuariosBBBDD(new UsuarioUtils.usuariosCargadosListener() {
                 @Override
                 public void onUsuariosCargados(List<Usuario> usuarios) {
                     // Actualiza el RecyclerView con los usuarios obtenidos
-                    usuariosList.clear();
-                    usuariosList.addAll(usuarios);
-                    usuariosModificarAdapter.notifyDataSetChanged();
+                    usuariosList.clear(); // Limpiar la lista actual
+                    usuariosList.addAll(usuarios); // Añadir los usuarios cargados
+                    usuariosModificarAdapter.notifyDataSetChanged(); // Notificar que los datos han cambiado
                 }
 
                 @Override
                 public void onError(Exception e) {
-                    Log.e("AdministradorModificarUsuariosFragment", "Error al cargar los usuarios");
+                    // Manejar el error si la carga de usuarios falla
+                    Log.e("AdministradorModificarUsuariosFragment", "Error al cargar los usuarios", e);
+                    Snackbar.make(getActivity().findViewById(android.R.id.content), "Error al cargar los usuarios", Snackbar.LENGTH_LONG).show();
                 }
             });
         } else {
             Snackbar.make(getActivity().findViewById(android.R.id.content), "No tienes conexión a Internet. Conéctate para ver los usuarios", Snackbar.LENGTH_LONG).show();
         }
-
-
-
     }
 
     private boolean hayConexionInternet() {
