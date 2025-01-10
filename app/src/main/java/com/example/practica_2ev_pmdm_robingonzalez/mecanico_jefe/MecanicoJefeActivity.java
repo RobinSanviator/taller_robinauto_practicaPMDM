@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
 import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.TallerRobinautoSQLite;
-import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.UsuarioConsultas;
+import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.UsuarioConsulta;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperMenuPrincipal;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperNavegacionInferior;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperPerfil;
@@ -27,7 +27,7 @@ public class MecanicoJefeActivity extends AppCompatActivity {
     private HelperNavegacionInferior helperNavegacionInferior;
     private HelperPerfil helperPerfil;
     private TallerRobinautoSQLite baseDeDatosGestionUsuarios;
-    private UsuarioConsultas usuarioConsultas;
+    private UsuarioConsulta usuarioConsulta;
     private int frameLayoutContenedorFragmento;
 
 
@@ -58,7 +58,7 @@ public class MecanicoJefeActivity extends AppCompatActivity {
     private void inicializarBaseDeDatos(){
         baseDeDatosGestionUsuarios = TallerRobinautoSQLite.getInstance(MecanicoJefeActivity.this);
         // Obtener la instancia de UsuarioConsultas
-        usuarioConsultas = baseDeDatosGestionUsuarios.obtenerUsuarioConsultas();
+        usuarioConsulta = baseDeDatosGestionUsuarios.obtenerUsuarioConsultas();
     }
 
     private void obtenerHelper(){

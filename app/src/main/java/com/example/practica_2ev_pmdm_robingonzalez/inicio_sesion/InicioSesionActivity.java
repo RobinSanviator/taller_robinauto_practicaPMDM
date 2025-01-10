@@ -16,7 +16,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.UsuarioConsultas;
+import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.UsuarioConsulta;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.FirebaseUtils;
 import com.example.practica_2ev_pmdm_robingonzalez.cliente.ClienteActivity;
 import com.example.practica_2ev_pmdm_robingonzalez.R;
@@ -33,8 +33,6 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -47,7 +45,7 @@ public class InicioSesionActivity extends AppCompatActivity {
     private MaterialButton buttonIniciarSesion;
     private TextView textViewEnlaceRegistro;
     private TallerRobinautoSQLite baseDeDatosGestionUsuarios;
-    private UsuarioConsultas usuarioConsultas;
+    private UsuarioConsulta usuarioConsulta;
 
 
 
@@ -83,14 +81,14 @@ public class InicioSesionActivity extends AppCompatActivity {
         // Usar el Singleton para obtener la instancia de la base de datos
         baseDeDatosGestionUsuarios = TallerRobinautoSQLite.getInstance(InicioSesionActivity.this);
         // Obtener la instancia de UsuarioConsultas
-        usuarioConsultas = baseDeDatosGestionUsuarios.obtenerUsuarioConsultas();
+        usuarioConsulta = baseDeDatosGestionUsuarios.obtenerUsuarioConsultas();
     }
 
     private void iniciarSesion() {
         buttonIniciarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cerrarTeclado();
+               // cerrarTeclado();
 
                 String correo = editTextCorreoIS.getText().toString();
                 String contrasenya = editTextContrasenya.getText().toString();
@@ -125,7 +123,7 @@ public class InicioSesionActivity extends AppCompatActivity {
         }
 
         // Verificar si el usuario existe en SQLite
-        Usuario usuarioLocal = usuarioConsultas.obtenerUsuarioPorCorreoYContrasena(correo, contrasenya);
+        Usuario usuarioLocal = usuarioConsulta.obtenerUsuarioPorCorreoYContrasena(correo, contrasenya);
 
         if (usuarioLocal != null) {
             Log.d("InicioSesion", "Usuario encontrado en SQLite: " + usuarioLocal.getCorreo());

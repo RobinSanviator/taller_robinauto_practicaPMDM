@@ -147,7 +147,13 @@ public class HelperAjustes {
                         FirebaseAuth.getInstance().signOut();
                         // Si el usuario confirma, se cierra la sesión y enviarle a inicio de sesión
                         Intent intentInicioSesion = new Intent(context, InicioSesionActivity.class);
+
+                        // Añadir banderas para evitar que el usuario regrese a la actividad anterior
+                        intentInicioSesion.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+                        // Iniciar la actividad de inicio de sesión
                         context.startActivity(intentInicioSesion);
+
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -70,12 +71,12 @@
               android:drawableTint="@color/color_texto"/>
 
           <TextView
-              android:id="@+id/textViewEliminarEmpleadoAdministrativo"
+              android:id="@+id/textViewEliminarEmpleado"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:background="@color/color_error"
               android:clickable="true"
-              android:drawableStart="@drawable/dar_baja"
+              android:drawableStart="@drawable/ic_dar_baja"
               android:drawableTint="@color/blanco"
               android:gravity="center"
               android:text="@string/textoEliminar"

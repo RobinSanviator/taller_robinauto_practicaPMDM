@@ -1,7 +1,6 @@
 package com.example.practica_2ev_pmdm_robingonzalez.base_de_datos;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -70,9 +69,9 @@ public class TallerRobinautoSQLite extends SQLiteOpenHelper {
 
 
     // Método para obtener la instancia de UsuarioConsultas en TallerRobinautoSQLite
-    public UsuarioConsultas obtenerUsuarioConsultas() {
+    public UsuarioConsulta obtenerUsuarioConsultas() {
         SQLiteDatabase baseDeDatos = this.getWritableDatabase(); // Obtener la base de datos en modo lectura y escritura
-        return new UsuarioConsultas(baseDeDatos);
+        return new UsuarioConsulta(baseDeDatos);
     }
 
 

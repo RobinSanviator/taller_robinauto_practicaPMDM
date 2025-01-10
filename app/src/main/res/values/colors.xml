@@ -5,6 +5,7 @@
     <color name="azul_oscuro">#13215B</color>
     <color name="verde">#4CAF50</color>
     <color name="rojo">#D90F34</color>
+    <color name="azul">#03A9F4</color>
     <color name="texto_intro">#13215B</color>
     <color name="color_texto">#FF000000</color>
     <color name="color_error">#B60909</color>

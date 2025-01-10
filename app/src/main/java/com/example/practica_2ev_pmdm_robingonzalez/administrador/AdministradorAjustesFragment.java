@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
 import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.TallerRobinautoSQLite;
-import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.UsuarioConsultas;
+import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.UsuarioConsulta;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperAjustes;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperMenuPrincipal;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,7 +33,7 @@ public class AdministradorAjustesFragment extends Fragment {
     private RelativeLayout relativeLayoutCerrarSesion, relativeLayoutSalir;
     private AdministradorActivity activityAdministrador;
     private TallerRobinautoSQLite baseDeDatosGestionUsuarios;
-    private UsuarioConsultas usuarioConsultas;
+    private UsuarioConsulta usuarioConsulta;
     private HelperMenuPrincipal helperMenuPrincipal;
     private HelperAjustes helperAjustes;
     //Firebase
@@ -74,7 +74,7 @@ public class AdministradorAjustesFragment extends Fragment {
         relativeLayoutCerrarSesion = vista.findViewById(R.id.relativeLayoutSesionAjustesAdmin);
         relativeLayoutSalir = vista.findViewById(R.id.relativeLayoutSalirAjustesAdmin);
         baseDeDatosGestionUsuarios = TallerRobinautoSQLite.getInstance(getContext());
-        usuarioConsultas = baseDeDatosGestionUsuarios.obtenerUsuarioConsultas();
+        usuarioConsulta = baseDeDatosGestionUsuarios.obtenerUsuarioConsultas();
 
     }
 
@@ -103,7 +103,7 @@ public class AdministradorAjustesFragment extends Fragment {
 
     private void introducirNombreUsuarioAjustes(){
         correo = activityAdministrador.getCorreo();
-        String nombre = usuarioConsultas.obtenerNombreYApellidos(correo);
+        String nombre = usuarioConsulta.obtenerNombreYApellidos(correo);
 
         if(correo != null && nombre != null){
             textViewNombre.setText(nombre);

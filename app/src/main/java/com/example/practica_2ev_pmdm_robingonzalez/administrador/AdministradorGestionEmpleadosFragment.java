@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,15 +21,13 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
-import com.example.practica_2ev_pmdm_robingonzalez.adaptadores.UsuarioAdapter;
+import com.example.practica_2ev_pmdm_robingonzalez.adaptadores.UsuarioEmpleadoAdapter;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.UsuarioUtils;
 import com.example.practica_2ev_pmdm_robingonzalez.modelo.Usuario;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
@@ -42,15 +41,15 @@ public class AdministradorGestionEmpleadosFragment extends Fragment {
     private RecyclerView recyclerViewUsuarios;
     private AdministradorActivity activityAdministrador;
     private List<Usuario> usuariosList;
-    private UsuarioAdapter usuariosAdapter;
+    private UsuarioEmpleadoAdapter usuariosEmpleadoAdapter;
     private TextInputLayout layoutNombre, layoutApellidos,
             layoutCorreo, layoutTelefono, layoutContrasenya;
     private EditText editTextNombreEmpleado, editTextApellidosEmpleado,
             editTextCorreoEmpleado, editTextTelefonoEmpleado, editTextContrasenyaEmpleado;
     private Spinner spinnerTipoUsuarioEmpleado;
     private String tipoEmpleadoActual;
-    private TextView textViewDarDeBajaAdministrativo, textViewDarDeBajaMjefe,
-            textViewDarDeBajaMecanico;
+
+
 
 
 
@@ -86,9 +85,7 @@ public class AdministradorGestionEmpleadosFragment extends Fragment {
         imageViewMecanicos = vista.findViewById(R.id.imageViewVolverAltaBajaMecanicos);
         fabDarDeAlta = vista.findViewById(R.id.floatingBotonDarDeAlta);
         recyclerViewUsuarios = vista.findViewById(R.id.recyclerViewListaUsuariosAltaBaja);
-        textViewDarDeBajaAdministrativo = vista.findViewById(R.id.textViewEliminarEmpleadoAdministrativo);
-        textViewDarDeBajaMjefe = vista.findViewById(R.id.textViewEliminarEmpleadoMjefe);
-        textViewDarDeBajaMecanico = vista.findViewById(R.id.textViewEliminarEmpleadoMecanico);
+
     }
 
     private void obtenerHelper(){
@@ -122,8 +119,8 @@ public class AdministradorGestionEmpleadosFragment extends Fragment {
     private void configurarRecyclerView(){
         recyclerViewUsuarios.setLayoutManager(new LinearLayoutManager(getContext()));
         usuariosList = new ArrayList<>();
-        usuariosAdapter = new UsuarioAdapter(usuariosList, getContext());
-        recyclerViewUsuarios.setAdapter(usuariosAdapter);
+        usuariosEmpleadoAdapter = new UsuarioEmpleadoAdapter(usuariosList, getContext());
+        recyclerViewUsuarios.setAdapter(usuariosEmpleadoAdapter);
     }
 
     private void configurarListeners() {
@@ -157,7 +154,7 @@ public class AdministradorGestionEmpleadosFragment extends Fragment {
                     // Actualiza el RecyclerView con los usuarios obtenidos
                     usuariosList.clear();
                     usuariosList.addAll(usuarios);
-                    usuariosAdapter.notifyDataSetChanged();
+                    usuariosEmpleadoAdapter.notifyDataSetChanged();
                 }
 
                 @Override
@@ -345,5 +342,6 @@ public class AdministradorGestionEmpleadosFragment extends Fragment {
         }
         return false;
     }
+
 
     }

@@ -1,21 +1,40 @@
 package com.example.practica_2ev_pmdm_robingonzalez.administrador;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
+import com.example.practica_2ev_pmdm_robingonzalez.adaptadores.UsuarioEmpleadoAdapter;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.UsuarioUtils;
+import com.example.practica_2ev_pmdm_robingonzalez.modelo.Usuario;
+import com.google.android.material.snackbar.Snackbar;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AdministradorModificarUsuariosFragment extends Fragment {
 
     private ImageView imageViewVolver;
     private AdministradorActivity administradorActivity;
+    private List<Usuario> usuariosList;
+    private UsuarioEmpleadoAdapter usuariosModificarAdapter;
+    private RecyclerView recyclerViewUsuarios;
+    private Usuario usuario;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,20 +47,27 @@ public class AdministradorModificarUsuariosFragment extends Fragment {
                              Bundle savedInstanceState) {
         //Inflar diseño del layout del menú principal
         View vista = inflater.inflate(R.layout.administrador_modificar_usuarios_fragment, container, false);
-        imageViewVolver = vista.findViewById(R.id.imageViewVolverMenuPrincipalDesdeUsuarios);
+        imageViewVolver = vista.findViewById(R.id.imageViewVolverMenuPrincipalDesdeCliente);
 
-
-        obtenerMetdosAdministrador();
+        inicializarComponentes(vista);
+        obtenerHelper();
         volverMenuPrincipalDesdeUsuarios();
+        configurarRecyclerView();
+        cargarUsuarios();
+
         return vista;
     }
 
-    public void obtenerMetdosAdministrador(){
+    private void inicializarComponentes(View vista){
+    recyclerViewUsuarios = vista.findViewById(R.id.recyclerViewListaUsuariosModificar);
+    }
+
+    private void obtenerHelper(){
         if(getActivity() instanceof AdministradorActivity){
             administradorActivity = ((AdministradorActivity) getActivity());
         }
     }
-    public void volverMenuPrincipalDesdeUsuarios(){
+    private void volverMenuPrincipalDesdeUsuarios(){
         imageViewVolver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,4 +80,46 @@ public class AdministradorModificarUsuariosFragment extends Fragment {
         });
     }
 
+    private void configurarRecyclerView(){
+        recyclerViewUsuarios.setLayoutManager(new LinearLayoutManager(getContext()));
+        usuariosList = new ArrayList<>();
+        usuariosModificarAdapter = new UsuarioEmpleadoAdapter(usuariosList, getContext());
+        recyclerViewUsuarios.setAdapter(usuariosModificarAdapter);
+    }
+
+
+    private void cargarUsuarios() {
+       String tipoUsuario = usuario.getTipoUsuario();
+        if(hayConexionInternet()){
+            UsuarioUtils.cargarUsuariosPorTipo(tipoUsuario, new UsuarioUtils.usuariosCargadosListener() {
+                @Override
+                public void onUsuariosCargados(List<Usuario> usuarios) {
+                    // Actualiza el RecyclerView con los usuarios obtenidos
+                    usuariosList.clear();
+                    usuariosList.addAll(usuarios);
+                    usuariosModificarAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    Log.e("AdministradorModificarUsuariosFragment", "Error al cargar los usuarios");
+                }
+            });
+        } else {
+            Snackbar.make(getActivity().findViewById(android.R.id.content), "No tienes conexión a Internet. Conéctate para ver los usuarios", Snackbar.LENGTH_LONG).show();
+        }
+
+
+
+    }
+
+    private boolean hayConexionInternet() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager != null) {
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+            return networkInfo != null && networkInfo.isConnected();
+        }
+        return false;
+
+}
 }

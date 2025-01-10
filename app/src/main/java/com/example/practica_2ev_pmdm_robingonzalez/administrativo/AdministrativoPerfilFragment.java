@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.example.practica_2ev_pmdm_robingonzalez.R;
 
 import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.TallerRobinautoSQLite;
-import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.UsuarioConsultas;
+import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.UsuarioConsulta;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperMenuPrincipal;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperNavegacionInferior;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperPerfil;
@@ -31,7 +31,7 @@ public class AdministrativoPerfilFragment extends Fragment {
     private AdministrativoActivity activityAdministrativo;
     private HelperPerfil helperPerfil;
     private TallerRobinautoSQLite baseDeDatosGestionUsuarios;
-    private UsuarioConsultas usuarioConsultas;
+    private UsuarioConsulta usuarioConsulta;
     private HelperMenuPrincipal helperMenuPrincipal;
     private HelperNavegacionInferior helperNavegacionInferior;
 
@@ -76,7 +76,7 @@ public class AdministrativoPerfilFragment extends Fragment {
             helperMenuPrincipal = activityAdministrativo.getHelperMenuPrincipal();
             helperNavegacionInferior = activityAdministrativo.getHelperNavegacionInferior();
             baseDeDatosGestionUsuarios = TallerRobinautoSQLite.getInstance(getContext());
-            usuarioConsultas = baseDeDatosGestionUsuarios.obtenerUsuarioConsultas();
+            usuarioConsulta = baseDeDatosGestionUsuarios.obtenerUsuarioConsultas();
         }
 
     }
@@ -98,7 +98,7 @@ public class AdministrativoPerfilFragment extends Fragment {
 
     private void introducirDatosPerfilCabecera(){
         correo = activityAdministrativo.getCorreo();
-        String nombre = usuarioConsultas.obtenerNombreYApellidos(correo);
+        String nombre = usuarioConsulta.obtenerNombreYApellidos(correo);
 
         if(correo != null && nombre != null){
             textViewNombreCabecera.setText(nombre);

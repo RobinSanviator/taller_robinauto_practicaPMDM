@@ -24,7 +24,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.UsuarioConsultas;
+import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.UsuarioConsulta;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.FirebaseUtils;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.UsuarioUtils;
 import com.example.practica_2ev_pmdm_robingonzalez.inicio_sesion.InicioSesionActivity;
@@ -35,7 +35,6 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Map;
 
@@ -48,7 +47,7 @@ public class RegistroActivity extends AppCompatActivity {
   private  CheckBox checkBoxUsoServicio, checkBoxPropiedadIntelectual, checkBoxPrivacidad, checkBoxPromociones,
             checkBoxAceptarTodo;
   private TallerRobinautoSQLite baseDeDatosGestionUsuarios;
-  private UsuarioConsultas usuarioConsultas;
+  private UsuarioConsulta usuarioConsulta;
 
 
 
@@ -93,7 +92,7 @@ public class RegistroActivity extends AppCompatActivity {
         // Usar el Singleton para obtener la instancia de la base de datos
         baseDeDatosGestionUsuarios = TallerRobinautoSQLite.getInstance(RegistroActivity.this);
         // Obtener la instancia de UsuarioConsultas
-        usuarioConsultas = baseDeDatosGestionUsuarios.obtenerUsuarioConsultas();
+        usuarioConsulta = baseDeDatosGestionUsuarios.obtenerUsuarioConsultas();
     }
 
     private void registrarse(){
@@ -192,7 +191,7 @@ public class RegistroActivity extends AppCompatActivity {
     private boolean verificarCorreoEnUso(String correo) {
 
         // Llamar al método de la base de datos para verificar el correo
-        boolean correoEncontrado = usuarioConsultas.correoEnUso(correo);
+        boolean correoEncontrado = usuarioConsulta.correoEnUso(correo);
         // Retornar true si el correo ya está en uso, false si no
         return correoEncontrado;
     }
@@ -389,7 +388,7 @@ public class RegistroActivity extends AppCompatActivity {
         Usuario nuevoUsuario = new Usuario(nombre, apellidos, correo, telefono, contrasenya, tipoUsuario);
 
         // Guardar en la base de datos local SQLite
-        long idUsuario = usuarioConsultas.insertarUsuario(nuevoUsuario);
+        long idUsuario = usuarioConsulta.insertarUsuario(nuevoUsuario);
         Log.d("ID Usuario", "Id usuario" + idUsuario);
 
         if (idUsuario != -1) {

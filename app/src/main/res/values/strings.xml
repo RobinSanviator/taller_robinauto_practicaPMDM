@@ -95,5 +95,8 @@
     <string name="textoValidarCorreo">Foramto válido \'ejemplo@ejemplo.com\'</string>
     <string name="textoValidarContraseña">"Al menos 6 caracteres "</string>
     <string name="textoEliminar">Dar de baja</string>
+    <string name="textoAltaBajaEmpleado">Alta y baja de empleados</string>
+    <string name="textoModificarUsuariosCliente">Modificar cliente</string>
+    <string name="textoGuardarModifCliente">Guardar cambios</string>
 
 </resources>

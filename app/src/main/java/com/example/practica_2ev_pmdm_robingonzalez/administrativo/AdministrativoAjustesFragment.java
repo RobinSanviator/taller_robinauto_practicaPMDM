@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
 import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.TallerRobinautoSQLite;
-import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.UsuarioConsultas;
+import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.UsuarioConsulta;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperAjustes;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperMenuPrincipal;
 
@@ -31,7 +31,7 @@ public class AdministrativoAjustesFragment extends Fragment {
     private RelativeLayout relativeLayoutCerrarSesion, relativeLayoutSalir;
     private AdministrativoActivity activityAdministrativo;
     private TallerRobinautoSQLite baseDeDatosGestionUsuarios;
-    private UsuarioConsultas usuarioConsultas;
+    private UsuarioConsulta usuarioConsulta;
     private HelperMenuPrincipal helperMenuPrincipal;
     private HelperAjustes helperAjustes;
 
@@ -69,7 +69,7 @@ public class AdministrativoAjustesFragment extends Fragment {
         relativeLayoutCerrarSesion = vista.findViewById(R.id.relativeLayoutSesionAjustesAdministrativo);
         relativeLayoutSalir = vista.findViewById(R.id.relativeLayoutSalirAjustesAdministrativo);
         baseDeDatosGestionUsuarios = TallerRobinautoSQLite.getInstance(getContext());
-        usuarioConsultas = baseDeDatosGestionUsuarios.obtenerUsuarioConsultas();
+        usuarioConsulta = baseDeDatosGestionUsuarios.obtenerUsuarioConsultas();
 
     }
 
@@ -99,7 +99,7 @@ public class AdministrativoAjustesFragment extends Fragment {
 
     private void introducirNombreUsuarioAjustes(){
         correo = activityAdministrativo.getCorreo();
-        String nombre = usuarioConsultas.obtenerNombreYApellidos(correo);
+        String nombre = usuarioConsulta.obtenerNombreYApellidos(correo);
 
         if(correo != null && nombre != null){
             textViewNombre.setText(nombre);

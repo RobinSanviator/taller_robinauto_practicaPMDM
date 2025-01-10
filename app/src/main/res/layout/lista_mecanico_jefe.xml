@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_margin="15dp"
     app:cardCornerRadius="25dp">
 
@@ -20,7 +20,7 @@
             android:layout_marginStart="15dp"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/mecanico"/>
+            android:src="@drawable/mecanico_jefe"/>
 
         <LinearLayout
             android:id="@+id/linearLayoutContenidoEmpleado"
@@ -30,7 +30,6 @@
             android:layout_margin="10dp"
             android:layout_toRightOf="@id/imageViewEmpleado"
             android:orientation="vertical">
-
 
             <TextView
                 android:id="@+id/textViewNombreEmpleado"
@@ -57,6 +56,8 @@
                 android:drawablePadding="10dp"
                 android:drawableTint="@color/color_texto"/>
 
+
+
             <TextView
                 android:id="@+id/textViewTelefonoEmpleado"
                 android:layout_width="match_parent"
@@ -70,12 +71,12 @@
                 android:drawableTint="@color/color_texto"/>
 
             <TextView
-                android:id="@+id/textViewEliminarEmpleadoMecanico"
+                android:id="@+id/textViewEliminarEmpleado"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/color_error"
                 android:clickable="true"
-                android:drawableStart="@drawable/dar_baja"
+                android:drawableStart="@drawable/ic_dar_baja"
                 android:drawableTint="@color/blanco"
                 android:gravity="center"
                 android:text="@string/textoEliminar"
@@ -84,13 +85,14 @@
                 android:textStyle="bold"
                 tools:ignore="TouchTargetSizeCheck" />
 
+
             <TextView
                 android:id="@+id/textViewTipoEmpleado"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/color_texto"
                 android:gravity="center"
-                android:text="@string/textoMecanico"
+                android:text="@string/textoMecanicoJefe"
                 android:textColor="@color/fondo"
                 android:textSize="12sp"
                 android:textStyle="italic" />

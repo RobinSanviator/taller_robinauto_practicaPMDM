@@ -8,11 +8,11 @@ import android.util.Log;
 
 import com.example.practica_2ev_pmdm_robingonzalez.modelo.Usuario;
 
-public class UsuarioConsultas {
+public class UsuarioConsulta {
 
     private SQLiteDatabase baseDeDatos;
 
-    public UsuarioConsultas(SQLiteDatabase baseDeDatos) {
+    public UsuarioConsulta(SQLiteDatabase baseDeDatos) {
         this.baseDeDatos = baseDeDatos;
     }
 
@@ -156,7 +156,7 @@ public class UsuarioConsultas {
 
     public boolean actualizarUsuario(Usuario usuario) {
         // Verificar que el ID del usuario no sea nulo o inválido
-        if (usuario.getIdUsuario() == -1) {
+        if (usuario.getIdUsuario() == 0) {  // Puedes usar 0 si ese es el valor para un ID no asignado
             Log.e("InicioSesion", "ID de usuario inválido o no asignado.");
             return false;
         }
@@ -293,4 +293,64 @@ public class UsuarioConsultas {
         return datosUsuario;
     }
 
+    public boolean eliminarUsuarioSQLite(String correo) {
+        boolean eliminado = false;
+
+        // Verificar si el correo es válido
+        if (correo == null || correo.isEmpty()) {
+            Log.e("UsuarioConsultas", "Correo no válido");
+            return false;
+        }
+
+        // Verificar si el correo existe en la base de datos
+        if (!existeCorreoEnBaseDeDatos(correo)) {
+            Log.d("UsuarioConsultas", "El usuario no está registrado en la base de datos local.");
+            return false; // Si no existe, no intentar eliminar
+        }
+
+        try {
+            // Ejecutar la consulta de eliminación usando el correo
+            int filasAfectadas = baseDeDatos.delete(
+                    "usuarios",  // Nombre de la tabla
+                    "correo = ?",  // Condición WHERE
+                    new String[]{correo}  // Valor del correo
+            );
+
+            // Verificar si se eliminó alguna fila
+            if (filasAfectadas > 0) {
+                Log.d("UsuarioConsultas", "Usuario eliminado correctamente.");
+                eliminado = true;
+            } else {
+                Log.e("UsuarioConsultas", "No se encontró un usuario con ese correo.");
+            }
+        } catch (SQLException e) {
+            Log.e("UsuarioConsultas", "Error al eliminar el usuario", e);
+        }
+
+        return eliminado;
+    }
+
+    // Método adicional para verificar si el correo existe en la base de datos
+    private boolean existeCorreoEnBaseDeDatos(String correo) {
+        Cursor cursor = null;
+        boolean existe = false;
+        try {
+            cursor = baseDeDatos.query("usuarios",
+                    new String[] {"correo"},
+                    "correo = ?",
+                    new String[] {correo},
+                    null, null, null);
+
+            if (cursor != null && cursor.moveToFirst()) {
+                existe = true; // Si se encuentra el correo, entonces existe en la base de datos
+            }
+        } catch (SQLException e) {
+            Log.e("UsuarioConsultas", "Error al verificar la existencia del correo", e);
+        } finally {
+            if (cursor != null) {
+                cursor.close(); // Asegúrate de cerrar el cursor
+            }
+        }
+        return existe;
+    }
 }

@@ -1,18 +1,15 @@
 package com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda;
 
-import android.app.Activity;
 import android.util.Log;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.TallerRobinautoSQLite;
-import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.UsuarioConsultas;
+import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.UsuarioConsulta;
 import com.example.practica_2ev_pmdm_robingonzalez.modelo.Usuario;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,10 +43,10 @@ public class HelperMenuPrincipal {
         if (activityActividad != null) {
             // Accede a la base de datos desde la actividad
             TallerRobinautoSQLite baseDeDatosGestionUsuarios = TallerRobinautoSQLite.getInstance(activityActividad);
-            UsuarioConsultas usuarioConsultas = baseDeDatosGestionUsuarios.obtenerUsuarioConsultas();
+            UsuarioConsulta usuarioConsulta = baseDeDatosGestionUsuarios.obtenerUsuarioConsultas();
 
             // Obtiene el nombre completo del usuario desde la base de datos
-            String nombreCompleto = usuarioConsultas.obtenerNombreYApellidos(correo);
+            String nombreCompleto = usuarioConsulta.obtenerNombreYApellidos(correo);
 
             // Si hay un nombre completo, lo establece en el TextView
             if (nombreCompleto != null) {

@@ -5,7 +5,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.TallerRobinautoSQLite;
-import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.UsuarioConsultas;
+import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.UsuarioConsulta;
 import com.example.practica_2ev_pmdm_robingonzalez.modelo.Usuario;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
@@ -14,14 +14,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 public class HelperPerfil {
-    private UsuarioConsultas usuarioConsultas;
+    private UsuarioConsulta usuarioConsulta;
 
     // Constructor para inicializar la instancia de UsuarioConsultas
     public HelperPerfil(TallerRobinautoSQLite baseDeDatosGestionUsuarios) {
         if (baseDeDatosGestionUsuarios == null) {
             throw new IllegalArgumentException("La base de datos no puede ser null");
         }
-        this.usuarioConsultas = baseDeDatosGestionUsuarios.obtenerUsuarioConsultas();
+        this.usuarioConsulta = baseDeDatosGestionUsuarios.obtenerUsuarioConsultas();
     }
 
     // Método para cargar los datos del usuario en los TextViews
@@ -29,7 +29,7 @@ public class HelperPerfil {
                                   TextView textViewCorreo, TextView textViewTelefono) {
 
         // Llamar al método obtenerDatosUsuario de la base de datos
-        String[] datosUsuario = usuarioConsultas.obtenerDatosUsuario(correo);
+        String[] datosUsuario = usuarioConsulta.obtenerDatosUsuario(correo);
 
         if (datosUsuario != null) {
             // Asignar los datos obtenidos a los TextViews

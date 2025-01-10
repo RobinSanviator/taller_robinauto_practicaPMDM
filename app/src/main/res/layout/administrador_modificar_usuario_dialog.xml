@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Campo para el nombre -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutNombreEmpleado"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        app:endIconMode="clear_text">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextNombreUsuario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/textoNombre"
+            android:inputType="textPersonName"
+            android:minHeight="48dp"
+            android:drawableStart="@drawable/ic_nombre"
+            android:drawablePadding="8dp"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Campo para los apellidos -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutApellidosEmpleado"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        app:endIconMode="clear_text">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextApellidosUsuario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/textoApellidos"
+            android:inputType="textPersonName"
+            android:minHeight="48dp"
+            android:drawableStart="@drawable/ic_nombre"
+            android:drawablePadding="8dp"
+            app:endIconMode="clear_text"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Campo para el teléfono -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutTelefonoEmpleado"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:boxBackgroundMode="outline"
+        app:counterEnabled="true"
+        app:counterMaxLength="9"
+        app:endIconMode="clear_text">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextTelefonoUsuario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/textoTelefono"
+            android:inputType="number"
+            android:minHeight="48dp"
+            android:drawableStart="@drawable/ic_telefono_contacto"
+            android:drawablePadding="8dp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Botón para Confirmar los cambios -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonGuardarCambios"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:cornerRadius="30dp"
+        android:backgroundTint="@color/verde"
+        android:text="@string/textoGuardarModifCliente"
+        android:textColor="@color/color_texto"/>
+
+</LinearLayout>

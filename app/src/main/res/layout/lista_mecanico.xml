@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="15dp"
+    app:cardCornerRadius="25dp">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutCardViewUsuariosAdministrativos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/fondo">
+
+        <ImageView
+            android:id="@+id/imageViewEmpleado"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/mecanico"/>
+
+        <LinearLayout
+            android:id="@+id/linearLayoutContenidoEmpleado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"
+            android:layout_toRightOf="@id/imageViewEmpleado"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/textViewNombreEmpleado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="@string/textoNombre"
+                android:textColor="@color/color_texto"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:drawableStart="@drawable/ic_nombre"
+                android:drawablePadding="10dp"
+                android:drawableTint="@color/color_texto"/>
+
+            <TextView
+                android:id="@+id/textViewCorreoEmpleado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="@string/textoCorreoAcortado"
+                android:textColor="@color/color_texto"
+                android:textSize="12sp"
+                android:drawableStart="@drawable/ic_correo"
+                android:drawablePadding="10dp"
+                android:drawableTint="@color/color_texto"/>
+
+            <TextView
+                android:id="@+id/textViewTelefonoEmpleado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="@string/textoTelefono"
+                android:textColor="@color/color_texto"
+                android:textSize="12sp"
+                android:drawableStart="@drawable/ic_telefono_contacto"
+                android:drawablePadding="10dp"
+                android:drawableTint="@color/color_texto"/>
+
+            <TextView
+                android:id="@+id/textViewEliminarEmpleado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_error"
+                android:clickable="true"
+                android:drawableStart="@drawable/ic_dar_baja"
+                android:drawableTint="@color/blanco"
+                android:gravity="center"
+                android:text="@string/textoEliminar"
+                android:textColor="@color/fondo"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <TextView
+                android:id="@+id/textViewTipoEmpleado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_texto"
+                android:gravity="center"
+                android:text="@string/textoMecanico"
+                android:textColor="@color/fondo"
+                android:textSize="12sp"
+                android:textStyle="italic" />
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

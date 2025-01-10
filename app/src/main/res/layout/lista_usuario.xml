@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -8,31 +9,32 @@
     app:cardCornerRadius="25dp">
 
     <RelativeLayout
-        android:id="@+id/relativeLayoutCardViewUsuariosAdministrativos"
+        android:id="@+id/relativeLayoutCardViewUsuariosUsuario"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/fondo">
 
         <ImageView
-            android:id="@+id/imageViewEmpleado"
+            android:id="@+id/imageViewUsuario"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginStart="15dp"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/mecanico_jefe"/>
+            android:src="@drawable/usuarios"/>
 
         <LinearLayout
-            android:id="@+id/linearLayoutContenidoEmpleado"
+            android:id="@+id/linearLayoutContenidoUsuario"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_margin="10dp"
-            android:layout_toRightOf="@id/imageViewEmpleado"
+            android:layout_toRightOf="@id/imageViewUsuario"
             android:orientation="vertical">
 
+
             <TextView
-                android:id="@+id/textViewNombreEmpleado"
+                android:id="@+id/textViewNombreUsuario"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -45,21 +47,19 @@
                 android:drawableTint="@color/color_texto"/>
 
             <TextView
-                android:id="@+id/textViewCorreoEmpleado"
+                android:id="@+id/textViewCorreoUsuario"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_correo"
+                android:drawablePadding="10dp"
+                android:drawableTint="@color/color_texto"
                 android:gravity="center_vertical"
                 android:text="@string/textoCorreoAcortado"
                 android:textColor="@color/color_texto"
-                android:textSize="12sp"
-                android:drawableStart="@drawable/ic_correo"
-                android:drawablePadding="10dp"
-                android:drawableTint="@color/color_texto"/>
-
-
+                android:textSize="12sp" />
 
             <TextView
-                android:id="@+id/textViewTelefonoEmpleado"
+                android:id="@+id/textViewTelefonoUsuario"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -71,32 +71,30 @@
                 android:drawableTint="@color/color_texto"/>
 
             <TextView
-                android:id="@+id/textViewEliminarEmpleadoMjefe"
+                android:id="@+id/textViewModificarUsuario"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/color_error"
+                android:background="@color/azul"
                 android:clickable="true"
-                android:drawableStart="@drawable/dar_baja"
-                android:drawableTint="@color/blanco"
+                android:drawableStart="@drawable/ic_modificar"
+                android:drawableTint="@color/color_texto"
                 android:gravity="center"
-                android:text="@string/textoEliminar"
-                android:textColor="@color/fondo"
+                android:text="@string/textoModificarUsuarios"
+                android:textColor="@color/color_texto"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                tools:ignore="TouchTargetSizeCheck" />
-
+                tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
 
             <TextView
-                android:id="@+id/textViewTipoEmpleado"
+                android:id="@+id/textViewTipoUsuario"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/color_texto"
                 android:gravity="center"
-                android:text="@string/textoMecanicoJefe"
+                android:text="@string/textoAdministrativo"
                 android:textColor="@color/fondo"
                 android:textSize="12sp"
                 android:textStyle="italic" />
-
 
         </LinearLayout>
 
