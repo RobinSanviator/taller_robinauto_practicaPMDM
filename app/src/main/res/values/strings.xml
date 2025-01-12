@@ -98,5 +98,6 @@
     <string name="textoAltaBajaEmpleado">Alta y baja de empleados</string>
     <string name="textoGuardarModifCliente">Guardar cambios</string>
     <string name="textoModificarUsuariosUsuarios">Modificar usuarios</string>
+    <string name="textoRegistroEntradaCoches">Registrar entrada de coche</string>
 
 </resources>
