@@ -99,5 +99,11 @@
     <string name="textoGuardarModifCliente">Guardar cambios</string>
     <string name="textoModificarUsuariosUsuarios">Modificar usuarios</string>
     <string name="textoRegistroEntradaCoches">Registrar entrada de coche</string>
+    <string name="textoMarcaCoche">Marca coche</string>
+    <string name="textoModeloCoche">Modelo coche</string>
+    <string name="textoMatriculaCoche">Matricula coche</string>
+    <string name="AsignarMj">Asignar mecánico jefe para diagnóstico</string>
+    <string name="textoGuardarRegistro">Guardar registro</string>
+    <string name="textoAltaReparacion">Dar de alta nueva reparación</string>
 
 </resources>

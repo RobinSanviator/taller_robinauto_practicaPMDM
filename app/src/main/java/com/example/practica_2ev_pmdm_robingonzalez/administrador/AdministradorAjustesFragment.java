@@ -94,7 +94,7 @@ public class AdministradorAjustesFragment extends Fragment {
                 if(helperMenuPrincipal != null){
                     activityAdministrador.volverMenuPrincipal();
                 } else {
-                    Log.e("Error", "helperFragmento null: no se pudo volver al menú principal");
+                    Log.e("AdministradorAjustesFragment", "No se pudo volver al menú principal");
                 }
 
             }
@@ -107,19 +107,19 @@ public class AdministradorAjustesFragment extends Fragment {
 
         if(correo != null && nombre != null){
             textViewNombre.setText(nombre);
-
+            helperAjustes.cargarNombreCabeceraDesdeFirebase(correo, textViewNombre);
         } else {
-            Log.e("Error", "Correo o nombre null");
+            helperAjustes.cargarNombreCabeceraDesdeFirebase(correo, textViewNombre);
         }
 
     }
 
     private void modoOscuro() {
         if(helperAjustes != null ){
-            helperAjustes.modoOscuro(switchCompatBotonModoOscuro, progressBarModoOscuro,  getContext());
+            helperAjustes.modoOscuro(correo, switchCompatBotonModoOscuro, progressBarModoOscuro,  getContext());
 
         }else{
-            Log.e("Error", "helperAjustes null");
+            Log.e("AdministradorAjustesFragment", "No se puede cargar el modo oscuro");
         }
     }
 
@@ -129,7 +129,7 @@ public class AdministradorAjustesFragment extends Fragment {
       if(helperAjustes != null){
           helperAjustes.cargarPreferenciaModoOscuro(switchCompatBotonModoOscuro, getContext());
       }else{
-          Log.e("Error", "helperAjustes null: no se pudo cargar la precerencia de modo oscuro");
+          Log.e("AdministradorAjustesFragment", "No se puede cargar la preferencia de modo oscuro");
       }
     }
 

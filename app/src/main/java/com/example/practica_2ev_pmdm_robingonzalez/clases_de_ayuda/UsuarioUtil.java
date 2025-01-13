@@ -22,7 +22,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class UsuarioUtils {
+public class UsuarioUtil {
 
     // Método estático que convierte un objeto Usuario a un Map<String, Object>
     public static Map<String, Object> anadirUsuarioFirebase(Usuario usuario) {
@@ -43,7 +43,7 @@ public class UsuarioUtils {
     // Método para guardar un empleado en Firebase
     public static void guardarEmpleadoEnFirebase(Context context, String nombre, String apellidos, String correo, String telefono, String contrasenya, String tipoUsuarioActual) {
         // Primero, intentamos registrar el usuario en Firebase Authentication
-        FirebaseUtils.registrarUsuarioConEmailYContrasena(correo, contrasenya, new OnCompleteListener<AuthResult>() {
+        FirebaseUtil.registrarUsuarioConEmailYContrasena(correo, contrasenya, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
@@ -59,7 +59,7 @@ public class UsuarioUtils {
                         Map<String, Object> usuarioMap = anadirUsuarioFirebase(usuario);
                         Log.d("UsuarioUtils", "Datos del Usuario: " + usuarioMap.toString());
                         // Llamar al método para guardar los datos del usuario en Firebase Database
-                        FirebaseUtils.guardarUsuarioEnFirebaseDatabase(userId, usuarioMap, new OnCompleteListener<Void>() {
+                        FirebaseUtil.guardarUsuarioEnFirebaseDatabase(userId, usuarioMap, new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
@@ -83,7 +83,7 @@ public class UsuarioUtils {
 
     public static void actualizarUsuarioEnFirebase(Usuario usuario) {
         // Obtener la referencia a la base de datos de Firebase
-        DatabaseReference databaseReference = FirebaseUtils.getDatabaseReference();
+        DatabaseReference databaseReference = FirebaseUtil.getDatabaseReference();
 
         // Buscar al usuario en Firebase mediante su correo electrónico
         databaseReference.orderByChild("correo").equalTo(usuario.getCorreo()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -126,7 +126,7 @@ public class UsuarioUtils {
 
 
     public static void cargarUsuariosBBBDD(usuariosCargadosListener listener){
-        FirebaseUtils.getDatabaseReference()
+        FirebaseUtil.getDatabaseReference()
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -149,7 +149,7 @@ public class UsuarioUtils {
 
     // Método para cargar usuarios según el tipo
     public static void cargarUsuariosPorTipo(String tipoUsuario, usuariosCargadosListener listener) {
-        FirebaseUtils.getDatabaseReference()
+        FirebaseUtil.getDatabaseReference()
                 .orderByChild("tipoUsuario")
                 .equalTo(tipoUsuario)
                 .addListenerForSingleValueEvent(new ValueEventListener() {

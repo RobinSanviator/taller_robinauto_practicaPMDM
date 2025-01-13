@@ -48,7 +48,7 @@ public class HelperPerfil {
                                                   TextView textViewApellido, TextView textViewCorreo,
                                                   TextView textViewTelefono) {
 
-        DatabaseReference usuariosRef = FirebaseUtils.getDatabaseReference();
+        DatabaseReference usuariosRef = FirebaseUtil.getDatabaseReference();
 
         // Buscar el usuario por correo en la base de datos de Firebase
         usuariosRef.orderByChild("correo").equalTo(correo)
@@ -84,7 +84,7 @@ public class HelperPerfil {
     public void cargarDatosPerfilCabeceraDesdeFirebase(String correo, TextView textViewNombreCabecera,
                                                        TextView textViewCorreoCabecera) {
         // Obtener la referencia a la base de datos de Firebase
-        DatabaseReference usuariosRef = FirebaseUtils.getDatabaseReference();
+        DatabaseReference usuariosRef = FirebaseUtil.getDatabaseReference();
 
         // Buscar el usuario por correo en la base de datos de Firebase
         usuariosRef.orderByChild("correo").equalTo(correo)

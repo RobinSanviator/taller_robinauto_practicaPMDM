@@ -17,7 +17,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.UsuarioConsulta;
-import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.FirebaseUtils;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.FirebaseUtil;
 import com.example.practica_2ev_pmdm_robingonzalez.cliente.ClienteActivity;
 import com.example.practica_2ev_pmdm_robingonzalez.R;
 import com.example.practica_2ev_pmdm_robingonzalez.administrador.AdministradorActivity;
@@ -135,7 +135,7 @@ public class InicioSesionActivity extends AppCompatActivity {
     }
 
     private void autenticarUsuarioDesdeFirebase(String correo, String contrasenya) {
-        FirebaseUtils.autenticarUsuarioEnFirebase(correo, contrasenya, new OnCompleteListener<AuthResult>() {
+        FirebaseUtil.autenticarUsuarioEnFirebase(correo, contrasenya, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
@@ -155,7 +155,7 @@ public class InicioSesionActivity extends AppCompatActivity {
 
     private void obtenerDatosUsuarioDesdeFirebase(String correo) {
         //Obtener la referencia de la base de datos
-      DatabaseReference databaseReference =  FirebaseUtils.getDatabaseReference();
+      DatabaseReference databaseReference =  FirebaseUtil.getDatabaseReference();
 
       databaseReference.orderByChild("correo").equalTo(correo).addListenerForSingleValueEvent(new ValueEventListener() {
           @Override

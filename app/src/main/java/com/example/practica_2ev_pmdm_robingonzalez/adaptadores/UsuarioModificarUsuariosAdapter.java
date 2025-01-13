@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.practica_2ev_pmdm_robingonzalez.R;
 import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.TallerRobinautoSQLite;
 import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.UsuarioConsulta;
-import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.FirebaseUtils;
-import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.UsuarioUtils;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.FirebaseUtil;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.UsuarioUtil;
 import com.example.practica_2ev_pmdm_robingonzalez.modelo.Usuario;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -88,12 +88,12 @@ public class UsuarioModificarUsuariosAdapter extends RecyclerView.Adapter<Usuari
             boolean actualizadoEnSQLite = usuarioConsulta.actualizarUsuario(usuario);
 
             // Llamar al método para actualizar el usuario en la base de datos remota (Firebase)
-            UsuarioUtils.actualizarUsuarioEnFirebase(usuario);
+            UsuarioUtil.actualizarUsuarioEnFirebase(usuario);
 
             // Verificar si la actualización fue exitosa en ambas bases de datos
             if (actualizadoEnSQLite) {
                 // Si la actualización fue exitosa en SQLite, verificamos Firebase
-                FirebaseUtils.getDatabaseReference().child(usuario.getCorreo())
+                FirebaseUtil.getDatabaseReference().child(usuario.getCorreo())
                         .setValue(usuario)
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {

@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.CompoundButton;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -15,9 +16,18 @@ import androidx.fragment.app.Fragment;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
 import com.example.practica_2ev_pmdm_robingonzalez.administrador.AdministradorMenuPrincipalFragment;
+import com.example.practica_2ev_pmdm_robingonzalez.administrativo.AdministrativoMenuPrincipalFragment;
+import com.example.practica_2ev_pmdm_robingonzalez.cliente.ClienteMenuPrincipalFragment;
 import com.example.practica_2ev_pmdm_robingonzalez.inicio_sesion.InicioSesionActivity;
+import com.example.practica_2ev_pmdm_robingonzalez.mecanico.MecanicoMenuPrincipalFragment;
+import com.example.practica_2ev_pmdm_robingonzalez.mecanico_jefe.MecanicoJefeMenuPrincipalFragment;
+import com.example.practica_2ev_pmdm_robingonzalez.modelo.Usuario;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 public class HelperAjustes {
 
@@ -30,9 +40,43 @@ public class HelperAjustes {
     }
 
 
+    public void cargarNombreCabeceraDesdeFirebase(String correo, TextView textViewNombreCabecera){
+            // Obtener la referencia a la base de datos de Firebase
+            DatabaseReference usuariosRef = FirebaseUtil.getDatabaseReference();
+
+            // Buscar el usuario por correo en la base de datos de Firebase
+            usuariosRef.orderByChild("correo").equalTo(correo)
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                    // Obtener el usuario desde Firebase
+                                    Usuario usuario = snapshot.getValue(Usuario.class);
+
+                                    if (usuario != null) {
+                                        // Concatenar nombre y apellidos
+                                        String nombreCompleto = usuario.getNombre() + " " + usuario.getApellidos();
+                                        // Asignar el nombre completo
+                                        textViewNombreCabecera.setText(nombreCompleto);
+
+                                    }
+                                }
+                            } else {
+                                Log.d("FirebaseQuery", "No se encontraron usuarios con ese correo.");
+
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Log.e("FirebaseQuery", "Error al obtener datos: " + databaseError.getMessage());
+                        }
+                    });
+    }
 
     // Método para configurar el modo oscuro y la visibilidad del ProgressBar
-    public void modoOscuro(SwitchCompat switchCompatBotonModoOscuro, ProgressBar progressBarModoOscuro, Context context) {
+    public void modoOscuro(String correo,SwitchCompat switchCompatBotonModoOscuro, ProgressBar progressBarModoOscuro, Context context) {
         switchCompatBotonModoOscuro.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -58,7 +102,7 @@ public class HelperAjustes {
                             ocultarProgressBar(progressBarModoOscuro);
 
                             // Cargar el fragmento y seleccionar el item del menú
-                            cargarFragmentoEitem();
+                            cargarFragmentoSegunTipoUsuario(correo);
                         } else {
                             Log.e("HelperAjustes", "No se pudo cargar el fragmento");
                         }
@@ -68,14 +112,64 @@ public class HelperAjustes {
         });
     }
 
-    private void cargarFragmentoEitem(){
-        Fragment menuPrincipal = new AdministradorMenuPrincipalFragment();
+    private void cargarFragmentoEitem(String tipoUsuario) {
+        Fragment fragmento;
+        switch (tipoUsuario) {
+            case "Administrador":
+                fragmento = new AdministradorMenuPrincipalFragment();
+                break;
+            case "Administrativo":
+                fragmento = new AdministrativoMenuPrincipalFragment();
+                break;
+            case "Mecanico jefe":
+                fragmento = new MecanicoJefeMenuPrincipalFragment();
+                break;
+            case "Mecanico":
+                fragmento = new MecanicoMenuPrincipalFragment();
+                break;
+            case "Cliente":
+                fragmento = new ClienteMenuPrincipalFragment();
+                break;
+            default:
+                Log.e("HelperAjustes", "Rol desconocido: " + tipoUsuario);
+                return;
+        }
+
         if (helperMenuPrincipal != null && helperNavegacionInferior != null) {
-            helperMenuPrincipal.cargarFragmento(new AdministradorMenuPrincipalFragment());
+            helperMenuPrincipal.cargarFragmento(fragmento);
             helperNavegacionInferior.seleccionarItemMenuPrincipal();
         } else {
             Log.e("HelperAjustes", "HelperFragmento no está inicializado.");
         }
+    }
+
+    public void cargarFragmentoSegunTipoUsuario(String correo) {
+        DatabaseReference usuariosRef = FirebaseUtil.getDatabaseReference();
+        usuariosRef.orderByChild("correo").equalTo(correo)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                Usuario usuario = snapshot.getValue(Usuario.class);
+
+                                if (usuario != null && usuario.getTipoUsuario() != null) {
+                                    // Llamar al método para cargar el fragmento con tipo de usuario obtenido
+                                    cargarFragmentoEitem(usuario.getTipoUsuario());
+                                } else {
+                                    Log.e("FirebaseQuery", "El usuario no tiene un rol definido.");
+                                }
+                            }
+                        } else {
+                            Log.d("FirebaseQuery", "No se encontraron usuarios con ese correo.");
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.e("FirebaseQuery", "Error al obtener datos: " + databaseError.getMessage());
+                    }
+                });
     }
 
     // Mostrar el ProgressBar con una animación de entrada

@@ -7,7 +7,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import java.util.Map;
 
-public class FirebaseUtils {
+public class FirebaseUtil {
     private static FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private static FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance("https://gestortaller-b9308-default-rtdb.europe-west1.firebasedatabase.app");
     private static DatabaseReference databaseReference = firebaseDatabase.getReference("Usuarios");

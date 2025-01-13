@@ -33,7 +33,7 @@ public class HelperMenuPrincipal {
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             } else {
-                Log.e("HelperFragmento", "No se puede realizar la transacción");
+                Log.e("HelperMenuPrincipal", "No se puede realizar la transacción");
             }
         }
     }
@@ -61,7 +61,7 @@ public class HelperMenuPrincipal {
     // Método para cargar el nombre y apellidos del usuario en el TextView de la cabecera
     public void cargarNombreCabeceraDesdeFirebase(String correo, TextView textViewNombreCabecera) {
         // Obtener la referencia a la base de datos de Firebase
-        DatabaseReference usuariosRef = FirebaseUtils.getDatabaseReference();
+        DatabaseReference usuariosRef = FirebaseUtil.getDatabaseReference();
 
         // Buscar el usuario por correo en la base de datos de Firebase
         usuariosRef.orderByChild("correo").equalTo(correo)

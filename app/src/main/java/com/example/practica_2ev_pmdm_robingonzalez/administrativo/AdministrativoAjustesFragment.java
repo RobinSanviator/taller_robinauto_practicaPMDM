@@ -90,7 +90,7 @@ public class AdministrativoAjustesFragment extends Fragment {
                 if(helperMenuPrincipal != null){
                     activityAdministrativo.volverMenuPrincipal();
                 } else {
-                    Log.e("Error", "helperFragmento null: no se pudo volver al menú principal");
+                    Log.e("AdministrativoAjustesFragment", "No se pudo volver al menú principal");
                 }
 
             }
@@ -103,19 +103,20 @@ public class AdministrativoAjustesFragment extends Fragment {
 
         if(correo != null && nombre != null){
             textViewNombre.setText(nombre);
-
+            helperAjustes.cargarNombreCabeceraDesdeFirebase(correo, textViewNombre);
         } else {
-            Log.e("Error", "Correo o nombre null");
+            helperAjustes.cargarNombreCabeceraDesdeFirebase(correo, textViewNombre);
         }
 
     }
 
     private void modoOscuro() {
+        String correo = activityAdministrativo.getCorreo();
         if(helperAjustes != null ){
-            helperAjustes.modoOscuro(switchCompatBotonModoOscuro, progressBarModoOscuro,  getContext());
+            helperAjustes.modoOscuro(correo, switchCompatBotonModoOscuro, progressBarModoOscuro,  getContext());
 
         }else{
-            Log.e("Error", "helperAjustes null");
+            Log.e("AdministrativoAjustesFragment", "Error al cargar el modo oscuro");
         }
     }
 
@@ -125,7 +126,7 @@ public class AdministrativoAjustesFragment extends Fragment {
         if(helperAjustes != null){
             helperAjustes.cargarPreferenciaModoOscuro(switchCompatBotonModoOscuro, getContext());
         }else{
-            Log.e("Error", "helperAjustes null: no se pudo cargar la precerencia de modo oscuro");
+            Log.e("AdministrativoAjustesFragment", "No se puede cargar la preferencia de modo oscuro");
         }
     }
 
@@ -137,7 +138,7 @@ public class AdministrativoAjustesFragment extends Fragment {
                     helperAjustes.cerrarSesion(getContext());
 
                 } else {
-                    Log.e("Error", "helperAjustes null: no se pudo cerrar sesión");
+                    Log.e("AdministrativoAjustesFragment", "No se pudo cerrar sesión");
                 }
             }
         });
@@ -151,7 +152,7 @@ public class AdministrativoAjustesFragment extends Fragment {
                     helperAjustes.salir(getContext());
 
                 } else {
-                    Log.e("Error", "helperAjustes null: no se pudo salir de la app");
+                    Log.e("AdministrativoAjustesFragment", "No se pudo salir de la app");
                 }
             }
         });

@@ -17,9 +17,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
-import com.example.practica_2ev_pmdm_robingonzalez.adaptadores.UsuarioEmpleadoAdapter;
 import com.example.practica_2ev_pmdm_robingonzalez.adaptadores.UsuarioModificarUsuariosAdapter;
-import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.UsuarioUtils;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.UsuarioUtil;
 import com.example.practica_2ev_pmdm_robingonzalez.modelo.Usuario;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -92,7 +91,7 @@ public class AdministradorModificarUsuariosFragment extends Fragment {
     private void cargarUsuarios() {
         if (hayConexionInternet()) {
             // Cargar los usuarios desde Firebase sin necesidad del tipo de usuario
-            UsuarioUtils.cargarUsuariosBBBDD(new UsuarioUtils.usuariosCargadosListener() {
+            UsuarioUtil.cargarUsuariosBBBDD(new UsuarioUtil.usuariosCargadosListener() {
                 @Override
                 public void onUsuariosCargados(List<Usuario> usuarios) {
                     // Actualiza el RecyclerView con los usuarios obtenidos

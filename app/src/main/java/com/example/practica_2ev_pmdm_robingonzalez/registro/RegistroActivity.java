@@ -25,8 +25,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.UsuarioConsulta;
-import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.FirebaseUtils;
-import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.UsuarioUtils;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.FirebaseUtil;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.UsuarioUtil;
 import com.example.practica_2ev_pmdm_robingonzalez.inicio_sesion.InicioSesionActivity;
 import com.example.practica_2ev_pmdm_robingonzalez.R;
 import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.TallerRobinautoSQLite;
@@ -394,7 +394,7 @@ public class RegistroActivity extends AppCompatActivity {
 
         if (idUsuario != -1) {
             // Inserción exitosa en SQLite, ahora guardar en Firebase
-            Map<String, Object> mapUsuario = UsuarioUtils.anadirUsuarioFirebase(nuevoUsuario);
+            Map<String, Object> mapUsuario = UsuarioUtil.anadirUsuarioFirebase(nuevoUsuario);
             guardarUsuarioEnFirebase(correo, contrasenya, mapUsuario);
 
         } else {
@@ -407,13 +407,13 @@ public class RegistroActivity extends AppCompatActivity {
 
     private void guardarUsuarioEnFirebase(String correo, String contrasenya, Map<String, Object> mapUsuario) {
         // Usar FirebaseUtils para registrar al usuario
-        FirebaseUtils.registrarUsuarioConEmailYContrasena(correo, contrasenya, task -> {
+        FirebaseUtil.registrarUsuarioConEmailYContrasena(correo, contrasenya, task -> {
             if (task.isSuccessful()) {
                 // El usuario fue registrado con éxito, ahora obtenemos el userId
-                String userId = FirebaseUtils.obtenerUserId();
+                String userId = FirebaseUtil.obtenerUserId();
                 if (userId != null) {
                     // Guardar los datos del usuario en la base de datos
-                    FirebaseUtils.guardarUsuarioEnFirebaseDatabase(userId, mapUsuario, dbTask -> {
+                    FirebaseUtil.guardarUsuarioEnFirebaseDatabase(userId, mapUsuario, dbTask -> {
                         if (dbTask.isSuccessful()) {
                             // Datos guardados correctamente
                             Log.d("Firebase guardarusuario", "Se completó el registro");

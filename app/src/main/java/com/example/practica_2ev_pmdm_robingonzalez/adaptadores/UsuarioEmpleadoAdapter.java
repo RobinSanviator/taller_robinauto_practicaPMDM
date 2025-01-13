@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.practica_2ev_pmdm_robingonzalez.R;
 import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.TallerRobinautoSQLite;
 import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.UsuarioConsulta;
-import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.FirebaseUtils;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.FirebaseUtil;
 import com.example.practica_2ev_pmdm_robingonzalez.modelo.Usuario;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.database.DataSnapshot;
@@ -111,7 +111,7 @@ public class UsuarioEmpleadoAdapter extends RecyclerView.Adapter<UsuarioEmpleado
     // Método para eliminar un usuario de la base de datos de Firebase
     public void eliminarEmpleadoFirebase(String correoEmpleado) {
         // Referencia a la base de datos en Firebase Realtime Database
-        DatabaseReference databaseRef = FirebaseUtils.getDatabaseReference();
+        DatabaseReference databaseRef = FirebaseUtil.getDatabaseReference();
         // Obtener todos los usuarios sin usar un índice
         databaseRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
