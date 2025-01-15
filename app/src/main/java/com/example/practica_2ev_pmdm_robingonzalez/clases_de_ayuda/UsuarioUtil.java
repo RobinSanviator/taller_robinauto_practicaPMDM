@@ -180,31 +180,47 @@ public class UsuarioUtil {
     }
 
     public static void obtenerNombreCompletoPorCorreo(String correo, TextView textView) {
-        // Reemplazar puntos para usar correos como claves en Firebase
-        String claveCorreo = correo.replace(".", ",");
+        if (correo != null) {
+            // Reemplazar puntos para usar correos como claves en Firebase
+            String claveCorreo = correo.replace(".", ",");
 
-        DatabaseReference usuariosRef = FirebaseUtil.getDatabaseReference();
+            Log.d("FirebaseSearch", "Buscando usuario con correo: " + claveCorreo);
 
-        usuariosRef.child(claveCorreo).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    String nombre = snapshot.child("nombre").getValue(String.class);
-                    String apellido = snapshot.child("apellido").getValue(String.class);
+            // Obtener la referencia a la base de datos de Firebase
+            DatabaseReference usuariosRef = FirebaseUtil.getDatabaseReference();
 
-                    // Mostrar el nombre completo en el TextView
-                    textView.setText(nombre + " " + apellido);
-                } else {
-                    textView.setText("Usuario no encontrado");
+            // Buscar el usuario con el correo modificado como clave
+            usuariosRef.child("Usuarios").child(claveCorreo).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        // Obtener el nombre y apellido del usuario
+                        String nombre = snapshot.child("nombre").getValue(String.class);
+                        String apellido = snapshot.child("apellido").getValue(String.class);
+
+                        // Mostrar el nombre completo en el TextView
+                        Log.d("FirebaseSearch", "Usuario encontrado: " + nombre + " " + apellido);
+                        textView.setText(nombre + " " + apellido);
+                    } else {
+                        // Si no se encuentra el usuario en la base de datos
+                        Log.d("FirebaseSearch", "Usuario no encontrado");
+                        textView.setText("Usuario no encontrado");
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                textView.setText("Usuario no encontrado");
-            }
-        });
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    // Si ocurre un error al acceder a la base de datos
+                    Log.e("FirebaseSearch", "Error al acceder a la base de datos: " + error.getMessage());
+                    textView.setText("Error al acceder a la base de datos");
+                }
+            });
+        } else {
+            // En caso de que el correo sea null
+            textView.setText("Correo no proporcionado");
+        }
     }
+
 
 
 }

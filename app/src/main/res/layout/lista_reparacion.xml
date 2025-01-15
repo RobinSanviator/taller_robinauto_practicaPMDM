@@ -26,6 +26,7 @@
                 android:text="@string/textoReparacion"
                 android:textColor="@color/color_texto"
                 android:textSize="15sp"
+                android:textStyle="bold"
                 android:drawableStart="@drawable/ic_coche"
                 android:drawablePadding="10dp"
                 android:drawableTint="@color/color_principal"/>
@@ -38,6 +39,7 @@
                 android:text="@string/textoCliente"
                 android:textColor="@color/color_texto"
                 android:textSize="15sp"
+                android:textStyle="bold"
                 android:drawableStart="@drawable/ic_nombre"
                 android:drawablePadding="10dp"
                 android:drawableTint="@color/color_principal"/>
@@ -50,6 +52,7 @@
                 android:text="@string/textoMecanicoJefe"
                 android:textColor="@color/color_texto"
                 android:textSize="15sp"
+                android:textStyle="bold"
                 android:drawableStart="@drawable/ic_mecanico"
                 android:drawablePadding="10dp"
                 android:drawableTint="@color/color_principal"/>
@@ -62,6 +65,7 @@
                 android:text="@string/textoEstadoReparacion"
                 android:textColor="@color/color_texto"
                 android:textSize="15sp"
+                android:textStyle="bold"
                 android:drawableStart="@drawable/ic_diagnostico"
                 android:drawablePadding="10dp"
                 android:drawableTint="@color/color_principal"/>

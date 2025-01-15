@@ -15,6 +15,25 @@ public class Reparacion {
     private String correoMecanicoJefe;
     private String correoCliente;
 
+    //Constructor vacío
+    public Reparacion() {
+    }
+
+    // Constructor con parámetros, usado para crear la reparación inicial
+    public Reparacion(String matriculaCoche, double presupuesto, String correoMecanicoJefe, String correoCliente) {
+        this.matriculaCoche = matriculaCoche;
+        this.tipoReparacion = "Pendiente"; // No se define aún, se actualizará más tarde
+        this.estadoReparacion = "Pendiente"; // Estado inicial
+        this.tareas = new ArrayList<>(); // Lista de tareas vacía
+        this.presupuesto = presupuesto;
+        this.presupuestoAprobado = false; // Por defecto
+        this.fechaInicio = System.currentTimeMillis(); // Fecha actual
+        this.fechaFin = 0; // No hay fecha de fin al inicio
+        this.correoMecanicoJefe = correoMecanicoJefe;
+        this.correoCliente = correoCliente;
+    }
+
+
     public Reparacion(String matriculaCoche, String tipoReparacion, String estadoReparacion,
                       List<Tarea> tareas, double presupuesto, boolean presupuestoAprobado,
                       long fechaFin, String correoMecanicoJefe, String correoCliente) {

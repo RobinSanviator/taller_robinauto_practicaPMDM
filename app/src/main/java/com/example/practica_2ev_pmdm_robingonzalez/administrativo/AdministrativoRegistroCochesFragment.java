@@ -137,13 +137,15 @@ public class AdministrativoRegistroCochesFragment extends Fragment {
                 int mecanicoSeleccionado = spinnerAsignarCocheMj.getSelectedItemPosition();
 
                 if (mecanicoSeleccionado != -1 && !marca.isEmpty() && !modelo.isEmpty() && !matricula.isEmpty()) {
-                    // Obtener el correo del mecánico jefe seleccionado
+                    // Obtener el nombre y el correo del mecánico jefe seleccionado
+                    String nombreMecanicoJefe = nombresMecanicosJefe.get(mecanicoSeleccionado);
                     String correoMecanicoJefe = correosMecanicosJefe.get(mecanicoSeleccionado);
 
-                    // Crear el objeto coche con los datos
-                    Coche coche = new Coche(marca, modelo, matricula, correoMecanicoJefe, null);
 
-                    // Guardar en Firebase (asume que tienes un método en FirebaseHelper para guardar el coche)
+                    // Crear el objeto coche con los datos
+                    Coche coche = new Coche(marca, modelo, matricula, nombreMecanicoJefe, correoMecanicoJefe, null);
+
+                    // Guardar en Firebase
                     CocheUtil.guardarCocheEnFirebase(coche);
 
                     Snackbar.make(v, "Registro completado con éxito del coche  " + marca + "  " + modelo, Snackbar.LENGTH_LONG).show();

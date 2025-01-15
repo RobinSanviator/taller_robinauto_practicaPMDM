@@ -23,7 +23,6 @@ public class ReparacionAdapter extends RecyclerView.Adapter<ReparacionAdapter.Re
     private List<Reparacion> reparaciones;
     private Context context;
 
-
     // Constructor
     public ReparacionAdapter(List<Reparacion> reparaciones, Context context) {
         this.reparaciones = reparaciones;
@@ -45,11 +44,20 @@ public class ReparacionAdapter extends RecyclerView.Adapter<ReparacionAdapter.Re
         holder.textViewReparacionEstado.setText("Estado: " + reparacion.getEstadoReparacion());
 
         // Obtener y mostrar el nombre completo del cliente usando el correo
-        UsuarioUtil.obtenerNombreCompletoPorCorreo(reparacion.getCorreoCliente(),holder.textViewReparacionNombreCliente);
-
+        if (reparacion.getCorreoCliente() != null) {
+            // Llamar al método de obtención de nombre completo para el cliente
+            UsuarioUtil.obtenerNombreCompletoPorCorreo(reparacion.getCorreoCliente(), holder.textViewReparacionNombreCliente);
+        } else {
+            holder.textViewReparacionNombreCliente.setText("Correo cliente no proporcionado");
+        }
 
         // Obtener y mostrar el nombre completo del mecánico jefe usando el correo
-        UsuarioUtil.obtenerNombreCompletoPorCorreo(reparacion.getCorreoMecanicoJefe(), holder.textViewReparacionNombreMecanicoJefe);
+        if (reparacion.getCorreoMecanicoJefe() != null) {
+            // Llamar al método de obtención de nombre completo para el mecánico jefe
+            UsuarioUtil.obtenerNombreCompletoPorCorreo(reparacion.getCorreoMecanicoJefe(), holder.textViewReparacionNombreMecanicoJefe);
+        } else {
+            holder.textViewReparacionNombreMecanicoJefe.setText("Correo mecánico jefe no proporcionado");
+        }
 
         // Configurar el botón "Mostrar más"
         holder.buttonMostrarDetalleReparación.setOnClickListener(v -> mostrarDetalleReparacion(reparacion));
@@ -102,5 +110,4 @@ public class ReparacionAdapter extends RecyclerView.Adapter<ReparacionAdapter.Re
         AlertDialog dialog = builder.create();
         dialog.show();
     }
-
 }
