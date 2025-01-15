@@ -65,8 +65,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
-        android:layout_marginTop="10dp"
-        android:layout_margin="15dp"
+        android:layout_margin="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -85,21 +84,23 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:boxBackgroundMode="outline"
+            app:boxBackgroundMode="filled"
             app:endIconMode="clear_text"
-            android:padding="8dp"
+            android:padding="16dp"
             app:helperText="@string/textoAyudaObligatorio">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextMarcaCoche"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="16dp"
                 android:hint="@string/textoMarcaCoche"
                 android:inputType="text"
+                android:textSize="18sp"
                 android:minHeight="48dp"
                 android:drawableStart="@drawable/ic_coche"
                 android:drawableTint="@color/color_texto"
-                android:drawablePadding="8dp" />
+                android:drawablePadding="8dp"/>
 
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -111,8 +112,8 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:boxBackgroundMode="outline"
-            android:padding="8dp"
+            app:boxBackgroundMode="filled"
+            android:padding="16dp"
             app:helperText="@string/textoAyudaObligatorio"
             app:endIconMode="clear_text">
 
@@ -121,9 +122,11 @@
                 android:id="@+id/editTextModeloCoche"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="16dp"
                 android:hint="@string/textoModeloCoche"
                 android:inputType="text"
                 android:minHeight="48dp"
+                android:textSize="18sp"
                 android:drawableStart="@drawable/ic_coche"
                 android:drawableTint="@color/color_texto"
                 android:drawablePadding="8dp" />
@@ -140,8 +143,8 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:boxBackgroundMode="outline"
-            android:padding="8dp"
+            app:boxBackgroundMode="filled"
+            android:padding="16dp"
             app:helperText="@string/textoAyudaObligatorio"
             app:endIconMode="clear_text">
 
@@ -150,9 +153,11 @@
                 android:id="@+id/editTextMatriculaCoche"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="16dp"
                 android:hint="@string/textoMatriculaCoche"
                 android:inputType="text"
                 android:minHeight="48dp"
+                android:textSize="18sp"
                 android:drawableStart="@drawable/ic_coche"
                 android:drawableTint="@color/color_texto"
                 android:drawablePadding="8dp" />
@@ -160,34 +165,53 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-
-        <TextView
-            android:id="@+id/textViewAsignarMj"
-            android:layout_marginTop="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/AsignarMj"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:textColor="@color/color_texto"/>
-
-        <!-- Spinner para seleccioonar el mecánico jefe-->
-        <Spinner
-            android:id="@+id/spinnerAsignarCocheMecanicoJefe"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:minHeight="48dp"
-            android:padding="8dp"/>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:elevation="4dp"
+            android:background="@color/fondo">
+
+            <TextView
+                android:id="@+id/textViewAsignarMj"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="16dp"
+                android:layout_gravity="center"
+                android:gravity="center_horizontal"
+                android:text="@string/AsignarMj"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="@color/color_texto"
+                android:drawableEnd="@drawable/ic_derecha"
+                android:drawablePadding="8dp"
+                android:drawableTint="@color/color_texto"/>
+
+            <!-- Spinner para seleccioonar el mecánico jefe-->
+            <Spinner
+                android:id="@+id/spinnerAsignarCocheMecanicoJefe"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:minHeight="48dp"
+                android:padding="16dp"
+                android:background="@color/color_desactivado_fondo"/>
+
+        </LinearLayout>
+
 
 
         <!-- Botón para Confirmar los cambios -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonGuardarRegistroCoche"
-            android:layout_marginTop="10dp"
+            android:layout_margin="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:padding="8dp"
             app:cornerRadius="30dp"
             android:backgroundTint="@color/verde"
             android:text="@string/textoGuardarRegistro"

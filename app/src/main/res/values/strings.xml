@@ -105,5 +105,16 @@
     <string name="AsignarMj">Asignar mecánico jefe para diagnóstico</string>
     <string name="textoGuardarRegistro">Guardar registro</string>
     <string name="textoAltaReparacion">Dar de alta nueva reparación</string>
+    <string name="textoReparacion">Reparación</string>
+    <string name="textoEstadoReparacion">Estado reparación</string>
+    <string name="textoMatricula">"Matrícula:  "</string>
+    <string name="textoTipoReparacion">"Tipo de reparación:  "</string>
+    <string name="textoEstadoRep">"Estado reparación:  "</string>
+    <string name="textoPresupuestoReparacion">"Presupuesto:  "</string>
+    <string name="textoFechaIReparacion">"Fecha inicio:  "</string>
+    <string name="textoFechaFReparacion">"Fecha fin:  "</string>
+    <string name="textoClienteReparacion">"Cliente:  "</string>
+    <string name="textoMecanicoReparacion">"Mecánico jefe:  "</string>
+    <string name="textoNoReparaciones">No hay reparaciones, realiza un alta de nueva reparación</string>
 
 </resources>

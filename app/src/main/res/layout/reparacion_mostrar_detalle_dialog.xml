@@ -1,0 +1,196 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:elevation="4dp">
+
+        <!-- Título del diálogo -->
+        <TextView
+            android:id="@+id/textViewTitulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Detalles de Reparación"
+            android:textSize="20sp"
+            android:textColor="@color/color_principal"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:paddingBottom="16dp" />
+
+        <!-- Matrícula -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:id="@+id/textViewMatricula"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/textoMatricula"
+                android:textColor="@color/color_texto"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textViewMatriculaDetalleReparacion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_texto" />
+        </LinearLayout>
+
+        <!-- Tipo de reparación -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:id="@+id/textViewTipoReparacion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/textoTipoReparacion"
+                android:textColor="@color/color_texto"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textViewTipoReparacionDetalleReparacion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_texto" />
+        </LinearLayout>
+
+        <!-- Estado de reparación -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:id="@+id/textViewEstado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/textoEstadoRep"
+                android:textColor="@color/color_texto"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textViewEstadoDetalleReparacion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_texto" />
+        </LinearLayout>
+
+        <!-- Presupuesto -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:id="@+id/textViewPresupuesto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/textoPresupuestoReparacion"
+                android:textColor="@color/color_texto"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textViewPresupuestoDetalleReparacion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_texto" />
+        </LinearLayout>
+
+        <!-- Fecha de inicio -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:id="@+id/textViewFechaInicio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/textoFechaIReparacion"
+                android:textColor="@color/color_texto"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textViewFechaInicioDetalleReparacion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_texto" />
+        </LinearLayout>
+
+        <!-- Fecha de fin -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:id="@+id/textViewFechaFin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/textoFechaFReparacion"
+                android:textColor="@color/color_texto"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textViewFechaFinDetalleReparacion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_texto" />
+        </LinearLayout>
+
+        <!-- Cliente -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:id="@+id/textViewCliente"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/textoClienteReparacion"
+                android:textColor="@color/color_texto"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textViewClienteDetalleReparacion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_texto" />
+        </LinearLayout>
+
+        <!-- Mecánico jefe -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textViewMecanico"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/textoMecanicoReparacion"
+                android:textColor="@color/color_texto"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textViewMecanicoDetalleReparacion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_texto" />
+        </LinearLayout>
+
+</LinearLayout>

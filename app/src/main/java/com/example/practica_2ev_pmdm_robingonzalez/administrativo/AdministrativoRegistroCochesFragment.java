@@ -141,7 +141,7 @@ public class AdministrativoRegistroCochesFragment extends Fragment {
                     String correoMecanicoJefe = correosMecanicosJefe.get(mecanicoSeleccionado);
 
                     // Crear el objeto coche con los datos
-                    Coche coche = new Coche(marca, modelo, matricula, correoMecanicoJefe);
+                    Coche coche = new Coche(marca, modelo, matricula, correoMecanicoJefe, null);
 
                     // Guardar en Firebase (asume que tienes un método en FirebaseHelper para guardar el coche)
                     CocheUtil.guardarCocheEnFirebase(coche);

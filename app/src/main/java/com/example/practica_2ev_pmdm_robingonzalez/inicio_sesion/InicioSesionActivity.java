@@ -88,7 +88,7 @@ public class InicioSesionActivity extends AppCompatActivity {
         buttonIniciarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // cerrarTeclado();
+               cerrarTeclado();
 
                 String correo = editTextCorreoIS.getText().toString();
                 String contrasenya = editTextContrasenya.getText().toString();

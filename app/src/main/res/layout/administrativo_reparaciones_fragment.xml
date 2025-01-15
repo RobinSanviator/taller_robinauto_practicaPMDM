@@ -67,17 +67,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayoutTitulo">
 
-     <androidx.recyclerview.widget.RecyclerView
-         android:id="@+id/recyclerViewListaReparaciones"
-         android:layout_width="match_parent"
-         android:layout_height="0dp"
-         android:layout_weight="1"/>
+       <androidx.recyclerview.widget.RecyclerView
+           android:id="@+id/recyclerViewListaAltaReparaciones"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:layout_weight="1">
+
+       </androidx.recyclerview.widget.RecyclerView>
+
+        <TextView
+            android:id="@+id/textViewNoHayReparaciones"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/textoNoReparaciones"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:textColor="@color/color_texto"
+            android:background="@color/color_desactivado_fondo"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floatingBotonDarDeAltaReparacion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:backgroundTint="@color/verde"

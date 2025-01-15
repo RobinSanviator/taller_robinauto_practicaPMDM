@@ -5,17 +5,19 @@ public class Coche {
     private String modelo;
     private String matricula;
     private String correoMecanicoJefe;
+    private String diagnostico;
 
 
     public Coche(){
 
     }
 
-    public Coche(String marca, String modelo, String matricula, String correoMecanicoJefe) {
+    public Coche(String marca, String modelo, String matricula, String correoMecanicoJefe, String diagnostico) {
         this.marca = marca;
         this.modelo = modelo;
         this.matricula = matricula;
         this.correoMecanicoJefe = correoMecanicoJefe;
+        this.diagnostico = diagnostico;
     }
 
     public String getMarca() {
@@ -48,6 +50,14 @@ public class Coche {
 
     public void setCorreoMecanicoJefe(String correoMecanicoJefe) {
         this.correoMecanicoJefe = correoMecanicoJefe;
+    }
+
+    public String getDiagnostico() {
+        return diagnostico;
+    }
+
+    public void setDiagnostico(String diagnostico) {
+        this.diagnostico = diagnostico;
     }
 }
 

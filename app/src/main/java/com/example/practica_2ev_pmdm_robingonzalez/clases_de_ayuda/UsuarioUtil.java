@@ -2,6 +2,7 @@ package com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
@@ -177,5 +178,33 @@ public class UsuarioUtil {
         void onUsuariosCargados(List<Usuario> usuarios);
         void onError(Exception e);
     }
+
+    public static void obtenerNombreCompletoPorCorreo(String correo, TextView textView) {
+        // Reemplazar puntos para usar correos como claves en Firebase
+        String claveCorreo = correo.replace(".", ",");
+
+        DatabaseReference usuariosRef = FirebaseUtil.getDatabaseReference();
+
+        usuariosRef.child(claveCorreo).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    String nombre = snapshot.child("nombre").getValue(String.class);
+                    String apellido = snapshot.child("apellido").getValue(String.class);
+
+                    // Mostrar el nombre completo en el TextView
+                    textView.setText(nombre + " " + apellido);
+                } else {
+                    textView.setText("Usuario no encontrado");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                textView.setText("Usuario no encontrado");
+            }
+        });
+    }
+
 
 }

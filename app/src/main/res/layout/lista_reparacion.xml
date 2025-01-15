@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="15dp"
+    app:cardCornerRadius="35dp">
+
+
+        <LinearLayout
+            android:id="@+id/linearLayoutContenidoReparacion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="@color/fondo">
+
+            <TextView
+                android:id="@+id/textViewReparacionNombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="@string/textoReparacion"
+                android:textColor="@color/color_texto"
+                android:textSize="15sp"
+                android:drawableStart="@drawable/ic_coche"
+                android:drawablePadding="10dp"
+                android:drawableTint="@color/color_principal"/>
+
+            <TextView
+                android:id="@+id/textViewReparacionNombreCliente"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="@string/textoCliente"
+                android:textColor="@color/color_texto"
+                android:textSize="15sp"
+                android:drawableStart="@drawable/ic_nombre"
+                android:drawablePadding="10dp"
+                android:drawableTint="@color/color_principal"/>
+
+            <TextView
+                android:id="@+id/textViewReparacionNombreMecanicoJefe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="@string/textoMecanicoJefe"
+                android:textColor="@color/color_texto"
+                android:textSize="15sp"
+                android:drawableStart="@drawable/ic_mecanico"
+                android:drawablePadding="10dp"
+                android:drawableTint="@color/color_principal"/>
+
+            <TextView
+                android:id="@+id/textViewReparacionEstado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="@string/textoEstadoReparacion"
+                android:textColor="@color/color_texto"
+                android:textSize="15sp"
+                android:drawableStart="@drawable/ic_diagnostico"
+                android:drawablePadding="10dp"
+                android:drawableTint="@color/color_principal"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonMostrarDetalleReparación"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="end"
+                android:background="@drawable/mostrar_mas"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+        </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>
