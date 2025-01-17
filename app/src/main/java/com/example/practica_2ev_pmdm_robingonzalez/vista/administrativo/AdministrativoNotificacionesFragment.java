@@ -33,4 +33,8 @@ public class AdministrativoNotificacionesFragment extends Fragment {
 
         return vista;
     }
+
+    private void inicializarComponenetes(View vista){
+        imageViewVolver = vista.findViewById(R.id.imageViewVolverMenuPrincipalNotificaciones);
+    }
 }

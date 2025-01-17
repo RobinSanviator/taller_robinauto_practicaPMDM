@@ -56,15 +56,11 @@ public class MecanicoJefeDiagnosticosFragment extends Fragment implements  Repar
         // Inflar diseño del layout de los diagnósticos
         View vista = inflater.inflate(R.layout.mecanico_jefe_diagnosticos_fragment, container, false);
 
-
         inicializarComponentes(vista);
         obtenerHelper();
         volverMenuPrincipalDesdeDiagnosticos();
         configurarRecyclerView();
         cargarReparaciones();
-
-
-
 
         return vista;
     }
