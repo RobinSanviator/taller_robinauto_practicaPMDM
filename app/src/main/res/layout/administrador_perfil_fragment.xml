@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".administrador.AdministradorPerfilFragment"
+    tools:context=".vista.administrador.AdministradorPerfilFragment"
     android:background="@drawable/img_fondo_degradado">
 
     <RelativeLayout

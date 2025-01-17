@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/fondo"
-    tools:context=".registro.RegistroActivity">
+    tools:context=".vista.registro.RegistroActivity">
 
     <LinearLayout
         android:id="@+id/LinearLayoutInfoDatosUsuarioRegistro"

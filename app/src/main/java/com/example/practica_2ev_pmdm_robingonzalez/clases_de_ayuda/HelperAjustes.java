@@ -15,12 +15,12 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
-import com.example.practica_2ev_pmdm_robingonzalez.administrador.AdministradorMenuPrincipalFragment;
-import com.example.practica_2ev_pmdm_robingonzalez.administrativo.AdministrativoMenuPrincipalFragment;
-import com.example.practica_2ev_pmdm_robingonzalez.cliente.ClienteMenuPrincipalFragment;
-import com.example.practica_2ev_pmdm_robingonzalez.inicio_sesion.InicioSesionActivity;
-import com.example.practica_2ev_pmdm_robingonzalez.mecanico.MecanicoMenuPrincipalFragment;
-import com.example.practica_2ev_pmdm_robingonzalez.mecanico_jefe.MecanicoJefeMenuPrincipalFragment;
+import com.example.practica_2ev_pmdm_robingonzalez.vista.administrador.AdministradorMenuPrincipalFragment;
+import com.example.practica_2ev_pmdm_robingonzalez.vista.administrativo.AdministrativoMenuPrincipalFragment;
+import com.example.practica_2ev_pmdm_robingonzalez.vista.cliente.ClienteMenuPrincipalFragment;
+import com.example.practica_2ev_pmdm_robingonzalez.vista.inicio_sesion.InicioSesionActivity;
+import com.example.practica_2ev_pmdm_robingonzalez.vista.mecanico.MecanicoMenuPrincipalFragment;
+import com.example.practica_2ev_pmdm_robingonzalez.vista.mecanico_jefe.MecanicoJefeMenuPrincipalFragment;
 import com.example.practica_2ev_pmdm_robingonzalez.modelo.Usuario;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/img_fondo_degradado"
-    tools:context=".cliente.ClienteMenuPrincipalFragment">
+    tools:context=".vista.cliente.ClienteMenuPrincipalFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearLayoutCabeceraTituloMenuPrincipalCliente"

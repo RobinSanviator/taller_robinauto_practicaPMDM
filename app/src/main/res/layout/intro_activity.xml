@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/img_fondo_degradado"
-    tools:context=".pantalla_intro.IntroActivity">
+    tools:context=".vista.pantalla_intro.IntroActivity">
 
     <LinearLayout
         android:id="@+id/linearLayoutSuperior"

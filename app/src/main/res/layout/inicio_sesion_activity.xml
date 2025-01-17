@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/fondo"
-    tools:context=".inicio_sesion.InicioSesionActivity">
+    tools:context=".vista.inicio_sesion.InicioSesionActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout"

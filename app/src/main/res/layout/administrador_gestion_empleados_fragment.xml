@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/img_fondo_degradado"
     android:id="@+id/constraintLayoutContendorGestionEmpleados"
-    tools:context=".administrador.AdministradorGestionEmpleadosFragment">
+    tools:context=".vista.administrador.AdministradorGestionEmpleadosFragment">
 
     <LinearLayout
         android:id="@+id/linearLayoutAppBarEmpleados"

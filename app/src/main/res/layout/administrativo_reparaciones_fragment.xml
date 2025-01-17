@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/img_fondo_degradado"
-    tools:context=".administrativo.AdministrativoReparacionesFragment">
+    tools:context=".vista.administrativo.AdministrativoReparacionesFragment">
 
     <LinearLayout
         android:id="@+id/linearLayoutAppBarReparacionCoches"
@@ -61,7 +61,6 @@
         android:layout_height="100dp"
         android:layout_marginTop="10dp"
         android:src="@drawable/reparacion_coches"
-
         app:layout_constraintEnd_toEndOf="@+id/linearLayoutTitulo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayoutTitulo" />

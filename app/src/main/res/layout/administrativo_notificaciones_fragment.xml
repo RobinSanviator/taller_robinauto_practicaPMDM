@@ -1,14 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".administrativo.AdministrativoNotificacionesFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".vista.administrativo.AdministrativoNotificacionesFragment"
+    android:background="@drawable/img_fondo_degradado">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:id="@+id/linearLayoutAppBarNotificaiones"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="?actionBarSize"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</FrameLayout>
+
+        <ImageView
+            android:id="@+id/imageViewVolverMenuPrincipalNotificaciones"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:padding="8dp"
+            android:src="@drawable/ic_volver"
+            app:tint="@color/color_texto"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/linearLayoutTitulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:background="@drawable/img_fondo_degradado"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutAppBarNotificaiones"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="parent">
+
+
+        <TextView
+            android:id="@+id/texViewtitulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:elevation="4dp"
+            android:text="@string/textoNotificaciones"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/color_texto"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageViewReparacion"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/ic_notificaciones"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayoutTitulo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutTitulo" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewReparacion">
+
+        <TextView
+            android:id="@+id/texViewSeleccionarCliente"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="@string/SeleccionaCliente"
+            android:layout_gravity="center"
+            android:textColor="@color/color_texto"
+            android:textStyle="bold"/>
+
+        <Spinner
+            android:id="@+id/spinnerCargarClientesNotificacion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:minHeight="48dp"
+            android:background="@drawable/fondo_boton_redondo"/>
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextEnviarMensajeNotificacion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:minHeight="48dp"
+            android:hint="@string/introduceElMensaje" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonEnviarMensaje"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/verde"
+            android:text="@string/enviarMensaje"
+            android:layout_gravity="center"
+            app:cornerRadius="30dp"/>
+
+    </LinearLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

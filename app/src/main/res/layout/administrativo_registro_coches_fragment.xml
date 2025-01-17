@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/img_fondo_degradado"
-    tools:context=".administrativo.AdministrativoRegistroCochesFragment">
+    tools:context=".vista.administrativo.AdministrativoRegistroCochesFragment">
 
 
     <LinearLayout

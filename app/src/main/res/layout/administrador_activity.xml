@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/img_fondo_degradado"
-    tools:context=".administrador.AdministradorActivity">
+    tools:context=".vista.administrador.AdministradorActivity">
 
     <!-- Contenedor para los fragmentos -->
     <FrameLayout

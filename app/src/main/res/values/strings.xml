@@ -140,5 +140,8 @@
     <string name="textoSeleccionaReparacion">Selecciona la reparación y concreta el diagnóstico</string>
     <string name="textoIntroduceDiagnostico">Introduce el diagnóstico</string>
     <string name="textoSeleccionarFechaFin">Selecciona la fecha de fin de la reparación</string>
+    <string name="SeleccionaCliente">Selecciona el cliente para enviar la notificación</string>
+    <string name="introduceElMensaje">Introduce el mensaje</string>
+    <string name="enviarMensaje">Enviar mensaje</string>
 
 </resources>

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/img_fondo_degradado"
-    tools:context=".administrador.AdministradorAjustesFragment">
+    tools:context=".vista.administrador.AdministradorAjustesFragment">
 
     <RelativeLayout
         android:id="@+id/relativeLayoutToolBarAdministrador"
