@@ -27,7 +27,7 @@ public class HelperMenuPrincipal {
 
     public void cargarFragmento(Fragment fragmento) {
         if (fragmento != null && activityActividad != null) {
-            if (!activityActividad.isDestroyed() && !activityActividad.isFinishing()) {
+            if (!activityActividad.isFinishing()) {
                 FragmentTransaction fragmentTransaction = activityActividad.getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(frameLayoutContenedorFragmento, fragmento);
                 fragmentTransaction.addToBackStack(null);

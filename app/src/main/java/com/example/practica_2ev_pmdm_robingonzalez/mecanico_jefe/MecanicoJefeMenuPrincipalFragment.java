@@ -21,6 +21,8 @@ public class MecanicoJefeMenuPrincipalFragment extends Fragment {
     private CardView cardViewDiagnosticos, cardViewTareas;
     private HelperMenuPrincipal helperMenuPrincipal;
     private HelperNavegacionInferior helperNavegacionInferior;
+    private MecanicoJefeActivity mecanicoJefeActivity;
+    private String correo;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,8 +52,9 @@ public class MecanicoJefeMenuPrincipalFragment extends Fragment {
 
     private void obtenerHelper(){
         if (getActivity() instanceof MecanicoJefeActivity) {
-            helperMenuPrincipal = ((MecanicoJefeActivity) getActivity()).getHelperFragmento();
-            helperNavegacionInferior = ((MecanicoJefeActivity) getActivity()).getHelperNavegacionInferior();
+          mecanicoJefeActivity =((MecanicoJefeActivity) getActivity());
+            helperNavegacionInferior = mecanicoJefeActivity.getHelperNavegacionInferior();
+            helperMenuPrincipal = mecanicoJefeActivity.getHelperMenuPrincipal();
         } else {
             Log.e("MecanicoJefeMenuPrincipalFragment", "Error al obtener helper");
         }
@@ -60,13 +63,12 @@ public class MecanicoJefeMenuPrincipalFragment extends Fragment {
     }
 
     private void obtenerDatosUsuarioCabecera() {
-        String correo = getActivity().getIntent().getStringExtra("correo");
-        if (correo != null && helperMenuPrincipal != null) {
+        correo = mecanicoJefeActivity.getCorreo();
+        if (correo != null) {
             helperMenuPrincipal.obtenerDatosUsuario(correo, textViewNombreCabecera);
-            helperNavegacionInferior.seleccionarItemMenuPrincipal();
+            helperMenuPrincipal.cargarNombreCabeceraDesdeFirebase(correo,textViewNombreCabecera);
         } else {
-            Log.e("MecanicoJefeMenuPrincipalFragment", "Error al obtener los datos del usuario en la cabecera");
-            textViewNombreCabecera.setText("Usuario no disponible");
+            helperMenuPrincipal.cargarNombreCabeceraDesdeFirebase(correo,textViewNombreCabecera);
         }
     }
 

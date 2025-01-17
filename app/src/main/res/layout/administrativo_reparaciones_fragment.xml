@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:orientation="horizontal"
-        android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -28,7 +27,6 @@
             app:tint="@color/color_texto"
             tools:ignore="SpeakableTextPresentCheck" />
 
-
     </LinearLayout>
 
 
@@ -37,7 +35,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center_horizontal"
+        android:padding="8dp"
+        android:background="@drawable/img_fondo_degradado"
         app:layout_constraintTop_toBottomOf="@+id/linearLayoutAppBarReparacionCoches"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintStart_toEndOf="parent">
@@ -45,9 +44,10 @@
 
         <TextView
             android:id="@+id/texViewtitulo"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:gravity="center_horizontal"
+            android:elevation="4dp"
             android:text="@string/textoAltaReparacion"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -61,40 +61,99 @@
         android:layout_height="100dp"
         android:layout_marginTop="10dp"
         android:src="@drawable/reparacion_coches"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayoutReparacion"
+
         app:layout_constraintEnd_toEndOf="@+id/linearLayoutTitulo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayoutTitulo" />
+
+
+    <TextView
+        android:id="@+id/seleccionarEstadoReparacion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:padding="8dp"
+        android:elevation="8dp"
+        android:text="@string/textoEligeElEstado"
+        android:textStyle="bold"
+        android:textColor="@color/color_texto"
+        android:background="@color/fondo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewReparacion" />
+
+    <LinearLayout
+        android:id="@+id/linearLayoutFiltrarPorEstadoReparacion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="15dp"
+        android:padding="8dp"
+        android:elevation="8dp"
+        android:gravity="center_horizontal"
+        android:background="@drawable/fondo_boton_redondo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/seleccionarEstadoReparacion">
+
+        <CheckBox
+            android:id="@+id/checkboxPendienteReparacion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/textoPendiente"
+            android:checked="true"
+            android:buttonTint="@color/color_principal"/>
+
+        <CheckBox
+            android:id="@+id/checkboxEnProcesoReparacion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@string/textoEnProceso"
+            android:checked="true"
+            android:buttonTint="@color/color_principal"/>
+
+        <CheckBox
+            android:id="@+id/checkboxFinalizadoReparacion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@string/textoFinalizado"
+            android:checked="true"
+            android:buttonTint="@color/color_principal"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayoutReparacion"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="vertical"
-        android:layout_marginTop="10dp"
         android:layout_margin="15dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewReparacion">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutFiltrarPorEstadoReparacion">
 
-       <androidx.recyclerview.widget.RecyclerView
-           android:id="@+id/recyclerViewListaAltaReparaciones"
-           android:layout_width="match_parent"
-           android:layout_height="match_parent"
-           android:layout_weight="1">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewListaAltaReparaciones"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
-       </androidx.recyclerview.widget.RecyclerView>
+        </androidx.recyclerview.widget.RecyclerView>
 
         <TextView
             android:id="@+id/textViewNoHayReparaciones"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/color_desactivado_fondo"
             android:text="@string/textoNoReparaciones"
-            android:textStyle="bold"
-            android:textSize="15sp"
             android:textColor="@color/color_texto"
-            android:background="@color/color_desactivado_fondo"/>
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floatingBotonDarDeAltaReparacion"

@@ -3,9 +3,7 @@ package com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda;
 import android.content.Context;
 import android.util.Log;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
-
 import com.example.practica_2ev_pmdm_robingonzalez.modelo.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -16,7 +14,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -24,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 public class UsuarioUtil {
+
 
     // Método estático que convierte un objeto Usuario a un Map<String, Object>
     public static Map<String, Object> anadirUsuarioFirebase(Usuario usuario) {
@@ -41,6 +39,7 @@ public class UsuarioUtil {
         return mapUsuario;
     }
 
+
     // Método para guardar un empleado en Firebase
     public static void guardarEmpleadoEnFirebase(Context context, String nombre, String apellidos, String correo, String telefono, String contrasenya, String tipoUsuarioActual) {
         // Primero, intentamos registrar el usuario en Firebase Authentication
@@ -53,8 +52,10 @@ public class UsuarioUtil {
                     if (firebaseUser != null) {
                         String userId = firebaseUser.getUid(); // Obtener el ID del usuario autenticado
 
+
                         // Crear el objeto Usuario con los detalles proporcionados
                         Usuario usuario = new Usuario(nombre, apellidos, correo, telefono, contrasenya, tipoUsuarioActual);
+
 
                         // Convertir el objeto Usuario a un Map<String, Object> para almacenarlo en Firebase
                         Map<String, Object> usuarioMap = anadirUsuarioFirebase(usuario);
@@ -82,9 +83,11 @@ public class UsuarioUtil {
         });
     }
 
+
     public static void actualizarUsuarioEnFirebase(Usuario usuario) {
         // Obtener la referencia a la base de datos de Firebase
         DatabaseReference databaseReference = FirebaseUtil.getDatabaseReference();
+
 
         // Buscar al usuario en Firebase mediante su correo electrónico
         databaseReference.orderByChild("correo").equalTo(usuario.getCorreo()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -96,11 +99,13 @@ public class UsuarioUtil {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         String userId = snapshot.getKey();  // Obtener el ID del usuario
 
+
                         // Crear un mapa con los datos que queremos actualizar
                         Map<String, Object> actualizarUsuario = new HashMap<>();
                         actualizarUsuario.put("nombre", usuario.getNombre());
                         actualizarUsuario.put("apellidos", usuario.getApellidos());
                         actualizarUsuario.put("telefono", usuario.getTelefono());
+
 
                         // Actualizar los datos del usuario en Firebase
                         databaseReference.child(userId).updateChildren(actualizarUsuario)
@@ -118,12 +123,15 @@ public class UsuarioUtil {
                 }
             }
 
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.e("ActualizarUsuarioEnFirebase", "Error al acceder a la base de datos");
             }
         });
     }
+
+
 
 
     public static void cargarUsuariosBBBDD(usuariosCargadosListener listener){
@@ -141,12 +149,14 @@ public class UsuarioUtil {
                         listener.onUsuariosCargados(usuariosList);
                     }
 
+
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
                         listener.onError(error.toException());
                     }
                 });
     }
+
 
     // Método para cargar usuarios según el tipo
     public static void cargarUsuariosPorTipo(String tipoUsuario, usuariosCargadosListener listener) {
@@ -166,6 +176,7 @@ public class UsuarioUtil {
                         listener.onUsuariosCargados(usuariosList);
                     }
 
+
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
                         listener.onError(error.toException());
@@ -173,54 +184,87 @@ public class UsuarioUtil {
                 });
     }
 
+
     // Interfaz para manejar callbacks de carga de usuarios
     public interface usuariosCargadosListener {
         void onUsuariosCargados(List<Usuario> usuarios);
         void onError(Exception e);
     }
 
-    public static void obtenerNombreCompletoPorCorreo(String correo, TextView textView) {
-        if (correo != null) {
-            // Reemplazar puntos para usar correos como claves en Firebase
-            String claveCorreo = correo.replace(".", ",");
 
-            Log.d("FirebaseSearch", "Buscando usuario con correo: " + claveCorreo);
+    // Método para buscar los datos del mecánico por correo
+    public static void obtenerNombreMecanicoPorCorreo(String correoMecanico, TextView textViewMecanico) {
+        if (correoMecanico != null) {
+            Log.d("Firebase", "correo buscado " +correoMecanico);
 
-            // Obtener la referencia a la base de datos de Firebase
             DatabaseReference usuariosRef = FirebaseUtil.getDatabaseReference();
-
-            // Buscar el usuario con el correo modificado como clave
-            usuariosRef.child("Usuarios").child(claveCorreo).addListenerForSingleValueEvent(new ValueEventListener() {
+            usuariosRef.orderByChild("correo").equalTo(correoMecanico).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (snapshot.exists()) {
-                        // Obtener el nombre y apellido del usuario
-                        String nombre = snapshot.child("nombre").getValue(String.class);
-                        String apellido = snapshot.child("apellido").getValue(String.class);
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            String nombre = snapshot.child("nombre").getValue(String.class);
+                            String apellido = snapshot.child("apellidos").getValue(String.class);
 
-                        // Mostrar el nombre completo en el TextView
-                        Log.d("FirebaseSearch", "Usuario encontrado: " + nombre + " " + apellido);
-                        textView.setText(nombre + " " + apellido);
+
+                            Log.d("FirebaseSearch", "Mecánico encontrado: " + nombre + " " + apellido);
+                            textViewMecanico.setText("Mjefe: "+ nombre + " " + apellido);
+                            break;
+                        }
                     } else {
-                        // Si no se encuentra el usuario en la base de datos
-                        Log.d("FirebaseSearch", "Usuario no encontrado");
-                        textView.setText("Usuario no encontrado");
+                        Log.d("FirebaseSearch", "Mecánico no encontrado");
+                        textViewMecanico.setText("Mecánico no encontrado");
                     }
                 }
 
+
                 @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    // Si ocurre un error al acceder a la base de datos
-                    Log.e("FirebaseSearch", "Error al acceder a la base de datos: " + error.getMessage());
-                    textView.setText("Error al acceder a la base de datos");
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.e("FirebaseSearch", "Error al buscar mecánico: " + databaseError.getMessage());
+                    textViewMecanico.setText("Error al buscar mecánico");
                 }
             });
         } else {
-            // En caso de que el correo sea null
-            textView.setText("Correo no proporcionado");
+            textViewMecanico.setText("Mecánico jefe");
         }
     }
 
+
+    // Método para buscar los datos del cliente por correo
+    public static void obtenerNombreClientePorCorreo(String correoCliente, TextView textViewCliente) {
+        if (correoCliente != null) {
+            Log.d("Firebase", "correo buscado " +correoCliente);
+            DatabaseReference usuariosRef = FirebaseUtil.getDatabaseReference();
+            usuariosRef.orderByChild("correo").equalTo(correoCliente).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            String nombre = snapshot.child("nombre").getValue(String.class);
+                            String apellido = snapshot.child("apellidos").getValue(String.class);
+
+
+                            Log.d("FirebaseSearch", "Cliente encontrado: " + nombre + " " + apellido);
+                            textViewCliente.setText("Cliente: " + nombre + " " + apellido);
+                            break;
+                        }
+                    } else {
+                        Log.d("FirebaseSearch", "Cliente no encontrado");
+                        textViewCliente.setText("Cliente no encontrado");
+                    }
+                }
+
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.e("FirebaseSearch", "Error al buscar cliente: " + databaseError.getMessage());
+                    textViewCliente.setText("Error al buscar cliente");
+                }
+            });
+        } else {
+            textViewCliente.setText("Cliente");
+        }
+    }
 
 
 }

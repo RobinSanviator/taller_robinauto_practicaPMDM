@@ -39,7 +39,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center_horizontal"
+        android:gravity="center"
+        android:padding="8dp"
+        android:background="@drawable/img_fondo_degradado"
         app:layout_constraintTop_toBottomOf="@+id/linearLayoutAppBarRegistroCoches"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintStart_toEndOf="parent">
@@ -101,8 +103,6 @@
                 android:drawableStart="@drawable/ic_coche"
                 android:drawableTint="@color/color_texto"
                 android:drawablePadding="8dp"/>
-
-
         </com.google.android.material.textfield.TextInputLayout>
 
 

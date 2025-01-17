@@ -71,7 +71,7 @@ public class MecanicoJefePerfilFragment extends Fragment {
         if (getActivity() instanceof MecanicoJefeActivity) {
             activityMecanicoJefe = ((MecanicoJefeActivity) getActivity());
             helperPerfil = activityMecanicoJefe.getHelperPerfil();
-            helperMenuPrincipal = activityMecanicoJefe.getHelperFragmento();
+            helperMenuPrincipal = activityMecanicoJefe.getHelperMenuPrincipal();
             helperNavegacionInferior = activityMecanicoJefe.getHelperNavegacionInferior();
             baseDeDatosGestionUsuarios = TallerRobinautoSQLite.getInstance(getActivity().getApplicationContext());
             usuarioConsulta = baseDeDatosGestionUsuarios.obtenerUsuarioConsultas();

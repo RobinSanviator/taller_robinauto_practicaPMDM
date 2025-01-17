@@ -36,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:text="@string/textoCliente"
+                android:text="@string/textoClienteReparacion"
                 android:textColor="@color/color_texto"
                 android:textSize="15sp"
                 android:textStyle="bold"
@@ -71,7 +71,7 @@
                 android:drawableTint="@color/color_principal"/>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/buttonMostrarDetalleReparación"
+                android:id="@+id/buttonMostrarDetalleReparacion"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_gravity="end"

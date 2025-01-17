@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="@color/fondo"
     android:padding="16dp">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/textViewCocheSeleccionado"
@@ -13,6 +19,7 @@
         android:layout_marginTop="20dp"
         android:text="@string/textoCocheSeleccionado"
         android:textColor="@color/color_principal"
+        android:textStyle="bold"
         android:drawableStart="@drawable/ic_coche"
         android:drawablePadding="8dp"
         android:textSize="18sp"/>
@@ -23,6 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:minHeight="48dp"
+        android:background="@color/color_desactivado_fondo"
         android:text="@string/textoCliente"
         android:textColor="@color/color_texto"
         android:textSize="18sp" />
@@ -31,18 +39,21 @@
         android:id="@+id/textViewMostrarMarca"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="8dp"
         android:text="@string/textoMarcaCoche" />
 
     <TextView
         android:id="@+id/textViewmostrarModelo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="8dp"
         android:text="@string/textoModeloCoche" />
 
     <TextView
         android:id="@+id/textViewMostrarMatricula"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="8dp"
         android:text="@string/textoMatriculaCoche" />
 
 
@@ -50,20 +61,28 @@
         android:id="@+id/textViewMostrarCorreoMecanicoJefe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="8dp"
         android:text="@string/textoMecanico" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/color_principal"/>
 
 
     <TextView
         android:id="@+id/textViewCliente"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:text="@string/textoCliente"
         android:textColor="@color/color_principal"
+        android:textStyle="bold"
         android:drawableStart="@drawable/ic_nombre"
         android:drawablePadding="8dp"
         android:textSize="18sp"/>
+
 
 
     <Spinner
@@ -73,6 +92,7 @@
         android:layout_marginTop="2dp"
         android:minHeight="48dp"
         android:text="@string/textoCliente"
+        android:background="@color/color_desactivado_fondo"
         android:textColor="@color/color_texto"
         android:textSize="18sp" />
 
@@ -80,28 +100,68 @@
         android:id="@+id/textViewMostrarCorreoCliente"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="8dp"
         android:text="@string/textoClienteReparacion" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/color_principal"/>
+
     <TextView
-        android:id="@+id/textViewPresupuesto"
+        android:id="@+id/textViewMecanico"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/textoIntroducePresupuesto"
+        android:layout_marginTop="10dp"
+        android:text="@string/textoMecanicosAsignado"
         android:textColor="@color/color_principal"
-        android:drawableStart="@drawable/ic_presupuesto"
+        android:textStyle="bold"
+        android:drawableStart="@drawable/ic_mecanico"
         android:drawablePadding="8dp"
         android:textSize="18sp"/>
 
-
-    <EditText
-        android:id="@+id/editTextPresupuesto"
+    <Spinner
+        android:id="@+id/spinnerMecanicoNuevaReparacion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:minHeight="48dp"
-        android:inputType="numberDecimal"
-        tools:ignore="SpeakableTextPresentCheck" />
+        android:background="@color/color_desactivado_fondo"
+        android:minHeight="48dp" />
+
+    <LinearLayout
+        android:id="@+id/linearLayoutCorreosMecanicos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp">
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/color_principal"/>
 
 
-</LinearLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="@string/textoIntroducePresupuesto">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextPresupuesto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:drawableStart="@drawable/ic_presupuesto"
+            android:drawablePadding="8dp"
+            android:gravity="center_horizontal"
+            android:minHeight="48dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    </LinearLayout>
+
+</ScrollView>

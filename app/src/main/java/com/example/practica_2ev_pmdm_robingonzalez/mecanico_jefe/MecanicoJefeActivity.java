@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import com.example.practica_2ev_pmdm_robingonzalez.R;
 import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.TallerRobinautoSQLite;
 import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.UsuarioConsulta;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperAjustes;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperMenuPrincipal;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperNavegacionInferior;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperPerfil;
@@ -23,11 +24,15 @@ import java.util.Map;
 public class MecanicoJefeActivity extends AppCompatActivity {
 
     private ChipNavigationBar chipNavigationBarNavegacionInferior; // Referencia al ChipNavigationBar
-    private HelperMenuPrincipal helperMenuPrincipal; // Instancia del manejador de fragmentos
+    private HelperMenuPrincipal helperMenuPrincipal;
     private HelperNavegacionInferior helperNavegacionInferior;
     private HelperPerfil helperPerfil;
+    private HelperAjustes helperAjustes;
     private TallerRobinautoSQLite baseDeDatosGestionUsuarios;
     private UsuarioConsulta usuarioConsulta;
+
+
+
     private int frameLayoutContenedorFragmento;
 
 
@@ -66,6 +71,7 @@ public class MecanicoJefeActivity extends AppCompatActivity {
         helperNavegacionInferior = new HelperNavegacionInferior(
                 MecanicoJefeActivity.this, chipNavigationBarNavegacionInferior, helperMenuPrincipal);
         helperPerfil = new HelperPerfil(baseDeDatosGestionUsuarios);
+        helperAjustes = new HelperAjustes(helperMenuPrincipal,helperNavegacionInferior);
     }
 
 
@@ -94,7 +100,7 @@ public class MecanicoJefeActivity extends AppCompatActivity {
         return getIntent().getStringExtra("correo");
     }
 
-    public HelperMenuPrincipal getHelperFragmento() {
+    public HelperMenuPrincipal getHelperMenuPrincipal() {
         return helperMenuPrincipal;
     }
 
@@ -106,6 +112,9 @@ public class MecanicoJefeActivity extends AppCompatActivity {
         return helperPerfil;
     }
 
+    public HelperAjustes getHelperAjustes() {
+        return helperAjustes;
+    }
 }
 
 

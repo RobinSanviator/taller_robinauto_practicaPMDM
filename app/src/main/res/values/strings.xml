@@ -47,6 +47,19 @@
         <item>Mecanico</item>
     </string-array>
 
+    <string-array name="diagnosticos_array">
+        <item>Ajuste de frenos</item>
+        <item>Cambio de aceite</item>
+        <item>Sustitución de batería</item>
+        <item>Alineación de ruedas</item>
+        <item>Diagnóstico eléctrico</item>
+        <item>Inspección de suspensión</item>
+        <item>Sustitución de filtro de aire</item>
+        <item>Revisión del sistema de escape</item>
+        <item>Reparación de transmisión</item>
+        <item>Servicio de climatización</item>
+    </string-array>
+
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="textoAltaBaja">Empleados</string>
@@ -86,7 +99,7 @@
     <string name="textoHola">Bienvenido a Robinauto</string>
     <string name="textoAdministrativo">Administrativo</string>
     <string name="textoRegistroCoches">Registrar coches</string>
-    <string name="textoMecanicoJefe">Selecciona el mecánico jefe</string>
+    <string name="textoMecanicoJefe">Mecánico jefe</string>
     <string name="textoMecanico">Mecánico</string>
     <string name="textoCliente">Selecciona el cliente</string>
     <string name="textoCorreoAcortado">Correo</string>
@@ -101,7 +114,7 @@
     <string name="textoRegistroEntradaCoches">Registrar entrada de coche</string>
     <string name="textoMarcaCoche">Marca coche</string>
     <string name="textoModeloCoche">Modelo coche</string>
-    <string name="textoCocheSeleccionado">Coche seleccionado</string>
+    <string name="textoCocheSeleccionado">Selecciona el coche</string>
     <string name="AsignarMj">Asignar mecánico jefe para diagnóstico</string>
     <string name="textoGuardarRegistro">Guardar registro</string>
     <string name="textoAltaReparacion">Dar de alta nueva reparación</string>
@@ -119,5 +132,13 @@
     <string name="textoNoReparaciones">No hay reparaciones, realiza un alta de nueva reparación</string>
     <string name="textoPresupuesto">Presupuesto</string>
     <string name="textoIntroducePresupuesto">Introduce el presupuesto (en euros): </string>
+    <string name="textoEligeElEstado">Filtrar por estado de reparación</string>
+    <string name="textoPendiente">Pendiente</string>
+    <string name="textoEnProceso">En proceso</string>
+    <string name="textoFinalizado">Finalizado</string>
+    <string name="textoMecanicosAsignado">Selecciona los mecánicos</string>
+    <string name="textoSeleccionaReparacion">Selecciona la reparación y concreta el diagnóstico</string>
+    <string name="textoIntroduceDiagnostico">Introduce el diagnóstico</string>
+    <string name="textoSeleccionarFechaFin">Selecciona la fecha de fin de la reparación</string>
 
 </resources>

@@ -12,7 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Detalles de Reparación"
-            android:textSize="20sp"
+            android:textSize="25sp"
             android:textColor="@color/color_principal"
             android:gravity="center"
             android:textStyle="bold"
@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="8dp">
+            android:padding="8dp">
 
             <TextView
                 android:id="@+id/textViewMatricula"
@@ -31,12 +31,14 @@
                 android:layout_height="wrap_content"
                 android:text="@string/textoMatricula"
                 android:textColor="@color/color_texto"
-                android:textStyle="bold" />
+                android:textSize="18sp"
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/textViewMatriculaDetalleReparacion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="18sp"
                 android:textColor="@color/color_texto" />
         </LinearLayout>
 
@@ -45,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="8dp">
+            android:padding="8dp">
 
             <TextView
                 android:id="@+id/textViewTipoReparacion"
@@ -53,12 +55,14 @@
                 android:layout_height="wrap_content"
                 android:text="@string/textoTipoReparacion"
                 android:textColor="@color/color_texto"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textSize="18sp"/>
 
             <TextView
                 android:id="@+id/textViewTipoReparacionDetalleReparacion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="18sp"
                 android:textColor="@color/color_texto" />
         </LinearLayout>
 
@@ -67,7 +71,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="8dp">
+            android:padding="8dp">
 
             <TextView
                 android:id="@+id/textViewEstado"
@@ -75,13 +79,15 @@
                 android:layout_height="wrap_content"
                 android:text="@string/textoEstadoRep"
                 android:textColor="@color/color_texto"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textSize="18sp"/>
 
             <TextView
                 android:id="@+id/textViewEstadoDetalleReparacion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/color_texto" />
+                android:textColor="@color/color_texto"
+                android:textSize="18sp"/>
         </LinearLayout>
 
         <!-- Presupuesto -->
@@ -89,7 +95,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="8dp">
+            android:padding="8dp">
 
             <TextView
                 android:id="@+id/textViewPresupuesto"
@@ -97,13 +103,15 @@
                 android:layout_height="wrap_content"
                 android:text="@string/textoPresupuestoReparacion"
                 android:textColor="@color/color_texto"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textSize="18sp"/>
 
             <TextView
                 android:id="@+id/textViewPresupuestoDetalleReparacion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/color_texto" />
+                android:textColor="@color/color_texto"
+                android:textSize="18sp"/>
         </LinearLayout>
 
         <!-- Fecha de inicio -->
@@ -111,7 +119,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="8dp">
+            android:padding="8dp">
 
             <TextView
                 android:id="@+id/textViewFechaInicio"
@@ -119,13 +127,15 @@
                 android:layout_height="wrap_content"
                 android:text="@string/textoFechaIReparacion"
                 android:textColor="@color/color_texto"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textSize="18sp"/>
 
             <TextView
                 android:id="@+id/textViewFechaInicioDetalleReparacion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/color_texto" />
+                android:textColor="@color/color_texto"
+                android:textSize="18sp"/>
         </LinearLayout>
 
         <!-- Fecha de fin -->
@@ -133,7 +143,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="8dp">
+            android:padding="8dp">
 
             <TextView
                 android:id="@+id/textViewFechaFin"
@@ -141,13 +151,15 @@
                 android:layout_height="wrap_content"
                 android:text="@string/textoFechaFReparacion"
                 android:textColor="@color/color_texto"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textSize="18sp"/>
 
             <TextView
                 android:id="@+id/textViewFechaFinDetalleReparacion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/color_texto" />
+                android:textColor="@color/color_texto"
+                android:textSize="18sp"/>
         </LinearLayout>
 
         <!-- Cliente -->
@@ -155,7 +167,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="8dp">
+            android:padding="8dp">
 
             <TextView
                 android:id="@+id/textViewCliente"
@@ -163,20 +175,23 @@
                 android:layout_height="wrap_content"
                 android:text="@string/textoClienteReparacion"
                 android:textColor="@color/color_texto"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textSize="18sp"/>
 
             <TextView
                 android:id="@+id/textViewClienteDetalleReparacion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/color_texto" />
+                android:textColor="@color/color_texto"
+                android:textSize="18sp"/>
         </LinearLayout>
 
         <!-- Mecánico jefe -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="8dp">
 
             <TextView
                 android:id="@+id/textViewMecanico"
@@ -184,13 +199,15 @@
                 android:layout_height="wrap_content"
                 android:text="@string/textoMecanicoReparacion"
                 android:textColor="@color/color_texto"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textSize="18sp"/>
 
             <TextView
                 android:id="@+id/textViewMecanicoDetalleReparacion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/color_texto" />
+                android:textColor="@color/color_texto"
+                android:textSize="18sp"/>
         </LinearLayout>
 
 </LinearLayout>
