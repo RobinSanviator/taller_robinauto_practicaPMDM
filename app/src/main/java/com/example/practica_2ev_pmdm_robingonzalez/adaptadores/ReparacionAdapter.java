@@ -11,6 +11,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.practica_2ev_pmdm_robingonzalez.R;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.UsuarioUtil;
+import com.example.practica_2ev_pmdm_robingonzalez.modelo.Coche;
 import com.example.practica_2ev_pmdm_robingonzalez.modelo.Reparacion;
 import com.google.android.material.button.MaterialButton;
 import java.text.SimpleDateFormat;
@@ -50,9 +51,10 @@ public class ReparacionAdapter extends RecyclerView.Adapter<ReparacionAdapter.Re
     public void onBindViewHolder(@NonNull ReparacionViewHolder holder, int position) {
         Reparacion reparacion = reparaciones.get(position);
 
+
         // Mostrar datos básicos de la reparación
         holder.textViewReparacionNombre.setText("Reparación: " + reparacion.getTipoReparacion());
-        Log.d("FirebaseAdaptador", "correo: " + reparacion.getCorreoMecanicoJefe());
+        holder.textViewMatriculaCoche.setText("Matrícula: " + reparacion.getMatriculaCoche());
         holder.textViewReparacionEstado.setText("Estado: " + reparacion.getEstadoReparacion());
 
 
@@ -85,12 +87,14 @@ public class ReparacionAdapter extends RecyclerView.Adapter<ReparacionAdapter.Re
 
     // ViewHolder
     public class ReparacionViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewReparacionNombre, textViewReparacionNombreCliente, textViewReparacionNombreMecanicoJefe, textViewReparacionEstado;
+        TextView textViewReparacionNombre, textViewMatriculaCoche, textViewReparacionNombreCliente,
+                textViewReparacionNombreMecanicoJefe, textViewReparacionEstado;
         MaterialButton buttonMostrarDetalleReparacion;
 
         public ReparacionViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewReparacionNombre = itemView.findViewById(R.id.textViewReparacionNombre);
+            textViewMatriculaCoche = itemView.findViewById(R.id.textViewReparacionMatriculaCoche);
             textViewReparacionNombreCliente = itemView.findViewById(R.id.textViewReparacionNombreCliente);
             textViewReparacionNombreMecanicoJefe = itemView.findViewById(R.id.textViewReparacionNombreMecanicoJefe);
             textViewReparacionEstado = itemView.findViewById(R.id.textViewReparacionEstado);
@@ -131,7 +135,7 @@ public class ReparacionAdapter extends RecyclerView.Adapter<ReparacionAdapter.Re
         dialogMatricula.setText(reparacion.getMatriculaCoche());
         dialogTipoReparacion.setText(reparacion.getTipoReparacion());
         dialogEstadoReparacion.setText(reparacion.getEstadoReparacion());
-        dialogPresupuesto.setText(String.valueOf(reparacion.getPresupuesto()));
+        dialogPresupuesto.setText(String.valueOf(reparacion.getPresupuesto() + "€"));
         dialogCorreoCliente.setText(reparacion.getCorreoCliente());
         dialogCorreoMecanico.setText(reparacion.getCorreoMecanicoJefe());
 
@@ -169,7 +173,7 @@ public class ReparacionAdapter extends RecyclerView.Adapter<ReparacionAdapter.Re
             Date fechaFin = new Date(timestampFin); // Convertir a objeto Date
             dialogFechaFin.setText(sdf.format(fechaFin)); // Formatear y mostrar la fecha de fin
         } else {
-            dialogFechaFin.setText("Fecha no disponible");
+            dialogFechaFin.setText("Fecha no asignada");
         }
     }
 }

@@ -143,5 +143,9 @@
     <string name="SeleccionaCliente">Selecciona el cliente para enviar la notificación</string>
     <string name="introduceElMensaje">Introduce el mensaje</string>
     <string name="enviarMensaje">Enviar mensaje</string>
+    <string name="nombreEmisorNotificacion">Nombre del emisor</string>
+    <string name="correoEmisorNotificacion">correo@emisor.com</string>
+    <string name="textoMensajeNotificacion">Este es el mensaje de la notificación</string>
+    <string name="consultarMensajes">Consultar mensjaes enviados</string>
 
 </resources>

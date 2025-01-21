@@ -74,45 +74,73 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageViewReparacion">
 
-        <TextView
-            android:id="@+id/texViewSeleccionarCliente"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:text="@string/SeleccionaCliente"
-            android:layout_gravity="center"
-            android:textColor="@color/color_texto"
-            android:textStyle="bold"/>
 
-        <Spinner
-            android:id="@+id/spinnerCargarClientesNotificacion"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="30dp"
-            android:minHeight="48dp"
-            android:background="@drawable/fondo_boton_redondo"/>
+            android:layout_margin="20dp"
+            app:cardCornerRadius="30dp">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextEnviarMensajeNotificacion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
-            android:minHeight="48dp"
-            android:hint="@string/introduceElMensaje" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/buttonEnviarMensaje"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:backgroundTint="@color/verde"
-            android:text="@string/enviarMensaje"
-            android:layout_gravity="center"
-            app:cornerRadius="30dp"/>
+                <TextView
+                    android:id="@+id/texViewSeleccionarCliente"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/SeleccionaCliente"
+                    android:layout_gravity="center"
+                    android:textColor="@color/color_texto"
+                    android:textStyle="bold"/>
+
+                <Spinner
+                    android:id="@+id/spinnerCargarClientesNotificacion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:minHeight="48dp"
+                    android:background="@drawable/fondo_boton_redondo"/>
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextEnviarMensajeNotificacion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:hint="@string/introduceElMensaje"
+                    android:minHeight="48dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonEnviarMensaje"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="@color/verde"
+                    android:text="@string/enviarMensaje"
+                    android:layout_gravity="center"
+                    app:cornerRadius="30dp"
+                    app:icon="@drawable/ic_enviar_notificacion"
+                    app:iconGravity="textEnd"
+                    app:iconPadding="16dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonConsultarMensajesEnviados"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/azul"
+                    android:text="@string/consultarMensajes"
+                    android:layout_gravity="center"
+                    app:cornerRadius="30dp"
+                    app:iconGravity="textEnd"/>
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
 
     </LinearLayout>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

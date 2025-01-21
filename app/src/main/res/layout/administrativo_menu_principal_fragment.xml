@@ -239,7 +239,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginRight="25dp"
                         android:padding="8dp"
-                        android:src="@drawable/ic_notificaciones" />
+                        android:src="@drawable/ic_notificaciones"/>
 
                     <TextView
                         android:id="@+id/textViewNotificacionAdministrativo"

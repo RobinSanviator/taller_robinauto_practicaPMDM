@@ -31,5 +31,6 @@
     <color name="color_fondo_tyc">#084985</color>
     <color name="color_fondo_cerrar_sesion">#572E8C</color>
     <color name="color_fondo_salir">#83290E</color>
+    <color name="color_notificacion">#034503</color>
 
 </resources>

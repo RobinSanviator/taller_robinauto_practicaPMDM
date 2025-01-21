@@ -103,6 +103,7 @@ public class HelperAjustes {
 
                             // Cargar el fragmento y seleccionar el item del menú
                             cargarFragmentoSegunTipoUsuario(correo);
+                            helperNavegacionInferior.seleccionarItemMenuPrincipal();
                         } else {
                             Log.e("HelperAjustes", "No se pudo cargar el fragmento");
                         }
@@ -112,7 +113,7 @@ public class HelperAjustes {
         });
     }
 
-    private void cargarFragmentoEitem(String tipoUsuario) {
+    private void cargarFragmento(String tipoUsuario) {
         Fragment fragmento;
         switch (tipoUsuario) {
             case "Administrador":
@@ -131,13 +132,12 @@ public class HelperAjustes {
                 fragmento = new ClienteMenuPrincipalFragment();
                 break;
             default:
-                Log.e("HelperAjustes", "Rol desconocido: " + tipoUsuario);
+                Log.e("HelperAjustes", "TipoUsuario desconocido: " + tipoUsuario);
                 return;
         }
 
         if (helperMenuPrincipal != null && helperNavegacionInferior != null) {
             helperMenuPrincipal.cargarFragmento(fragmento);
-            helperNavegacionInferior.seleccionarItemMenuPrincipal();
         } else {
             Log.e("HelperAjustes", "HelperFragmento no está inicializado.");
         }
@@ -155,7 +155,7 @@ public class HelperAjustes {
 
                                 if (usuario != null && usuario.getTipoUsuario() != null) {
                                     // Llamar al método para cargar el fragmento con tipo de usuario obtenido
-                                    cargarFragmentoEitem(usuario.getTipoUsuario());
+                                    cargarFragmento(usuario.getTipoUsuario());
                                 } else {
                                     Log.e("FirebaseQuery", "El usuario no tiene un rol definido.");
                                 }
