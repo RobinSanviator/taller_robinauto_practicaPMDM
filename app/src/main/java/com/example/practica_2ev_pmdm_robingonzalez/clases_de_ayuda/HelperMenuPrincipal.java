@@ -26,11 +26,9 @@ public class HelperMenuPrincipal {
     }
 
     public void cargarFragmento(Fragment fragmento) {
-<<<<<<<HEAD
-        if (fragmento != null && !activityActividad.isDestroyed() && !activityActividad.isFinishing()) {
-=======
+
             if (fragmento != null && !activityActividad.isFinishing() && !activityActividad.isDestroyed()) {
->>>>>>>7776695 aca15615c6cba99a89a27b3c502493ea9
+
                 if (!activityActividad.isFinishing()) {
                     FragmentTransaction fragmentTransaction = activityActividad.getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(frameLayoutContenedorFragmento, fragmento);
