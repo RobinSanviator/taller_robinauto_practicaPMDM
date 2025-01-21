@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -27,6 +26,19 @@
                 android:textColor="@color/color_texto"
                 android:textSize="15sp"
                 android:textStyle="bold"
+                android:drawableStart="@drawable/ic_consul_reparaciones"
+                android:drawablePadding="10dp"
+                android:drawableTint="@color/color_principal"/>
+
+            <TextView
+                android:id="@+id/textViewReparacionMatriculaCoche"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="@string/textoMatriculaCoche"
+                android:textColor="@color/color_texto"
+                android:textSize="15sp"
+                android:textStyle="bold"
                 android:drawableStart="@drawable/ic_coche"
                 android:drawablePadding="10dp"
                 android:drawableTint="@color/color_principal"/>
@@ -43,6 +55,7 @@
                 android:drawableStart="@drawable/ic_nombre"
                 android:drawablePadding="10dp"
                 android:drawableTint="@color/color_principal"/>
+
 
             <TextView
                 android:id="@+id/textViewReparacionNombreMecanicoJefe"

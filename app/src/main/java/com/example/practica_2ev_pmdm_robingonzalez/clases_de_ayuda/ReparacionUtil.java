@@ -76,7 +76,7 @@ public class ReparacionUtil {
                 });
     }
 
-    public static void actualizarFechaFinDiagnostico(long timestamp, String correoMecanicoJefe, String matriculaCoche) {
+    public static void actualizarFechaFinDiagnostico(Long timestamp, String correoMecanicoJefe, String matriculaCoche) {
         // Realizar la actualización en Firebase
         // Nota: Este es un ejemplo, debes asegurarte de que encuentres la reparación correctamente
         databaseReference.orderByChild("correoMecanicoJefe").equalTo(correoMecanicoJefe)

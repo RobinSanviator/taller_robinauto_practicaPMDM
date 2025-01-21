@@ -9,9 +9,8 @@ public class Reparacion {
     private String estadoReparacion;
     private List<Tarea> tareas;
     private double presupuesto;
-    private boolean presupuestoAprobado;
-    private long fechaInicio; //Timestamp en milisegundos
-    private long fechaFin;
+    private Long fechaInicio; //Timestamp en milisegundos
+    private Long fechaFin;
     private List<String> correosMecanicosAsignados;
     private String correoMecanicoJefe;
     private String correoCliente;
@@ -28,9 +27,8 @@ public class Reparacion {
         this.estadoReparacion = "Pendiente"; // Estado inicial
         this.tareas = new ArrayList<>(); // Lista de tareas vacía
         this.presupuesto = presupuesto;
-        this.presupuestoAprobado = false; // Por defecto
         this.fechaInicio = System.currentTimeMillis(); // Fecha actual
-        this.fechaFin = 0; // No hay fecha de fin al inicio
+        this.fechaFin = null; // No hay fecha de fin al inicio
         this.correoMecanicoJefe = correoMecanicoJefe;
         this.correoCliente = correoCliente;
         this.correosMecanicosAsignados = correosMecanicosAsignados != null ? correosMecanicosAsignados : new ArrayList<>();
@@ -40,14 +38,13 @@ public class Reparacion {
     // Constructor con parámetros adicionales para reparaciones con tareas y otros detalles
     public Reparacion(String matriculaCoche, String tipoReparacion, String estadoReparacion,
                       List<Tarea> tareas, double presupuesto, boolean presupuestoAprobado,
-                      long fechaFin, String correoMecanicoJefe, String correoCliente) {
+                      Long fechaFin, String correoMecanicoJefe, String correoCliente) {
 
         this.matriculaCoche = matriculaCoche;
         this.tipoReparacion = tipoReparacion;
         this.estadoReparacion = estadoReparacion; // Se usa el valor proporcionado
         this.tareas = tareas != null ? tareas : new ArrayList<>(); // Asegurarse de que las tareas no sean nulas
         this.presupuesto = presupuesto;
-        this.presupuestoAprobado = presupuestoAprobado;
         this.fechaInicio = System.currentTimeMillis(); // Fecha y hora actual
         this.fechaFin = fechaFin;
         this.correoMecanicoJefe = correoMecanicoJefe;
@@ -56,10 +53,7 @@ public class Reparacion {
     }
 
 
-    // Método para actualizar el estado del presupuesto
-    public void actualizarPresupuestoAprobado(boolean aprobado) {
-        this.presupuestoAprobado = aprobado;
-    }
+
 
     //Método para finalizar el estado y asignar la fecha de fin
     public void finalizarReparacion() {
@@ -109,27 +103,19 @@ public class Reparacion {
         this.presupuesto = presupuesto;
     }
 
-    public boolean isPresupuestoAprobado() {
-        return presupuestoAprobado;
-    }
-
-    public void setPresupuestoAprobado(boolean presupuestoAprobado) {
-        this.presupuestoAprobado = presupuestoAprobado;
-    }
-
-    public long getFechaInicio() {
+    public Long getFechaInicio() {
         return fechaInicio;
     }
 
-    public void setFechaInicio(long fechaInicio) {
+    public void setFechaInicio(Long fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
 
-    public long getFechaFin() {
+    public Long getFechaFin() {
         return fechaFin;
     }
 
-    public void setFechaFin(long fechaFin) {
+    public void setFechaFin(Long fechaFin) {
         this.fechaFin = fechaFin;
     }
 

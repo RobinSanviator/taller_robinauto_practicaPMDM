@@ -164,7 +164,6 @@ public class AdministrativoReparacionesFragment extends Fragment {
 
     private void configurarCheckBoxes() {
         CompoundButton.OnCheckedChangeListener listener = (buttonView, isChecked) -> cargarReparaciones();
-
         checkBoxPendiente.setOnCheckedChangeListener(listener);
         checkBoxEnProceso.setOnCheckedChangeListener(listener);
         checkBoxFinalizado.setOnCheckedChangeListener(listener);
@@ -328,7 +327,7 @@ public class AdministrativoReparacionesFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                // No hacer nada si no se selecciona ningún cliente
+
             }
         });
     }
