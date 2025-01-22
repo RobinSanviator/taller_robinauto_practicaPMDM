@@ -1,14 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".vista.administrativo.AdministrativoInventarioFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".vista.administrativo.AdministrativoInventarioFragment"
+    android:background="@drawable/img_fondo_degradado">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:id="@+id/linearLayoutAppBarInventario"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="?actionBarSize"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</FrameLayout>
+        <ImageView
+            android:id="@+id/imageViewVolverMenuPrincipalInventario"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:padding="8dp"
+            android:src="@drawable/ic_volver"
+            app:tint="@color/color_texto"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <TextView
+            android:id="@+id/texViewtitulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="50dp"
+            android:text="@string/textoStockPiezas"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/color_texto"/>
+
+
+    </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/imageViewInventario"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/inventario"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutAppBarInventario" />
+
+    <LinearLayout
+        android:id="@+id/LinearLayoutContenidoInventario"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewInventario">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonConsultarPiezas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginStart="5dp"
+            android:elevation="8dp"
+            android:backgroundTint="@color/blanco"
+            android:padding="8dp"
+            android:text="@string/consultarPiezas"
+            app:cornerRadius="30dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonHacerPedido"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:elevation="8dp"
+            android:backgroundTint="@color/blanco"
+            android:padding="8dp"
+            android:text="@string/hacerPedido"
+            app:cornerRadius="30dp" />
+
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayoutContenedorFragmentoStockYpedidos"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/LinearLayoutContenidoInventario">
+
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

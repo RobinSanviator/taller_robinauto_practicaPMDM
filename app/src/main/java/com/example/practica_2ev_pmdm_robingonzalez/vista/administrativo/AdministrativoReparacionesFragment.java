@@ -180,26 +180,13 @@ public class AdministrativoReparacionesFragment extends Fragment {
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View vistaDialogo = inflater.inflate(R.layout.administrativo_dar_alta_reparacion_dialog, null);
 
-        // Inicializar los TextViews dentro del Dialog
-        textviewCocheSeleccionado = vistaDialogo.findViewById(R.id.textViewCocheSeleccionado);
-        textViewMarca = vistaDialogo.findViewById(R.id.textViewMostrarMarca);
-        textViewModelo = vistaDialogo.findViewById(R.id.textViewmostrarModelo);
-        textViewMatricula = vistaDialogo.findViewById(R.id.textViewMostrarMatricula);
-        textViewMecanicoJefe = vistaDialogo.findViewById(R.id.textViewMostrarCorreoMecanicoJefe);
-        spinnerCocheReparacion = vistaDialogo.findViewById(R.id.spinnerCocheNuevaReparacion);
-        spinnerClienteReparacion = vistaDialogo.findViewById(R.id.spinerClienteNuevaReparacion);
-        textViewCorreoCliente = vistaDialogo.findViewById(R.id.textViewMostrarCorreoCliente);
-        editTextPresupuesto = vistaDialogo.findViewById(R.id.editTextPresupuesto);
-        spinnerMecanicoReparacion = vistaDialogo.findViewById(R.id.spinnerMecanicoNuevaReparacion);
-        linearLayoutCorreosMecanicos = vistaDialogo.findViewById(R.id.linearLayoutCorreosMecanicos);
-
-
+        //Llamada al método para inicializar los elementos en la vista
+        inicializarElementosEnDialogo(vistaDialogo);
 
         //Cargar datos para los spinners
         cargarSpinnerCoche();
         cargarSpinnerCliente();
         cargarSpinnerMecanicos();
-
 
         builderNuevaReparacion.setView(vistaDialogo).setTitle("Nueva reparación").setIcon(R.drawable.ic_consul_reparaciones)
                 .setPositiveButton("Dar de alta", new DialogInterface.OnClickListener() {
@@ -211,11 +198,12 @@ public class AdministrativoReparacionesFragment extends Fragment {
                             return; // Si no se seleccionó un mecánico, no continuar
                         }
 
+
                         // Obtener la matrícula y el correo del coche seleccionado
                         String matriculaCoche = textViewMatricula.getText().toString();
                         String correoMecanicoJefe = textViewMecanicoJefe.getText().toString();
                         String correoCliente = textViewCorreoCliente.getText().toString();
-                        // Obtener los correos de los mecánicos seleccionados usando el nuevo método
+                        // Obtener los correos de los mecánicos seleccionados
                         List<String> correosMecanicos = obtenerCorreosMecanicosSeleccionados();
 
                         //Obtener el presupuesto validado
@@ -245,6 +233,20 @@ public class AdministrativoReparacionesFragment extends Fragment {
                     }
                 });
         builderNuevaReparacion.show();
+    }
+
+    private void inicializarElementosEnDialogo(View vistaDialogo){
+        textviewCocheSeleccionado = vistaDialogo.findViewById(R.id.textViewCocheSeleccionado);
+        textViewMarca = vistaDialogo.findViewById(R.id.textViewMostrarMarca);
+        textViewModelo = vistaDialogo.findViewById(R.id.textViewmostrarModelo);
+        textViewMatricula = vistaDialogo.findViewById(R.id.textViewMostrarMatricula);
+        textViewMecanicoJefe = vistaDialogo.findViewById(R.id.textViewMostrarCorreoMecanicoJefe);
+        spinnerCocheReparacion = vistaDialogo.findViewById(R.id.spinnerCocheNuevaReparacion);
+        spinnerClienteReparacion = vistaDialogo.findViewById(R.id.spinerClienteNuevaReparacion);
+        textViewCorreoCliente = vistaDialogo.findViewById(R.id.textViewMostrarCorreoCliente);
+        editTextPresupuesto = vistaDialogo.findViewById(R.id.editTextPresupuesto);
+        spinnerMecanicoReparacion = vistaDialogo.findViewById(R.id.spinnerMecanicoNuevaReparacion);
+        linearLayoutCorreosMecanicos = vistaDialogo.findViewById(R.id.linearLayoutCorreosMecanicos);
     }
 
     // Método separado para obtener el presupuesto

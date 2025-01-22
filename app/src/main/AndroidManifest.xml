@@ -26,7 +26,8 @@
         <activity
             android:name=".vista.cliente.ClienteActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"/>
         <activity
             android:name=".vista.mecanico.MecanicoActivity"
             android:exported="false"
@@ -39,17 +40,19 @@
             android:name=".vista.administrativo.AdministrativoActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"/>
         <activity
             android:name=".vista.administrador.AdministradorActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-           />
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"/>
         <activity
             android:name=".vista.registro.RegistroActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"/>
         <activity
             android:name=".vista.inicio_sesion.InicioSesionActivity"
             android:exported="false"

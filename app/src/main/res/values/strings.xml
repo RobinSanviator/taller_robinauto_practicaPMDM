@@ -60,16 +60,43 @@
         <item>Servicio de climatización</item>
     </string-array>
 
+
+    <string-array name="piezas_diagnosticos_array">
+        <!-- Ajuste de frenos -->
+        <item>Pastillas de freno</item>
+        <item>Líquido de frenos</item>
+        <!-- Cambio de aceite -->
+        <item>Filtro de aceite</item>
+        <item>Aceite de motor</item>
+        <!-- Sustitución de batería -->
+        <item>Batería</item>
+        <!-- Alineación de ruedas -->
+        <item>Pesas de equilibrado</item>
+        <!-- Diagnóstico eléctrico -->
+        <item>Fusibles</item>
+        <item>Relés</item>
+        <!-- Inspección de suspensión -->
+        <item>Amortiguadores</item>
+        <!-- Sustitución de filtro de aire -->
+        <item>Filtro de aire</item>
+        <!-- Revisión del sistema de escape -->
+        <item>Silenciador</item>
+        <!-- Reparación de transmisión -->
+        <item>Aceite de transmisión</item>
+        <!-- Servicio de climatización -->
+        <item>Gas refrigerante</item>
+    </string-array>
+
     <string-array name="mensaje_notificacion_administrativo_array">
         <item>Hola</item>
-        <item>Le comunicamos que el presupuesto para la reparación de su vehículo </item>
-        <item>ya está disponible.</item>
+        <item>Le comunicamos que el presupuesto para la reparación de su vehículo ya está disponible.</item>
         <item>El coste estimado es de </item>
         <item>€. Por favor, revise el presupuesto y confirme si aprueba la reparación.</item>
         <item>Atentamente,</item>
         <item>Taller Robinauto.</item>
         <item>Paseo Juan Carlos I, Valladolid</item>
     </string-array>
+
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="textoAltaBaja">Empleados</string>
@@ -162,5 +189,7 @@
     <string name="textoNoHayPorDiagnosticar">¡Genial, no tienes ningún coche por diagnosticar!</string>
     <string name="textoMostrarListaReparaciones">Mostrando lista completa de reparaciones...</string>
     <string name="textoEmpleadoSeleccionado">Lista de empleados</string>
+    <string name="hacerPedido">Hacer pedido</string>
+    <string name="consultarPiezas">Consultar piezas</string>
 
 </resources>
