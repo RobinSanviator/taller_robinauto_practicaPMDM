@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -294,11 +296,23 @@ public class HelperAjustes {
         builderSalir.show();
     }
 
-    private void limpiarDatosSesion(Context context) {
+    private void limpiarDatosSesion(Context contexto) {
         // Limpiar las preferencias de sesión
-        SharedPreferences sharedPreferences = context.getSharedPreferences("usuario", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = contexto.getSharedPreferences("usuario", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();  // Eliminar todas las preferencias guardadas
         editor.apply();
+    }
+
+    public void mostrarTerminosYCondiciones(Context contexto){
+        MaterialAlertDialogBuilder builderTyC = new MaterialAlertDialogBuilder(contexto);
+        LayoutInflater inflater = LayoutInflater.from(contexto);
+        View vistaDialogo = inflater.inflate(R.layout.alert_dialog_mostrar_terminos_condiciones, null);
+
+        builderTyC.setTitle("Términos y condiciones de Taller Robinauto")
+                .setIcon(R.drawable.ic_terminos_condiciones)
+                .setView(vistaDialogo)
+                .setNegativeButton("Cerrar", (dialog, which) -> dialog.dismiss()).show();
+
     }
 }

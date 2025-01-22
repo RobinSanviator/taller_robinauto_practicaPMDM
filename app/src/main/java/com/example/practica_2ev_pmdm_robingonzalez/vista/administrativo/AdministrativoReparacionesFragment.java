@@ -149,6 +149,7 @@ public class AdministrativoReparacionesFragment extends Fragment {
                 Log.e("AdministrativoReparacionesFragment", "Error al cargar reparaciones: " + error.getMessage());
             }
         };
+        //Llamar a cargarReparaciones para mostrarlo en el recyler
         ReparacionUtil.cargarReparaciones(listener);
     }
 
@@ -204,6 +205,11 @@ public class AdministrativoReparacionesFragment extends Fragment {
                 .setPositiveButton("Dar de alta", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+
+                        // Validar si se ha seleccionado un mecánico
+                        if (!validarMecanicoSeleccionado()) {
+                            return; // Si no se seleccionó un mecánico, no continuar
+                        }
 
                         // Obtener la matrícula y el correo del coche seleccionado
                         String matriculaCoche = textViewMatricula.getText().toString();
@@ -273,6 +279,16 @@ public class AdministrativoReparacionesFragment extends Fragment {
             }
         }
         return correosMecanicos;
+    }
+
+    private boolean validarMecanicoSeleccionado() {
+        // Verificar si el spinner del mecánico tiene un ítem seleccionado que no sea el valor por defecto
+        if (linearLayoutCorreosMecanicos.getChildCount() == 0) {
+            Snackbar.make(getActivity().findViewById(android.R.id.content),
+                    "Debes seleccionar al menos un mecánico", Snackbar.LENGTH_LONG).show();
+            return false; // No se seleccionó un mecánico
+        }
+        return true; // Se seleccionó un mecánico
     }
 
     private void cargarSpinnerCliente() {
@@ -466,7 +482,7 @@ public class AdministrativoReparacionesFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                // No hacer nada
+
             }
         });
     }

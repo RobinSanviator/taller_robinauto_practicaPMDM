@@ -65,13 +65,12 @@
             android:orientation="vertical"
             android:padding="8dp">
 
-            <!-- Campo para insertar el nombre del usuario -->
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputNombreLayoutR"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 app:boxBackgroundMode="outline"
                 app:endIconMode="clear_text"
                 app:helperText="@string/textoAyudaRegistro"
@@ -91,7 +90,7 @@
                     android:textSize="18sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Campo para insertar los apellidos del usuario -->
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputApellidosLayoutR"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -216,7 +215,7 @@
                     android:textSize="18sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Abrir lista para seleccionar tipo de perfil -->
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputSpinnerLayoutR"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
@@ -241,7 +240,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
 
-            <!-- Botón para Registrarse -->
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonRegistrarse"
                 android:layout_width="wrap_content"

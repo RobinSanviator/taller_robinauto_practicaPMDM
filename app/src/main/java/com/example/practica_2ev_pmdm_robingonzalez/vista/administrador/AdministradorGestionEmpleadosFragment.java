@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
 import com.example.practica_2ev_pmdm_robingonzalez.adaptadores.UsuarioEmpleadoAdapter;
@@ -29,6 +31,8 @@ import com.example.practica_2ev_pmdm_robingonzalez.modelo.Usuario;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
+
+import org.checkerframework.checker.units.qual.C;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +52,7 @@ public class AdministradorGestionEmpleadosFragment extends Fragment {
             editTextCorreoEmpleado, editTextTelefonoEmpleado, editTextContrasenyaEmpleado;
     private Spinner spinnerTipoUsuarioEmpleado;
     private String tipoEmpleadoActual;
+    private TextView textViewMostrarListaEmpleado;
 
 
 
@@ -73,6 +78,7 @@ public class AdministradorGestionEmpleadosFragment extends Fragment {
         configurarRecyclerView();
         configurarListeners();
         anadirEmpleado();
+        seleccionPorDefecto();
 
 
         return vista;
@@ -85,6 +91,7 @@ public class AdministradorGestionEmpleadosFragment extends Fragment {
         imageViewMecanicos = vista.findViewById(R.id.imageViewVolverAltaBajaMecanicos);
         fabDarDeAlta = vista.findViewById(R.id.floatingBotonDarDeAlta);
         recyclerViewUsuarios = vista.findViewById(R.id.recyclerViewListaUsuariosAltaBaja);
+        textViewMostrarListaEmpleado = vista.findViewById(R.id.textViewMostrarListaEmpleados);
 
     }
 
@@ -130,20 +137,43 @@ public class AdministradorGestionEmpleadosFragment extends Fragment {
     }
 
     private void configurarClickListener(ImageView imageView, String tipoUsuario) {
-      imageView.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-              //Actualizar el tipo de empleado al tipo de usuario seleccionado
-              tipoEmpleadoActual = tipoUsuario;
+        imageView.setOnClickListener(v -> {
+            // Eliminar el fondo verde de todas las imágenes
+            resetearFondo();
 
-              if (hayConexionInternet()) {
-                  cargarUsuarios(tipoUsuario);
-              } else {
-                  Snackbar.make(v, "No tienes conexión a Internet. Conéctate para ver las listas de empleados", Snackbar.LENGTH_LONG).show();
-              }
+            // Actualizar el tipo de empleado al tipo de usuario seleccionado
+            tipoEmpleadoActual = tipoUsuario;
+            textViewMostrarListaEmpleado.setText("Lista empleado " + tipoUsuario);
 
-          }
-      });
+            // Poner el fondo verde a la imagen seleccionada
+            imageView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.verde));
+
+
+            if (hayConexionInternet()) {
+                cargarUsuarios(tipoUsuario);
+            } else {
+                Snackbar.make(v, "No tienes conexión a Internet. Conéctate para ver las listas de empleados", Snackbar.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void seleccionPorDefecto() {
+        // Establecer "Administrativo" como valor por defecto
+        imageViewAdministrativos.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.verde));
+        textViewMostrarListaEmpleado.setText("Lista empleado Administrativo");
+
+        // Cargar los usuarios de "Administrativo"
+        if (hayConexionInternet()) {
+            cargarUsuarios("Administrativo");
+        }
+    }
+
+    private void resetearFondo() {
+        // Restablecer el fondo de todas las imágenes a su estado original
+        imageViewAdministrativos.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.fondo_boton_redondo));
+        imageViewMecanicosJefes.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.fondo_boton_redondo));
+        imageViewMecanicos.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.fondo_boton_redondo));
+
     }
 
     private void cargarUsuarios(String tipoUsuario) {

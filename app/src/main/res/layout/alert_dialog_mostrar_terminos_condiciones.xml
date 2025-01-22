@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="15dp"
+    android:background="@color/fondo">
+
+    <TextView
+        android:id="@+id/textViewIntroduccion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textoTyCIntroduccion"
+        android:padding="8dp"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/textViewUsoServicio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textoTyCUsoServicio"
+        android:padding="8dp"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/textViewPropiedadIntelectual"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textoTyCPropiedadIntelectual"
+        android:padding="8dp"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/textViewPrivacidad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textoTyCPrivacidad"
+        android:padding="8dp"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/textViewContacto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textoTyCContacto"
+        android:padding="8dp"
+        android:textSize="14sp" />
+
+</LinearLayout>

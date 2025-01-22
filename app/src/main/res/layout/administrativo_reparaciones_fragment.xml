@@ -16,7 +16,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-
         <ImageView
             android:id="@+id/imageViewVolverMenuPrincipalReparacionCoches"
             android:layout_width="wrap_content"
@@ -27,33 +26,20 @@
             app:tint="@color/color_texto"
             tools:ignore="SpeakableTextPresentCheck" />
 
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/linearLayoutTitulo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp"
-        android:background="@drawable/img_fondo_degradado"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutAppBarReparacionCoches"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintStart_toEndOf="parent">
-
-
         <TextView
             android:id="@+id/texViewtitulo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:elevation="4dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="50dp"
             android:text="@string/textoAltaReparacion"
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@color/color_texto"/>
 
+
     </LinearLayout>
+
 
     <ImageView
         android:id="@+id/imageViewReparacion"
@@ -61,25 +47,10 @@
         android:layout_height="100dp"
         android:layout_marginTop="10dp"
         android:src="@drawable/reparacion_coches"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayoutTitulo"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutTitulo" />
-
-
-    <TextView
-        android:id="@+id/seleccionarEstadoReparacion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:padding="8dp"
-        android:elevation="8dp"
-        android:text="@string/textoEligeElEstado"
-        android:textStyle="bold"
-        android:textColor="@color/color_texto"
-        android:background="@color/fondo"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewReparacion" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutAppBarReparacionCoches" />
 
     <LinearLayout
         android:id="@+id/linearLayoutFiltrarPorEstadoReparacion"
@@ -89,13 +60,14 @@
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="15dp"
+        android:layout_marginTop="15dp"
         android:padding="8dp"
         android:elevation="8dp"
         android:gravity="center_horizontal"
         android:background="@drawable/fondo_boton_redondo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seleccionarEstadoReparacion">
+        app:layout_constraintTop_toBottomOf="@+id/imageViewReparacion">
 
         <CheckBox
             android:id="@+id/checkboxPendienteReparacion"

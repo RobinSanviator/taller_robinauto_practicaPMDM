@@ -29,198 +29,167 @@
             app:tint="@color/color_texto"
             tools:ignore="SpeakableTextPresentCheck" />
 
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/linearLayoutTituloAltaBaja"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:padding="8dp"
-        android:background="@drawable/img_fondo_forma_cabecera"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutAppBarRegistroCoches"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintStart_toEndOf="parent">
-
-
         <TextView
             android:id="@+id/texViewTitulo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginStart="50dp"
             android:text="@string/textoRegistroEntradaCoches"
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@color/color_texto"/>
 
-
     </LinearLayout>
 
-
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="20dp"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/linearLayoutTituloAltaBaja">
-
-
-    <LinearLayout
-        android:id="@+id/linearLayoutAppBarIntroducirRegistroCoche"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="vertical">
+        android:layout_margin="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutAppBarRegistroCoches">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/registro_entrada_coche"
-            android:layout_marginBottom="20dp"/>
-
-        <!-- Campo para el modelo del coche -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutMarcaCoche"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:boxBackgroundMode="filled"
-            app:endIconMode="clear_text"
-            android:padding="16dp"
-            app:helperText="@string/textoAyudaObligatorio">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextMarcaCoche"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:hint="@string/textoMarcaCoche"
-                android:inputType="text"
-                android:textSize="18sp"
-                android:minHeight="48dp"
-                android:drawableStart="@drawable/ic_coche"
-                android:drawableTint="@color/color_texto"
-                android:drawablePadding="8dp"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <!-- Campo para el modelo del coche -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutMatriculaCoche"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:boxBackgroundMode="filled"
-            android:padding="16dp"
-            app:helperText="@string/textoAyudaObligatorio"
-            app:endIconMode="clear_text">
-
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextModeloCoche"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:hint="@string/textoModeloCoche"
-                android:inputType="text"
-                android:minHeight="48dp"
-                android:textSize="18sp"
-                android:drawableStart="@drawable/ic_coche"
-                android:drawableTint="@color/color_texto"
-                android:drawablePadding="8dp" />
-
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-
-        <!-- Campo para la marca del coche -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutModeloCoche"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:boxBackgroundMode="filled"
-            android:padding="16dp"
-            app:helperText="@string/textoAyudaObligatorio"
-            app:endIconMode="clear_text">
-
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextMatriculaCoche"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:hint="@string/textoMatriculaCoche"
-                android:inputType="text"
-                android:minHeight="48dp"
-                android:textSize="18sp"
-                android:drawableStart="@drawable/ic_coche"
-                android:drawableTint="@color/color_texto"
-                android:drawablePadding="8dp" />
-
-
-        </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
+            android:id="@+id/linearLayoutAppBarIntroducirRegistroCoche"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="8dp"
-            android:elevation="4dp"
-            android:background="@color/fondo">
+            android:layout_height="0dp"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textViewAsignarMj"
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="20dp"
+                android:src="@drawable/registro_entrada_coche" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutMarcaCoche"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:padding="16dp"
-                android:layout_gravity="center"
-                android:gravity="center_horizontal"
-                android:text="@string/AsignarMj"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:textColor="@color/color_texto"
-                android:drawableEnd="@drawable/ic_derecha"
-                android:drawablePadding="8dp"
-                android:drawableTint="@color/color_texto"/>
+                app:boxBackgroundMode="filled"
+                app:endIconMode="clear_text"
+                app:helperText="@string/textoAyudaObligatorio">
 
-            <!-- Spinner para seleccioonar el mecánico jefe-->
-            <Spinner
-                android:id="@+id/spinnerAsignarCocheMecanicoJefe"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextMarcaCoche"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_coche"
+                    android:drawablePadding="8dp"
+                    android:drawableTint="@color/color_texto"
+                    android:hint="@string/textoMarcaCoche"
+                    android:inputType="text"
+                    android:minHeight="48dp"
+                    android:padding="16dp"
+                    android:textSize="18sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutMatriculaCoche"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:minHeight="48dp"
+                android:layout_height="wrap_content"
                 android:padding="16dp"
-                android:background="@color/color_desactivado_fondo"/>
+                app:boxBackgroundMode="filled"
+                app:endIconMode="clear_text"
+                app:helperText="@string/textoAyudaObligatorio">
+
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextModeloCoche"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_coche"
+                    android:drawablePadding="8dp"
+                    android:drawableTint="@color/color_texto"
+                    android:hint="@string/textoModeloCoche"
+                    android:inputType="text"
+                    android:minHeight="48dp"
+                    android:padding="16dp"
+                    android:textSize="18sp" />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutModeloCoche"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                app:boxBackgroundMode="filled"
+                app:endIconMode="clear_text"
+                app:helperText="@string/textoAyudaObligatorio">
+
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextMatriculaCoche"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_coche"
+                    android:drawablePadding="8dp"
+                    android:drawableTint="@color/color_texto"
+                    android:hint="@string/textoMatriculaCoche"
+                    android:inputType="text"
+                    android:minHeight="48dp"
+                    android:padding="16dp"
+                    android:textSize="18sp" />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/fondo"
+                android:elevation="4dp"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <TextView
+                    android:id="@+id/textViewAsignarMj"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center_horizontal"
+                    android:padding="8dp"
+                    android:text="@string/AsignarMj"
+                    android:textColor="@color/color_texto"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/spinnerAsignarCocheMecanicoJefe"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@color/color_desactivado_fondo"
+                    android:gravity="center"
+                    android:minHeight="48dp"
+                    android:padding="16dp" />
+
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonGuardarRegistroCoche"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="20dp"
+                android:backgroundTint="@color/verde"
+                android:text="@string/textoGuardarRegistro"
+                android:textColor="@color/color_texto"
+                app:cornerRadius="30dp" />
 
         </LinearLayout>
-
-
-
-        <!-- Botón para Confirmar los cambios -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/buttonGuardarRegistroCoche"
-            android:layout_margin="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:cornerRadius="30dp"
-            android:backgroundTint="@color/verde"
-            android:text="@string/textoGuardarRegistro"
-            android:textColor="@color/color_texto"/>
-
-
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

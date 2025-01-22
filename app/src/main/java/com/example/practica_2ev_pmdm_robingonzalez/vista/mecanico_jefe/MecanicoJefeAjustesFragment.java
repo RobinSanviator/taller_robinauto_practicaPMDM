@@ -28,7 +28,7 @@ public class MecanicoJefeAjustesFragment extends Fragment {
     private ImageView imageViewVolverMenu;
     private TextView textViewNombre;
     private String correo;
-    private RelativeLayout relativeLayoutCerrarSesion, relativeLayoutSalir;
+    private RelativeLayout relativeLayoutTyC, relativeLayoutCerrarSesion, relativeLayoutSalir;
     private MecanicoJefeActivity mecanicoJefeActivity;
     private TallerRobinautoSQLite baseDeDatosGestionUsuarios;
     private UsuarioConsulta usuarioConsulta;
@@ -53,6 +53,7 @@ public class MecanicoJefeAjustesFragment extends Fragment {
         modoOscuro();
         volverAlMenuDesdeAjustes();
         introducirNombreUsuarioAjustes();
+        mostrarTyC();
         cerrarSesion();
         salir();
 
@@ -64,6 +65,7 @@ public class MecanicoJefeAjustesFragment extends Fragment {
         progressBarModoOscuro = vista.findViewById(R.id.progressBarModoOscuroAjustesMjefe);
         imageViewVolverMenu = vista.findViewById(R.id.imageViewVolverMenuPrincipalAjustesMjefe);
         textViewNombre = vista.findViewById(R.id.textViewNombreAjustesMjefe);
+        relativeLayoutTyC = vista.findViewById(R.id.relativeLayoutTyCAjustesMjefe);
         relativeLayoutCerrarSesion = vista.findViewById(R.id.relativeLayoutSesionAjustesMjefe);
         relativeLayoutSalir = vista.findViewById(R.id.relativeLayoutSalirAjustesMjefe);
         baseDeDatosGestionUsuarios = TallerRobinautoSQLite.getInstance(getContext());
@@ -127,6 +129,21 @@ public class MecanicoJefeAjustesFragment extends Fragment {
             Log.e("MecanicoJefeAjustesFragment", "No se puede cargar la preferencia de modo oscuro");
         }
     }
+
+    private void mostrarTyC(){
+        relativeLayoutTyC.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(helperAjustes != null){
+                    helperAjustes.mostrarTerminosYCondiciones(getContext());
+                }else{
+                    Log.e("MecanicoJefeAjustesFragment", "helperAjustes null: no se pudo mostrar términos y condiciones");
+                }
+            }
+        });
+
+    }
+
 
     private void cerrarSesion(){
         relativeLayoutCerrarSesion.setOnClickListener(new View.OnClickListener() {

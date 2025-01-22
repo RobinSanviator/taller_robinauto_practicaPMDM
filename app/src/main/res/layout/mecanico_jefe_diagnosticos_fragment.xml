@@ -22,31 +22,19 @@
             android:id="@+id/imageViewVolverMenuPrincipalDiagnosticos"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
             android:clickable="true"
             android:padding="8dp"
             android:src="@drawable/ic_volver"
             app:tint="@color/color_texto"
             tools:ignore="SpeakableTextPresentCheck" />
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayoutTitulo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:padding="8dp"
-        android:background="@drawable/img_fondo_forma_cabecera"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutAppBarDiagnosticos"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintStart_toEndOf="parent">
-
         <TextView
             android:id="@+id/texViewtitulo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_marginStart="50dp"
             android:text="@string/textoDiagnosticos"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -54,15 +42,16 @@
 
     </LinearLayout>
 
+
     <ImageView
         android:id="@+id/imageViewDiagnostico"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginTop="10dp"
         android:src="@drawable/registro_entrada_coche"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayoutTitulo"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutTitulo" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutAppBarDiagnosticos" />
 
 
     <LinearLayout
@@ -70,22 +59,93 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
+        android:layout_marginTop="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageViewDiagnostico">
 
         <TextView
+            android:id="@+id/textViewInfoSeleccionaParaDiagnosticar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:padding="8dp"
             android:elevation="8dp"
+            android:visibility="gone"
+            android:background="@color/color_degradado2_cardview2"
             android:layout_gravity="center"
             android:text="@string/textoSeleccionaReparacion"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:textStyle="bold"
-            android:textColor="@color/color_texto"/>
+            android:textColor="@color/negro"/>
+
+        <TextView
+            android:id="@+id/textViewNoHayCochesParaDiagnosticar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:padding="4dp"
+            android:text="@string/textoNoHayPorDiagnosticar"
+            android:textSize="16sp"
+            android:textColor="@color/color_texto"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:id="@+id/textViewMostrarListaReparaciones"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:visibility="gone"
+            android:background="@color/color_desactivado_fondo"
+            android:elevation="4dp"
+            android:text="@string/textoMostrarListaReparaciones"
+            android:textSize="16sp"
+            android:textColor="@color/color_texto"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center"/>
+
+
+        <LinearLayout
+            android:id="@+id/linearLayoutFiltrarPorDiagnosticados"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/fondo_boton_redondo"
+            android:elevation="8dp"
+            android:padding="4dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:gravity="center_horizontal">
+
+
+            <CheckBox
+                android:id="@+id/checkBoxNoDiagnosticados"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/textoNodiagnosticados"
+                android:textSize="14sp"
+                android:textColor="@color/color_texto"
+                android:checked="true"
+                android:buttonTint="@color/color_principal"/>
+
+            <CheckBox
+                android:id="@+id/checkBoxDiagnosticados"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/textodiagnosticados"
+                android:padding="4dp"
+                android:textSize="14sp"
+                android:textColor="@color/color_texto"
+                android:checked="true"
+                android:buttonTint="@color/color_principal" />
+        </LinearLayout>
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewDiagnosticos"

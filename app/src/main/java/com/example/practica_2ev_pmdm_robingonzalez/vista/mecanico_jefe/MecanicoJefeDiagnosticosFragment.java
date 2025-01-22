@@ -13,8 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
 import com.example.practica_2ev_pmdm_robingonzalez.adaptadores.ReparacionAdapter;
@@ -36,23 +38,23 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class MecanicoJefeDiagnosticosFragment extends Fragment implements  ReparacionAdapter.OnItemClickListener {
+public class MecanicoJefeDiagnosticosFragment extends Fragment implements ReparacionAdapter.OnItemClickListener {
 
     private ImageView imageViewVolver;
     private MecanicoJefeActivity mecanicoJefeActivity;
     private RecyclerView recyclerViewDiagnostico;
     private ReparacionAdapter reparacionAdapter;
     private List<Reparacion> listaReparacion;
+    private CheckBox checkBoxDiagnosticados, checkBoxNoDiagnosticados;
+    private TextView textViewInfoSeleccionaParaDiagnosticar, textViewNoHayCochesParaDiagnosticar, textViewMostrarLista;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflar diseño del layout de los diagnósticos
         View vista = inflater.inflate(R.layout.mecanico_jefe_diagnosticos_fragment, container, false);
 
@@ -65,26 +67,31 @@ public class MecanicoJefeDiagnosticosFragment extends Fragment implements  Repar
         return vista;
     }
 
-
-
     private void inicializarComponentes(View vista) {
         imageViewVolver = vista.findViewById(R.id.imageViewVolverMenuPrincipalDiagnosticos);
         recyclerViewDiagnostico = vista.findViewById(R.id.recyclerViewDiagnosticos);
+        checkBoxDiagnosticados = vista.findViewById(R.id.checkBoxDiagnosticados);
+        checkBoxNoDiagnosticados = vista.findViewById(R.id.checkBoxNoDiagnosticados);
+        textViewInfoSeleccionaParaDiagnosticar = vista.findViewById(R.id.textViewInfoSeleccionaParaDiagnosticar);
+        textViewNoHayCochesParaDiagnosticar = vista.findViewById(R.id.textViewNoHayCochesParaDiagnosticar);
+        textViewMostrarLista = vista.findViewById(R.id.textViewMostrarListaReparaciones);
+
+        // Configurar el listener para los checkboxes
+        checkBoxDiagnosticados.setOnCheckedChangeListener((buttonView, isChecked) -> cargarReparaciones());
+        checkBoxNoDiagnosticados.setOnCheckedChangeListener((buttonView, isChecked) -> cargarReparaciones());
     }
 
     private void obtenerHelper() {
         if (getActivity() instanceof MecanicoJefeActivity) {
-            mecanicoJefeActivity = ((MecanicoJefeActivity) getActivity());
+            mecanicoJefeActivity = (MecanicoJefeActivity) getActivity();
         } else {
-            Log.e("AdministrativoReparacionesFragment", "Error al obtener helper");
+            Log.e("MecanicoJefeDiagnosticosFragment", "Error al obtener helper");
         }
     }
 
-
-    private void volverMenuPrincipalDesdeDiagnosticos(){
+    private void volverMenuPrincipalDesdeDiagnosticos() {
         imageViewVolver.setOnClickListener(v -> mecanicoJefeActivity.volverMenuPrincipal());
     }
-
 
     private void cargarReparaciones() {
         // Obtener el correo del mecánico jefe desde el helper de la actividad
@@ -96,17 +103,30 @@ public class MecanicoJefeDiagnosticosFragment extends Fragment implements  Repar
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 listaReparacion.clear(); // Limpiar la lista antes de agregar nuevos datos
 
+                // Verificar qué CheckBox está seleccionado
+                boolean mostrarPendientes = checkBoxNoDiagnosticados.isChecked();  // "No diagnosticados"
+                boolean mostrarDiagnosticados = checkBoxDiagnosticados.isChecked();  // "Diagnosticados"
+
+                // Iterar sobre las reparaciones
                 for (DataSnapshot reparacionSnapshot : snapshot.getChildren()) {
                     Reparacion reparacion = reparacionSnapshot.getValue(Reparacion.class);
                     if (reparacion != null && correoMecanicoJefe.equals(reparacion.getCorreoMecanicoJefe())) {
-                        // Filtrar solo las reparaciones que corresponden al correo del mecánico jefe
-                        listaReparacion.add(reparacion);
-                        Log.d("MecanicoJefeDiagnosticosFragment", "Reparación cargada: " + reparacion.getMatriculaCoche());
+                        // Verifica las reparaciones basadas en los checkboxes seleccionados
+                        boolean esPendiente = "Pendiente".equalsIgnoreCase(reparacion.getTipoReparacion());
+                        boolean esDiagnosticada = !"Pendiente".equalsIgnoreCase(reparacion.getTipoReparacion());
+
+                        // Si se deben mostrar las reparaciones pendientes o diagnosticadas
+                        if ((mostrarPendientes && esPendiente) || (mostrarDiagnosticados && esDiagnosticada)) {
+                            listaReparacion.add(reparacion);
+                        }
                     }
                 }
 
                 // Notificar al adaptador que los datos han cambiado
                 reparacionAdapter.notifyDataSetChanged();
+
+                // Verificar si hay reparaciones para mostrar el TextView
+                verificarReparacionPorDiagnosticar();
             }
 
             @Override
@@ -119,20 +139,44 @@ public class MecanicoJefeDiagnosticosFragment extends Fragment implements  Repar
         ReparacionUtil.cargarReparaciones(listener);
     }
 
+    private void verificarReparacionPorDiagnosticar() {
+        // Lógica para verificar el estado de los checkbox y las reparaciones
+        if (checkBoxNoDiagnosticados.isChecked() && checkBoxDiagnosticados.isChecked()) {
+            mostrarMensaje("Para editar diagnóstico, selecciona una reparación", R.color.color_principal, View.VISIBLE, View.GONE, View.VISIBLE);
+        } else if (checkBoxNoDiagnosticados.isChecked() && listaReparacion.isEmpty()) {
+            mostrarMensaje("", 0, View.GONE, View.VISIBLE, View.GONE);
+        } else if (checkBoxDiagnosticados.isChecked() && !listaReparacion.isEmpty()) {
+            mostrarMensaje("Para editar diagnóstico, selecciona una reparación", R.color.color_principal, View.VISIBLE, View.GONE, View.GONE);
+        } else {
+            mostrarMensaje("Selecciona los checkbox para consultar las reparaciones", R.color.color_degradado2_cardview2, View.VISIBLE, View.GONE, View.GONE);
+        }
+    }
+
+    // Método para aplicar el mensaje, fondo y visibilidad de los TextViews
+    private void mostrarMensaje(String mensaje, int fondo, int visibilidadInfo,
+                                int visibilidadNoHayCoches, int visibilidadMostrarRep) {
+        textViewInfoSeleccionaParaDiagnosticar.setText(mensaje);
+        if (fondo != 0) {  // Solo aplicar fondo si se pasa un valor distinto de 0
+            textViewInfoSeleccionaParaDiagnosticar.setBackgroundResource(fondo);
+        }
+        textViewInfoSeleccionaParaDiagnosticar.setVisibility(visibilidadInfo);
+        textViewNoHayCochesParaDiagnosticar.setVisibility(visibilidadNoHayCoches);
+        textViewMostrarLista.setVisibility(visibilidadMostrarRep);
+    }
+
     @Override
-    public void onItemClick(Reparacion reparacion){
+    public void onItemClick(Reparacion reparacion) {
         iniciarDiagnostico(reparacion);
     }
 
-    private void configurarRecyclerView(){
+    private void configurarRecyclerView() {
         // Configurar el adaptador solo una vez
         listaReparacion = new ArrayList<>();
-        reparacionAdapter = new ReparacionAdapter(listaReparacion, getContext(),
-                MecanicoJefeDiagnosticosFragment.this);
+        reparacionAdapter = new ReparacionAdapter(listaReparacion, getContext(), MecanicoJefeDiagnosticosFragment.this);
         recyclerViewDiagnostico.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerViewDiagnostico.setAdapter(reparacionAdapter);
-
     }
+
 
     private void iniciarDiagnostico(Reparacion reparacion) {
         MaterialAlertDialogBuilder builderDiagnostico = new MaterialAlertDialogBuilder(getContext());

@@ -32,7 +32,7 @@ public class AdministradorModificarUsuariosFragment extends Fragment {
     private List<Usuario> usuariosList;
     private UsuarioModificarUsuariosAdapter usuariosModificarAdapter;
     private RecyclerView recyclerViewUsuarios;
-    private Usuario usuario;
+
 
 
     @Override
@@ -47,7 +47,6 @@ public class AdministradorModificarUsuariosFragment extends Fragment {
                              Bundle savedInstanceState) {
         //Inflar diseño del layout del menú principal
         View vista = inflater.inflate(R.layout.administrador_modificar_usuarios_fragment, container, false);
-        imageViewVolver = vista.findViewById(R.id.imageViewVolverMenuPrincipalDesdeCliente);
 
         inicializarComponentes(vista);
         obtenerHelper();
@@ -59,7 +58,8 @@ public class AdministradorModificarUsuariosFragment extends Fragment {
     }
 
     private void inicializarComponentes(View vista){
-    recyclerViewUsuarios = vista.findViewById(R.id.recyclerViewListaUsuariosModificar);
+        imageViewVolver = vista.findViewById(R.id.imageViewVolverMenuPrincipalDesdeCliente);
+        recyclerViewUsuarios = vista.findViewById(R.id.recyclerViewListaUsuariosModificar);
     }
 
     private void obtenerHelper(){

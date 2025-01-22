@@ -150,11 +150,21 @@ public class AdministrativoRegistroCochesFragment extends Fragment {
 
                     Snackbar.make(v, "Registro completado con éxito del coche  " + marca + "  " + modelo, Snackbar.LENGTH_LONG).show();
 
+                    //Limpiar los campos despúes de guardar el registro del coche
+                    limpiarCampos();
+
                 } else {
                     Snackbar.make(v, "Rellena todos los campos para realizar el registro correctamente", Snackbar.LENGTH_LONG).show();
                 }
             }
         });
+    }
+
+    private void limpiarCampos() {
+        editTextMarcaCoche.getText().clear(); // Limpia el campo de marca
+        editTextModeloCoche.getText().clear(); // Limpia el campo de modelo
+        editTextMatriculaCoche.getText().clear(); // Limpia el campo de matrícula
+        spinnerAsignarCocheMj.setSelection(0); // Reinicia el Spinner al primer elemento
     }
 
 }

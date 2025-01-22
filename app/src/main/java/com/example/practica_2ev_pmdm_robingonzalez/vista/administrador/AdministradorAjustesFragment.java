@@ -30,7 +30,7 @@ public class AdministradorAjustesFragment extends Fragment {
     private ImageView imageViewVolverMenu;
     private TextView textViewNombre;
     private String correo;
-    private RelativeLayout relativeLayoutCerrarSesion, relativeLayoutSalir;
+    private RelativeLayout relativeLayoutTyC, relativeLayoutCerrarSesion, relativeLayoutSalir;
     private AdministradorActivity activityAdministrador;
     private TallerRobinautoSQLite baseDeDatosGestionUsuarios;
     private UsuarioConsulta usuarioConsulta;
@@ -59,6 +59,7 @@ public class AdministradorAjustesFragment extends Fragment {
         modoOscuro();
         volverAlMenuDesdeAjustes();
         introducirNombreUsuarioAjustes();
+        mostrarTyC();
         cerrarSesion();
         salir();
 
@@ -71,6 +72,7 @@ public class AdministradorAjustesFragment extends Fragment {
         progressBarModoOscuro = vista.findViewById(R.id.progressBarModoOscuroAjustesAdmin);
         imageViewVolverMenu = vista.findViewById(R.id.imageViewVolverMenuPrincipalAjustesAdmin);
         textViewNombre = vista.findViewById(R.id.textViewNombreAjustesAdmin);
+        relativeLayoutTyC = vista.findViewById(R.id.relativeLayoutTyCAjustesAdmin);
         relativeLayoutCerrarSesion = vista.findViewById(R.id.relativeLayoutSesionAjustesAdmin);
         relativeLayoutSalir = vista.findViewById(R.id.relativeLayoutSalirAjustesAdmin);
         baseDeDatosGestionUsuarios = TallerRobinautoSQLite.getInstance(getContext());
@@ -133,6 +135,19 @@ public class AdministradorAjustesFragment extends Fragment {
       }
     }
 
+    private void mostrarTyC(){
+      relativeLayoutTyC.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+              if(helperAjustes != null){
+                  helperAjustes.mostrarTerminosYCondiciones(getContext());
+              }else{
+                  Log.e("AdministradorAjustesFragment", "helperAjustes null: no se pudo mostrar términos y condiciones");
+              }
+          }
+      });
+
+    }
 
     private void cerrarSesion(){
         relativeLayoutCerrarSesion.setOnClickListener(new View.OnClickListener() {

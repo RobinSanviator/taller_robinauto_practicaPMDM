@@ -60,6 +60,16 @@
         <item>Servicio de climatización</item>
     </string-array>
 
+    <string-array name="mensaje_notificacion_administrativo_array">
+        <item>Hola</item>
+        <item>Le comunicamos que el presupuesto para la reparación de su vehículo </item>
+        <item>ya está disponible.</item>
+        <item>El coste estimado es de </item>
+        <item>€. Por favor, revise el presupuesto y confirme si aprueba la reparación.</item>
+        <item>Atentamente,</item>
+        <item>Taller Robinauto.</item>
+        <item>Paseo Juan Carlos I, Valladolid</item>
+    </string-array>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="textoAltaBaja">Empleados</string>
@@ -140,12 +150,17 @@
     <string name="textoSeleccionaReparacion">Selecciona la reparación y concreta el diagnóstico</string>
     <string name="textoIntroduceDiagnostico">Introduce el diagnóstico</string>
     <string name="textoSeleccionarFechaFin">Selecciona la fecha de fin de la reparación</string>
-    <string name="SeleccionaCliente">Selecciona el cliente para enviar la notificación</string>
-    <string name="introduceElMensaje">Introduce el mensaje</string>
+    <string name="SeleccionaCliente">Selecciona el cliente</string>
+    <string name="escribeElMensaje">Escribe el mensaje...</string>
     <string name="enviarMensaje">Enviar mensaje</string>
     <string name="nombreEmisorNotificacion">Nombre del emisor</string>
     <string name="correoEmisorNotificacion">correo@emisor.com</string>
     <string name="textoMensajeNotificacion">Este es el mensaje de la notificación</string>
-    <string name="consultarMensajes">Consultar mensjaes enviados</string>
+    <string name="consultarMensajes">Ir a mensjaes enviados</string>
+    <string name="textodiagnosticados">Diagnosticados</string>
+    <string name="textoNodiagnosticados">No diagnosticados</string>
+    <string name="textoNoHayPorDiagnosticar">¡Genial, no tienes ningún coche por diagnosticar!</string>
+    <string name="textoMostrarListaReparaciones">Mostrando lista completa de reparaciones...</string>
+    <string name="textoEmpleadoSeleccionado">Lista de empleados</string>
 
 </resources>

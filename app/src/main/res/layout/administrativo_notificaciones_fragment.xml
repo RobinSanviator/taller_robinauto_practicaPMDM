@@ -27,27 +27,12 @@
             app:tint="@color/color_texto"
             tools:ignore="SpeakableTextPresentCheck" />
 
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/linearLayoutTitulo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp"
-        android:background="@drawable/img_fondo_forma_cabecera"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutAppBarNotificaiones"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintStart_toEndOf="parent">
-
-
         <TextView
             android:id="@+id/texViewtitulo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:elevation="4dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="50dp"
             android:text="@string/textoNotificaciones"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -55,30 +40,31 @@
 
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/imageViewReparacion"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="10dp"
-        android:src="@drawable/ic_notificaciones"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayoutTitulo"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutTitulo" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_margin="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewReparacion">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutAppBarNotificaiones">
 
+        <ImageView
+            android:id="@+id/imageViewReparacion"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_notificaciones" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
+            android:background="@color/fondo"
             app:cardCornerRadius="30dp">
 
             <LinearLayout
@@ -89,12 +75,17 @@
 
                 <TextView
                     android:id="@+id/texViewSeleccionarCliente"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/SeleccionaCliente"
                     android:layout_gravity="center"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="@string/SeleccionaCliente"
                     android:textColor="@color/color_texto"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:drawableBottom="@drawable/ic_abajo"/>
 
                 <Spinner
                     android:id="@+id/spinnerCargarClientesNotificacion"
@@ -102,41 +93,67 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:layout_marginEnd="30dp"
+                    android:background="@color/color_desactivado_fondo"
+                    android:backgroundTint="@color/color_desactivado_fondo"
+                    android:elevation="8dp"
                     android:minHeight="48dp"
-                    android:background="@drawable/fondo_boton_redondo"/>
+                    android:padding="8dp"/>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editTextEnviarMensajeNotificacion"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="30dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:boxBackgroundMode="outline"
+                    android:layout_marginTop="30dp"
                     android:layout_marginEnd="30dp"
-                    android:hint="@string/introduceElMensaje"
-                    android:minHeight="48dp" />
+                    android:layout_marginStart="30dp"
+                    android:padding="16dp"
+                    android:hint="@string/escribeElMensaje">
+
+                    <MultiAutoCompleteTextView
+                        android:id="@+id/autoCompleteMensajeNotificacion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:dropDownHeight="200dp"
+                        android:scrollbars="vertical"
+                        android:inputType="textMultiLine"
+                        android:padding="16dp"
+                        android:gravity="start"
+                        android:lines="3"
+                        android:overScrollMode="always"
+                        android:minHeight="48dp" />
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/buttonEnviarMensaje"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:layout_marginTop="10dp"
                     android:backgroundTint="@color/verde"
+                    android:padding="8dp"
                     android:text="@string/enviarMensaje"
-                    android:layout_gravity="center"
                     app:cornerRadius="30dp"
                     app:icon="@drawable/ic_enviar_notificacion"
                     app:iconGravity="textEnd"
-                    app:iconPadding="16dp"/>
+                    app:iconSize="32sp"
+                    app:iconPadding="16dp" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/buttonConsultarMensajesEnviados"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/azul"
-                    android:text="@string/consultarMensajes"
                     android:layout_gravity="center"
+                    android:backgroundTint="@color/azul"
+                    android:padding="8dp"
+                    android:text="@string/consultarMensajes"
                     app:cornerRadius="30dp"
-                    app:iconGravity="textEnd"/>
+                    app:icon="@drawable/ic_mensaje_enviado"
+                    app:iconGravity="textEnd"
+                    app:iconSize="32sp"
+                    app:iconPadding="16dp" />
+
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>

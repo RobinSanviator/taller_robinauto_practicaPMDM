@@ -7,6 +7,11 @@ public class Notificacion {
     private String mensaje;
     private String respuesta;
     private boolean aprobarPresupuesto;
+    private Long fechaEnvio;
+
+    public Notificacion() {
+
+    }
 
     public Notificacion(String correoEmisor, String correoReceptor, String mensaje, String respuesta, boolean aprobarPresupuesto) {
         this.correoEmisor = correoEmisor;
@@ -14,6 +19,7 @@ public class Notificacion {
         this.mensaje = mensaje;
         this.respuesta = respuesta;
         this.aprobarPresupuesto = aprobarPresupuesto;
+        this.fechaEnvio = System.currentTimeMillis(); //Asigna la fecha actual en milisegundos
     }
 
     public String getCorreoEmisor() {
@@ -54,5 +60,13 @@ public class Notificacion {
 
     public void setAprobarPresupuesto(boolean aprobarPresupuesto) {
         this.aprobarPresupuesto = aprobarPresupuesto;
+    }
+
+    public Long getFechaEnvio() {
+        return fechaEnvio;
+    }
+
+    public void setFechaEnvio(Long fechaEnvio) {
+        this.fechaEnvio = fechaEnvio;
     }
 }

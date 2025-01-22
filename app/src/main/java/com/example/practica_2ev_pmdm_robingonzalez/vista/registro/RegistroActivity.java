@@ -329,6 +329,7 @@ public class RegistroActivity extends AppCompatActivity {
 
         AlertDialog.Builder builderTyC = new AlertDialog.Builder(this);
         builderTyC.setTitle("Términos y Condiciones");
+        builderTyC.setIcon(R.drawable.ic_terminos_condiciones);
         builderTyC.setView(vistaDialogo);
 
         // Configuración de Checkboxes
