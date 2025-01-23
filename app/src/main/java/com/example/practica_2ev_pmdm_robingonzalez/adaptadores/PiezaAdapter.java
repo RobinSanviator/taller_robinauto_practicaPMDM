@@ -12,7 +12,11 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperMenuPrincipal;
 import com.example.practica_2ev_pmdm_robingonzalez.modelo.Pieza;
+import com.example.practica_2ev_pmdm_robingonzalez.vista.administrativo.AdministrativoActivity;
+import com.example.practica_2ev_pmdm_robingonzalez.vista.administrativo.AdministrativoInventarioPedidoFragment;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.List;
@@ -102,13 +106,18 @@ public class PiezaAdapter extends RecyclerView.Adapter<PiezaAdapter.PiezaViewHol
         imageView.setImageResource(pieza.getImagenPieza());
         textViewNombre.setText(pieza.getNombre());
         textViewCantidad.setText(contexto.getString(R.string.cantidadPieza, pieza.getCantidad()));
+        
 
         // Crear el Dialog
         MaterialAlertDialogBuilder builderPieza = new MaterialAlertDialogBuilder(contexto);
         builderPieza.setView(dialogView)
                 .setTitle("Detalle pieza")
                 .setIcon(R.drawable.ic_piezas)
-                .setNegativeButton("Cerrar", (dialog, which) -> dialog.dismiss())
-                .show();
+                .setNegativeButton("Cerrar", (dialog, which) -> dialog.dismiss());
+
+        // Mostrar el dialog
+        builderPieza.show();
+
     }
+
 }

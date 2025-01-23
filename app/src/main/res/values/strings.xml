@@ -194,5 +194,6 @@
     <string name="cantidadPieza">Stock: %d unidades</string>
     <string name="pocasPiezasEnStock">¡STOCK BAJO! Mínimo requerido: %d</string>
     <string name="noHayRegistroPiezas">No hay registro de piezas, realiza un pedido al proveedor</string>
+    <string name="irAPedido">¡Stock bajo! Realizar pedido</string>
 
 </resources>
