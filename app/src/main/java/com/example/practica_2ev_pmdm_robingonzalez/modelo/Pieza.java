@@ -4,13 +4,16 @@ public class Pieza {
     private String nombre;
     private int cantidad;
     private int umbralMinimo;
+    private int imagenPieza;
 
     public Pieza(){}
 
-    public Pieza(String nombre, int cantidad, int umbralMinimo) {
+    public Pieza(String nombre, int cantidad, int umbralMinimo,   int imagenPieza) {
         this.nombre = nombre;
         this.cantidad = cantidad;
         this.umbralMinimo = umbralMinimo;
+        this.imagenPieza = imagenPieza;
+
     }
 
     public String getNombre() {
@@ -35,5 +38,13 @@ public class Pieza {
 
     public void setUmbralMinimo(int umbralMinimo) {
         this.umbralMinimo = umbralMinimo;
+    }
+
+    public int getImagenPieza() {
+        return imagenPieza;
+    }
+
+    public void setImagenPieza(int imagenPieza) {
+        this.imagenPieza = imagenPieza;
     }
 }

@@ -19,6 +19,7 @@ import com.example.practica_2ev_pmdm_robingonzalez.adaptadores.PiezaAdapter;
 import com.example.practica_2ev_pmdm_robingonzalez.adaptadores.ReparacionAdapter;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.FirebaseUtil;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperMenuPrincipal;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.PiezaUtil;
 import com.example.practica_2ev_pmdm_robingonzalez.modelo.Pieza;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -70,9 +71,8 @@ public class AdministrativoInventarioPiezaFragment extends Fragment {
     }
 
     private void inicializarPiezasPredefinidas() {
-        DatabaseReference piezasRef = FirebaseDatabase.getInstance().getReference("Piezas");
+        DatabaseReference piezasRef = FirebaseUtil.getFirebaseDatabase().getReference("Piezas");
 
-        // Lista de piezas predefinidas
         String[] piezasPredefinidas = {
                 "Pastillas de freno", "Líquido de frenos",
                 "Filtro de aceite", "Aceite de motor",
@@ -83,58 +83,92 @@ public class AdministrativoInventarioPiezaFragment extends Fragment {
                 "Gas refrigerante"
         };
 
-        // Umbral mínimo predeterminado
         int umbralMinimo = 5;
 
         for (String piezaNombre : piezasPredefinidas) {
-            piezasRef.orderByChild("nombre").equalTo(piezaNombre).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (!snapshot.exists()) {
-                        String piezaId = piezasRef.push().getKey();
-                        if (piezaId != null) {
-                            Pieza pieza = new Pieza(piezaNombre, 0, umbralMinimo);
-                            piezasRef.child(piezaId).setValue(pieza).addOnCompleteListener(task -> {
-                                if (task.isSuccessful()) {
-                                    Log.d("Firebase Piezas", "Pieza añadida: " + piezaNombre);
-                                } else {
-                                    Log.e("Firebase Piezas", "Error al añadir pieza: " + piezaNombre);
+            piezasRef.orderByChild("nombre").equalTo(piezaNombre)
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (!snapshot.exists()) {
+                                String piezaId = piezasRef.push().getKey();
+                                if (piezaId != null) {
+                                    // Asignar el ID de la imagen según el nombre de la pieza
+                                    int imagenPieza = obtenerIconoPorNombre(piezaNombre);
+                                    Pieza pieza = new Pieza(piezaNombre, 0, umbralMinimo, imagenPieza);
+                                    piezasRef.child(piezaId).setValue(pieza).addOnCompleteListener(task -> {
+                                        if (task.isSuccessful()) {
+                                            Log.d("Firebase Piezas", "Pieza añadida: " + piezaNombre);
+                                        } else {
+                                            Log.e("Firebase Piezas", "Error al añadir pieza: " + piezaNombre);
+                                        }
+                                    });
                                 }
-                            });
+                            }
                         }
-                    }
-                }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    Log.e("Firebase Piezas", "Error al comprobar existencia: " + error.getMessage());
-                }
-            });
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Log.e("Firebase Piezas", "Error al comprobar existencia: " + error.getMessage());
+                        }
+                    });
+        }
+    }
+
+    // Método que retorna el ID del icono correspondiente según el nombre de la pieza
+    private int obtenerIconoPorNombre(String nombrePieza) {
+        switch (nombrePieza) {
+            case "Pastillas de freno":
+                return R.drawable.ic_pastilla_frenos;
+            case "Líquido de frenos":
+                return R.drawable.ic_liquido_frenos;
+            case "Filtro de aceite":
+                return R.drawable.ic_filtro_aceite;
+            case "Aceite de motor":
+                return R.drawable.ic_aceite_motor;
+            case "Batería":
+                return R.drawable.ic_bateria;
+            case "Pesas de equilibrado":
+                return R.drawable.ic_pesas_equilibrado;
+            case "Fusibles":
+                return R.drawable.ic_fusibles;
+            case "Relés":
+                return R.drawable.ic_reles;
+            case "Amortiguadores":
+                return R.drawable.ic_amortiguadores;
+            case "Filtro de aire":
+                return R.drawable.ic_filtro_aire;
+            case "Silenciador":
+                return R.drawable.ic_silenciador;
+            case "Aceite de transmisión":
+                return R.drawable.ic_aceite_transmision;
+            case "Gas refrigerante":
+                return R.drawable.ic_gas_refrigerante;
+            default:
+                return R.drawable.pieza;
         }
     }
 
     private void cargarPiezas() {
-        DatabaseReference piezasRef = FirebaseDatabase.getInstance().getReference("Piezas");
-
-        piezasRef.addValueEventListener(new ValueEventListener() {
+        PiezaUtil.cargarPiezas(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 listaPieza.clear();
-                if (snapshot.exists()) {
-                    for (DataSnapshot ds : snapshot.getChildren()) {
-                        Pieza pieza = ds.getValue(Pieza.class);
-                        if (pieza != null) {
-                            listaPieza.add(pieza);
-                        }
+                for (DataSnapshot piezaSnapshot : snapshot.getChildren()) {
+                    Pieza pieza = piezaSnapshot.getValue(Pieza.class);
+                    if (pieza != null) {
+                        listaPieza.add(pieza);
                     }
                 }
+                Log.d("Fragment", "Número de piezas cargadas: " + listaPieza.size());
                 piezaAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("Firebase Piezas", "Error al cargar piezas: " + error.getMessage());
+                Log.e("Fragment", "Error al cargar piezas: " + error.getMessage());
             }
         });
     }
+
 }

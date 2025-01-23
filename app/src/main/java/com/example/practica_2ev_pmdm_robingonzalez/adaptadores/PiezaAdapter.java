@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,24 +13,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
 import com.example.practica_2ev_pmdm_robingonzalez.modelo.Pieza;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.List;
 
 public class PiezaAdapter extends RecyclerView.Adapter<PiezaAdapter.PiezaViewHolder> {
 
     private List<Pieza> piezas;
-    private Context context;
+    private Context contexto;
 
     public PiezaAdapter(List<Pieza> piezas, Context contexto) {
         this.piezas = piezas;
+        this.contexto = contexto;
     }
 
     @NonNull
     @Override
     public PiezaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.lista_pieza, parent, false);
-        context = parent.getContext();
+        View view = LayoutInflater.from(contexto).inflate(R.layout.lista_pieza, parent, false);
         return new PiezaViewHolder(view);
     }
 
@@ -39,24 +40,32 @@ public class PiezaAdapter extends RecyclerView.Adapter<PiezaAdapter.PiezaViewHol
 
         // Configurar datos básicos
         holder.textNombre.setText(pieza.getNombre());
-        holder.textCantidad.setText(context.getString(R.string.cantidadPieza, pieza.getCantidad()));
+        holder.textCantidad.setText(contexto.getString(R.string.cantidadPieza, pieza.getCantidad()));
+        // Asignar el icono de la pieza desde el atributo imagenPieza
+        holder.imageViewIconoPieza.setImageResource(pieza.getImagenPieza());
 
         // Mostrar advertencia si el stock es bajo
         if (pieza.getCantidad() < pieza.getUmbralMinimo()) {
             holder.advertenciaStock.setVisibility(View.VISIBLE);
-            holder.advertenciaStock.setText(context.getString(
+            holder.advertenciaStock.setText(contexto.getString(
                     R.string.pocasPiezasEnStock,
                     pieza.getUmbralMinimo()
             ));
             holder.indicadorStock.setBackgroundColor(
-                    ContextCompat.getColor(context, R.color.color_error)
+                    ContextCompat.getColor(contexto, R.color.color_error)
             );
         } else {
             holder.advertenciaStock.setVisibility(View.GONE);
             holder.indicadorStock.setBackgroundColor(
-                    ContextCompat.getColor(context, R.color.color_principal)
+                    ContextCompat.getColor(contexto, R.color.color_principal)
             );
         }
+        // Manejar el click sobre el item
+        holder.itemView.setOnClickListener(v -> {
+            // Mostrar un dialog con los detalles de la pieza
+            mostrarDetallesPieza(pieza);
+        });
+
     }
 
     @Override
@@ -67,6 +76,7 @@ public class PiezaAdapter extends RecyclerView.Adapter<PiezaAdapter.PiezaViewHol
     public static class PiezaViewHolder extends RecyclerView.ViewHolder {
         TextView textNombre, textCantidad, advertenciaStock;
         View indicadorStock;
+        ImageView imageViewIconoPieza;
 
         public PiezaViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -74,6 +84,31 @@ public class PiezaAdapter extends RecyclerView.Adapter<PiezaAdapter.PiezaViewHol
             textCantidad = itemView.findViewById(R.id.textViewCantidadPieza);
             advertenciaStock = itemView.findViewById(R.id.textViewAdvertenciaStock);
             indicadorStock = itemView.findViewById(R.id.indicadorStock);
+            imageViewIconoPieza = itemView.findViewById(R.id.imageViewIconoPieza);
         }
+    }
+
+    private void mostrarDetallesPieza(Pieza pieza) {
+        // Crear el LayoutInflater para inflar el diseño personalizado
+        LayoutInflater inflater = LayoutInflater.from(contexto);
+        View dialogView = inflater.inflate(R.layout.administrativo_inventario_pieza_detalle_dialog, null);
+
+        // Obtener las referencias de los elementos del diseño
+        ImageView imageView = dialogView.findViewById(R.id.imageViewPieza);
+        TextView textViewNombre = dialogView.findViewById(R.id.textViewNombrePieza);
+        TextView textViewCantidad = dialogView.findViewById(R.id.textViewCantidadPieza);
+
+        // Asignar los valores al layout del Dialog
+        imageView.setImageResource(pieza.getImagenPieza());
+        textViewNombre.setText(pieza.getNombre());
+        textViewCantidad.setText(contexto.getString(R.string.cantidadPieza, pieza.getCantidad()));
+
+        // Crear el Dialog
+        MaterialAlertDialogBuilder builderPieza = new MaterialAlertDialogBuilder(contexto);
+        builderPieza.setView(dialogView)
+                .setTitle("Detalle pieza")
+                .setIcon(R.drawable.ic_piezas)
+                .setNegativeButton("Cerrar", (dialog, which) -> dialog.dismiss())
+                .show();
     }
 }
