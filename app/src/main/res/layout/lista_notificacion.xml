@@ -45,7 +45,7 @@
             android:id="@+id/buttonResponderNotificacion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Responder"
+            android:text="@string/textoResponder"
             android:textColor="@color/fondo"
             android:backgroundTint="@color/color_texto"
             android:layout_marginTop="16dp"

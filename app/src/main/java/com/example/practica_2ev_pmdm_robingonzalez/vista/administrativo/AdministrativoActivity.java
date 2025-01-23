@@ -29,7 +29,7 @@ public class AdministrativoActivity extends AppCompatActivity {
     private HelperPerfil helperPerfil;
     private HelperAjustes helperAjustes;
     private TallerRobinautoSQLite baseDeDatosGestionUsuarios;
-    private UsuarioConsulta usuarioConsulta;
+
 
 
     private int frameLayoutContenedorFragmento;
@@ -62,7 +62,7 @@ public class AdministrativoActivity extends AppCompatActivity {
     private void inicializarBaseDeDatos(){
         baseDeDatosGestionUsuarios = TallerRobinautoSQLite.getInstance(AdministrativoActivity.this);
         // Obtener la instancia de UsuarioConsultas
-        usuarioConsulta = baseDeDatosGestionUsuarios.obtenerUsuarioConsultas();
+        baseDeDatosGestionUsuarios.obtenerUsuarioConsultas();
     }
 
     private void obtenerHelper(){

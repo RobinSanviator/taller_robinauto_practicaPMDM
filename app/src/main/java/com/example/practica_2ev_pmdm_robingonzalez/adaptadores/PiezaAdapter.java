@@ -91,21 +91,23 @@ public class PiezaAdapter extends RecyclerView.Adapter<PiezaAdapter.PiezaViewHol
     private void mostrarDetallesPieza(Pieza pieza) {
         // Crear el LayoutInflater para inflar el diseño personalizado
         LayoutInflater inflater = LayoutInflater.from(contexto);
-        View dialogView = inflater.inflate(R.layout.administrativo_inventario_pieza_detalle_dialog, null);
+        View vistaDialogo = inflater.inflate(R.layout.administrativo_inventario_pieza_detalle_dialog, null);
 
         // Obtener las referencias de los elementos del diseño
-        ImageView imageView = dialogView.findViewById(R.id.imageViewPieza);
-        TextView textViewNombre = dialogView.findViewById(R.id.textViewNombrePieza);
-        TextView textViewCantidad = dialogView.findViewById(R.id.textViewCantidadPieza);
+        ImageView imageView = vistaDialogo.findViewById(R.id.imageViewPieza);
+        TextView textViewNombre = vistaDialogo.findViewById(R.id.textViewNombrePieza);
+        TextView textViewCantidad = vistaDialogo.findViewById(R.id.textViewCantidadPieza);
+        TextView textViewPrecio = vistaDialogo.findViewById(R.id.textViewPrecioPieza);
 
         // Asignar los valores al layout del Dialog
         imageView.setImageResource(pieza.getImagenPieza());
         textViewNombre.setText(pieza.getNombre());
         textViewCantidad.setText(contexto.getString(R.string.cantidadPieza, pieza.getCantidad()));
+        textViewPrecio.setText(contexto.getString(R.string.precioPieza, pieza.getPrecio()));
 
         // Crear el Dialog
         MaterialAlertDialogBuilder builderPieza = new MaterialAlertDialogBuilder(contexto);
-        builderPieza.setView(dialogView)
+        builderPieza.setView(vistaDialogo)
                 .setTitle("Detalle pieza")
                 .setIcon(R.drawable.ic_piezas)
                 .setNegativeButton("Cerrar", (dialog, which) -> dialog.dismiss())

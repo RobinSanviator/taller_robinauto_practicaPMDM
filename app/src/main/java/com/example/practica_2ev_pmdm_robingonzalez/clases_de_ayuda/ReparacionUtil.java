@@ -53,12 +53,8 @@ public class ReparacionUtil {
                             if (reparacion != null && reparacion.getMatriculaCoche().equals(matriculaCoche)) {
                                 // Actualizar el tipo de reparación con el nuevo diagnóstico
                                 snapshot.getRef().child("tipoReparacion").setValue(nuevoDiagnostico)
-                                        .addOnSuccessListener(aVoid -> {
-                                            Log.d("ReparacionUtil", "Diagnóstico actualizado correctamente.");
-                                        })
-                                        .addOnFailureListener(e -> {
-                                            Log.e("ReparacionUtil", "Error al actualizar diagnóstico", e);
-                                        });
+                                        .addOnSuccessListener(aVoid -> Log.d("ReparacionUtil", "Diagnóstico actualizado correctamente."))
+                                        .addOnFailureListener(e -> Log.e("ReparacionUtil", "Error al actualizar diagnóstico", e));
                                 encontrado = true;
                                 break;
                             }
@@ -89,12 +85,8 @@ public class ReparacionUtil {
                             if (reparacion != null && reparacion.getMatriculaCoche().equals(matriculaCoche)) {
                                 // Actualizar la fecha de finalización con el timestamp
                                 snapshot.getRef().child("fechaFin").setValue(timestamp)
-                                        .addOnSuccessListener(aVoid -> {
-                                            Log.d("FechaGuardada", "Fecha de finalización actualizada correctamente.");
-                                        })
-                                        .addOnFailureListener(e -> {
-                                            Log.e("FechaGuardada", "Error al actualizar la fecha de finalización", e);
-                                        });
+                                        .addOnSuccessListener(aVoid -> Log.d("FechaGuardada", "Fecha de finalización actualizada correctamente."))
+                                        .addOnFailureListener(e -> Log.e("FechaGuardada", "Error al actualizar la fecha de finalización", e));
                                 encontrado = true;
                                 break;
                             }

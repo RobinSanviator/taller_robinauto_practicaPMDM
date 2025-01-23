@@ -68,14 +68,11 @@ public class AdministradorModificarUsuariosFragment extends Fragment {
         }
     }
     private void volverMenuPrincipalDesdeUsuarios(){
-        imageViewVolver.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (administradorActivity != null) {
-                    administradorActivity.volverMenuPrincipal();
-                }else {
+        imageViewVolver.setOnClickListener(v -> {
+            if (administradorActivity != null) {
+                administradorActivity.volverMenuPrincipal();
+            }else {
 
-                }
             }
         });
     }

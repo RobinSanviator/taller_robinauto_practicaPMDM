@@ -82,33 +82,31 @@ public class HelperAjustes {
         switchCompatBotonModoOscuro.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (switchCompatBotonModoOscuro != null) {
-                    // Mostrar ProgressBar mientras se realiza el cambio de tema
-                    mostrarProgressBar(progressBarModoOscuro);
+                // Mostrar ProgressBar mientras se realiza el cambio de tema
+                mostrarProgressBar(progressBarModoOscuro);
 
-                    if (context instanceof AppCompatActivity) {
-                        AppCompatActivity activity = (AppCompatActivity) context;
-                        // Verificar que la actividad no esté destruida ni finalizando
-                        if (!activity.isFinishing() && !activity.isDestroyed()) {
-                            // Realizar el cambio de modo
-                            if (isChecked) {
-                                activarModoOscuro();
-                            } else {
-                                desactivarModoOscuro();
-                            }
-
-                            // Guardar la preferencia del modo oscuro
-                            guardarPreferenciaModoOscuro(isChecked, context);
-
-                            // Hacer la ProgressBar invisible después de hacer el cambio de tema
-                            ocultarProgressBar(progressBarModoOscuro);
-
-                            // Cargar el fragmento y seleccionar el item del menú
-                            cargarFragmentoSegunTipoUsuario(correo);
-                            helperNavegacionInferior.seleccionarItemMenuPrincipal();
+                if (context instanceof AppCompatActivity) {
+                    AppCompatActivity activity = (AppCompatActivity) context;
+                    // Verificar que la actividad no esté destruida ni finalizando
+                    if (!activity.isFinishing() && !activity.isDestroyed()) {
+                        // Realizar el cambio de modo
+                        if (isChecked) {
+                            activarModoOscuro();
                         } else {
-                            Log.e("HelperAjustes", "No se pudo cargar el fragmento");
+                            desactivarModoOscuro();
                         }
+
+                        // Guardar la preferencia del modo oscuro
+                        guardarPreferenciaModoOscuro(isChecked, context);
+
+                        // Hacer la ProgressBar invisible después de hacer el cambio de tema
+                        ocultarProgressBar(progressBarModoOscuro);
+
+                        // Cargar el fragmento y seleccionar el item del menú
+                        cargarFragmentoSegunTipoUsuario(correo);
+                        helperNavegacionInferior.seleccionarItemMenuPrincipal();
+                    } else {
+                        Log.e("HelperAjustes", "No se pudo cargar el fragmento");
                     }
                 }
             }

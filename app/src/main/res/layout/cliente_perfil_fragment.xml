@@ -390,7 +390,7 @@
                         android:padding="8dp"
                         app:cornerRadius="30dp"
                         android:elevation="8dp"
-                        android:text="Editar perfil"
+                        android:text="@string/editarPerfil"
                         android:textColor="@color/blanco" />
 
                 </LinearLayout>

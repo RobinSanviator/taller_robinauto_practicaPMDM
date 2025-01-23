@@ -22,7 +22,6 @@ import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperPerfil;
 
 public class AdministradorPerfilFragment extends Fragment {
 
-    private CardView cardViewDatosPerfil;
     private TextView textViewNombre, textViewApellidos, textViewCorreo, textViewTelefono;
     private TextView textViewNombreCabecera,  textViewCorreoCabecera;
     private ImageView imageViewMenuPrincipal;
@@ -57,7 +56,6 @@ public class AdministradorPerfilFragment extends Fragment {
 
     private void inicializarComponentes(View vista) {
         imageViewMenuPrincipal = vista.findViewById(R.id.imageViewVolverMenuPrincipalPerfilAdmin);
-        cardViewDatosPerfil = vista.findViewById(R.id.cardViewDatosPerfilAdministrador);
         textViewNombreCabecera = vista.findViewById(R.id.textViewNombrePerfilAdmin);
         textViewCorreoCabecera = vista.findViewById(R.id.textViewCorreoPerfilAdmin);
         textViewNombre = vista.findViewById(R.id.textViewDatoPerfilNombreAdmin);
@@ -80,17 +78,14 @@ public class AdministradorPerfilFragment extends Fragment {
     }
 
     private void volverMenuPrincipal(){
-        imageViewMenuPrincipal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(helperMenuPrincipal != null){
-                    helperMenuPrincipal.cargarFragmento(new AdministradorMenuPrincipalFragment());
-                    helperNavegacionInferior.seleccionarItemMenuPrincipal();
-                } else {
-                    Log.e("AdministradorPerfilFragment", "Error al volver al menú principal");
-                }
-
+        imageViewMenuPrincipal.setOnClickListener(v -> {
+            if(helperMenuPrincipal != null){
+                helperMenuPrincipal.cargarFragmento(new AdministradorMenuPrincipalFragment());
+                helperNavegacionInferior.seleccionarItemMenuPrincipal();
+            } else {
+                Log.e("AdministradorPerfilFragment", "Error al volver al menú principal");
             }
+
         });
     }
 

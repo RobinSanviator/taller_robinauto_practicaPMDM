@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.Spinner;
@@ -161,7 +160,7 @@ public class AdministrativoNotificacionesFragment extends Fragment {
             public int findTokenStart(CharSequence text, int cursor) {
                 // Añadir puntos y saltos de línea como delimitadores
                 int i = cursor;
-                while (i > 0 && !isDelimiter(text.charAt(i - 1))) {
+                while (i > 0 && isDelimiter(text.charAt(i - 1))) {
                     i--;
                 }
                 return i;
@@ -171,25 +170,20 @@ public class AdministrativoNotificacionesFragment extends Fragment {
             public int findTokenEnd(CharSequence text, int cursor) {
                 // Añadir puntos y saltos de línea como delimitadores
                 int i = cursor;
-                while (i < text.length() && !isDelimiter(text.charAt(i))) {
+                while (i < text.length() && isDelimiter(text.charAt(i))) {
                     i++;
                 }
                 return i;
             }
 
             private boolean isDelimiter(char c) {
-                return c == ',' || c == '.' || c == '\n' || c == ' '; // Coma, punto, espacio o salto de línea
+                return c != ',' && c != '.' && c != '\n' && c != ' '; // Coma, punto, espacio o salto de línea
             }
         });
     }
 
     private void enviarMensaje(){
-        buttonEnviarMensaje.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                crearNotificacion();
-            }
-        });
+        buttonEnviarMensaje.setOnClickListener(v -> crearNotificacion());
     }
 
     private void crearNotificacion(){

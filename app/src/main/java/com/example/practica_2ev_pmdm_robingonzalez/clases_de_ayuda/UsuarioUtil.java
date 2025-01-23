@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import com.example.practica_2ev_pmdm_robingonzalez.modelo.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -43,42 +42,39 @@ public class UsuarioUtil {
     // Método para guardar un empleado en Firebase
     public static void guardarEmpleadoEnFirebase(Context context, String nombre, String apellidos, String correo, String telefono, String contrasenya, String tipoUsuarioActual) {
         // Primero, intentamos registrar el usuario en Firebase Authentication
-        FirebaseUtil.registrarUsuarioConEmailYContrasena(correo, contrasenya, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    // Si el registro es exitoso, obtenemos el ID del usuario autenticado
-                    FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                    if (firebaseUser != null) {
-                        String userId = firebaseUser.getUid(); // Obtener el ID del usuario autenticado
+        FirebaseUtil.registrarUsuarioConEmailYContrasena(correo, contrasenya, task -> {
+            if (task.isSuccessful()) {
+                // Si el registro es exitoso, obtenemos el ID del usuario autenticado
+                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                if (firebaseUser != null) {
+                    String userId = firebaseUser.getUid(); // Obtener el ID del usuario autenticado
 
 
-                        // Crear el objeto Usuario con los detalles proporcionados
-                        Usuario usuario = new Usuario(nombre, apellidos, correo, telefono, contrasenya, tipoUsuarioActual);
+                    // Crear el objeto Usuario con los detalles proporcionados
+                    Usuario usuario = new Usuario(nombre, apellidos, correo, telefono, contrasenya, tipoUsuarioActual);
 
 
-                        // Convertir el objeto Usuario a un Map<String, Object> para almacenarlo en Firebase
-                        Map<String, Object> usuarioMap = anadirUsuarioFirebase(usuario);
-                        Log.d("UsuarioUtils", "Datos del Usuario: " + usuarioMap.toString());
-                        // Llamar al método para guardar los datos del usuario en Firebase Database
-                        FirebaseUtil.guardarUsuarioEnFirebaseDatabase(userId, usuarioMap, new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Log.d("UsuarioUtils", "Empleado guardado exitosamente.");
-                                } else {
-                                    Log.e("UsuarioUtils", "Error al guardar el empleado: " + task.getException().getMessage());
-                                }
+                    // Convertir el objeto Usuario a un Map<String, Object> para almacenarlo en Firebase
+                    Map<String, Object> usuarioMap = anadirUsuarioFirebase(usuario);
+                    Log.d("UsuarioUtils", "Datos del Usuario: " + usuarioMap.toString());
+                    // Llamar al método para guardar los datos del usuario en Firebase Database
+                    FirebaseUtil.guardarUsuarioEnFirebaseDatabase(userId, usuarioMap, new OnCompleteListener<>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Log.d("UsuarioUtils", "Empleado guardado exitosamente.");
+                            } else {
+                                Log.e("UsuarioUtils", "Error al guardar el empleado: " + task.getException().getMessage());
                             }
-                        });
-                    } else {
-                        // El usuario no se ha autenticado correctamente
-                        Log.e("UsuarioUtils", "Error al obtener el ID del usuario.");
-                    }
+                        }
+                    });
                 } else {
-                    // Si el registro falla, manejar el error
-                    Log.e("UsuarioUtils", "Error al registrar el usuario: " + task.getException().getMessage());
+                    // El usuario no se ha autenticado correctamente
+                    Log.e("UsuarioUtils", "Error al obtener el ID del usuario.");
                 }
+            } else {
+                // Si el registro falla, manejar el error
+                Log.e("UsuarioUtils", "Error al registrar el usuario: " + task.getException().getMessage());
             }
         });
     }
@@ -92,7 +88,7 @@ public class UsuarioUtil {
         // Buscar al usuario en Firebase mediante su correo electrónico
         databaseReference.orderByChild("correo").equalTo(usuario.getCorreo()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 // Verificar si el usuario existe en Firebase
                 if (dataSnapshot.exists()) {
                     // Asumimos que el usuario tiene un campo 'correo' en la base de datos
@@ -125,7 +121,7 @@ public class UsuarioUtil {
 
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.e("ActualizarUsuarioEnFirebase", "Error al acceder a la base de datos");
             }
         });

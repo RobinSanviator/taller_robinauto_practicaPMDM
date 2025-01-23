@@ -85,12 +85,7 @@ public class AdministrativoRegistroCochesFragment extends Fragment {
 
 
     private void volverMenuPrincipalDesdeRegistroCoches(){
-        imageViewVolver.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                activityAdministrativo.volverMenuPrincipal();
-            }
-        });
+        imageViewVolver.setOnClickListener(v -> activityAdministrativo.volverMenuPrincipal());
     }
 
 
@@ -126,36 +121,33 @@ public class AdministrativoRegistroCochesFragment extends Fragment {
 
 
     private void guardarRegistroCocheEnFirebase() {
-        buttonGuardarRegistro.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String marca = editTextMarcaCoche.getText().toString().trim();
-                String modelo = editTextModeloCoche.getText().toString().trim();
-                String matricula = editTextMatriculaCoche.getText().toString().trim();
+        buttonGuardarRegistro.setOnClickListener(v -> {
+            String marca = editTextMarcaCoche.getText().toString().trim();
+            String modelo = editTextModeloCoche.getText().toString().trim();
+            String matricula = editTextMatriculaCoche.getText().toString().trim();
 
-                // Obtener el índice del mecánico jefe seleccionado en el Spinner
-                int mecanicoSeleccionado = spinnerAsignarCocheMj.getSelectedItemPosition();
+            // Obtener el índice del mecánico jefe seleccionado en el Spinner
+            int mecanicoSeleccionado = spinnerAsignarCocheMj.getSelectedItemPosition();
 
-                if (mecanicoSeleccionado != -1 && !marca.isEmpty() && !modelo.isEmpty() && !matricula.isEmpty()) {
-                    // Obtener el nombre y el correo del mecánico jefe seleccionado
-                    String nombreMecanicoJefe = nombresMecanicosJefe.get(mecanicoSeleccionado);
-                    String correoMecanicoJefe = correosMecanicosJefe.get(mecanicoSeleccionado);
+            if (mecanicoSeleccionado != -1 && !marca.isEmpty() && !modelo.isEmpty() && !matricula.isEmpty()) {
+                // Obtener el nombre y el correo del mecánico jefe seleccionado
+                String nombreMecanicoJefe = nombresMecanicosJefe.get(mecanicoSeleccionado);
+                String correoMecanicoJefe = correosMecanicosJefe.get(mecanicoSeleccionado);
 
 
-                    // Crear el objeto coche con los datos
-                    Coche coche = new Coche(marca, modelo, matricula, nombreMecanicoJefe, correoMecanicoJefe, null);
+                // Crear el objeto coche con los datos
+                Coche coche = new Coche(marca, modelo, matricula, nombreMecanicoJefe, correoMecanicoJefe, null);
 
-                    // Guardar en Firebase
-                    CocheUtil.guardarCocheEnFirebase(coche);
+                // Guardar en Firebase
+                CocheUtil.guardarCocheEnFirebase(coche);
 
-                    Snackbar.make(v, "Registro completado con éxito del coche  " + marca + "  " + modelo, Snackbar.LENGTH_LONG).show();
+                Snackbar.make(v, "Registro completado con éxito del coche  " + marca + "  " + modelo, Snackbar.LENGTH_LONG).show();
 
-                    //Limpiar los campos despúes de guardar el registro del coche
-                    limpiarCampos();
+                //Limpiar los campos despúes de guardar el registro del coche
+                limpiarCampos();
 
-                } else {
-                    Snackbar.make(v, "Rellena todos los campos para realizar el registro correctamente", Snackbar.LENGTH_LONG).show();
-                }
+            } else {
+                Snackbar.make(v, "Rellena todos los campos para realizar el registro correctamente", Snackbar.LENGTH_LONG).show();
             }
         });
     }

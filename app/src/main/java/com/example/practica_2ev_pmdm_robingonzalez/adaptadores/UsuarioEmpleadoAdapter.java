@@ -171,21 +171,13 @@ public class UsuarioEmpleadoAdapter extends RecyclerView.Adapter<UsuarioEmpleado
         builderEliminar.setTitle("Eliminar usuario")
                 .setMessage("¿Estás seguro de que deseas eliminar al usuario con el correo: " + correoEmpleado + "? Esta acción no se puede deshacer.")
                 .setIcon(R.drawable.ic_alerta)
-                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //Llamar a los métodos para eliminar el empleado seleccionado
-                        eliminarEmpleadoPorCorreo(correoEmpleado);
-                        eliminarDeSQLite(correoEmpleado);
-                        eliminarEmpleadoFirebase(correoEmpleado);
-                    }
+                .setPositiveButton("Si", (dialog, which) -> {
+                    //Llamar a los métodos para eliminar el empleado seleccionado
+                    eliminarEmpleadoPorCorreo(correoEmpleado);
+                    eliminarDeSQLite(correoEmpleado);
+                    eliminarEmpleadoFirebase(correoEmpleado);
                 })
-                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
+                .setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss())
                 .show();
     }
 

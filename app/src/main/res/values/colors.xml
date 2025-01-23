@@ -33,6 +33,7 @@
     <color name="color_fondo_salir">#E65C30</color>
     <color name="color_notificacion">#2FA933</color>
     <color name="color_advertencia">#FFEB3B</color>
+    <color name="color_recomendadoPedido">#FF5722</color>
 
 
 </resources>

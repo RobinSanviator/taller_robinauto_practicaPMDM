@@ -208,7 +208,7 @@ public class MecanicoJefeDiagnosticosFragment extends Fragment implements Repara
                     int day = datePickerDiagnosticos.getDayOfMonth();
                     String fechaFinDiagnostico = day + "/" + (month + 1) + "/" + year;
 
-                    if (!diagnosticoSeleccionado.isEmpty() && Arrays.asList(diagnosticosArray).contains(diagnosticoSeleccionado) && !fechaFinDiagnostico.isEmpty()) {
+                    if (!diagnosticoSeleccionado.isEmpty() && Arrays.asList(diagnosticosArray).contains(diagnosticoSeleccionado)) {
                         // Guardar diagnóstico y fecha de finalización en Firebase
                         guardarDiagnosticoEnFirebase(reparacion, diagnosticoSeleccionado, fechaFinDiagnostico);
                     } else {

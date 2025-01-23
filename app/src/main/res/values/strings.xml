@@ -194,5 +194,14 @@
     <string name="cantidadPieza">Stock: %d unidades</string>
     <string name="pocasPiezasEnStock">¡STOCK BAJO! Mínimo requerido: %d</string>
     <string name="noHayRegistroPiezas">No hay registro de piezas, realiza un pedido al proveedor</string>
+    <string name="editarPerfil">Editar perfil</string>
+    <string name="bienvenido">Bienvenido a Taller Robinauto</string>
+    <string name="textoResponder">Responder</string>
+    <string name="textoDetallesRep">Detalles de Reparación</string>
+    <string name="confirmarPedido">Confirmar pedido</string>
+    <string name="precioPieza">Precio: %.2f €</string>
+    <string name="precioTotal">"Precio total: %.2f € "</string>
+    <string name="textoAnadirPieza">Añadir</string>
+    <string name="textoRecomendadoPieza">Recomendado</string>
 
 </resources>

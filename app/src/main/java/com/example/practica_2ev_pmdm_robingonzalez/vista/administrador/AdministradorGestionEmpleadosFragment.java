@@ -1,7 +1,6 @@
 package com.example.practica_2ev_pmdm_robingonzalez.vista.administrador;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -32,7 +31,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 
-import org.checkerframework.checker.units.qual.C;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,12 +113,7 @@ public class AdministradorGestionEmpleadosFragment extends Fragment {
     }
 
     private void volverMenuPrincipalDesdeEmpleados(){
-        imageViewVolver.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                activityAdministrador.volverMenuPrincipal();
-            }
-        });
+        imageViewVolver.setOnClickListener(v -> activityAdministrador.volverMenuPrincipal());
     }
 
     private void configurarRecyclerView(){
@@ -196,12 +189,7 @@ public class AdministradorGestionEmpleadosFragment extends Fragment {
         }
 
     private void anadirEmpleado(){
-        fabDarDeAlta.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mostrarFormularioDeAlta(tipoEmpleadoActual);
-            }
-        });
+        fabDarDeAlta.setOnClickListener(v -> mostrarFormularioDeAlta(tipoEmpleadoActual));
         }
 
     private void mostrarFormularioDeAlta(String tipoEmpleadoActual){
@@ -223,19 +211,11 @@ public class AdministradorGestionEmpleadosFragment extends Fragment {
          //Configurar el spinner
          configurarSpinnerTipoUsuario(spinnerTipoUsuarioEmpleado, tipoEmpleadoActual);
 
-         builderFormulario.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
-             @Override
-             public void onClick(DialogInterface dialog, int which) {
-                 obtenerDatosFormularioYGuardar();
-             }
-         });
+         builderFormulario.setPositiveButton("Guardar", (dialog, which) -> obtenerDatosFormularioYGuardar());
          //Cancelar alta
-         builderFormulario.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-             @Override
-             public void onClick(DialogInterface dialog, int which) {
-                 dialog.dismiss();
-                 Snackbar.make(getActivity().findViewById(android.R.id.content), "Has cancelado la alta del empleado", Snackbar.LENGTH_SHORT).show();
-             }
+         builderFormulario.setNegativeButton("Cancelar", (dialog, which) -> {
+             dialog.dismiss();
+             Snackbar.make(getActivity().findViewById(android.R.id.content), "Has cancelado la alta del empleado", Snackbar.LENGTH_SHORT).show();
          });
 
          builderFormulario.create().show();
@@ -339,7 +319,7 @@ public class AdministradorGestionEmpleadosFragment extends Fragment {
         }
 
         // Validar teléfono
-        if (telefono.isEmpty() || telefono.length() != 9) {
+        if (telefono.length() != 9) {
             layoutTelefono.setError("Número de teléfono debe tener 9 dígitos");
             camposValidos = false;
         } else {

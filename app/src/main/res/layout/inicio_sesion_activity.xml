@@ -20,7 +20,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <!-- Título de la pantalla  -->
         <TextView
             android:id="@+id/textViewInicioSesion"
             android:layout_width="wrap_content"
@@ -31,10 +30,9 @@
             android:text="@string/textoTvIniciaSesion"
             android:textColor="@color/color_texto"
             android:textSize="40sp"
-            android:textStyle="bold"></TextView>
+            android:textStyle="bold"/>
 
 
-        <!-- Texto de ayuda que muestra una indicación para el usuario -->
         <TextView
             android:id="@+id/textViewIntroducirDatosIS"
             android:layout_width="wrap_content"
@@ -44,7 +42,7 @@
             android:padding="8dp"
             android:text="@string/textoTVtextoInfoIncioSesion"
             android:textColor="@color/color_texto"
-            android:textSize="20sp"></TextView>
+            android:textSize="20sp"/>
 
     </LinearLayout>
 
