@@ -5,6 +5,8 @@ public class Pieza {
     private int cantidad;
     private int umbralMinimo;
 
+    public Pieza(){}
+
     public Pieza(String nombre, int cantidad, int umbralMinimo) {
         this.nombre = nombre;
         this.cantidad = cantidad;

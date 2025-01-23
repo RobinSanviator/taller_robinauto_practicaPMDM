@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperMenuPrincipal;
 import com.google.android.material.button.MaterialButton;
 
 
@@ -36,7 +37,8 @@ public class AdministrativoInventarioFragment extends Fragment {
         inicializarComponentes(vista);
         obtenerHelper();
         volverMenuPrincipalDesdeInventario();
-
+        cargarFragmentoPorDefectoPiezas();
+        configurarBotones();
         return vista;
     }
 
@@ -58,4 +60,33 @@ public class AdministrativoInventarioFragment extends Fragment {
         imageViewVolver.setOnClickListener(v -> activityAdministrativo.volverMenuPrincipal());
     }
 
+    private void cargarFragmentoPorDefectoPiezas(){
+        // Cargar fragmento inicial y marcar botón
+        cargarFragmento(new AdministrativoInventarioPiezaFragment(), buttonConsultarPiezas);
+    }
+
+    private void configurarBotones(){
+        buttonConsultarPiezas.setOnClickListener(v ->
+                cargarFragmento(new AdministrativoInventarioPiezaFragment(), buttonConsultarPiezas)
+        );
+
+        buttonHacerPedido.setOnClickListener(v ->
+                cargarFragmento(new AdministrativoInventarioPedidoFragment(), buttonHacerPedido)
+        );
+    }
+
+    private void cargarFragmento(Fragment fragmento, MaterialButton botonSeleccionado) {
+        // Resetear todos los botones
+        buttonConsultarPiezas.setBackgroundColor(getResources().getColor(R.color.color_desactivado_fondo));
+        buttonHacerPedido.setBackgroundColor(getResources().getColor(R.color.color_desactivado_fondo));
+
+        // Resaltar botón seleccionado
+        botonSeleccionado.setBackgroundColor(getResources().getColor(R.color.verde));
+
+        // Cargar fragmento
+        getChildFragmentManager().beginTransaction()
+                .replace(R.id.frameLayoutContenedorFragmentoStockYpedidos, fragmento)
+                .addToBackStack(null)
+                .commit();
+    }
 }

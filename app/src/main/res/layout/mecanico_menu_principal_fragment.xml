@@ -182,7 +182,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="25dp"
                     android:padding="8dp"
-                    android:src="@drawable/piezas" />
+                    android:src="@drawable/pieza" />
 
                 <TextView
                     android:id="@+id/textViewPiezasMecanico"

@@ -190,6 +190,9 @@
     <string name="textoMostrarListaReparaciones">Mostrando lista completa de reparaciones...</string>
     <string name="textoEmpleadoSeleccionado">Lista de empleados</string>
     <string name="hacerPedido">Hacer pedido</string>
-    <string name="consultarPiezas">Consultar piezas</string>
+    <string name="consultarPiezas">Piezas en stock</string>
+    <string name="cantidadPieza">Stock: %d unidades</string>
+    <string name="pocasPiezasEnStock">¡STOCK BAJO! Mínimo requerido: %d</string>
+    <string name="noHayRegistroPiezas">No hay registro de piezas, realiza un pedido al proveedor</string>
 
 </resources>

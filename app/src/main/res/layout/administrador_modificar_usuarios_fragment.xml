@@ -51,12 +51,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayoutAppBarCliente">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:src="@drawable/usuarios" />
-
-
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewListaUsuariosModificar"

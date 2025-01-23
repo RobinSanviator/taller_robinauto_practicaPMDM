@@ -52,13 +52,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayoutAppBarNotificaiones">
 
-        <ImageView
-            android:id="@+id/imageViewReparacion"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/ic_notificaciones" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"

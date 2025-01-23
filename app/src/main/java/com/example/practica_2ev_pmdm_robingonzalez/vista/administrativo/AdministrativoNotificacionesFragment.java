@@ -217,7 +217,7 @@ public class AdministrativoNotificacionesFragment extends Fragment {
     private void guardarNotificacionEnFirebase(Notificacion notificacion) {
         //Obtener la instancia de la base de datos
          FirebaseDatabase database = FirebaseUtil.getFirebaseDatabase();
-        //Obtener la referencia del nodo "Reparaciones"
+        //Obtener la referencia del nodo "Notificaciones"
          DatabaseReference databaseReference = database.getReference("Notificaciones");
 
         String idNotificacion = databaseReference.push().getKey();

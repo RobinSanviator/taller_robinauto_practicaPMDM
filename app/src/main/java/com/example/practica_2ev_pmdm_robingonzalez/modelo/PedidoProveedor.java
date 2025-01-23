@@ -9,6 +9,11 @@ public class PedidoProveedor {
 
     public PedidoProveedor(){}
 
+    public PedidoProveedor(Long fechaPedido, List<Pieza> piezasSolicitadas) {
+        this.fechaPedido = fechaPedido;
+        this.piezasSolicitadas = piezasSolicitadas;
+    }
+
     public Long getFechaPedido() {
         return fechaPedido;
     }
