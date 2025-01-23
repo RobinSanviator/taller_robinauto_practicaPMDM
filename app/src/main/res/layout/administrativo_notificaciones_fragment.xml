@@ -44,8 +44,10 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
-        android:padding="16dp"
-        android:layout_margin="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="parent"
@@ -56,9 +58,10 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_marginTop="100dp"
             android:background="@color/fondo"
-            app:cardCornerRadius="30dp">
+            app:cardCornerRadius="20dp"
+            android:layout_gravity="center_vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -129,20 +132,6 @@
                     android:text="@string/enviarMensaje"
                     app:cornerRadius="30dp"
                     app:icon="@drawable/ic_enviar_notificacion"
-                    app:iconGravity="textEnd"
-                    app:iconSize="32sp"
-                    app:iconPadding="16dp" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/buttonConsultarMensajesEnviados"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:backgroundTint="@color/azul"
-                    android:padding="8dp"
-                    android:text="@string/consultarMensajes"
-                    app:cornerRadius="30dp"
-                    app:icon="@drawable/ic_mensaje_enviado"
                     app:iconGravity="textEnd"
                     app:iconSize="32sp"
                     app:iconPadding="16dp" />

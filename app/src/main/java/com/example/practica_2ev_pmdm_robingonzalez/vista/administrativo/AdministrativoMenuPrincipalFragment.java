@@ -73,6 +73,7 @@ public class AdministrativoMenuPrincipalFragment extends Fragment {
             helperMenuPrincipal.cargarNombreCabeceraDesdeFirebase(correo,textViewNombreCabecera);
         } else {
             helperMenuPrincipal.cargarNombreCabeceraDesdeFirebase(null,textViewNombreCabecera);
+            helperNavegacionInferior.seleccionarItemMenuPrincipal();
         }
     }
 

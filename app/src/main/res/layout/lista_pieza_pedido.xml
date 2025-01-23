@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="4dp"
-    android:elevation="16dp"
+    android:layout_margin="2dp"
+    android:elevation="8dp"
     app:cardCornerRadius="10dp">
 
 
@@ -14,7 +15,7 @@
         android:orientation="horizontal"
         android:elevation="8dp"
         android:background="@color/fondo"
-        android:padding="16dp"
+        android:padding="8dp"
         android:gravity="center_vertical">
 
 
@@ -32,15 +33,7 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textViewRecomendado"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:padding="2dp"
-                android:text="@string/textoRecomendadoPieza"
-                android:textSize="14sp"
-                android:textColor="@color/color_recomendadoPedido"/>
+
 
             <TextView
                 android:id="@+id/textViewNombrePieza"
@@ -60,20 +53,59 @@
                 android:layout_marginTop="4dp"
                 android:text="@string/precioPieza"
                 android:textSize="16sp"
-                android:textColor="@color/color_texto" />
+                android:textColor="@color/color_texto"
+                android:textStyle="normal"/>
+
+            <TextView
+                android:id="@+id/textViewCantidadSeleccionada"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:text="@string/cantidadPiezaSeleccionada"
+                android:textColor="@color/color_texto"
+                android:textSize="14dp"
+                tools:ignore="TextSizeCheck" />
+
+            <TextView
+                android:id="@+id/textViewPrecioCantidadSeleccionada"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:text="@string/precioPiezasAnadido"
+                android:textColor="@color/azul"
+                android:textSize="14dp"
+                android:textStyle="bold"
+                tools:ignore="TextSizeCheck" />
 
 
         </LinearLayout>
 
-       <com.google.android.material.button.MaterialButton
-           android:id="@+id/buttonAnadirPiezaPedido"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:backgroundTint="@color/azul"
-           app:cornerRadius="30dp"
-           android:padding="8dp"
-           android:text="@string/textoAnadirPieza"
-           android:textColor="@color/color_texto"/>
+        <LinearLayout
+            android:id="@+id/linearLayoutGestionCantidad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonAnadirPiezaPedido"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/azul"
+                app:cornerRadius="30dp"
+                android:padding="8dp"
+                android:text="@string/textoAnadirPieza"
+                android:textColor="@color/color_texto"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonEliminarPiezaPedido"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/color_error"
+                app:cornerRadius="30dp"
+                android:padding="8dp"
+                android:text="@string/textoEliminarPieza"
+                android:textColor="@color/color_texto"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 

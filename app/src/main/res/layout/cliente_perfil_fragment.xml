@@ -46,7 +46,7 @@
         android:layout_height="0dp"
         android:orientation="vertical"
         android:padding="8dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -84,19 +84,6 @@
 
             </androidx.cardview.widget.CardView>
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/floatingBotonImagenPerfilCliente"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="140dp"
-                android:layout_marginBottom="4dp"
-                android:backgroundTint="@color/color_fondo_boton_img"
-                android:clickable="true"
-                android:focusable="true"
-                android:src="@drawable/ic_camara"
-                app:layout_constraintBottom_toBottomOf="@+id/cardViewImagenPerfilCliente"
-                app:layout_constraintEnd_toEndOf="@+id/cardViewImagenPerfilCliente"
-                tools:ignore="SpeakableTextPresentCheck" />
 
             <TextView
                 android:id="@+id/textViewNombrePerfilCliente"
@@ -381,7 +368,7 @@
                         android:background="@color/color_desactivado_fondo"/>
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/bottomEditarPerfilCliente"
+                        android:id="@+id/buttonEditarPerfilCliente"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"

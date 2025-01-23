@@ -29,9 +29,6 @@ public class AdministrativoActivity extends AppCompatActivity {
     private HelperPerfil helperPerfil;
     private HelperAjustes helperAjustes;
     private TallerRobinautoSQLite baseDeDatosGestionUsuarios;
-
-
-
     private int frameLayoutContenedorFragmento;
 
     @Override

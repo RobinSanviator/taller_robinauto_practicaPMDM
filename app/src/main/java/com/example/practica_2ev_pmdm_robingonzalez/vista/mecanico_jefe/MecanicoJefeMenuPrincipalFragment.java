@@ -52,7 +52,7 @@ public class MecanicoJefeMenuPrincipalFragment extends Fragment {
 
     private void obtenerHelper(){
         if (getActivity() instanceof MecanicoJefeActivity) {
-          mecanicoJefeActivity =((MecanicoJefeActivity) getActivity());
+            mecanicoJefeActivity =((MecanicoJefeActivity) getActivity());
             helperNavegacionInferior = mecanicoJefeActivity.getHelperNavegacionInferior();
             helperMenuPrincipal = mecanicoJefeActivity.getHelperMenuPrincipal();
         } else {
@@ -67,8 +67,10 @@ public class MecanicoJefeMenuPrincipalFragment extends Fragment {
         if (correo != null) {
             helperMenuPrincipal.obtenerDatosUsuario(correo, textViewNombreCabecera);
             helperMenuPrincipal.cargarNombreCabeceraDesdeFirebase(correo,textViewNombreCabecera);
+            helperNavegacionInferior.seleccionarItemMenuPrincipal();
         } else {
             helperMenuPrincipal.cargarNombreCabeceraDesdeFirebase(null,textViewNombreCabecera);
+            helperNavegacionInferior.seleccionarItemMenuPrincipal();
         }
     }
 

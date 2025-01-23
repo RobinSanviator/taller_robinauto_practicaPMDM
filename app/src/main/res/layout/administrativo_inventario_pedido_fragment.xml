@@ -38,7 +38,6 @@
         android:id="@+id/scrollViewContenidoPedido"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,20 +46,21 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginTop="2dp">
 
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewPedidoProveedor"
                 android:layout_width="match_parent"
-                android:layout_height="350dp" />
+                android:layout_height="380dp" />
 
             <TextView
                 android:id="@+id/textViewMostrarPrecioTotalPedido"
-                android:layout_width="200dp"
+                android:layout_width="150dp"
                 android:layout_height="80dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginStart="35dp"
                 android:layout_marginEnd="35dp"
                 android:elevation="8dp"
@@ -79,7 +79,7 @@
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
                 android:backgroundTint="@color/azul"
-                android:padding="16dp"
+                android:padding="8dp"
                 android:text="@string/confirmarPedido"
                 android:textColor="@color/color_texto"
                 android:textSize="14sp"

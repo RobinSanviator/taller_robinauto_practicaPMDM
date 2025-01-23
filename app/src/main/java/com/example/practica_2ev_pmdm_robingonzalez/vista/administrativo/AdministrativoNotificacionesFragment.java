@@ -35,7 +35,7 @@ public class AdministrativoNotificacionesFragment extends Fragment {
     private AdministrativoActivity activityAdministrativo;
     private Spinner spinnerClientes;
     private MultiAutoCompleteTextView autoCompleteTextViewEnviarMensaje;
-    private MaterialButton buttonEnviarMensaje, buttonConsultarMensajesEnviados;
+    private MaterialButton buttonEnviarMensaje;
 
 
     @Override
@@ -64,7 +64,7 @@ public class AdministrativoNotificacionesFragment extends Fragment {
         spinnerClientes = vista.findViewById(R.id.spinnerCargarClientesNotificacion);
         autoCompleteTextViewEnviarMensaje = vista.findViewById(R.id.autoCompleteMensajeNotificacion);
         buttonEnviarMensaje = vista.findViewById(R.id.buttonEnviarMensaje);
-        buttonConsultarMensajesEnviados = vista.findViewById(R.id.buttonConsultarMensajesEnviados);
+
 
     }
 

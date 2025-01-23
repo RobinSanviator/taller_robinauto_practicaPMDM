@@ -1,8 +1,17 @@
 package com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda;
 
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
 import com.example.practica_2ev_pmdm_robingonzalez.R;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.TaskCompletionSource;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 public class PiezaUtil {
@@ -14,6 +23,54 @@ public class PiezaUtil {
     // Método para cargar las piezas desde Firebase
     public static void cargarPiezas(ValueEventListener listener) {
         databaseReference.addValueEventListener(listener);
+    }
+
+    // Nuevo método para actualizar la cantidad de una pieza
+    public static void actualizarCantidadPieza(String nombrePieza, int nuevaCantidad) {
+        databaseReference.orderByChild("nombre").equalTo(nombrePieza).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot piezaSnapshot : snapshot.getChildren()) {
+                    piezaSnapshot.getRef().child("cantidad").setValue(nuevaCantidad); // Actualizar a la nueva cantidad
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("PiezaUtil", "Error al actualizar cantidad de la pieza: " + error.getMessage());
+            }
+        });
+    }
+
+    public static void sumarCantidadPieza(String nombrePieza, int cantidadSeleccionada) {
+        // Realizar una consulta para buscar la pieza por nombre
+        Query query = databaseReference.orderByChild("nombre").equalTo(nombrePieza);
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot piezaSnapshot : snapshot.getChildren()) {
+                        Integer cantidadActual = piezaSnapshot.child("cantidad").getValue(Integer.class);
+                        if (cantidadActual != null) {
+                            int nuevaCantidad = cantidadActual + cantidadSeleccionada;
+                            piezaSnapshot.getRef().child("cantidad").setValue(nuevaCantidad)
+                                    .addOnSuccessListener(aVoid -> Log.d("PiezaUtil", "Cantidad actualizada correctamente."))
+                                    .addOnFailureListener(e -> Log.e("PiezaUtil", "Error al actualizar cantidad: " + e.getMessage()));
+                        } else {
+                            Log.e("PiezaUtil", "Cantidad actual es nula.");
+                        }
+                    }
+                } else {
+                    Log.e("PiezaUtil", "No se encontró la pieza con el nombre especificado.");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("PiezaUtil", "Error en la consulta: " + error.getMessage());
+            }
+        });
     }
 
     public static double obtenerPrecioPorNombre(String nombrePieza) {

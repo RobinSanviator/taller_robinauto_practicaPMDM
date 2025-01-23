@@ -73,8 +73,10 @@ public class AdministradorMenuPrincipalFragment extends Fragment {
         if (correo != null) {
            helperMenuPrincipal.obtenerDatosUsuario(correo, textViewNombreCabecera);
            helperMenuPrincipal.cargarNombreCabeceraDesdeFirebase(correo,textViewNombreCabecera);
+           helperNavegacionInferior.seleccionarItemMenuPrincipal();
         } else {
             helperMenuPrincipal.cargarNombreCabeceraDesdeFirebase(null,textViewNombreCabecera);
+            helperNavegacionInferior.seleccionarItemMenuPrincipal();
         }
 
     }

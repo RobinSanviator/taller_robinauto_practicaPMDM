@@ -14,14 +14,17 @@ import android.widget.TextView;
 import com.example.practica_2ev_pmdm_robingonzalez.R;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperMenuPrincipal;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperNavegacionInferior;
+import com.example.practica_2ev_pmdm_robingonzalez.vista.mecanico_jefe.MecanicoJefeActivity;
 
 
 public class MecanicoMenuPrincipalFragment extends Fragment {
 
     private TextView textViewNombreCabecera;
     private CardView cardViewTareas, cardViewPiezas;
+    private MecanicoActivity mecanicoActivity;
     private HelperMenuPrincipal helperMenuPrincipal;
     private HelperNavegacionInferior helperNavegacionInferior;
+    private String correo;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,6 +55,7 @@ public class MecanicoMenuPrincipalFragment extends Fragment {
 
     private void obtenerHelper(){
         if(getActivity() instanceof MecanicoActivity){
+            mecanicoActivity =((MecanicoActivity) getActivity());
             helperMenuPrincipal = (((MecanicoActivity) getActivity()).getHelperFragmento());
             helperNavegacionInferior = (((MecanicoActivity) getActivity()).getHelperNavegacionInferior());
 
@@ -60,14 +64,17 @@ public class MecanicoMenuPrincipalFragment extends Fragment {
     }
 
     private void obtenerDatosUsuarioCabecera() {
-        String correo = getActivity().getIntent().getStringExtra("correo");
-        if(helperMenuPrincipal != null && correo != null){
+        correo = mecanicoActivity.getCorreo();
+        if (correo != null) {
             helperMenuPrincipal.obtenerDatosUsuario(correo, textViewNombreCabecera);
-        }else {
-            Log.e("MecanicoMenuPrincipalFragment", "Error al obtener los datos del usuario en la cabecera");
-            textViewNombreCabecera.setText("Usuario no disponible");
+            helperMenuPrincipal.cargarNombreCabeceraDesdeFirebase(correo,textViewNombreCabecera);
+            helperNavegacionInferior.seleccionarItemMenuPrincipal();
+        } else {
+            helperMenuPrincipal.cargarNombreCabeceraDesdeFirebase(null,textViewNombreCabecera);
+            helperNavegacionInferior.seleccionarItemMenuPrincipal();
         }
     }
+
 
     private void inicializarListeners(){
         //Mostrar pantalla de registro de entrada de coches

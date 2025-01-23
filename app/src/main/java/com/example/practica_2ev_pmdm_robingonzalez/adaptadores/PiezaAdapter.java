@@ -107,11 +107,11 @@ public class PiezaAdapter extends RecyclerView.Adapter<PiezaAdapter.PiezaViewHol
         imageView.setImageResource(pieza.getImagenPieza());
         textViewNombre.setText(pieza.getNombre());
         textViewCantidad.setText(contexto.getString(R.string.cantidadPieza, pieza.getCantidad()));
-<<<<<<< HEAD
+
         
-=======
+
         textViewPrecio.setText(contexto.getString(R.string.precioPieza, pieza.getPrecio()));
->>>>>>> d51f64ac82e504f89b05b59a16540a53208ff611
+
 
         // Crear el Dialog
         MaterialAlertDialogBuilder builderPieza = new MaterialAlertDialogBuilder(contexto);
@@ -124,9 +124,9 @@ public class PiezaAdapter extends RecyclerView.Adapter<PiezaAdapter.PiezaViewHol
         builderPieza.show();
 
     }
-<<<<<<< HEAD
+
 
 }
-=======
-}
->>>>>>> d51f64ac82e504f89b05b59a16540a53208ff611
+
+
+

@@ -23,7 +23,6 @@ import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperPerfil;
 
 public class AdministrativoPerfilFragment extends Fragment {
 
-    private CardView cardViewDatosPerfil;
     private TextView textViewNombre, textViewApellidos, textViewCorreo, textViewTelefono;
     private TextView textViewNombreCabecera,  textViewCorreoCabecera;
     private ImageView imageViewMenuPrincipal;
@@ -59,7 +58,6 @@ public class AdministrativoPerfilFragment extends Fragment {
 
     private void inicializarComponentes(View vista) {
         imageViewMenuPrincipal = vista.findViewById(R.id.imageViewVolverMenuPrincipalPerfilAdministrativo);
-        cardViewDatosPerfil = vista.findViewById(R.id.cardViewDatosPerfilAdministrativo);
         textViewNombreCabecera = vista.findViewById(R.id.textViewNombrePerfilAdministrativo);
         textViewCorreoCabecera = vista.findViewById(R.id.textViewCorreoPerfilAdministrativo);
         textViewNombre = vista.findViewById(R.id.textViewDatoPerfilNombreAdministrativo);
@@ -87,7 +85,7 @@ public class AdministrativoPerfilFragment extends Fragment {
                 helperMenuPrincipal.cargarFragmento(new AdministrativoMenuPrincipalFragment());
                 helperNavegacionInferior.seleccionarItemMenuPrincipal();
             } else {
-                Log.e("Error", "AdministrativoMenuPrincipalFragment null");
+                Log.e("Error", "AdministrativoPerfilFragment null");
             }
 
         });
