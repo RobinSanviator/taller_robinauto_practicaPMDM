@@ -82,17 +82,14 @@ public class AdministrativoPerfilFragment extends Fragment {
     }
 
     private void volverMenuPrincipal(){
-        imageViewMenuPrincipal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(helperMenuPrincipal != null){
-                    helperMenuPrincipal.cargarFragmento(new AdministrativoMenuPrincipalFragment());
-                    helperNavegacionInferior.seleccionarItemMenuPrincipal();
-                } else {
-                    Log.e("Error", "AdministrativoMenuPrincipalFragment null");
-                }
-
+        imageViewMenuPrincipal.setOnClickListener(v -> {
+            if(helperMenuPrincipal != null){
+                helperMenuPrincipal.cargarFragmento(new AdministrativoMenuPrincipalFragment());
+                helperNavegacionInferior.seleccionarItemMenuPrincipal();
+            } else {
+                Log.e("Error", "AdministrativoMenuPrincipalFragment null");
             }
+
         });
     }
 

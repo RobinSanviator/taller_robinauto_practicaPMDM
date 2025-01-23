@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-black"
             android:gravity="center"
-            android:text="Bienvenido a Taller Robinauto"
+            android:text="@string/bienvenido"
             android:textColor="@color/texto_intro"
             android:textSize="35sp" />
 

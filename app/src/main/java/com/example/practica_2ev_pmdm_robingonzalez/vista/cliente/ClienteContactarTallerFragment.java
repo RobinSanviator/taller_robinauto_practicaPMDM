@@ -23,8 +23,7 @@ public class ClienteContactarTallerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflar diseño del layout de contacto con el taller
-        View vista = inflater.inflate(R.layout.fragment_cliente_contactar_taller, container, false);
 
-        return vista;
+        return inflater.inflate(R.layout.cliente_contactar_taller_fragment, container, false);
     }
 }

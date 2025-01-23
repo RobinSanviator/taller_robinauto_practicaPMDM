@@ -189,48 +189,42 @@ public class AdministrativoReparacionesFragment extends Fragment {
         cargarSpinnerMecanicos();
 
         builderNuevaReparacion.setView(vistaDialogo).setTitle("Nueva reparación").setIcon(R.drawable.ic_consul_reparaciones)
-                .setPositiveButton("Dar de alta", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                .setPositiveButton("Dar de alta", (dialogInterface, i) -> {
 
-                        // Validar si se ha seleccionado un mecánico
-                        if (!validarMecanicoSeleccionado()) {
-                            return; // Si no se seleccionó un mecánico, no continuar
-                        }
-
-
-                        // Obtener la matrícula y el correo del coche seleccionado
-                        String matriculaCoche = textViewMatricula.getText().toString();
-                        String correoMecanicoJefe = textViewMecanicoJefe.getText().toString();
-                        String correoCliente = textViewCorreoCliente.getText().toString();
-                        // Obtener los correos de los mecánicos seleccionados
-                        List<String> correosMecanicos = obtenerCorreosMecanicosSeleccionados();
-
-                        //Obtener el presupuesto validado
-                        double presupuesto = obtenerPresupuesto(editTextPresupuesto);
-                        // Si el presupuesto no es válido
-                        if (presupuesto == -1) {
-                            return; // Sale del método y no crea la reparación
-                        }
-
-                        // Crear la nueva reparación
-                        Reparacion nuevaReparacion = new Reparacion(matriculaCoche, presupuesto, correoMecanicoJefe, correoCliente, correosMecanicos);
-
-                        // Guardar la reparación en Firebase
-                        ReparacionUtil.guardarReparacionEnFirebase(nuevaReparacion);
-
-                        // Mostrar mensaje de éxito
-                        Snackbar.make(getActivity().findViewById(android.R.id.content),
-                                "Alta de nueva reparación completado con éxito", Snackbar.LENGTH_LONG).show();
+                    // Validar si se ha seleccionado un mecánico
+                    if (!validarMecanicoSeleccionado()) {
+                        return; // Si no se seleccionó un mecánico, no continuar
                     }
+
+
+                    // Obtener la matrícula y el correo del coche seleccionado
+                    String matriculaCoche = textViewMatricula.getText().toString();
+                    String correoMecanicoJefe = textViewMecanicoJefe.getText().toString();
+                    String correoCliente = textViewCorreoCliente.getText().toString();
+                    // Obtener los correos de los mecánicos seleccionados
+                    List<String> correosMecanicos = obtenerCorreosMecanicosSeleccionados();
+
+                    //Obtener el presupuesto validado
+                    double presupuesto = obtenerPresupuesto(editTextPresupuesto);
+                    // Si el presupuesto no es válido
+                    if (presupuesto == -1) {
+                        return; // Sale del método y no crea la reparación
+                    }
+
+                    // Crear la nueva reparación
+                    Reparacion nuevaReparacion = new Reparacion(matriculaCoche, presupuesto, correoMecanicoJefe, correoCliente, correosMecanicos);
+
+                    // Guardar la reparación en Firebase
+                    ReparacionUtil.guardarReparacionEnFirebase(nuevaReparacion);
+
+                    // Mostrar mensaje de éxito
+                    Snackbar.make(getActivity().findViewById(android.R.id.content),
+                            "Alta de nueva reparación completado con éxito", Snackbar.LENGTH_LONG).show();
                 })
-                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int i) {
-                        dialog.dismiss();
-                        Snackbar.make(getActivity().findViewById(android.R.id.content),
-                                "Alta de nueva reparación cancelado", Snackbar.LENGTH_LONG).show();
-                    }
+                .setNegativeButton("Cancelar", (dialog, i) -> {
+                    dialog.dismiss();
+                    Snackbar.make(getActivity().findViewById(android.R.id.content),
+                            "Alta de nueva reparación cancelado", Snackbar.LENGTH_LONG).show();
                 });
         builderNuevaReparacion.show();
     }

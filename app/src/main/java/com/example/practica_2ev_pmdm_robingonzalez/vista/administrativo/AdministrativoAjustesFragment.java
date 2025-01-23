@@ -86,16 +86,13 @@ public class AdministrativoAjustesFragment extends Fragment {
 
 
     private void volverAlMenuDesdeAjustes(){
-        imageViewVolverMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(helperMenuPrincipal != null){
-                    activityAdministrativo.volverMenuPrincipal();
-                } else {
-                    Log.e("AdministrativoAjustesFragment", "No se pudo volver al menú principal");
-                }
-
+        imageViewVolverMenu.setOnClickListener(v -> {
+            if(helperMenuPrincipal != null){
+                activityAdministrativo.volverMenuPrincipal();
+            } else {
+                Log.e("AdministrativoAjustesFragment", "No se pudo volver al menú principal");
             }
+
         });
     }
 
@@ -133,43 +130,34 @@ public class AdministrativoAjustesFragment extends Fragment {
     }
 
     private void mostrarTyC(){
-        relativeLayoutTyC.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(helperAjustes != null){
-                    helperAjustes.mostrarTerminosYCondiciones(getContext());
-                }else{
-                    Log.e("AdministrativoAjustesFragment", "helperAjustes null: no se pudo mostrar términos y condiciones");
-                }
+        relativeLayoutTyC.setOnClickListener(v -> {
+            if(helperAjustes != null){
+                helperAjustes.mostrarTerminosYCondiciones(getContext());
+            }else{
+                Log.e("AdministrativoAjustesFragment", "helperAjustes null: no se pudo mostrar términos y condiciones");
             }
         });
 
     }
 
     private void cerrarSesion(){
-        relativeLayoutCerrarSesion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(helperAjustes != null){
-                    helperAjustes.cerrarSesion(getContext());
+        relativeLayoutCerrarSesion.setOnClickListener(v -> {
+            if(helperAjustes != null){
+                helperAjustes.cerrarSesion(getContext());
 
-                } else {
-                    Log.e("AdministrativoAjustesFragment", "No se pudo cerrar sesión");
-                }
+            } else {
+                Log.e("AdministrativoAjustesFragment", "No se pudo cerrar sesión");
             }
         });
     }
 
     private void salir(){
-        relativeLayoutSalir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(helperAjustes != null){
-                    helperAjustes.salir(getContext());
+        relativeLayoutSalir.setOnClickListener(v -> {
+            if(helperAjustes != null){
+                helperAjustes.salir(getContext());
 
-                } else {
-                    Log.e("AdministrativoAjustesFragment", "No se pudo salir de la app");
-                }
+            } else {
+                Log.e("AdministrativoAjustesFragment", "No se pudo salir de la app");
             }
         });
     }

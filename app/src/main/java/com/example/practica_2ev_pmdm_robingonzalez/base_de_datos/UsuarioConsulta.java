@@ -77,10 +77,8 @@ public class UsuarioConsulta {
 
     public Usuario obtenerUsuarioPorCorreoYContrasena(String correo, String contrasenya) {
         Usuario usuario = null;
-        Cursor cursor = null;
 
-        try {
-            cursor = baseDeDatos.rawQuery( "SELECT * FROM usuarios WHERE correo = ? AND contrasenya = ?", new String[]{correo, contrasenya});
+        try (Cursor cursor = baseDeDatos.rawQuery("SELECT * FROM usuarios WHERE correo = ? AND contrasenya = ?", new String[]{correo, contrasenya})) {
 
             if (cursor != null && cursor.moveToFirst()) {
                 usuario = new Usuario();
@@ -93,23 +91,19 @@ public class UsuarioConsulta {
                 int indiceContrasenya = cursor.getColumnIndex("contrasenya");
                 int indiceTipoUsuario = cursor.getColumnIndex("tipo_usuario");
 
-              if(indiceNombre != -1 && indiceApellidos!= -1 && indiceCorreo != -1
-                      && indiceTelefono != -1 && indiceContrasenya != -1  &&  indiceTipoUsuario != -1 ){
-                 {
-                     usuario.setNombre(cursor.getString(indiceNombre));
-                     usuario.setApellidos(cursor.getString(indiceApellidos));
-                     usuario.setCorreo(cursor.getString(indiceCorreo));
-                     usuario.setTelefono(cursor.getString(indiceTelefono));
-                     usuario.setContrasenya(cursor.getString(indiceContrasenya));
-                     usuario.setTipoUsuario(cursor.getString(indiceTipoUsuario));
-                  }
+                if (indiceNombre != -1 && indiceApellidos != -1 && indiceCorreo != -1
+                        && indiceTelefono != -1 && indiceContrasenya != -1 && indiceTipoUsuario != -1) {
+                    {
+                        usuario.setNombre(cursor.getString(indiceNombre));
+                        usuario.setApellidos(cursor.getString(indiceApellidos));
+                        usuario.setCorreo(cursor.getString(indiceCorreo));
+                        usuario.setTelefono(cursor.getString(indiceTelefono));
+                        usuario.setContrasenya(cursor.getString(indiceContrasenya));
+                        usuario.setTipoUsuario(cursor.getString(indiceTipoUsuario));
+                    }
 
-              }
+                }
 
-            }
-        } finally {
-            if (cursor != null) {
-                cursor.close();
             }
         }
 
@@ -118,11 +112,9 @@ public class UsuarioConsulta {
 
     public Usuario obtenerUsuarioPorCorreo(String correo) {
         Usuario usuario = null;
-        Cursor cursor = null;
 
-        try {
+        try (Cursor cursor = baseDeDatos.rawQuery("SELECT * FROM usuarios WHERE correo = ?", new String[]{correo})) {
             // Consulta para obtener el usuario solo por correo
-            cursor = baseDeDatos.rawQuery("SELECT * FROM usuarios WHERE correo = ?", new String[]{correo});
 
             if (cursor != null && cursor.moveToFirst()) {
                 usuario = new Usuario();
@@ -144,10 +136,6 @@ public class UsuarioConsulta {
                     usuario.setContrasenya(cursor.getString(indiceContrasenya));
                     usuario.setTipoUsuario(cursor.getString(indiceTipoUsuario));
                 }
-            }
-        } finally {
-            if (cursor != null) {
-                cursor.close();
             }
         }
 
@@ -205,23 +193,15 @@ public class UsuarioConsulta {
 
     // Método adicional para verificar si el usuario existe en SQLite por correo
     private boolean usuarioExisteEnSQLite(String correo) {
-        Cursor cursor = null;
-        try {
+        try (Cursor cursor = baseDeDatos.rawQuery("SELECT 1 FROM usuarios WHERE correo = ?", new String[]{correo})) {
             // Verificamos si existe el correo en la base de datos
-            cursor = baseDeDatos.rawQuery("SELECT 1 FROM usuarios WHERE correo = ?", new String[]{correo});
-            if (cursor != null && cursor.moveToFirst()) {
-                return true;  // Si encontramos un resultado, el usuario existe
-            } else {
-                return false;  // Si no encontramos el correo, el usuario no existe
-            }
+            // Si no encontramos el correo, el usuario no existe
+            return cursor != null && cursor.moveToFirst();  // Si encontramos un resultado, el usuario existe
         } catch (SQLException e) {
             Log.e("ActualizarUsuario", "Error al verificar existencia de usuario en SQLite", e);
             return false;
-        } finally {
-            if (cursor != null) {
-                cursor.close();  // Cerramos el cursor si fue abierto
-            }
         }
+        // Cerramos el cursor si fue abierto
     }
 
 

@@ -76,16 +76,13 @@ public class ClienteMenuPrincipalFragment extends Fragment {
     }
 
     private void configurarOnclick(CardView cardView, Fragment fragmento){
-        cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(helperMenuPrincipal != null && helperNavegacionInferior != null){
-                    helperMenuPrincipal.cargarFragmento(fragmento);
-                    helperNavegacionInferior.deseleccionarItemMenuPrincipal();
-                } else {
-                    Log.e("Error", "Los manejadores no están inicializados.");
-                    helperMenuPrincipal.cargarFragmento(new MecanicoMenuPrincipalFragment());
-                }
+        cardView.setOnClickListener(v -> {
+            if(helperMenuPrincipal != null && helperNavegacionInferior != null){
+                helperMenuPrincipal.cargarFragmento(fragmento);
+                helperNavegacionInferior.deseleccionarItemMenuPrincipal();
+            } else {
+                Log.e("Error", "Los manejadores no están inicializados.");
+                helperMenuPrincipal.cargarFragmento(new MecanicoMenuPrincipalFragment());
             }
         });
     }

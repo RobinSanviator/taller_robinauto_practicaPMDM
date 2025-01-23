@@ -20,7 +20,6 @@
         android:padding="8dp"
         android:background="@drawable/img_fondo_forma_superior_izquierda">
 
-        <!-- Título de la pantalla -->
         <TextView
             android:id="@+id/textViewRegistro"
             android:layout_width="wrap_content"
@@ -31,9 +30,9 @@
             android:textColor="@color/color_principal"
             android:textSize="40dp"
             android:textStyle="bold"
-            tools:ignore="SpUsage"></TextView>
+            tools:ignore="SpUsage"/>
 
-        <!-- Texto de ayuda -->
+
         <TextView
             android:id="@+id/textViewIntroducirDatosRegistro"
             android:layout_width="wrap_content"
@@ -43,7 +42,7 @@
             android:gravity="center"
             android:text="@string/textoTVtextoInfoRegistrarse"
             android:textColor="@color/color_texto"
-            android:textSize="16sp"></TextView>
+            android:textSize="16sp"/>
     </LinearLayout>
 
     <ScrollView

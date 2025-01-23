@@ -1,5 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+<resources>
     <style name="AppThemeDarkMode" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/color_principal</item>
         <item name="colorSecondary">@color/color_secundario</item>
@@ -8,7 +7,6 @@
         <item name="colorError">@color/color_error</item>
     </style>
 
-    <!--Switch modo oscuro-->
     <style name="switchModoOscuro" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorControlActivated">@color/color_principal</item>
         <item name="colorSwitchThumbNormal">@color/color_texto</item>

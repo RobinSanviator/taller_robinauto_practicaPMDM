@@ -36,8 +36,7 @@ public class AdministradorAjustesFragment extends Fragment {
     private UsuarioConsulta usuarioConsulta;
     private HelperMenuPrincipal helperMenuPrincipal;
     private HelperAjustes helperAjustes;
-    //Firebase
-    private FirebaseAuth firebaseAuth;
+
 
 
     @Override
@@ -90,16 +89,13 @@ public class AdministradorAjustesFragment extends Fragment {
     }
 
     private void volverAlMenuDesdeAjustes(){
-        imageViewVolverMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(helperMenuPrincipal != null){
-                    activityAdministrador.volverMenuPrincipal();
-                } else {
-                    Log.e("AdministradorAjustesFragment", "No se pudo volver al menú principal");
-                }
-
+        imageViewVolverMenu.setOnClickListener(v -> {
+            if(helperMenuPrincipal != null){
+                activityAdministrador.volverMenuPrincipal();
+            } else {
+                Log.e("AdministradorAjustesFragment", "No se pudo volver al menú principal");
             }
+
         });
     }
 
@@ -136,43 +132,34 @@ public class AdministradorAjustesFragment extends Fragment {
     }
 
     private void mostrarTyC(){
-      relativeLayoutTyC.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-              if(helperAjustes != null){
-                  helperAjustes.mostrarTerminosYCondiciones(getContext());
-              }else{
-                  Log.e("AdministradorAjustesFragment", "helperAjustes null: no se pudo mostrar términos y condiciones");
-              }
+      relativeLayoutTyC.setOnClickListener(v -> {
+          if(helperAjustes != null){
+              helperAjustes.mostrarTerminosYCondiciones(getContext());
+          }else{
+              Log.e("AdministradorAjustesFragment", "helperAjustes null: no se pudo mostrar términos y condiciones");
           }
       });
 
     }
 
     private void cerrarSesion(){
-        relativeLayoutCerrarSesion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(helperAjustes != null){
-                    helperAjustes.cerrarSesion(getContext());
+        relativeLayoutCerrarSesion.setOnClickListener(v -> {
+            if(helperAjustes != null){
+                helperAjustes.cerrarSesion(getContext());
 
-                } else {
-                    Log.e("AdministradorAjustesFragment", "helperAjustes null: no se pudo cerrar sesión");
-                }
+            } else {
+                Log.e("AdministradorAjustesFragment", "helperAjustes null: no se pudo cerrar sesión");
             }
         });
     }
 
     private void salir(){
-        relativeLayoutSalir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(helperAjustes != null){
-                    helperAjustes.salir(getContext());
+        relativeLayoutSalir.setOnClickListener(v -> {
+            if(helperAjustes != null){
+                helperAjustes.salir(getContext());
 
-                } else {
-                    Log.e("Error", "helperAjustes null: no se pudo salir de la app");
-                }
+            } else {
+                Log.e("Error", "helperAjustes null: no se pudo salir de la app");
             }
         });
     }

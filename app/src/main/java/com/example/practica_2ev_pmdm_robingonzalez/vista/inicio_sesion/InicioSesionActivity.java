@@ -135,10 +135,10 @@ public class InicioSesionActivity extends AppCompatActivity {
     }
 
     private void autenticarUsuarioDesdeFirebase(String correo, String contrasenya) {
-        FirebaseUtil.autenticarUsuarioEnFirebase(correo, contrasenya, new OnCompleteListener<AuthResult>() {
+        FirebaseUtil.autenticarUsuarioEnFirebase(correo, contrasenya, new OnCompleteListener<>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
                     // Si la autenticación es exitosa, obtenemos los datos del usuario
                     Log.d("FirebaseAuth", "Autenticación exitosa");
 

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -20,7 +19,7 @@
 
 
         <ImageView
-            android:id="@+id/imageViewIconoPieza"
+            android:id="@+id/imageViewIconoPiezaPedido"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:src="@drawable/pieza"
@@ -34,6 +33,16 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/textViewRecomendado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:padding="2dp"
+                android:text="@string/textoRecomendadoPieza"
+                android:textSize="14sp"
+                android:textColor="@color/color_recomendadoPedido"/>
+
+            <TextView
                 android:id="@+id/textViewNombrePieza"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -44,41 +53,27 @@
                 android:textColor="@color/color_texto" />
 
             <TextView
-                android:id="@+id/textViewCantidadPieza"
+                android:id="@+id/textViewPrecioPiezaPedido"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="2dp"
                 android:layout_marginTop="4dp"
-                android:text="@string/cantidadPieza"
+                android:text="@string/precioPieza"
                 android:textSize="16sp"
-                android:textColor="@color/color_texto"/>
-
-            <TextView
-                android:id="@+id/textViewAdvertenciaStock"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:drawableStart="@drawable/ic_alerta"
-                android:drawablePadding="4dp"
-                android:drawableTint="@color/color_error"
-                android:gravity="center_vertical"
-                android:padding="2dp"
-                android:text="@string/pocasPiezasEnStock"
-                android:textColor="@color/color_error"
-                android:textSize="12dp"
-                android:textStyle="italic|bold"
-                tools:ignore="TextSizeCheck" />
+                android:textColor="@color/color_texto" />
 
 
         </LinearLayout>
 
-
-        <View
-            android:id="@+id/indicadorStock"
-            android:layout_width="8dp"
-            android:layout_height="80dp"
-            android:background="@color/color_principal"
-            android:layout_marginStart="16dp"/>
+       <com.google.android.material.button.MaterialButton
+           android:id="@+id/buttonAnadirPiezaPedido"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:backgroundTint="@color/azul"
+           app:cornerRadius="30dp"
+           android:padding="8dp"
+           android:text="@string/textoAnadirPieza"
+           android:textColor="@color/color_texto"/>
 
     </LinearLayout>
 

@@ -96,22 +96,11 @@ public class RegistroActivity extends AppCompatActivity {
     }
 
     private void registrarse(){
-        buttonRegistrarse.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                mostrarTerminosYCondicionesEnAlertDialog();
-            }
-        });
+        buttonRegistrarse.setOnClickListener(v -> mostrarTerminosYCondicionesEnAlertDialog());
     }
 
     private void volverInicioSesion(){
-        textViewTextoVolverInicioSesion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(RegistroActivity.this, InicioSesionActivity.class));
-            }
-        });
+        textViewTextoVolverInicioSesion.setOnClickListener(v -> startActivity(new Intent(RegistroActivity.this, InicioSesionActivity.class)));
     }
 
     private void seleccionarPerfil(){
@@ -121,15 +110,12 @@ public class RegistroActivity extends AppCompatActivity {
         ArrayAdapter<String> adaptadorPerfiles = new ArrayAdapter<>(this, R.layout.lista_tipo_usuario, perfiles);
         spinnerSeleccionarPerfil.setAdapter(adaptadorPerfiles);
 
-        spinnerSeleccionarPerfil.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus){
-                    //Ocultar teclado cuando se foculiza en el spinner
-                    InputMethodManager teclado = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    teclado.hideSoftInputFromWindow(spinnerSeleccionarPerfil.getWindowToken(),0);
-                    spinnerSeleccionarPerfil.showDropDown();
-                }
+        spinnerSeleccionarPerfil.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                //Ocultar teclado cuando se foculiza en el spinner
+                InputMethodManager teclado = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                teclado.hideSoftInputFromWindow(spinnerSeleccionarPerfil.getWindowToken(),0);
+                spinnerSeleccionarPerfil.showDropDown();
             }
         });
 
@@ -192,9 +178,8 @@ public class RegistroActivity extends AppCompatActivity {
     private boolean verificarCorreoEnUso(String correo) {
 
         // Llamar al método de la base de datos para verificar el correo
-        boolean correoEncontrado = usuarioConsulta.correoEnUso(correo);
         // Retornar true si el correo ya está en uso, false si no
-        return correoEncontrado;
+        return usuarioConsulta.correoEnUso(correo);
     }
 
     private boolean validarTelefono(String telefono){
@@ -336,25 +321,17 @@ public class RegistroActivity extends AppCompatActivity {
         configurarCheckBoxesAlertDialog(vistaDialogo);
 
         // Botones del diálogo
-        builderTyC.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (checkBoxUsoServicio.isChecked() && checkBoxPropiedadIntelectual.isChecked() && checkBoxPrivacidad.isChecked()) {
-                    guardarUsuario();
-                    startActivity(new Intent(RegistroActivity.this, InicioSesionActivity.class));
-                    finish();
-                } else {
-                    Snackbar.make(buttonRegistrarse, "Debes aceptar todos los términos para registrarte", Snackbar.LENGTH_SHORT).show();
-                }
+        builderTyC.setPositiveButton("Aceptar", (dialog, which) -> {
+            if (checkBoxUsoServicio.isChecked() && checkBoxPropiedadIntelectual.isChecked() && checkBoxPrivacidad.isChecked()) {
+                guardarUsuario();
+                startActivity(new Intent(RegistroActivity.this, InicioSesionActivity.class));
+                finish();
+            } else {
+                Snackbar.make(buttonRegistrarse, "Debes aceptar todos los términos para registrarte", Snackbar.LENGTH_SHORT).show();
             }
         });
 
-        builderTyC.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+        builderTyC.setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
 
         builderTyC.show(); // Muestra el diálogo
     }
@@ -366,14 +343,11 @@ public class RegistroActivity extends AppCompatActivity {
         checkBoxPromociones = vistaDialogo.findViewById(R.id.checkBoxPromociones);
         checkBoxAceptarTodo = vistaDialogo.findViewById(R.id.checkBoxAceptarTodo);
 
-        checkBoxAceptarTodo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                checkBoxUsoServicio.setChecked(isChecked);
-                checkBoxPropiedadIntelectual.setChecked(isChecked);
-                checkBoxPrivacidad.setChecked(isChecked);
-                checkBoxPromociones.setChecked(isChecked);
-            }
+        checkBoxAceptarTodo.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            checkBoxUsoServicio.setChecked(isChecked);
+            checkBoxPropiedadIntelectual.setChecked(isChecked);
+            checkBoxPrivacidad.setChecked(isChecked);
+            checkBoxPromociones.setChecked(isChecked);
         });
     }
 

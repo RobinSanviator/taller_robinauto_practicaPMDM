@@ -68,7 +68,7 @@ public class MecanicoJefeMenuPrincipalFragment extends Fragment {
             helperMenuPrincipal.obtenerDatosUsuario(correo, textViewNombreCabecera);
             helperMenuPrincipal.cargarNombreCabeceraDesdeFirebase(correo,textViewNombreCabecera);
         } else {
-            helperMenuPrincipal.cargarNombreCabeceraDesdeFirebase(correo,textViewNombreCabecera);
+            helperMenuPrincipal.cargarNombreCabeceraDesdeFirebase(null,textViewNombreCabecera);
         }
     }
 

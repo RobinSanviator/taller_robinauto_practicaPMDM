@@ -74,7 +74,7 @@ public class AdministradorMenuPrincipalFragment extends Fragment {
            helperMenuPrincipal.obtenerDatosUsuario(correo, textViewNombreCabecera);
            helperMenuPrincipal.cargarNombreCabeceraDesdeFirebase(correo,textViewNombreCabecera);
         } else {
-            helperMenuPrincipal.cargarNombreCabeceraDesdeFirebase(correo,textViewNombreCabecera);
+            helperMenuPrincipal.cargarNombreCabeceraDesdeFirebase(null,textViewNombreCabecera);
         }
 
     }
@@ -87,16 +87,13 @@ public class AdministradorMenuPrincipalFragment extends Fragment {
     }
 
     private void configurarOnclick(CardView cardView, Fragment fragmento){
-        cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(helperMenuPrincipal != null && helperNavegacionInferior != null){
-                    helperMenuPrincipal.cargarFragmento(fragmento);
-                    helperNavegacionInferior.deseleccionarItemMenuPrincipal();
-                }  else {
-                    Log.e("AdministradorMenuPrincipalFragment", "Error en configurarOnClick de los cardView");
+        cardView.setOnClickListener(v -> {
+            if(helperMenuPrincipal != null && helperNavegacionInferior != null){
+                helperMenuPrincipal.cargarFragmento(fragmento);
+                helperNavegacionInferior.deseleccionarItemMenuPrincipal();
+            }  else {
+                Log.e("AdministradorMenuPrincipalFragment", "Error en configurarOnClick de los cardView");
 
-                }
             }
         });
     }
