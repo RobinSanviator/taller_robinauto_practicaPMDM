@@ -145,16 +145,20 @@ public class ClientePerfilFragment extends Fragment {
         // Cargar los datos actuales del usuario en los campos
         cargarDatosUsuarioEnCampos();
 
-        builderEditar.setTitle("Editar perfil")
+        // Crear el cuadro de diálogo y asignarlo a una variable
+        AlertDialog dialogoEditar = builderEditar.setTitle("Editar perfil")
                 .setIcon(R.drawable.cliente)
                 .setView(vistaDialogo)
                 .setNegativeButton("Salir", (dialog, which) -> dialog.dismiss())
-                .show();
+                .create(); // Guardar la referencia al diálogo
 
-
+        dialogoEditar.show(); // Mostrar el diálogo
 
         // Configurar el botón Guardar en el layout del diálogo
-        materialButtonGuardar.setOnClickListener(v -> guardarModificacionEnFirebase());
+        materialButtonGuardar.setOnClickListener(v -> {
+            guardarModificacionEnFirebase();
+            dialogoEditar.dismiss(); // Cerrar el diálogo después de guardar
+        });
     }
 
     private void iniciarComponenetesDialogo(View vistaDialogo){
@@ -196,31 +200,33 @@ public class ClientePerfilFragment extends Fragment {
     }
 
     private void guardarModificacionEnBaseDeDatos(Usuario usuario) {
-        // Actualizar el usuario en la base de datos local (SQLite)
+        // Obtener instancia de consultas y realizar la actualización en SQLite
         UsuarioConsulta usuarioConsulta = TallerRobinautoSQLite.getInstance(getContext()).obtenerUsuarioConsultas();
         boolean actualizadoEnSQLite = usuarioConsulta.actualizarUsuario(usuario);
 
-        // Actualizar el usuario en la base de datos remota (Firebase)
-        UsuarioUtil.actualizarUsuarioEnFirebase(usuario);
+        if (actualizadoEnSQLite) {
+            // Actualizar usuario en Firebase si SQLite fue exitoso
+            UsuarioUtil.actualizarUsuarioEnFirebase(usuario);
 
-        // Mostrar un mensaje de éxito solo si la actualización en Firebase fue exitosa
-        FirebaseUtil.getDatabaseReference().orderByChild("correo").equalTo(usuario.getCorreo())
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        // Si Firebase tiene el usuario actualizado, mostramos el mensaje
-                        if (dataSnapshot.exists()) {
-                            Snackbar.make(getView(), "Usuario actualizado correctamente en Firebase", Snackbar.LENGTH_LONG).show();
-                        } else {
-                            Snackbar.make(getView(), "Error al actualizar usuario en Firebase", Snackbar.LENGTH_LONG).show();
+            // Verificar si la actualización en Firebase se realizó correctamente
+            FirebaseUtil.getDatabaseReference().orderByChild("correo").equalTo(usuario.getCorreo())
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                Snackbar.make(getView(), "Usuario actualizado correctamente", Snackbar.LENGTH_LONG).show();
+                            } else {
+                                Snackbar.make(getView(), "Error al actualizar en Firebase", Snackbar.LENGTH_LONG).show();
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        Snackbar.make(getView(), "Error al verificar usuario en Firebase", Snackbar.LENGTH_LONG).show();
-                    }
-                });
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            Snackbar.make(getView(), "Error al verificar la actualización en Firebase", Snackbar.LENGTH_LONG).show();
+                        }
+                    });
+        } else {
+            Snackbar.make(getView(), "Error al actualizar usuario en la base de datos local", Snackbar.LENGTH_LONG).show();
+        }
     }
-
 }

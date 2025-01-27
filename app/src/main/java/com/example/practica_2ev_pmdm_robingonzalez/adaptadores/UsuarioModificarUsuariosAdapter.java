@@ -68,6 +68,9 @@ public class UsuarioModificarUsuariosAdapter extends RecyclerView.Adapter<Usuari
         TextInputEditText editTextTelefono = view.findViewById(R.id.editTextTelefonoUsuario);
         MaterialButton materialButtonGuardar = view.findViewById(R.id.buttonGuardarCambios);
 
+        // Cargar los datos del usuario en los campos de texto
+       cargarDatosUsuarioEnCampos(usuario, editTextNombre, editTextApellidos, editTextTelefono);
+
         builder.setView(view)
                 .setTitle("Modificar Usuario")
                 .setIcon(R.drawable.ic_modificar)
@@ -83,24 +86,28 @@ public class UsuarioModificarUsuariosAdapter extends RecyclerView.Adapter<Usuari
             usuario.setApellidos(editTextApellidos.getText().toString());
             usuario.setTelefono(editTextTelefono.getText().toString());
 
-            // Llamar al método para actualizar el usuario en la base de datos local (SQLite)
+
+            // Llamar al método para actualizar el usuario en la base de datos local
             UsuarioConsulta usuarioConsulta = TallerRobinautoSQLite.getInstance(contexto).obtenerUsuarioConsultas();
             boolean actualizadoEnSQLite = usuarioConsulta.actualizarUsuario(usuario);
+
+            String correoFirebase = correoFirebase(usuario.getCorreo());
 
             // Llamar al método para actualizar el usuario en la base de datos remota (Firebase)
             UsuarioUtil.actualizarUsuarioEnFirebase(usuario);
 
             // Verificar si la actualización fue exitosa en ambas bases de datos
+
             if (actualizadoEnSQLite) {
                 // Si la actualización fue exitosa en SQLite, verificamos Firebase
-                FirebaseUtil.getDatabaseReference().child(usuario.getCorreo())
+                FirebaseUtil.getDatabaseReference().child(correoFirebase) // Usar correo seguro aquí
                         .setValue(usuario)
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
                                 dialog.dismiss();
                             } else {
                                 // Si la actualización en Firebase falla
-                                Snackbar.make(holder.itemView, "Error al alctualizar el usuario", Snackbar.LENGTH_LONG).show();
+                                Snackbar.make(holder.itemView, "Error al actualizar el usuario", Snackbar.LENGTH_LONG).show();
                             }
                         });
             } else {
@@ -111,6 +118,18 @@ public class UsuarioModificarUsuariosAdapter extends RecyclerView.Adapter<Usuari
                 notifyDataSetChanged();
             }
         });
+    }
+
+    private String correoFirebase(String correo) {
+        // Reemplazar el punto por guion bajo para que sea seguro para Firebase
+        return correo.replace(".", "_");
+    }
+
+    private void cargarDatosUsuarioEnCampos(Usuario usuario, TextInputEditText editTextNombre, TextInputEditText editTextApellidos, TextInputEditText editTextTelefono) {
+        // Cargar los datos actuales del usuario en los campos de edición
+        editTextNombre.setText(usuario.getNombre());
+        editTextApellidos.setText(usuario.getApellidos());
+        editTextTelefono.setText(usuario.getTelefono());
     }
 
     public static class UsuarioViewHolder extends RecyclerView.ViewHolder {

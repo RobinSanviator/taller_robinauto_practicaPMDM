@@ -39,8 +39,9 @@ public class UsuarioUtil {
     }
 
 
+
     // Método para guardar un empleado en Firebase
-    public static void guardarEmpleadoEnFirebase(Context context, String nombre, String apellidos, String correo, String telefono, String contrasenya, String tipoUsuarioActual) {
+    public static void guardarEmpleadoEnFirebase(Context contexto, String nombre, String apellidos, String correo, String telefono, String contrasenya, String tipoUsuarioActual) {
         // Primero, intentamos registrar el usuario en Firebase Authentication
         FirebaseUtil.registrarUsuarioConEmailYContrasena(correo, contrasenya, task -> {
             if (task.isSuccessful()) {
