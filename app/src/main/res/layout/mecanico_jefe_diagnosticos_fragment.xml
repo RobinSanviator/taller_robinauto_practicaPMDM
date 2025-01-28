@@ -43,27 +43,15 @@
     </LinearLayout>
 
 
-    <ImageView
-        android:id="@+id/imageViewDiagnostico"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="10dp"
-        android:src="@drawable/registro_entrada_coche"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutAppBarDiagnosticos" />
-
-
     <LinearLayout
         android:id="@+id/linearLayoutContenidoDiagnostico"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
         android:layout_marginTop="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewDiagnostico">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutAppBarDiagnosticos">
 
         <TextView
             android:id="@+id/textViewInfoSeleccionaParaDiagnosticar"

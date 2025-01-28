@@ -137,30 +137,21 @@ public class AdministrativoNotificacionesFragment extends Fragment {
     }
 
     private void cargarAutoCompleteTextView() {
-        // Obtener el array de cadenas desde strings.xml
         String[] mensajes = getResources().getStringArray(R.array.mensaje_notificacion_administrativo_array);
-
-        // Crear un ArrayAdapter usando el array de cadenas
         ArrayAdapter<String> adaptador = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, mensajes);
 
-        // Configurar el AutoCompleteTextView con el adapter
         autoCompleteTextViewEnviarMensaje.setAdapter(adaptador);
-
+        autoCompleteTextViewEnviarMensaje.setThreshold(1); // Mostrar sugerencias desde el primer carácter
 
         manejarTokenizerParaDelimitarYMostrarOpcionEnMultiAutoCompleteText(autoCompleteTextViewEnviarMensaje);
-
-        // Si lo deseas, también puedes configurar el límite de sugerencias a mostrar:
-        autoCompleteTextViewEnviarMensaje.setThreshold(1);  // Mínimo 1 carácter antes de que aparezcan sugerencias
-
     }
 
-    private void manejarTokenizerParaDelimitarYMostrarOpcionEnMultiAutoCompleteText(MultiAutoCompleteTextView mactv){
-        mactv.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer() {
+    private void manejarTokenizerParaDelimitarYMostrarOpcionEnMultiAutoCompleteText(MultiAutoCompleteTextView mactv) {
+        mactv.setTokenizer(new MultiAutoCompleteTextView.Tokenizer() {
             @Override
             public int findTokenStart(CharSequence text, int cursor) {
-                // Añadir puntos y saltos de línea como delimitadores
                 int i = cursor;
-                while (i > 0 && isDelimiter(text.charAt(i - 1))) {
+                while (i > 0 && !isDelimiter(text.charAt(i - 1))) {
                     i--;
                 }
                 return i;
@@ -168,16 +159,21 @@ public class AdministrativoNotificacionesFragment extends Fragment {
 
             @Override
             public int findTokenEnd(CharSequence text, int cursor) {
-                // Añadir puntos y saltos de línea como delimitadores
                 int i = cursor;
-                while (i < text.length() && isDelimiter(text.charAt(i))) {
+                while (i < text.length() && !isDelimiter(text.charAt(i))) {
                     i++;
                 }
                 return i;
             }
 
+            @Override
+            public CharSequence terminateToken(CharSequence text) {
+                // Retorna el texto
+                return text;
+            }
+
             private boolean isDelimiter(char c) {
-                return c != ',' && c != '.' && c != '\n' && c != ' '; // Coma, punto, espacio o salto de línea
+                return c == ' '; // Usa espacio como delimitador
             }
         });
     }
@@ -186,14 +182,14 @@ public class AdministrativoNotificacionesFragment extends Fragment {
         buttonEnviarMensaje.setOnClickListener(v -> crearNotificacion());
     }
 
-    private void crearNotificacion(){
+    private void crearNotificacion() {
         String clienteSeleccionado = (String) spinnerClientes.getSelectedItem();
         if (clienteSeleccionado == null || clienteSeleccionado.isEmpty()) {
             Snackbar.make(spinnerClientes, "Por favor, seleccione un cliente.", Snackbar.LENGTH_LONG).show();
             return;
         }
 
-        // extraer el correo del cliente
+        // Extraer el correo del cliente
         String correoReceptor = clienteSeleccionado.substring(clienteSeleccionado.indexOf("(") + 1, clienteSeleccionado.indexOf(")"));
         String mensaje = autoCompleteTextViewEnviarMensaje.getText().toString().trim();
 
@@ -203,32 +199,35 @@ public class AdministrativoNotificacionesFragment extends Fragment {
         }
 
         String correoEmisor = activityAdministrativo.getCorreo(); // Obtener correo del emisor desde la actividad
-        Notificacion notificacion = new Notificacion(correoEmisor, correoReceptor, mensaje, null, false);
-        guardarNotificacionEnFirebase(notificacion);
 
-    }
-
-    private void guardarNotificacionEnFirebase(Notificacion notificacion) {
-        //Obtener la instancia de la base de datos
-         FirebaseDatabase database = FirebaseUtil.getFirebaseDatabase();
-        //Obtener la referencia del nodo "Notificaciones"
-         DatabaseReference databaseReference = database.getReference("Notificaciones");
-
+        // Generar ID único antes de crear la notificación
+        DatabaseReference databaseReference = FirebaseUtil.getFirebaseDatabase().getReference("Notificaciones");
         String idNotificacion = databaseReference.push().getKey();
-        // Cambiar la ruta a "Notificaciones" para que las notificaciones estén bajo su propia tabla
-        if(idNotificacion != null){
+
+        // Crear el objeto Notificacion con el ID generado
+        Notificacion notificacion = new Notificacion(idNotificacion, correoEmisor, correoReceptor, mensaje, null);
+
+        // Guardar la notificación en Firebase
+        guardarNotificacionEnFirebase(notificacion, idNotificacion);
+    }
+
+    private void guardarNotificacionEnFirebase(Notificacion notificacion, String idNotificacion) {
+        // Obtener la instancia de la base de datos
+        DatabaseReference databaseReference = FirebaseUtil.getFirebaseDatabase().getReference("Notificaciones");
+
+        if (idNotificacion != null) {
             databaseReference.child(idNotificacion).setValue(notificacion)
-             .addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    Snackbar.make(buttonEnviarMensaje, "Mensaje enviado correctamente", Snackbar.LENGTH_LONG).show();
-                    autoCompleteTextViewEnviarMensaje.getText().clear(); // Limpiar el campo de texto
-
-                }else {
-                    Snackbar.make(buttonEnviarMensaje, "Error al enviar el mensaje", Snackbar.LENGTH_LONG).show();
-                }
-            });
-
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Snackbar.make(buttonEnviarMensaje, "Mensaje enviado correctamente", Snackbar.LENGTH_LONG).show();
+                            autoCompleteTextViewEnviarMensaje.getText().clear(); // Limpiar el campo de texto
+                        } else {
+                            Snackbar.make(buttonEnviarMensaje, "Error al enviar el mensaje", Snackbar.LENGTH_LONG).show();
+                        }
+                    });
+        } else {
+            Snackbar.make(buttonEnviarMensaje, "Error al generar el ID de la notificación", Snackbar.LENGTH_LONG).show();
         }
+    }
 
     }
-}

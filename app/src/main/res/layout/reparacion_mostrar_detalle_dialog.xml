@@ -6,7 +6,6 @@
     android:padding="20dp"
     android:elevation="4dp">
 
-        <!-- Título del diálogo -->
         <TextView
             android:id="@+id/textViewTitulo"
             android:layout_width="match_parent"
@@ -18,7 +17,7 @@
             android:textStyle="bold"
             android:paddingBottom="16dp" />
 
-        <!-- Matrícula -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -29,7 +28,7 @@
                 android:id="@+id/textViewMatricula"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/textoMatricula"
+                android:text="@string/textoCoche"
                 android:textColor="@color/color_texto"
                 android:textSize="18sp"
                 android:textStyle="bold"/>
@@ -42,7 +41,6 @@
                 android:textColor="@color/color_texto" />
         </LinearLayout>
 
-        <!-- Tipo de reparación -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -66,7 +64,6 @@
                 android:textColor="@color/color_texto" />
         </LinearLayout>
 
-        <!-- Estado de reparación -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -90,7 +87,6 @@
                 android:textSize="18sp"/>
         </LinearLayout>
 
-        <!-- Presupuesto -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -114,7 +110,6 @@
                 android:textSize="18sp"/>
         </LinearLayout>
 
-        <!-- Fecha de inicio -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -138,7 +133,6 @@
                 android:textSize="18sp"/>
         </LinearLayout>
 
-        <!-- Fecha de fin -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -162,7 +156,6 @@
                 android:textSize="18sp"/>
         </LinearLayout>
 
-        <!-- Cliente -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -186,7 +179,6 @@
                 android:textSize="18sp"/>
         </LinearLayout>
 
-        <!-- Mecánico jefe -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

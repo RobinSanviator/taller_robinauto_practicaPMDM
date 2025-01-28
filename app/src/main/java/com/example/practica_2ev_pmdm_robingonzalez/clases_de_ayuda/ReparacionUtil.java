@@ -72,6 +72,40 @@ public class ReparacionUtil {
                 });
     }
 
+    public static void actualizarPresupuesto(String correoMecanicoJefe, String matriculaCoche, double nuevoPresupuesto) {
+        // Obtener la referencia a las reparaciones
+        DatabaseReference reparacionesRef = databaseReference;
+
+        // Realizar una consulta para encontrar la reparación basada en el correo del mecánico jefe
+        reparacionesRef.orderByChild("correoMecanicoJefe").equalTo(correoMecanicoJefe)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        boolean encontrado = false;
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            Reparacion reparacion = snapshot.getValue(Reparacion.class);
+                            if (reparacion != null && reparacion.getMatriculaCoche().equals(matriculaCoche)) {
+                                // Actualizar el presupuesto con el nuevo valor
+                                snapshot.getRef().child("presupuesto").setValue(nuevoPresupuesto)
+                                        .addOnSuccessListener(aVoid -> Log.d("ReparacionUtil", "Presupuesto actualizado correctamente."))
+                                        .addOnFailureListener(e -> Log.e("ReparacionUtil", "Error al actualizar presupuesto", e));
+                                encontrado = true;
+                                break;
+                            }
+                        }
+
+                        if (!encontrado) {
+                            Log.d("ReparacionUtil", "Reparación no encontrada para el mecánico jefe y matrícula.");
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Log.e("ReparacionUtil", "Error al consultar reparaciones", databaseError.toException());
+                    }
+                });
+    }
+
     public static void actualizarFechaFinDiagnostico(Long timestamp, String correoMecanicoJefe, String matriculaCoche) {
         // Realizar la actualización en Firebase
         // Nota: Este es un ejemplo, debes asegurarte de que encuentres la reparación correctamente
@@ -103,6 +137,51 @@ public class ReparacionUtil {
                     }
                 });
     }
+
+    public static void actualizarEstadoReparacion(String correoCliente, String respuesta) {
+        // Obtener la referencia a las reparaciones
+        DatabaseReference reparacionesRef = databaseReference;
+
+        // Realizar una consulta para encontrar la reparación basada en el correo del cliente
+        reparacionesRef.orderByChild("correoCliente").equalTo(correoCliente)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        boolean encontrado = false;
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            Reparacion reparacion = snapshot.getValue(Reparacion.class);
+                            if (reparacion != null) {
+                                // Actualizar el estado de la reparación según la respuesta
+                                String nuevoEstado = "Acepta el presupuesto".equals(respuesta) ? "En proceso" : "Finalizado";
+                                snapshot.getRef().child("estadoReparacion").setValue(nuevoEstado)
+                                        .addOnSuccessListener(aVoid -> Log.d("ReparacionUtil", "Estado de reparación actualizado a " + nuevoEstado))
+                                        .addOnFailureListener(e -> Log.e("ReparacionUtil", "Error al actualizar el estado de la reparación", e));
+
+                                // Si el cliente no acepta el presupuesto, actualizar la fecha de finalización
+                                if ("No acepta el presupuesto".equals(respuesta)) {
+                                    long fechaActual = System.currentTimeMillis(); // Fecha y hora actuales
+                                    snapshot.getRef().child("fechaFin").setValue(fechaActual)
+                                            .addOnSuccessListener(aVoid -> Log.d("ReparacionUtil", "Fecha de finalización actualizada correctamente"))
+                                            .addOnFailureListener(e -> Log.e("ReparacionUtil", "Error al actualizar la fecha de finalización", e));
+                                }
+
+                                encontrado = true;
+                                break;
+                            }
+                        }
+
+                        if (!encontrado) {
+                            Log.d("ReparacionUtil", "Reparación no encontrada para el cliente.");
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Log.e("ReparacionUtil", "Error al consultar reparaciones", databaseError.toException());
+                    }
+                });
+    }
+
 }
 
 

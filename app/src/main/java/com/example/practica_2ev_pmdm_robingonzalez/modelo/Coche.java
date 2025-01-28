@@ -4,51 +4,22 @@ public class Coche {
     private String marca;
     private String modelo;
     private String matricula;
+    private String nombreCliente;
+    private String correoCliente;
     private String nombreMecanicoJefe;
     private String correoMecanicoJefe;
-    private String diagnostico;
 
+    public Coche(){}
 
-
-    public Coche(String marca, String modelo, String matricula, String nombreMecanicoJefe, String correoMecanicoJefe, String diagnostico) {
+    public Coche(String marca, String modelo, String matricula, String nombreCliente, String correoCliente,
+                 String nombreMecanicoJefe, String correoMecanicoJefe) {
         this.marca = marca;
         this.modelo = modelo;
         this.matricula = matricula;
+        this.nombreCliente = nombreCliente;
+        this.correoCliente = correoCliente;
         this.nombreMecanicoJefe = nombreMecanicoJefe;
         this.correoMecanicoJefe = correoMecanicoJefe;
-        this.diagnostico = diagnostico;
-    }
-
-    public String getMarca() {
-        return marca;
-    }
-
-    public void setMarca(String marca) {
-        this.marca = marca;
-    }
-
-    public String getModelo() {
-        return modelo;
-    }
-
-    public void setModelo(String modelo) {
-        this.modelo = modelo;
-    }
-
-    public String getMatricula() {
-        return matricula;
-    }
-
-    public void setMatricula(String matricula) {
-        this.matricula = matricula;
-    }
-
-    public String getNombreMecanicoJefe() {
-        return nombreMecanicoJefe;
-    }
-
-    public Coche(){
-
     }
 
     public String getCorreoMecanicoJefe() {
@@ -59,12 +30,52 @@ public class Coche {
         this.correoMecanicoJefe = correoMecanicoJefe;
     }
 
-    public String getDiagnostico() {
-        return diagnostico;
+    public String getNombreMecanicoJefe() {
+        return nombreMecanicoJefe;
     }
 
-    public void setDiagnostico(String diagnostico) {
-        this.diagnostico = diagnostico;
+    public void setNombreMecanicoJefe(String nombreMecanicoJefe) {
+        this.nombreMecanicoJefe = nombreMecanicoJefe;
+    }
+
+    public String getCorreoCliente() {
+        return correoCliente;
+    }
+
+    public void setCorreoCliente(String correoCliente) {
+        this.correoCliente = correoCliente;
+    }
+
+    public String getNombreCliente() {
+        return nombreCliente;
+    }
+
+    public void setNombreCliente(String nombreCliente) {
+        this.nombreCliente = nombreCliente;
+    }
+
+    public String getMatricula() {
+        return matricula;
+    }
+
+    public void setMatricula(String matricula) {
+        this.matricula = matricula;
+    }
+
+    public String getModelo() {
+        return modelo;
+    }
+
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
+    }
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
     }
 }
 

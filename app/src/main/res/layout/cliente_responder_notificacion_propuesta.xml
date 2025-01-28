@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fondo">
+
+  <TextView
+      android:id="@+id/textViewMensajeRecibido"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_margin="20dp"
+      android:padding="16dp"
+      android:layout_gravity="center"
+      android:gravity="start"
+      android:text="@string/textoMensajeNotificacion"
+      android:textColor="@color/color_texto"
+      android:textSize="16sp"
+      android:background="@drawable/fondo_boton_redondo"
+      android:backgroundTint="@color/color_notificacion"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="5dp">
+        <TextView
+            android:id="@+id/textoPreguntaPresupuesto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_advertencia"
+            android:elevation="4dp"
+            android:text="@string/textoPreguntaPresupuesto"
+            android:textColor="@color/color_texto"/>
+
+        <RadioGroup
+            android:id="@+id/radioGroupRespuestaDelCliente"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true">
+
+            <RadioButton
+                android:id="@+id/radioButtonAceptar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:elevation="4dp"
+                android:text="@string/textoAceptar"
+                android:buttonTint="@color/color_principal"
+                android:drawableStart="@drawable/ic_aceptar"
+                android:drawableTint="@color/verde"/>
+            <RadioButton
+                android:id="@+id/radioButtonNoAceptar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:elevation="4dp"
+                android:text="@string/textoNoAceptar"
+                android:buttonTint="@color/color_principal"
+                android:drawableStart="@drawable/ic_no_aceptar"
+                android:drawableTint="@color/color_error"/>
+        </RadioGroup>
+
+    </LinearLayout>
+
+
+</LinearLayout>

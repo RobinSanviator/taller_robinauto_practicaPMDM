@@ -55,7 +55,6 @@ import java.util.Map;
 
 public class AdministrativoReparacionesFragment extends Fragment {
 
-
     private ImageView imageViewVolver;
     private AdministrativoActivity activityAdministrativo;
     private FloatingActionButton fabNuevaReparacion;
@@ -63,9 +62,8 @@ public class AdministrativoReparacionesFragment extends Fragment {
     private TextView textViewNoHayReparaciones;
     private ReparacionAdapter reparacionAdapter;
     private List<Reparacion> listaReparacion;
-    private TextView textviewCocheSeleccionado, textViewMarca, textViewModelo,
+    private TextView  textViewMarca, textViewModelo,
             textViewMatricula, textViewMecanicoJefe, textViewCorreoCliente;
-    private TextInputEditText editTextPresupuesto;
     private Spinner spinnerCocheReparacion, spinnerClienteReparacion, spinnerMecanicoReparacion;
     private CheckBox checkBoxPendiente, checkBoxEnProceso, checkBoxFinalizado;
     LinearLayout  linearLayoutCorreosMecanicos;
@@ -180,89 +178,70 @@ public class AdministrativoReparacionesFragment extends Fragment {
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View vistaDialogo = inflater.inflate(R.layout.administrativo_dar_alta_reparacion_dialog, null);
 
-        //Llamada al método para inicializar los elementos en la vista
+        // Inicializar elementos en la vista
         inicializarElementosEnDialogo(vistaDialogo);
 
-        //Cargar datos para los spinners
+        // Cargar datos para los spinners
         cargarSpinnerCoche();
-        cargarSpinnerCliente();
         cargarSpinnerMecanicos();
 
-        builderNuevaReparacion.setView(vistaDialogo).setTitle("Nueva reparación").setIcon(R.drawable.ic_consul_reparaciones)
+        builderNuevaReparacion.setView(vistaDialogo)
+                .setTitle("Nueva reparación")
+                .setIcon(R.drawable.ic_consul_reparaciones)
                 .setPositiveButton("Dar de alta", (dialogInterface, i) -> {
-
-                    // Validar si se ha seleccionado un mecánico
-                    if (!validarMecanicoSeleccionado()) {
-                        return; // Si no se seleccionó un mecánico, no continuar
+                    // Validar selección de coche
+                    if (textViewMatricula.getText().toString().isEmpty()) {
+                        Snackbar.make(getView(), "Seleccione un coche", Snackbar.LENGTH_LONG).show();
+                        return;
                     }
 
+                    // Validar al menos un mecánico seleccionado
+                    if (linearLayoutCorreosMecanicos.getChildCount() == 0) {
+                        Snackbar.make(getView(), "Seleccione al menos un mecánico", Snackbar.LENGTH_LONG).show();
+                        return;
+                    }
 
-                    // Obtener la matrícula y el correo del coche seleccionado
-                    String matriculaCoche = textViewMatricula.getText().toString();
+                    // Obtener datos del formulario
+                    String matricula = textViewMatricula.getText().toString();
                     String correoMecanicoJefe = textViewMecanicoJefe.getText().toString();
                     String correoCliente = textViewCorreoCliente.getText().toString();
-                    // Obtener los correos de los mecánicos seleccionados
                     List<String> correosMecanicos = obtenerCorreosMecanicosSeleccionados();
 
-                    //Obtener el presupuesto validado
-                    double presupuesto = obtenerPresupuesto(editTextPresupuesto);
-                    // Si el presupuesto no es válido
-                    if (presupuesto == -1) {
-                        return; // Sale del método y no crea la reparación
-                    }
-
-                    // Crear la nueva reparación
-                    Reparacion nuevaReparacion = new Reparacion(matriculaCoche, presupuesto, correoMecanicoJefe, correoCliente, correosMecanicos);
+                    // Crear objeto Reparacion
+                    Reparacion nuevaReparacion = new Reparacion(
+                            matricula,
+                            correoMecanicoJefe,
+                            correoCliente,
+                            correosMecanicos
+                    );
 
                     // Guardar la reparación en Firebase
                     ReparacionUtil.guardarReparacionEnFirebase(nuevaReparacion);
 
-                    // Mostrar mensaje de éxito
-                    Snackbar.make(getActivity().findViewById(android.R.id.content),
-                            "Alta de nueva reparación completado con éxito", Snackbar.LENGTH_LONG).show();
+                    // Mostrar un mensaje de éxito
+                    Snackbar.make(getView(), "Reparación creada", Snackbar.LENGTH_SHORT).show();
                 })
                 .setNegativeButton("Cancelar", (dialog, i) -> {
                     dialog.dismiss();
                     Snackbar.make(getActivity().findViewById(android.R.id.content),
-                            "Alta de nueva reparación cancelado", Snackbar.LENGTH_LONG).show();
+                            "Alta de nueva reparación cancelada", Snackbar.LENGTH_LONG).show();
                 });
+
         builderNuevaReparacion.show();
     }
 
+
     private void inicializarElementosEnDialogo(View vistaDialogo){
-        textviewCocheSeleccionado = vistaDialogo.findViewById(R.id.textViewCocheSeleccionado);
         textViewMarca = vistaDialogo.findViewById(R.id.textViewMostrarMarca);
         textViewModelo = vistaDialogo.findViewById(R.id.textViewmostrarModelo);
         textViewMatricula = vistaDialogo.findViewById(R.id.textViewMostrarMatricula);
+        textViewCorreoCliente = vistaDialogo.findViewById(R.id.textViewMostrarCorreoCliente);
         textViewMecanicoJefe = vistaDialogo.findViewById(R.id.textViewMostrarCorreoMecanicoJefe);
         spinnerCocheReparacion = vistaDialogo.findViewById(R.id.spinnerCocheNuevaReparacion);
-        spinnerClienteReparacion = vistaDialogo.findViewById(R.id.spinerClienteNuevaReparacion);
-        textViewCorreoCliente = vistaDialogo.findViewById(R.id.textViewMostrarCorreoCliente);
-        editTextPresupuesto = vistaDialogo.findViewById(R.id.editTextPresupuesto);
         spinnerMecanicoReparacion = vistaDialogo.findViewById(R.id.spinnerMecanicoNuevaReparacion);
         linearLayoutCorreosMecanicos = vistaDialogo.findViewById(R.id.linearLayoutCorreosMecanicos);
     }
 
-    // Método separado para obtener el presupuesto
-    private double obtenerPresupuesto(EditText editTextPresupuesto) {
-        String presupuestoTexto = editTextPresupuesto.getText().toString().trim();
-
-        if (presupuestoTexto.isEmpty()) {
-            Snackbar.make(getActivity().findViewById(android.R.id.content),
-                    "Se debe insertar un presupuesto para realizar la nueva reparación",
-                    Snackbar.LENGTH_LONG).show();
-            return -1; // Retornamos un valor que indica que hubo un error
-        }
-
-        try {
-            return Double.parseDouble(presupuestoTexto);
-        } catch (NumberFormatException e) {
-            Snackbar.make(requireActivity().findViewById(android.R.id.content),
-                    "El presupuesto debe ser un número válido",
-                    Snackbar.LENGTH_SHORT).show();
-            return -1; // Retornamos un valor que indica que hubo un error
-        }
-    }
 
     //Método para obtener los correos de los mecánicos
     private List<String> obtenerCorreosMecanicosSeleccionados() {
@@ -277,72 +256,7 @@ public class AdministrativoReparacionesFragment extends Fragment {
         return correosMecanicos;
     }
 
-    private boolean validarMecanicoSeleccionado() {
-        // Verificar si el spinner del mecánico tiene un ítem seleccionado que no sea el valor por defecto
-        if (linearLayoutCorreosMecanicos.getChildCount() == 0) {
-            Snackbar.make(getActivity().findViewById(android.R.id.content),
-                    "Debes seleccionar al menos un mecánico", Snackbar.LENGTH_LONG).show();
-            return false; // No se seleccionó un mecánico
-        }
-        return true; // Se seleccionó un mecánico
-    }
 
-    private void cargarSpinnerCliente() {
-        UsuarioUtil.cargarUsuariosPorTipo("Cliente", new UsuarioUtil.usuariosCargadosListener() {
-            @Override
-            public void onUsuariosCargados(List<Usuario> usuarios) {
-                // Extraer los nombres completos de los clientes (nombre + apellidos)
-                List<String> listaClientes = new ArrayList<>();
-                Map<String, String> clientesMap = new HashMap<>(); // Mapa para asociar nombre completo con correo
-
-                for (Usuario usuario : usuarios) {
-                    String nombreCompleto = usuario.getNombre() + " " + usuario.getApellidos();
-                    String correoCliente = usuario.getCorreo(); // Obtener el correo del cliente
-                    listaClientes.add(nombreCompleto); // Añadir nombre completo al spinner
-                    clientesMap.put(nombreCompleto, correoCliente); // Asociar correo con nombre completo
-                }
-
-                // Configurar el Spinner con los datos cargados
-                configurarSpinnerCliente(listaClientes, clientesMap);
-            }
-
-            @Override
-            public void onError(Exception e) {
-                Log.e("SpinnerCliente", "Error al cargar clientes: " + e.getMessage());
-                Snackbar.make(requireActivity().findViewById(android.R.id.content),
-                        "Error al cargar clientes", Snackbar.LENGTH_LONG).show();
-            }
-        });
-    }
-
-    private void configurarSpinnerCliente(List<String> listaClientes, Map<String, String> clientesMap) {
-        ArrayAdapter<String> adapterCliente = new ArrayAdapter<>(requireContext(),
-                android.R.layout.simple_spinner_item, listaClientes);
-        adapterCliente.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerClienteReparacion.setAdapter(adapterCliente);
-
-        // Establecer el listener para el spinner de clientes
-        spinnerClienteReparacion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-
-                    String clienteSeleccionado = (String) parentView.getItemAtPosition(position);
-
-                    // Obtener el correo del cliente desde el mapa
-                    String correoCliente = clientesMap.get(clienteSeleccionado);
-                    textViewCorreoCliente.setText(correoCliente); // Mostrar el correo en el TextView
-
-                    // Mostrar Snackbar en selecciones válidas
-                    Snackbar.make(parentView, "Cliente " + clienteSeleccionado + " seleccionado",
-                            Snackbar.LENGTH_SHORT).show();
-                }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-
-            }
-        });
-    }
 
     private void cargarSpinnerCoche() {
         // Cargar coches desde Firebase
@@ -353,20 +267,23 @@ public class AdministrativoReparacionesFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 List<String> listaCoches = new ArrayList<>();
-                Map<String, Coche> cochesMap = new HashMap<>(); // Mapa de matrícula -> objeto Coche completo
+                Map<String, Coche> cochesMap = new HashMap<>();
 
                 for (DataSnapshot cocheSnapshot : snapshot.getChildren()) {
-                    Coche coche = cocheSnapshot.getValue(Coche.class); // Obtener coche
+                    Coche coche = cocheSnapshot.getValue(Coche.class);
                     if (coche != null) {
-                        // Crear el texto para mostrar en el Spinner
+                        Log.d("CargarCoches", "Coche cargado: " + coche.getMarca() + " " + coche.getModelo());
                         String cocheDisponible = coche.getMarca() + " " +
                                 coche.getModelo() + " " +
                                 coche.getMatricula() + " - " +
-                                coche.getNombreMecanicoJefe();
+                                coche.getNombreCliente();
                         listaCoches.add(cocheDisponible);
-                        cochesMap.put(cocheDisponible, coche); // Guardar el coche completo en el mapa
+                        cochesMap.put(cocheDisponible, coche);
                     }
                 }
+
+                // Comprobar los datos cargados
+                Log.d("CargarCoches", "Lista de coches: " + listaCoches.toString());
 
                 // Configurar el Spinner de coches
                 configurarSpinnerCoche(listaCoches, cochesMap);
@@ -389,26 +306,20 @@ public class AdministrativoReparacionesFragment extends Fragment {
         spinnerCocheReparacion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String cocheSeleccionado = (String) parentView.getItemAtPosition(position);
+                Coche cocheSeleccionadoCompleto = cochesMap.get(cocheSeleccionado);
 
-                    String cocheSeleccionado = (String) parentView.getItemAtPosition(position);
+                if (cocheSeleccionadoCompleto != null) {
+                    Log.d("CargarCoche", "Coche seleccionado: " + cocheSeleccionadoCompleto.getMarca() + " " +
+                            cocheSeleccionadoCompleto.getModelo());
 
-                    // Obtener el coche completo desde el mapa
-                    Coche cocheSeleccionadoCompleto = cochesMap.get(cocheSeleccionado);
-
-                    if (cocheSeleccionadoCompleto != null) {
-                        // Mostrar el Snackbar con la información del coche seleccionado
-                        Snackbar.make(parentView, "Coche "
-                                        + cocheSeleccionadoCompleto.getMarca() + " "
-                                        + cocheSeleccionadoCompleto.getModelo() + " seleccionado",
-                                Snackbar.LENGTH_SHORT).show();
-
-                        // Mostrar los datos del coche en los TextViews
-                        textViewMarca.setText(cocheSeleccionadoCompleto.getMarca());
-                        textViewModelo.setText(cocheSeleccionadoCompleto.getModelo());
-                        textViewMatricula.setText(cocheSeleccionadoCompleto.getMatricula());
-                        textViewMecanicoJefe.setText(cocheSeleccionadoCompleto.getCorreoMecanicoJefe());
-                    }
+                    textViewMarca.setText(cocheSeleccionadoCompleto.getMarca());
+                    textViewModelo.setText(cocheSeleccionadoCompleto.getModelo());
+                    textViewMatricula.setText(cocheSeleccionadoCompleto.getMatricula());
+                    textViewCorreoCliente.setText(cocheSeleccionadoCompleto.getCorreoCliente());
+                    textViewMecanicoJefe.setText(cocheSeleccionadoCompleto.getCorreoMecanicoJefe());
                 }
+            }
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {

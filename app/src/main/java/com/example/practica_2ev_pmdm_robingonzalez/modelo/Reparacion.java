@@ -8,7 +8,7 @@ public class Reparacion {
     private String tipoReparacion;
     private String estadoReparacion;
     private List<Tarea> tareas;
-    private double presupuesto;
+    private Double presupuesto;
     private Long fechaInicio; //Timestamp en milisegundos
     private Long fechaFin;
     private List<String> correosMecanicosAsignados;
@@ -20,39 +20,19 @@ public class Reparacion {
     }
 
     // Constructor con parámetros, usado para crear la reparación inicial
-    public Reparacion(String matriculaCoche, double presupuesto, String correoMecanicoJefe,
+    public Reparacion(String matriculaCoche, String correoMecanicoJefe,
                       String correoCliente, List<String> correosMecanicosAsignados) {
         this.matriculaCoche = matriculaCoche;
         this.tipoReparacion = "Pendiente"; // No se define aún, se actualizará más tarde
         this.estadoReparacion = "Pendiente"; // Estado inicial
         this.tareas = new ArrayList<>(); // Lista de tareas vacía
-        this.presupuesto = presupuesto;
+        this.presupuesto = null;
         this.fechaInicio = System.currentTimeMillis(); // Fecha actual
         this.fechaFin = null; // No hay fecha de fin al inicio
         this.correoMecanicoJefe = correoMecanicoJefe;
         this.correoCliente = correoCliente;
         this.correosMecanicosAsignados = correosMecanicosAsignados != null ? correosMecanicosAsignados : new ArrayList<>();
     }
-
-
-    // Constructor con parámetros adicionales para reparaciones con tareas y otros detalles
-    public Reparacion(String matriculaCoche, String tipoReparacion, String estadoReparacion,
-                      List<Tarea> tareas, double presupuesto, boolean presupuestoAprobado,
-                      Long fechaFin, String correoMecanicoJefe, String correoCliente) {
-
-        this.matriculaCoche = matriculaCoche;
-        this.tipoReparacion = tipoReparacion;
-        this.estadoReparacion = estadoReparacion; // Se usa el valor proporcionado
-        this.tareas = tareas != null ? tareas : new ArrayList<>(); // Asegurarse de que las tareas no sean nulas
-        this.presupuesto = presupuesto;
-        this.fechaInicio = System.currentTimeMillis(); // Fecha y hora actual
-        this.fechaFin = fechaFin;
-        this.correoMecanicoJefe = correoMecanicoJefe;
-        this.correoCliente = correoCliente;
-        this.correosMecanicosAsignados = new ArrayList<>();
-    }
-
-
 
 
     //Método para finalizar el estado y asignar la fecha de fin
@@ -95,11 +75,11 @@ public class Reparacion {
         this.tareas = tareas;
     }
 
-    public double getPresupuesto() {
+    public Double getPresupuesto() {
         return presupuesto;
     }
 
-    public void setPresupuesto(double presupuesto) {
+    public void setPresupuesto(Double presupuesto) {
         this.presupuesto = presupuesto;
     }
 

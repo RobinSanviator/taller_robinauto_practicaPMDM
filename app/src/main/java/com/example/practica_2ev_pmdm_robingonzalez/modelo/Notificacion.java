@@ -1,25 +1,32 @@
 package com.example.practica_2ev_pmdm_robingonzalez.modelo;
 
 public class Notificacion {
-
+    private String id;
     private String correoEmisor;
     private String correoReceptor;
     private String mensaje;
     private String respuesta;
-    private boolean aprobarPresupuesto;
     private Long fechaEnvio;
 
     public Notificacion() {
 
     }
 
-    public Notificacion(String correoEmisor, String correoReceptor, String mensaje, String respuesta, boolean aprobarPresupuesto) {
+    public Notificacion(String id, String correoEmisor, String correoReceptor,
+                        String mensaje, String respuesta) {
+        this.id = id;
         this.correoEmisor = correoEmisor;
         this.correoReceptor = correoReceptor;
         this.mensaje = mensaje;
-        this.respuesta = respuesta;
-        this.aprobarPresupuesto = aprobarPresupuesto;
         this.fechaEnvio = System.currentTimeMillis(); //Asigna la fecha actual en milisegundos
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getCorreoEmisor() {
@@ -52,14 +59,6 @@ public class Notificacion {
 
     public void setRespuesta(String respuesta) {
         this.respuesta = respuesta;
-    }
-
-    public boolean isAprobarPresupuesto() {
-        return aprobarPresupuesto;
-    }
-
-    public void setAprobarPresupuesto(boolean aprobarPresupuesto) {
-        this.aprobarPresupuesto = aprobarPresupuesto;
     }
 
     public Long getFechaEnvio() {
