@@ -146,6 +146,36 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/relativeLayoutContactarAjustesCliente"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:background="@drawable/selector_presionar"
+                    android:layout_marginBottom="20dp">
+
+                    <ImageView
+                        android:id="@+id/imageViewAjustesContactarCliente"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/ic_contacto"
+                        app:tint="@color/color_fondo_contactar" />
+
+                    <TextView
+                        android:id="@+id/textViewContactarCliente"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="10dp"
+                        android:layout_toEndOf="@+id/imageViewAjustesContactarCliente"
+                        android:text="@string/textoContactar"
+                        android:textColor="@color/color_texto"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:id="@+id/relativeLayoutTyCAjustesCliente"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

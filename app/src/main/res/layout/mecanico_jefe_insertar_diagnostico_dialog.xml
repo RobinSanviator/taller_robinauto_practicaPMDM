@@ -21,14 +21,50 @@
         android:background="@drawable/fondo_boton_redondo"
         android:padding="12dp"
         android:textColor="@color/color_principal"
-        android:textSize="22sp" />
+        android:textSize="18sp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutPresupuesto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:hint="@string/textoIntroducePresupuesto">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextPresupuesto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:drawableStart="@drawable/ic_presupuesto"
+            android:drawablePadding="8dp"
+            android:gravity="center_horizontal"
+            android:minHeight="48dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="30dp"
+        android:background="@color/fondo"
+        android:elevation="8dp"
+        android:gravity="center"
+        android:text="@string/textoSeleccionarFechaFin"
+        android:textColor="@color/color_texto"
+        android:textStyle="bold"/>
 
     <DatePicker
         android:id="@+id/datePickerDiagnosticos"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:layout_gravity="center"
-        android:background="@drawable/img_fondo_degradado_cardview1" />
+        android:background="@color/color_principal" />
+
 
 
 </LinearLayout>

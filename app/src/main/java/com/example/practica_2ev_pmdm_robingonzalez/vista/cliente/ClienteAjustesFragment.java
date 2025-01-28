@@ -1,66 +1,184 @@
 package com.example.practica_2ev_pmdm_robingonzalez.vista.cliente;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
+import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.TallerRobinautoSQLite;
+import com.example.practica_2ev_pmdm_robingonzalez.base_de_datos.UsuarioConsulta;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperAjustes;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperMenuPrincipal;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ClienteAjustesFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class ClienteAjustesFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private SwitchCompat switchCompatBotonModoOscuro;
+    private ProgressBar progressBarModoOscuro;
+    private ImageView imageViewVolverMenu;
+    private TextView textViewNombre;
+    private String correo;
+    private RelativeLayout relativeLayoutTyC, relativeLayoutContactar, relativeLayoutCerrarSesion, relativeLayoutSalir;
+    private ClienteActivity activityCliente;
+    private TallerRobinautoSQLite baseDeDatosGestionUsuarios;
+    private UsuarioConsulta usuarioConsulta;
+    private HelperMenuPrincipal helperMenuPrincipal;
+    private HelperAjustes helperAjustes;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public ClienteAjustesFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ClienteAjustesFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ClienteAjustesFragment newInstance(String param1, String param2) {
-        ClienteAjustesFragment fragment = new ClienteAjustesFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.cliente_ajustes_fragment, container, false);
+        // Inflar diseño del layout ajustes de cliente
+        View vista = inflater.inflate(R.layout.cliente_ajustes_fragment, container, false);
+        inicializarComponentes(vista);
+        obtenerHelper();
+        cargarPreferenciaModoOscuro();
+        modoOscuro();
+        volverAlMenuDesdeAjustes();
+        introducirNombreUsuarioAjustes();
+        realizarLlamada();
+        mostrarTyC();
+        cerrarSesion();
+        salir();
+        return vista;
     }
+
+    private void inicializarComponentes(View vista) {
+        switchCompatBotonModoOscuro = vista.findViewById(R.id.switchBotonModoOscuroAjustesCliente);
+        progressBarModoOscuro = vista.findViewById(R.id.progressBarModoOscuroAjustesCliente);
+        imageViewVolverMenu = vista.findViewById(R.id.imageViewVolverMenuPrincipalAjustesCliente);
+        textViewNombre = vista.findViewById(R.id.textViewNombreAjustesCliente);
+        relativeLayoutContactar = vista.findViewById(R.id.relativeLayoutContactarAjustesCliente);
+        relativeLayoutTyC = vista.findViewById(R.id.relativeLayoutTyCAjustesCliente);
+        relativeLayoutCerrarSesion = vista.findViewById(R.id.relativeLayoutSesionAjustesCliente);
+        relativeLayoutSalir = vista.findViewById(R.id.relativeLayoutSalirAjustesCliente);
+        baseDeDatosGestionUsuarios = TallerRobinautoSQLite.getInstance(getContext());
+        usuarioConsulta = baseDeDatosGestionUsuarios.obtenerUsuarioConsultas();
+
+    }
+
+    private void obtenerHelper() {
+        if (getActivity() instanceof ClienteActivity) {
+            activityCliente = ((ClienteActivity) getActivity());
+            helperMenuPrincipal = activityCliente.getHelperMenuPrincipal();
+            helperAjustes = activityCliente.getHelperAjustes();
+
+        }
+    }
+
+
+    private void volverAlMenuDesdeAjustes(){
+        imageViewVolverMenu.setOnClickListener(v -> {
+            if(helperMenuPrincipal != null){
+                activityCliente.volverMenuPrincipal();
+            } else {
+                Log.e("ClienteAjustesFragment", "No se pudo volver al menú principal");
+            }
+
+        });
+    }
+
+    private void introducirNombreUsuarioAjustes(){
+        correo = activityCliente.getCorreo();
+        String nombre = usuarioConsulta.obtenerNombreYApellidos(correo);
+
+        if(correo != null && nombre != null){
+            textViewNombre.setText(nombre);
+            helperAjustes.cargarNombreCabeceraDesdeFirebase(correo, textViewNombre);
+        } else {
+            helperAjustes.cargarNombreCabeceraDesdeFirebase(correo, textViewNombre);
+        }
+
+    }
+
+    private void modoOscuro() {
+        String correo = activityCliente.getCorreo();
+        if(helperAjustes != null ){
+            helperAjustes.modoOscuro(correo, switchCompatBotonModoOscuro, progressBarModoOscuro,  getContext());
+
+        }else{
+            Log.e("ClienteAjustesFragment", "Error al cargar el modo oscuro");
+        }
+    }
+
+    private void realizarLlamada(){
+        relativeLayoutContactar.setOnClickListener(v -> contactarTaller());
+    }
+
+    private void contactarTaller(){
+        // Número de teléfono del taller
+        String telefonoTaller = "+34 123456789";
+
+        // Crear un Intent para iniciar la llamada
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:" + telefonoTaller));
+
+        // Iniciar la actividad de llamada
+        startActivity(intent);
+    }
+
+    // Cargar la preferencia del modo oscuro desde SharedPreferences
+    private void cargarPreferenciaModoOscuro() {
+        if(helperAjustes != null){
+            helperAjustes.cargarPreferenciaModoOscuro(switchCompatBotonModoOscuro, getContext());
+        }else{
+            Log.e("ClienteAjustesFragment", "No se puede cargar la preferencia de modo oscuro");
+        }
+    }
+
+    private void mostrarTyC(){
+        relativeLayoutTyC.setOnClickListener(v -> {
+            if(helperAjustes != null){
+                helperAjustes.mostrarTerminosYCondiciones(getContext());
+            }else{
+                Log.e("ClienteAjustesFragment", "helperAjustes null: no se pudo mostrar términos y condiciones");
+            }
+        });
+
+    }
+
+    private void cerrarSesion(){
+        relativeLayoutCerrarSesion.setOnClickListener(v -> {
+            if(helperAjustes != null){
+                helperAjustes.cerrarSesion(getContext());
+
+            } else {
+                Log.e("ClienteAjustesFragment", "No se pudo cerrar sesión");
+            }
+        });
+    }
+
+    private void salir(){
+        relativeLayoutSalir.setOnClickListener(v -> {
+            if(helperAjustes != null){
+                helperAjustes.salir(getContext());
+
+            } else {
+                Log.e("ClienteAjustesFragment", "No se pudo salir de la app");
+            }
+        });
+    }
+
+
 }

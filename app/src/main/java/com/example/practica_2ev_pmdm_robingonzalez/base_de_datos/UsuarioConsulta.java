@@ -110,99 +110,50 @@ public class UsuarioConsulta {
         return usuario;
     }
 
-    public Usuario obtenerUsuarioPorCorreo(String correo) {
-        Usuario usuario = null;
 
-        try (Cursor cursor = baseDeDatos.rawQuery("SELECT * FROM usuarios WHERE correo = ?", new String[]{correo})) {
-            // Consulta para obtener el usuario solo por correo
-
-            if (cursor != null && cursor.moveToFirst()) {
-                usuario = new Usuario();
-
-                // Asignar valores del cursor al objeto Usuario
-                int indiceNombre = cursor.getColumnIndex("nombre");
-                int indiceApellidos = cursor.getColumnIndex("apellidos");
-                int indiceCorreo = cursor.getColumnIndex("correo");
-                int indiceTelefono = cursor.getColumnIndex("telefono");
-                int indiceContrasenya = cursor.getColumnIndex("contrasenya");
-                int indiceTipoUsuario = cursor.getColumnIndex("tipo_usuario");
-
-                if (indiceNombre != -1 && indiceApellidos != -1 && indiceCorreo != -1
-                        && indiceTelefono != -1 && indiceContrasenya != -1 && indiceTipoUsuario != -1) {
-                    usuario.setNombre(cursor.getString(indiceNombre));
-                    usuario.setApellidos(cursor.getString(indiceApellidos));
-                    usuario.setCorreo(cursor.getString(indiceCorreo));
-                    usuario.setTelefono(cursor.getString(indiceTelefono));
-                    usuario.setContrasenya(cursor.getString(indiceContrasenya));
-                    usuario.setTipoUsuario(cursor.getString(indiceTipoUsuario));
-                }
-            }
-        }
-
-        return usuario;
-    }
 
     public boolean actualizarUsuario(Usuario usuario) {
-        // Verificar si el correo del usuario existe en SQLite
+        // Validar que el correo no sea nulo ni vacío
         if (usuario.getCorreo() == null || usuario.getCorreo().isEmpty()) {
             Log.e("ActualizarUsuario", "Correo del usuario no válido.");
             return false;
         }
 
-        // Comprobar si el usuario existe en SQLite
-        if (!usuarioExisteEnSQLite(usuario.getCorreo())) {
-            return false; // Si el usuario no existe en SQLite
-        }
-
-        // Verificar que el ID del usuario no sea nulo o inválido
-        if (usuario.getIdUsuario() == 0) {  // Usar 0 si el ID no es válido
-            Log.e("ActualizarUsuario", "ID de usuario inválido o no asignado.");
-            return false;
-        }
-
-        // Crear un objeto ContentValues para almacenar los valores a actualizar
+        // Crear un objeto ContentValues para almacenar los valores que se van a actualizar
         ContentValues values = new ContentValues();
-        values.put("nombre", usuario.getNombre());
-        values.put("apellidos", usuario.getApellidos());
-        values.put("telefono", usuario.getTelefono());
+        if (usuario.getNombre() != null) values.put("nombre", usuario.getNombre());
+        if (usuario.getApellidos() != null) values.put("apellidos", usuario.getApellidos());
+        if (usuario.getTelefono() != null) values.put("telefono", usuario.getTelefono());
 
-        // Verificar que la base de datos esté inicializada correctamente
-        if (baseDeDatos == null) {
-            Log.e("ActualizarUsuario", "La base de datos no está inicializada");
+        // Verificar si hay campos para actualizar
+        if (values.size() == 0) {
+            Log.e("ActualizarUsuario", "No se proporcionaron datos para actualizar.");
             return false;
         }
 
-        // Intentar actualizar el usuario en SQLite
+        // Intentar actualizar los datos del usuario en la base de datos
         try {
-            int rowsAffected = baseDeDatos.update("usuarios", values, "correo = ?", new String[]{usuario.getCorreo()});
+            int filasAfectadas = baseDeDatos.update(
+                    "usuarios",
+                    values,
+                    "correo = ?",
+                    new String[]{usuario.getCorreo()}
+            );
 
-            // Comprobar si la actualización afectó alguna fila
-            if (rowsAffected > 0) {
-                Log.d("ActualizarUsuario", "Usuario actualizado correctamente. Filas afectadas: " + rowsAffected);
-                return true;  // Si se actualizó correctamente, devuelve true
+            // Verificar si se actualizaron filas
+            if (filasAfectadas > 0) {
+                Log.d("ActualizarUsuario", "Usuario actualizado correctamente. Filas afectadas: " + filasAfectadas);
+                return true;
             } else {
-                Log.e("ActualizarUsuario", "No se actualizó ningún usuario. El correo no coincide o la actualización falló.");
-                return false;  // Si no se afectaron filas, retorna false
+                Log.e("ActualizarUsuario", "No se encontró ningún usuario con ese correo.");
+                return false;
             }
         } catch (SQLException e) {
-            // Captura y registra cualquier error relacionado con la base de datos
-            Log.e("ActualizarUsuario", "Error al actualizar el usuario en SQLite", e);
+            Log.e("ActualizarUsuario", "Error al actualizar el usuario", e);
             return false;
         }
     }
 
-    // Método adicional para verificar si el usuario existe en SQLite por correo
-    private boolean usuarioExisteEnSQLite(String correo) {
-        try (Cursor cursor = baseDeDatos.rawQuery("SELECT 1 FROM usuarios WHERE correo = ?", new String[]{correo})) {
-            // Verificamos si existe el correo en la base de datos
-            // Si no encontramos el correo, el usuario no existe
-            return cursor != null && cursor.moveToFirst();  // Si encontramos un resultado, el usuario existe
-        } catch (SQLException e) {
-            Log.e("ActualizarUsuario", "Error al verificar existencia de usuario en SQLite", e);
-            return false;
-        }
-        // Cerramos el cursor si fue abierto
-    }
 
 
     public String obtenerNombreYApellidos(String correo) {

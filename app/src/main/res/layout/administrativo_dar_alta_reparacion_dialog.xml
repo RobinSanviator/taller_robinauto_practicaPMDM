@@ -38,29 +38,33 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:text="@string/textoMarcaCoche" />
+        android:text="@string/textoMarcaCoche"
+        android:textColor="@color/negro"/>
 
     <TextView
         android:id="@+id/textViewmostrarModelo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:text="@string/textoModeloCoche" />
+        android:text="@string/textoModeloCoche"
+        android:textColor="@color/negro"/>
 
     <TextView
         android:id="@+id/textViewMostrarMatricula"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:text="@string/textoMatriculaCoche" />
+        android:text="@string/textoMatriculaCoche"
+        android:textColor="@color/negro"/>
 
 
     <TextView
-        android:id="@+id/textViewMostrarCorreoMecanicoJefe"
+        android:id="@+id/textViewMostrarCorreoCliente"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:text="@string/textoMecanico" />
+        android:text="@string/textoClienteUsuario"
+        android:textColor="@color/negro"/>
 
     <View
         android:layout_width="match_parent"
@@ -70,36 +74,25 @@
 
 
     <TextView
-        android:id="@+id/textViewCliente"
+        android:id="@+id/textViewMecanicoAsignado"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="@string/textoCliente"
+        android:text="@string/textoMecanicoJefe"
         android:textColor="@color/color_principal"
         android:textStyle="bold"
         android:drawableStart="@drawable/ic_nombre"
         android:drawablePadding="8dp"
         android:textSize="18sp"/>
 
-
-
-    <Spinner
-        android:id="@+id/spinerClienteNuevaReparacion"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:minHeight="48dp"
-        android:text="@string/textoCliente"
-        android:background="@color/color_desactivado_fondo"
-        android:textColor="@color/color_texto"
-        android:textSize="18sp" />
-
     <TextView
-        android:id="@+id/textViewMostrarCorreoCliente"
+        android:id="@+id/textViewMostrarCorreoMecanicoJefe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:text="@string/textoClienteReparacion" />
+        android:text="@string/textoMecanicoJefe"
+        android:textSize="16sp"
+        android:textColor="@color/negro"/>
 
     <View
         android:layout_width="match_parent"
@@ -134,31 +127,6 @@
         android:layout_marginTop="10dp">
 
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginTop="10dp"
-        android:background="@color/color_principal"/>
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:hint="@string/textoIntroducePresupuesto">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextPresupuesto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:drawableStart="@drawable/ic_presupuesto"
-            android:drawablePadding="8dp"
-            android:gravity="center_horizontal"
-            android:minHeight="48dp" />
-    </com.google.android.material.textfield.TextInputLayout>
-
 
     </LinearLayout>
 

@@ -104,7 +104,7 @@
 
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/cardViewContactarTallerCliente"
+            android:id="@+id/cardViewNotificacionesCliente"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:cardBackgroundColor="@color/verde"
@@ -132,7 +132,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="25dp"
                     android:padding="8dp"
-                    android:src="@drawable/contactar" />
+                    android:src="@drawable/ic_notificaciones" />
 
                 <TextView
                     android:id="@+id/textViewCantactarTallerCliente"
@@ -143,7 +143,7 @@
                     android:layout_marginEnd="24dp"
                     android:layout_toStartOf="@+id/imageViewCantactarTallerCliente"
                     android:padding="16dp"
-                    android:text="@string/textoContactar"
+                    android:text="@string/textoNotificacionesCliente"
                     android:textColor="@color/blanco"
                     android:textSize="18sp"
                     android:textStyle="bold" />

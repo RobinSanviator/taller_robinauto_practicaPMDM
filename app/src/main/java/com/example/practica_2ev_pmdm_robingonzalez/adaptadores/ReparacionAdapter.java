@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.practica_2ev_pmdm_robingonzalez.R;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.UsuarioUtil;
@@ -21,14 +22,14 @@ import java.util.Locale;
 public class ReparacionAdapter extends RecyclerView.Adapter<ReparacionAdapter.ReparacionViewHolder> {
 
     private List<Reparacion> reparaciones;
-    private Context context;
+    private Context contexto;
     private OnItemClickListener onItemClickListener;
 
 
     // Constructor
-    public ReparacionAdapter(List<Reparacion> reparaciones, Context context, OnItemClickListener onItemClickListener) {
+    public ReparacionAdapter(List<Reparacion> reparaciones, Context contexto, OnItemClickListener onItemClickListener) {
         this.reparaciones = reparaciones;
-        this.context = context;
+        this.contexto = contexto;
         this.onItemClickListener = onItemClickListener;
 
     }
@@ -41,7 +42,7 @@ public class ReparacionAdapter extends RecyclerView.Adapter<ReparacionAdapter.Re
     @NonNull
     @Override
     public ReparacionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.lista_reparacion, parent, false);
+        View view = LayoutInflater.from(contexto).inflate(R.layout.lista_reparacion, parent, false);
         return new ReparacionViewHolder(view);
     }
 
@@ -53,9 +54,10 @@ public class ReparacionAdapter extends RecyclerView.Adapter<ReparacionAdapter.Re
 
         // Mostrar datos básicos de la reparación
         holder.textViewReparacionNombre.setText("Reparación: " + reparacion.getTipoReparacion());
+        colorearFondoDiagnosticado(reparacion, holder);
         holder.textViewMatriculaCoche.setText("Matrícula: " + reparacion.getMatriculaCoche());
         holder.textViewReparacionEstado.setText("Estado: " + reparacion.getEstadoReparacion());
-
+        colorearFondoEstadoReparacion(reparacion, holder);
 
         // Obtener y mostrar el nombre completo del mecánico jefe
         if (reparacion.getCorreoMecanicoJefe() != null) {
@@ -73,9 +75,12 @@ public class ReparacionAdapter extends RecyclerView.Adapter<ReparacionAdapter.Re
         }
 
 
+
+
         // Configurar el botón "Mostrar más"
         holder.buttonMostrarDetalleReparacion.setOnClickListener(v -> mostrarDetalleReparacion(reparacion));
     }
+
 
 
     @Override
@@ -112,11 +117,41 @@ public class ReparacionAdapter extends RecyclerView.Adapter<ReparacionAdapter.Re
         }
     }
 
+    private void colorearFondoEstadoReparacion(Reparacion reparacion, ReparacionViewHolder holder) {
+        TextView textViewReparacionEstado = holder.itemView.findViewById(R.id.textViewReparacionEstado);
+        switch (reparacion.getEstadoReparacion()) {
+            case "Pendiente":
+                textViewReparacionEstado.setBackgroundColor(ContextCompat.getColor(contexto, R.color.color_pendiente));
+                break;
+            case "En proceso":
+                textViewReparacionEstado.setBackgroundColor(ContextCompat.getColor(contexto, R.color.color_enProceso));
+                break;
+            case "Finalizado":
+                textViewReparacionEstado.setBackgroundColor(ContextCompat.getColor(contexto, R.color.color_finalizado));
+                break;
+            default:
+                textViewReparacionEstado.setBackgroundColor(ContextCompat.getColor(contexto, R.color.fondo));
+                break;
+        }
+    }
+
+    private void colorearFondoDiagnosticado(Reparacion reparacion, ReparacionViewHolder holder) {
+        TextView textViewReparacionDiagnosticado = holder.itemView.findViewById(R.id.textViewReparacionNombre);
+
+        if(reparacion.getTipoReparacion().equals("Pendiente")){
+            textViewReparacionDiagnosticado.setBackgroundColor(ContextCompat.getColor(contexto, R.color.color_pendiente));
+        } else {
+            textViewReparacionDiagnosticado.setBackgroundColor(ContextCompat.getColor(contexto, R.color.color_desactivado_fondo));
+        }
+
+    }
+
+
 
     // Método para mostrar el AlertDialog
     private void mostrarDetalleReparacion(Reparacion reparacion) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        LayoutInflater inflater = LayoutInflater.from(context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(contexto);
+        LayoutInflater inflater = LayoutInflater.from(contexto);
         View vistaDialogo = inflater.inflate(R.layout.reparacion_mostrar_detalle_dialog, null);
 
 

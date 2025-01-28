@@ -18,7 +18,7 @@ import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperNavegac
 public class ClienteMenuPrincipalFragment extends Fragment {
 
     private TextView textViewNombreCabecera;
-    private CardView cardViewContactar, cardViewReparaciones ;
+    private CardView cardViewNotificaciones, cardViewReparaciones ;
     private HelperMenuPrincipal helperMenuPrincipal;
     private HelperNavegacionInferior helperNavegacionInferior;
     private ClienteActivity activityCliente;
@@ -46,7 +46,7 @@ public class ClienteMenuPrincipalFragment extends Fragment {
     private void inicializarComponentes(View vista){
         textViewNombreCabecera = vista.findViewById(R.id.textViewNombreUsuarioCabeceraCliente);
         cardViewReparaciones = vista.findViewById(R.id.cardViewReparacionesCliente);
-        cardViewContactar = vista.findViewById(R.id.cardViewContactarTallerCliente);
+        cardViewNotificaciones = vista.findViewById(R.id.cardViewNotificacionesCliente);
     }
 
     private void obtenerHelper(){
@@ -78,7 +78,7 @@ public class ClienteMenuPrincipalFragment extends Fragment {
         //Mostrar pantalla de reparaciones
         configurarOnclick(cardViewReparaciones, new ClienteReparacionesFragment());
         //Contactar con el taller
-        configurarOnclick(cardViewContactar, new ClienteContactarTallerFragment());
+        configurarOnclick(cardViewNotificaciones, new ClienteNotificacionFragment());
     }
 
     private void configurarOnclick(CardView cardView, Fragment fragmento){
