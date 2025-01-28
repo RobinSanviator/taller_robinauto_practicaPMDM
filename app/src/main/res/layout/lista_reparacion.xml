@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="2dp"
+    android:layout_margin="5dp"
     app:cardCornerRadius="20dp">
 
 
@@ -72,19 +72,34 @@
                 android:drawableTint="@color/color_principal"/>
 
 
-                <TextView
-                    android:id="@+id/textViewReparacionEstado"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:background="@color/color_desactivado_fondo"
-                    android:text="@string/textoEstadoReparacion"
-                    android:textColor="@color/color_texto"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    android:drawableStart="@drawable/ic_diagnostico"
-                    android:drawablePadding="10dp"
-                    android:drawableTint="@color/color_principal"/>
+            <TextView
+                android:id="@+id/textViewReparacionEstado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:background="@color/color_desactivado_fondo"
+                android:text="@string/textoEstadoReparacion"
+                android:textColor="@color/color_texto"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:drawableStart="@drawable/ic_diagnostico"
+                android:drawablePadding="10dp"
+                android:drawableTint="@color/color_principal"/>
+
+            <TextView
+                android:id="@+id/textViewReparacionAceptadoPresupuesto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:visibility="gone"
+                android:background="@color/color_error"
+                android:text="@string/textoAceptadoPresupuesto"
+                android:textColor="@color/color_texto"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:drawableStart="@drawable/ic_presupuesto"
+                android:drawablePadding="10dp"
+                android:drawableTint="@color/color_principal"/>
 
 
             <com.google.android.material.button.MaterialButton

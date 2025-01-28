@@ -14,6 +14,9 @@ import com.example.practica_2ev_pmdm_robingonzalez.R;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.UsuarioUtil;
 import com.example.practica_2ev_pmdm_robingonzalez.modelo.Reparacion;
 import com.google.android.material.button.MaterialButton;
+
+import org.w3c.dom.Text;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -55,9 +58,14 @@ public class ReparacionAdapter extends RecyclerView.Adapter<ReparacionAdapter.Re
         // Mostrar datos básicos de la reparación
         holder.textViewReparacionNombre.setText("Reparación: " + reparacion.getTipoReparacion());
         colorearFondoDiagnosticado(reparacion, holder);
+
         holder.textViewMatriculaCoche.setText("Matrícula: " + reparacion.getMatriculaCoche());
+
         holder.textViewReparacionEstado.setText("Estado: " + reparacion.getEstadoReparacion());
         colorearFondoEstadoReparacion(reparacion, holder);
+
+        //Mostrar textView una vez que el cliente responde a la notificaión
+        mostrarSiAceptaPresupuesto(reparacion, holder);
 
         // Obtener y mostrar el nombre completo del mecánico jefe
         if (reparacion.getCorreoMecanicoJefe() != null) {
@@ -92,7 +100,7 @@ public class ReparacionAdapter extends RecyclerView.Adapter<ReparacionAdapter.Re
     // ViewHolder
     public class ReparacionViewHolder extends RecyclerView.ViewHolder {
         TextView textViewReparacionNombre, textViewMatriculaCoche, textViewReparacionNombreCliente,
-                textViewReparacionNombreMecanicoJefe, textViewReparacionEstado;
+                textViewReparacionNombreMecanicoJefe, textViewReparacionEstado, textViewAprobado;
         MaterialButton buttonMostrarDetalleReparacion;
 
         public ReparacionViewHolder(@NonNull View itemView) {
@@ -102,6 +110,7 @@ public class ReparacionAdapter extends RecyclerView.Adapter<ReparacionAdapter.Re
             textViewReparacionNombreCliente = itemView.findViewById(R.id.textViewReparacionNombreCliente);
             textViewReparacionNombreMecanicoJefe = itemView.findViewById(R.id.textViewReparacionNombreMecanicoJefe);
             textViewReparacionEstado = itemView.findViewById(R.id.textViewReparacionEstado);
+            textViewAprobado = itemView.findViewById(R.id.textViewReparacionAceptadoPresupuesto);
             buttonMostrarDetalleReparacion = itemView.findViewById(R.id.buttonMostrarDetalleReparacion);
 
             // Añadir el clic en todo el item (CardView)
@@ -146,6 +155,32 @@ public class ReparacionAdapter extends RecyclerView.Adapter<ReparacionAdapter.Re
 
     }
 
+    private void mostrarSiAceptaPresupuesto(Reparacion reparacion, ReparacionViewHolder holder) {
+        TextView textViewPresupuestoAprobado = holder.textViewAprobado;
+
+        if (reparacion.getPresupuestoAprobado().equals(Reparacion.PRESUPUESTO_APROBADO)) {
+            textViewPresupuestoAprobado.setVisibility(View.VISIBLE);
+            textViewPresupuestoAprobado.setText("Presupuesto aceptado");
+            textViewPresupuestoAprobado.setBackgroundColor(
+                    ContextCompat.getColor(contexto, R.color.color_finalizado)
+            );
+            textViewPresupuestoAprobado.setTextColor(
+                    ContextCompat.getColor(contexto, R.color.color_texto)
+            );
+        } else if (reparacion.getPresupuestoAprobado().equals(Reparacion.PRESUPUESTO_NO_APROBADO)) {
+            textViewPresupuestoAprobado.setVisibility(View.VISIBLE);
+            textViewPresupuestoAprobado.setText("Presupuesto no aceptado");
+            textViewPresupuestoAprobado.setBackgroundColor(
+                    ContextCompat.getColor(contexto, R.color.color_error)
+            );
+            textViewPresupuestoAprobado.setTextColor(
+                    ContextCompat.getColor(contexto, R.color.color_texto)
+            );
+        } else {
+            textViewPresupuestoAprobado.setVisibility(View.GONE);
+        }
+    }
+
 
 
     // Método para mostrar el AlertDialog
@@ -164,6 +199,7 @@ public class ReparacionAdapter extends RecyclerView.Adapter<ReparacionAdapter.Re
         TextView dialogCorreoMecanico = vistaDialogo.findViewById(R.id.textViewMecanicoDetalleReparacion);
         TextView dialogFechaInicio = vistaDialogo.findViewById(R.id.textViewFechaInicioDetalleReparacion);
         TextView dialogFechaFin = vistaDialogo.findViewById(R.id.textViewFechaFinDetalleReparacion);
+        TextView dialogoAprobado = vistaDialogo.findViewById(R.id.textViewAceptadoPresupuesto);
 
 
         dialogMatricula.setText(reparacion.getMatriculaCoche());
@@ -172,6 +208,8 @@ public class ReparacionAdapter extends RecyclerView.Adapter<ReparacionAdapter.Re
         dialogPresupuesto.setText(String.valueOf(reparacion.getPresupuesto() + "€"));
         dialogCorreoCliente.setText(reparacion.getCorreoCliente());
         dialogCorreoMecanico.setText(reparacion.getCorreoMecanicoJefe());
+        dialogoAprobado.setText(reparacion.getPresupuestoAprobado());
+
 
         transformarFechaEnObjetoDate(reparacion, dialogFechaInicio, dialogFechaFin);
 

@@ -110,8 +110,6 @@ public class UsuarioConsulta {
         return usuario;
     }
 
-
-
     public boolean actualizarUsuario(Usuario usuario) {
         // Validar que el correo no sea nulo ni vacío
         if (usuario.getCorreo() == null || usuario.getCorreo().isEmpty()) {
@@ -134,10 +132,10 @@ public class UsuarioConsulta {
         // Intentar actualizar los datos del usuario en la base de datos
         try {
             int filasAfectadas = baseDeDatos.update(
-                    "usuarios",
-                    values,
-                    "correo = ?",
-                    new String[]{usuario.getCorreo()}
+                    "usuarios",  // Nombre de la tabla
+                    values,      // Valores a actualizar
+                    "correo = ?",  // Condición WHERE
+                    new String[]{usuario.getCorreo()}  // Parámetro de la condición
             );
 
             // Verificar si se actualizaron filas

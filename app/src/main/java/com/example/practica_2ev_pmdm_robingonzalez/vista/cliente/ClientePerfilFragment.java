@@ -132,10 +132,7 @@ public class ClientePerfilFragment extends Fragment {
     }
 
     private void configurarBotonEditar(){
-        materialButtonEditar.setOnClickListener(v -> {
-            mostrarDialogoParaEditar();
-
-        });
+        materialButtonEditar.setOnClickListener(v -> mostrarDialogoParaEditar());
     }
 
     private void mostrarDialogoParaEditar() {
@@ -148,14 +145,14 @@ public class ClientePerfilFragment extends Fragment {
         // Cargar los datos actuales del usuario en los campos
         cargarDatosUsuarioEnCampos();
 
-        // Crear el cuadro de diálogo
+        // Crear el cuadro de diálogo y asignarlo a una variable
         AlertDialog dialogoEditar = builderEditar.setTitle("Editar perfil")
                 .setIcon(R.drawable.cliente)
                 .setView(vistaDialogo)
                 .setNegativeButton("Salir", (dialog, which) -> dialog.dismiss())
-                .create();
+                .create(); // Guardar la referencia al diálogo
 
-        dialogoEditar.show();
+        dialogoEditar.show(); // Mostrar el diálogo
 
         // Configurar el botón Guardar en el layout del diálogo
         materialButtonGuardar.setOnClickListener(v -> {
@@ -207,7 +204,7 @@ public class ClientePerfilFragment extends Fragment {
         UsuarioConsulta usuarioConsulta = TallerRobinautoSQLite.getInstance(getContext()).obtenerUsuarioConsultas();
         boolean actualizadoEnSQLite = usuarioConsulta.actualizarUsuario(usuario);
 
-
+        if (actualizadoEnSQLite) {
             // Actualizar usuario en Firebase si SQLite fue exitoso
             UsuarioUtil.actualizarUsuarioEnFirebase(usuario);
 
@@ -217,18 +214,19 @@ public class ClientePerfilFragment extends Fragment {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             if (dataSnapshot.exists()) {
-                                Snackbar.make(getView(), "Perfil actualizado correctamente", Snackbar.LENGTH_LONG).show();
+                                Snackbar.make(getView(), "Usuario actualizado correctamente", Snackbar.LENGTH_LONG).show();
                             } else {
-                                Snackbar.make(getView(), "Error al editar el perfil", Snackbar.LENGTH_LONG).show();
+                                Snackbar.make(getView(), "Error al actualizar en Firebase", Snackbar.LENGTH_LONG).show();
                             }
                         }
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
-                            Snackbar.make(getView(), "Error al editar el perfil", Snackbar.LENGTH_LONG).show();
+                            Snackbar.make(getView(), "Error al verificar la actualización en Firebase", Snackbar.LENGTH_LONG).show();
                         }
                     });
-
+        } else {
+            Snackbar.make(getView(), "Error al actualizar usuario en la base de datos local", Snackbar.LENGTH_LONG).show();
+        }
     }
-
 }

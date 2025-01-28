@@ -52,6 +52,7 @@ public class RegistroActivity extends AppCompatActivity {
 
 
 
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -176,9 +177,6 @@ public class RegistroActivity extends AppCompatActivity {
     }
 
     private boolean verificarCorreoEnUso(String correo) {
-
-        // Llamar al método de la base de datos para verificar el correo
-        // Retornar true si el correo ya está en uso, false si no
         return usuarioConsulta.correoEnUso(correo);
     }
 

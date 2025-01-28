@@ -206,5 +206,7 @@
     <string name="textoAceptar">Acepto el presupuesto</string>
     <string name="textoPreguntaPresupuesto">Selecciona una opción, ¿Aceptas el presupuesto?</string>
     <string name="textoNoAceptar">No acepto el presupuesto</string>
+    <string name="textoAceptadoPresupuesto">¿Aceptado presupuesto?:</string>
+    <string name="textoReparacionesClientes">Mostrando todas tus reparaciones</string>
 
 </resources>
