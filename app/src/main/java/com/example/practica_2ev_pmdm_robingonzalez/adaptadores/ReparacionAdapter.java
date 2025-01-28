@@ -138,7 +138,7 @@ public class ReparacionAdapter extends RecyclerView.Adapter<ReparacionAdapter.Re
     private void colorearFondoDiagnosticado(Reparacion reparacion, ReparacionViewHolder holder) {
         TextView textViewReparacionDiagnosticado = holder.itemView.findViewById(R.id.textViewReparacionNombre);
 
-        if(reparacion.getTipoReparacion().equals("Pendiente")){
+        if(reparacion.getTipoReparacion().equals("Sin diagnosticar")){
             textViewReparacionDiagnosticado.setBackgroundColor(ContextCompat.getColor(contexto, R.color.color_pendiente));
         } else {
             textViewReparacionDiagnosticado.setBackgroundColor(ContextCompat.getColor(contexto, R.color.color_desactivado_fondo));
