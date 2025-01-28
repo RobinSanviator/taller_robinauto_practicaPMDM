@@ -15,6 +15,7 @@ import com.example.practica_2ev_pmdm_robingonzalez.R;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.FirebaseUtil;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.ReparacionUtil;
 import com.example.practica_2ev_pmdm_robingonzalez.modelo.Notificacion;
+import com.example.practica_2ev_pmdm_robingonzalez.modelo.Reparacion;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DatabaseReference;
@@ -94,13 +95,14 @@ public class NotificacionAdapter extends RecyclerView.Adapter<NotificacionAdapte
                 .setPositiveButton("Enviar", (dialog, which) -> {
                     int respuestaSeleccionada = radioGroupRespuestaDelCliente.getCheckedRadioButtonId();
 
-                    // Validar la respuesta seleccionada
+                    // Validar la respuesta seleccionada y actualizar el campo correspondiente
                     if (respuestaSeleccionada == R.id.radioButtonAceptar) {
                         notificacion.setRespuesta("Acepta el presupuesto");
+                        ReparacionUtil.actualizarPresupuestoAprobado(notificacion.getCorreoReceptor(), Reparacion.PRESUPUESTO_APROBADO);
                     } else if (respuestaSeleccionada == R.id.radioButtonNoAceptar) {
                         notificacion.setRespuesta("No acepta el presupuesto");
+                        ReparacionUtil.actualizarPresupuestoAprobado(notificacion.getCorreoReceptor(), Reparacion.PRESUPUESTO_NO_APROBADO);
                     }
-
                     // Guardar la respuesta en Firebase
                     guardarRespuestaEnFirebase(notificacion, view);
                 })

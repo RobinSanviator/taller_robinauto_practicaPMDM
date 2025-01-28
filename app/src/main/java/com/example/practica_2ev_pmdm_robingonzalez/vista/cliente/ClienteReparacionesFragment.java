@@ -2,65 +2,106 @@ package com.example.practica_2ev_pmdm_robingonzalez.vista.cliente;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
+import com.example.practica_2ev_pmdm_robingonzalez.adaptadores.ReparacionAdapter;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.ReparacionUtil;
+import com.example.practica_2ev_pmdm_robingonzalez.modelo.Reparacion;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ClienteReparacionesFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class ClienteReparacionesFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private ImageView imageViewVolver;
+    private ClienteActivity clienteActivity;
+    private RecyclerView recyclerViewReparacionCliente;
+    private ReparacionAdapter reparacionAdapter;
+    private List<Reparacion> listaReparacion;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public ClienteReparacionesFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ClienteReparacionesFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ClienteReparacionesFragment newInstance(String param1, String param2) {
-        ClienteReparacionesFragment fragment = new ClienteReparacionesFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.cliente_reparaciones_fragment, container, false);
+        View vista = inflater.inflate(R.layout.cliente_reparaciones_fragment, container, false);
+        inicializarComponentes(vista);
+        obtenerHelper();
+        volverMenuPrincipalDesdeReparacionesCliente();
+        configurarRecyclerView();
+        return vista;
+    }
+
+    private void inicializarComponentes(View vista) {
+        imageViewVolver = vista.findViewById(R.id.imageViewVolverMenuPrincipalReparacionesCliente);
+        recyclerViewReparacionCliente = vista.findViewById(R.id.recyclerViewReparacionesClientes);
+    }
+    private void obtenerHelper() {
+        if (getActivity() instanceof ClienteActivity) {
+           clienteActivity = (ClienteActivity) getActivity();
+        } else {
+            Log.e("ClienteReparacionesFragment", "Error al obtener helper");
+        }
+    }
+
+    private void volverMenuPrincipalDesdeReparacionesCliente(){
+        imageViewVolver.setOnClickListener(v -> clienteActivity.volverMenuPrincipal());
+    }
+
+    private void configurarRecyclerView() {
+        listaReparacion = new ArrayList<>();
+        reparacionAdapter = new ReparacionAdapter(listaReparacion, getContext(),null);
+        recyclerViewReparacionCliente.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerViewReparacionCliente.setAdapter(reparacionAdapter);
+    }
+    private void cargarReparaciones() {
+        // Obtener el correo del cliente desde el helper de la actividad
+        String correoCliente = clienteActivity.getCorreo();
+
+        // Crear el ValueEventListener para cargar las reparaciones
+        ValueEventListener listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                listaReparacion.clear(); // Limpiar la lista antes de agregar nuevos datos
+
+
+                // Iterar sobre las reparaciones
+                for (DataSnapshot reparacionSnapshot : snapshot.getChildren()) {
+                    Reparacion reparacion = reparacionSnapshot.getValue(Reparacion.class);
+                    listaReparacion.add(reparacion);
+                }
+
+                reparacionAdapter.notifyDataSetChanged();
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("ClienteReparacionesFragment", "Error al cargar reparaciones: " + error.getMessage());
+            }
+        };
+
+        // Llamar a la utilidad para cargar las reparaciones sin ningún filtro
+        ReparacionUtil.cargarReparaciones(listener);
     }
 }

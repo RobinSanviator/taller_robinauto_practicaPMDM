@@ -182,6 +182,40 @@ public class ReparacionUtil {
                 });
     }
 
+    public static void actualizarPresupuestoAprobado(String correoCliente, String estadoPresupuesto) {
+        // Obtener la referencia a las reparaciones
+        DatabaseReference reparacionesRef = databaseReference;
+
+        // Realizar una consulta para encontrar la reparación basada en el correo del cliente
+        reparacionesRef.orderByChild("correoCliente").equalTo(correoCliente)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        boolean encontrado = false;
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            Reparacion reparacion = snapshot.getValue(Reparacion.class);
+                            if (reparacion != null) {
+                                // Actualizar el campo presupuestoAprobado
+                                snapshot.getRef().child("presupuestoAprobado").setValue(estadoPresupuesto)
+                                        .addOnSuccessListener(aVoid -> Log.d("ReparacionUtil", "Presupuesto aprobado actualizado correctamente."))
+                                        .addOnFailureListener(e -> Log.e("ReparacionUtil", "Error al actualizar presupuesto aprobado", e));
+                                encontrado = true;
+                                break;
+                            }
+                        }
+
+                        if (!encontrado) {
+                            Log.d("ReparacionUtil", "Reparación no encontrada para el cliente.");
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Log.e("ReparacionUtil", "Error al consultar reparaciones", databaseError.toException());
+                    }
+                });
+    }
+
 }
 
 

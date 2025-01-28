@@ -60,9 +60,9 @@
             android:layout_marginTop="10dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
+            android:visibility="gone"
             android:padding="8dp"
             android:elevation="8dp"
-            android:visibility="gone"
             android:background="@color/color_degradado2_cardview2"
             android:layout_gravity="center"
             android:text="@string/textoSeleccionaReparacion"
@@ -134,16 +134,24 @@
                 android:buttonTint="@color/color_principal" />
         </LinearLayout>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_margin="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutContenidoDiagnostico">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewDiagnosticos"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_marginTop="5dp">
-
-        </androidx.recyclerview.widget.RecyclerView>
+            android:layout_height="match_parent" />
 
     </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
