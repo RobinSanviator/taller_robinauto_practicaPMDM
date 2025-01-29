@@ -49,6 +49,7 @@ public class ClienteReparacionesFragment extends Fragment {
         obtenerHelper();
         volverMenuPrincipalDesdeReparacionesCliente();
         configurarRecyclerView();
+        cargarReparaciones();
         return vista;
     }
 
@@ -75,33 +76,37 @@ public class ClienteReparacionesFragment extends Fragment {
         recyclerViewReparacionCliente.setAdapter(reparacionAdapter);
     }
     private void cargarReparaciones() {
-        // Obtener el correo del cliente desde el helper de la actividad
+        // Obtener el correo del cliente desde la actividad
         String correoCliente = clienteActivity.getCorreo();
 
-        // Crear el ValueEventListener para cargar las reparaciones
-        ValueEventListener listener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                listaReparacion.clear(); // Limpiar la lista antes de agregar nuevos datos
+        if (correoCliente != null && !correoCliente.isEmpty()) {
+            // Crear el ValueEventListener para cargar las reparaciones filtradas
+            ValueEventListener listener = new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    listaReparacion.clear(); // Limpiar la lista antes de agregar nuevos datos
 
+                    // Iterar sobre los resultados y agregarlos a la lista
+                    for (DataSnapshot reparacionSnapshot : snapshot.getChildren()) {
+                        Reparacion reparacion = reparacionSnapshot.getValue(Reparacion.class);
+                        if (reparacion != null) {
+                            listaReparacion.add(reparacion);
+                        }
+                    }
 
-                // Iterar sobre las reparaciones
-                for (DataSnapshot reparacionSnapshot : snapshot.getChildren()) {
-                    Reparacion reparacion = reparacionSnapshot.getValue(Reparacion.class);
-                    listaReparacion.add(reparacion);
+                    // Notificar al adaptador que los datos han cambiado
+                    reparacionAdapter.notifyDataSetChanged();
                 }
 
-                reparacionAdapter.notifyDataSetChanged();
-            }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Log.e("ClienteReparacionesFragment", "Error al cargar reparaciones: " + error.getMessage());
+                }
+            };
 
+            // Llamar al método de la clase ReparacionUtil para cargar reparacione
+            ReparacionUtil.cargarReparacionesPorCorreoCliente(correoCliente, listener);
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("ClienteReparacionesFragment", "Error al cargar reparaciones: " + error.getMessage());
-            }
-        };
-
-        // Llamar a la utilidad para cargar las reparaciones sin ningún filtro
-        ReparacionUtil.cargarReparaciones(listener);
+        }
     }
 }

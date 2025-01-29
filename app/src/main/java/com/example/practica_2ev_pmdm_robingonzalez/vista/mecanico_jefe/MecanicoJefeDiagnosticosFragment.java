@@ -272,8 +272,7 @@ public class MecanicoJefeDiagnosticosFragment extends Fragment implements Repara
     }
 
     private void configurarDatePickerDialog(DatePicker datePicker) {
-        //Cambiar el idioma al español
-        configurarIdioma();
+
         // Obtener la fecha actual
         Calendar calendar = Calendar.getInstance();
         int ano = calendar.get(Calendar.YEAR);
@@ -291,13 +290,6 @@ public class MecanicoJefeDiagnosticosFragment extends Fragment implements Repara
         datePicker.setMinDate(minDate);
     }
 
-    private void configurarIdioma() {
-        Locale locale = new Locale("es");
-        Locale.setDefault(locale);
-        Configuration config = new Configuration();
-        config.setLocale(locale);
-        getResources().updateConfiguration(config, getResources().getDisplayMetrics());
-    }
 
     private void guardarDiagnosticoEnFirebase(Reparacion reparacion, String diagnosticoSeleccionado, String fechaFinDiagnostico, double presupuesto) {
         // Convertir la fecha de fin (string) a un Timestamp

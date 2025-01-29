@@ -83,20 +83,7 @@
                     app:layout_constraintVertical_bias="1.0" />
 
             </androidx.cardview.widget.CardView>
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/floatingBotonImagenPerfilMecanico"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="140dp"
-                android:layout_marginBottom="4dp"
-                android:backgroundTint="@color/color_fondo_boton_img"
-                android:clickable="true"
-                android:focusable="true"
-                android:src="@drawable/ic_camara"
-                app:layout_constraintBottom_toBottomOf="@+id/cardViewImagenPerfilMecanico"
-                app:layout_constraintEnd_toEndOf="@+id/cardViewImagenPerfilMecanico"
-                tools:ignore="SpeakableTextPresentCheck" />
+            
 
             <TextView
                 android:id="@+id/textViewNombrePerfilMecanico"

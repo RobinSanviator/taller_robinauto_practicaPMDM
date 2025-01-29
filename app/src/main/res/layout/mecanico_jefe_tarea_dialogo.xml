@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="15dp">
+
+
+    <TextView
+        android:id="@+id/textViewCorreoMecanicoTarea"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textoCorreo"
+        android:elevation="8dp"
+        android:background="@color/color_finalizado"
+        android:gravity="start"
+        android:padding="16dp"
+        android:textColor="@color/color_texto"
+        android:textStyle="bold" />
+
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteDefinirTareaMecanicoJefe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:padding="16dp"
+        android:hint="@string/textoDefineTarea"/>
+
+
+
+</LinearLayout>

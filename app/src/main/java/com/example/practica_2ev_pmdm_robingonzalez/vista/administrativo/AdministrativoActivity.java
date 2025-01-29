@@ -23,8 +23,8 @@ import java.util.Map;
 
 public class AdministrativoActivity extends AppCompatActivity {
 
-    private ChipNavigationBar chipNavigationBarNavegacionInferior; // Referencia al ChipNavigationBar
-    private HelperMenuPrincipal helperMenuPrincipal; // Instancia del manejador de fragmentos
+    private ChipNavigationBar chipNavigationBarNavegacionInferior;
+    private HelperMenuPrincipal helperMenuPrincipal;
     private HelperNavegacionInferior helperNavegacionInferior;
     private HelperPerfil helperPerfil;
     private HelperAjustes helperAjustes;

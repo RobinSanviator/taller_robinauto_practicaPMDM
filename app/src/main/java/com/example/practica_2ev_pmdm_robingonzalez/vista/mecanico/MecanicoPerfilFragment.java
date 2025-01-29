@@ -2,7 +2,6 @@ package com.example.practica_2ev_pmdm_robingonzalez.vista.mecanico;
 
 import android.os.Bundle;
 
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -20,14 +19,14 @@ import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperNavegac
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperPerfil;
 
 
+
 public class MecanicoPerfilFragment extends Fragment {
 
-    private CardView cardViewDatosPerfil;
     private TextView textViewNombre, textViewApellidos, textViewCorreo, textViewTelefono;
     private TextView textViewNombreCabecera,  textViewCorreoCabecera;
     private ImageView imageViewMenuPrincipal;
     private String correo;
-    private MecanicoActivity activityMecanico;
+    private MecanicoActivity mecanicoActivity;
     private HelperPerfil helperPerfil;
     private TallerRobinautoSQLite baseDeDatosGestionUsuarios;
     private UsuarioConsulta usuarioConsulta;
@@ -60,7 +59,6 @@ public class MecanicoPerfilFragment extends Fragment {
 
     private void inicializarComponentes(View vista) {
         imageViewMenuPrincipal = vista.findViewById(R.id.imageViewVolverMenuPrincipalPerfilMecanico);
-        cardViewDatosPerfil = vista.findViewById(R.id.cardViewDatosPerfilMecanico);
         textViewNombreCabecera = vista.findViewById(R.id.textViewNombrePerfilMecanico);
         textViewCorreoCabecera = vista.findViewById(R.id.textViewCorreoPerfilMecanico);
         textViewNombre = vista.findViewById(R.id.textViewDatoPerfilNombreMecanico);
@@ -72,10 +70,10 @@ public class MecanicoPerfilFragment extends Fragment {
 
     private void obtenerHelper() {
         if (getActivity() instanceof MecanicoActivity) {
-            activityMecanico = ((MecanicoActivity) getActivity());
-            helperPerfil = activityMecanico.getHelperPerfil();
-            helperMenuPrincipal = activityMecanico.getHelperFragmento();
-            helperNavegacionInferior = activityMecanico.getHelperNavegacionInferior();
+            mecanicoActivity = ((MecanicoActivity) getActivity());
+            helperPerfil = mecanicoActivity.getHelperPerfil();
+            helperMenuPrincipal = mecanicoActivity.getHelperMenuPrincipal();
+            helperNavegacionInferior = mecanicoActivity.getHelperNavegacionInferior();
             baseDeDatosGestionUsuarios = TallerRobinautoSQLite.getInstance(getContext());
             usuarioConsulta = baseDeDatosGestionUsuarios.obtenerUsuarioConsultas();
         }
@@ -98,7 +96,7 @@ public class MecanicoPerfilFragment extends Fragment {
     }
 
     private void introducirDatosPerfilCabecera(){
-        correo = activityMecanico.getCorreo();
+        correo = mecanicoActivity.getCorreo();
         String nombre = usuarioConsulta.obtenerNombreYApellidos(correo);
 
         if(correo != null && nombre != null){
@@ -112,7 +110,7 @@ public class MecanicoPerfilFragment extends Fragment {
     }
 
     private void introducirDatosEnPerfil() {
-        correo = activityMecanico.getCorreo();
+        correo = mecanicoActivity.getCorreo();
         if (correo != null) {
             helperPerfil.cargarDatosPerfil(correo,textViewNombre, textViewApellidos, textViewCorreo, textViewTelefono);
         } else {

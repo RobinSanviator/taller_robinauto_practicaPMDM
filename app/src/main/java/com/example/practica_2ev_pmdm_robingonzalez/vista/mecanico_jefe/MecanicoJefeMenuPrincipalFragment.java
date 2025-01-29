@@ -78,7 +78,7 @@ public class MecanicoJefeMenuPrincipalFragment extends Fragment {
         //Mostrar pantalla de diagnósticos
         configurarOnclick(cardViewDiagnosticos, new MecanicoJefeDiagnosticosFragment());
         //Mostrar pantalla de tareas
-        configurarOnclick(cardViewTareas, new MecanicoJefeConsultarTareasFragment());
+        configurarOnclick(cardViewTareas, new MecanicoJefeTareasFragment());
     }
 
     private void configurarOnclick(CardView cardView, Fragment fragmento){

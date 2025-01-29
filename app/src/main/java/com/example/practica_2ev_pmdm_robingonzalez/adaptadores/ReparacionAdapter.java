@@ -11,11 +11,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.practica_2ev_pmdm_robingonzalez.R;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.CocheUtil;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.UsuarioUtil;
+import com.example.practica_2ev_pmdm_robingonzalez.modelo.Coche;
 import com.example.practica_2ev_pmdm_robingonzalez.modelo.Reparacion;
 import com.google.android.material.button.MaterialButton;
-
-import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -60,6 +60,22 @@ public class ReparacionAdapter extends RecyclerView.Adapter<ReparacionAdapter.Re
         colorearFondoDiagnosticado(reparacion, holder);
 
         holder.textViewMatriculaCoche.setText("Matrícula: " + reparacion.getMatriculaCoche());
+        // Mostrar inicialmente solo la matrícula
+        holder.textViewMatriculaCoche.setText("Matrícula: " + reparacion.getMatriculaCoche());
+
+        // Usar el método de CocheUtil para obtener datos adicionales
+        CocheUtil.obtenerDatosCoche(reparacion.getMatriculaCoche(), new CocheUtil.DatosCocheCallback() {
+            @Override
+            public void onSuccess(Coche coche) {
+                String datosCoche = "Coche: " + coche.getMarca() + " " + coche.getModelo() + " (" + coche.getMatricula() + ")";
+                holder.textViewMatriculaCoche.setText(datosCoche);
+            }
+
+            @Override
+            public void onFailure(String mensajeError) {
+                holder.textViewMatriculaCoche.setText(mensajeError);
+            }
+        });
 
         holder.textViewReparacionEstado.setText("Estado: " + reparacion.getEstadoReparacion());
         colorearFondoEstadoReparacion(reparacion, holder);
@@ -171,7 +187,7 @@ public class ReparacionAdapter extends RecyclerView.Adapter<ReparacionAdapter.Re
             textViewPresupuestoAprobado.setVisibility(View.VISIBLE);
             textViewPresupuestoAprobado.setText("Presupuesto no aceptado");
             textViewPresupuestoAprobado.setBackgroundColor(
-                    ContextCompat.getColor(contexto, R.color.color_error)
+                    ContextCompat.getColor(contexto, R.color.color_pendiente)
             );
             textViewPresupuestoAprobado.setTextColor(
                     ContextCompat.getColor(contexto, R.color.color_texto)
@@ -191,7 +207,7 @@ public class ReparacionAdapter extends RecyclerView.Adapter<ReparacionAdapter.Re
 
 
         // Configurar los campos del AlertDialog
-        TextView dialogMatricula = vistaDialogo.findViewById(R.id.textViewMatriculaDetalleReparacion);
+        TextView dialogCoche = vistaDialogo.findViewById(R.id.textViewCocheDetalleReparacion);
         TextView dialogTipoReparacion = vistaDialogo.findViewById(R.id.textViewTipoReparacionDetalleReparacion);
         TextView dialogEstadoReparacion = vistaDialogo.findViewById(R.id.textViewEstadoDetalleReparacion);
         TextView dialogPresupuesto = vistaDialogo.findViewById(R.id.textViewPresupuestoDetalleReparacion);
@@ -202,7 +218,20 @@ public class ReparacionAdapter extends RecyclerView.Adapter<ReparacionAdapter.Re
         TextView dialogoAprobado = vistaDialogo.findViewById(R.id.textViewAceptadoPresupuesto);
 
 
-        dialogMatricula.setText(reparacion.getMatriculaCoche());
+        // Usar el método para obtener los datos del coche
+        CocheUtil.obtenerDatosCoche(reparacion.getMatriculaCoche(), new CocheUtil.DatosCocheCallback() {
+            @Override
+            public void onSuccess(Coche coche) {
+                String datosCoche = " " +coche.getMarca() + " " + coche.getModelo() + " (" + coche.getMatricula() + ")";
+                dialogCoche.setText(datosCoche);
+            }
+
+            @Override
+            public void onFailure(String mensajeError) {
+                dialogCoche.setText(mensajeError);
+            }
+        });
+
         dialogTipoReparacion.setText(reparacion.getTipoReparacion());
         dialogEstadoReparacion.setText(reparacion.getEstadoReparacion());
         dialogPresupuesto.setText(String.valueOf(reparacion.getPresupuesto() + "€"));

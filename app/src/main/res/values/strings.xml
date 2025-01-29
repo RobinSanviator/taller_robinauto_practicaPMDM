@@ -60,6 +60,48 @@
         <item>Servicio de climatización</item>
     </string-array>
 
+    <string-array name="tareas_mecanicos">
+        <!-- Ajuste de frenos -->
+        <item>Revisar desgaste de pastillas y discos de freno</item>
+        <item>Ajustar el sistema de frenos, incluyendo el freno de mano</item>
+        <item>Sustituir el líquido de frenos si es necesario</item>
+        <!-- Cambio de aceite -->
+        <item>Drenar el aceite usado y limpiar el cárter</item>
+        <item>Sustituir el filtro de aceite</item>
+        <item>Reabastecer el motor con aceite nuevo</item>
+        <!-- Sustitución de batería -->
+        <item>Comprobar el estado de la batería actual</item>
+        <item>Desconectar y retirar la batería defectuosa</item>
+        <item>Instalar la nueva batería y verificar el sistema eléctrico</item>
+        <!-- Alineación de ruedas -->
+        <item>Inspeccionar el desgaste de los neumáticos</item>
+        <item>Ajustar los ángulos de alineación (camber, caster, toe)</item>
+        <item>Realizar pruebas de conducción para confirmar la alineación</item>
+        <!-- Diagnóstico eléctrico -->
+        <item>Escanear el sistema eléctrico con OBD-II</item>
+        <item>Revisar cableado, fusibles y conexiones principales</item>
+        <item>Realizar pruebas de carga del alternador</item>
+        <!-- Inspección de suspensión -->
+        <item>Verificar amortiguadores, muelles y bujes</item>
+        <item>Inspeccionar la barra estabilizadora y rótulas</item>
+        <item>Realizar pruebas de conducción para identificar ruidos</item>
+        <!-- Sustitución de filtro de aire -->
+        <item>Retirar el filtro de aire usado</item>
+        <item>Limpiar el compartimiento del filtro</item>
+        <item>Instalar el nuevo filtro y verificar el rendimiento</item>
+        <!-- Revisión del sistema de escape -->
+        <item>Inspeccionar el tubo de escape y conexiones</item>
+        <item>Verificar fugas de gases y daños en el catalizador</item>
+        <item>Realizar pruebas de emisiones</item>
+        <!-- Reparación de transmisión -->
+        <item>Comprobar nivel y calidad del aceite de transmisión</item>
+        <item>Inspeccionar la caja de cambios y engranajes</item>
+        <item>Reemplazar discos de embrague desgastados</item>
+        <!-- Servicio de climatización -->
+        <item>Revisar compresor, condensador y ventiladores</item>
+        <item>Comprobar y recargar el nivel de refrigerante</item>
+        <item>Limpiar los conductos del aire acondicionado</item>
+    </string-array>
 
     <string-array name="piezas_diagnosticos_array">
         <item>Pastillas de freno</item>
@@ -198,7 +240,7 @@
     <string name="textoEliminarPieza">Eliminar</string>
     <string name="precioPiezasAnadido">Precio total piezas: %.2f €</string>
     <string name="textoClienteUsuario">Cliente</string>
-    <string name="textoCoche">Coche:</string>
+    <string name="textoCoche">Coche: </string>
     <string name="textoNotificacionesCliente">Notificaciones</string>
     <string name="textoMostrandoNotificaciones">Propuestas de reparación</string>
     <string name="textoNoRespondido">No respondido</string>
@@ -208,5 +250,9 @@
     <string name="textoNoAceptar">No acepto el presupuesto</string>
     <string name="textoAceptadoPresupuesto">¿Aceptado presupuesto?:</string>
     <string name="textoReparacionesClientes">Mostrando todas tus reparaciones</string>
+    <string name="textoSolicitaPiezas">Solicita las piezas</string>
+    <string name="textoTareasMjefe">Asigna las tareas en tus reparaciones</string>
+    <string name="textoSeleccionaReparacionTarea">Selecciona la reparación</string>
+    <string name="textoDefineTarea">Describe la tarea para este mecánico</string>
 
 </resources>

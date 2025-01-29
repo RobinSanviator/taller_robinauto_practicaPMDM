@@ -36,6 +36,42 @@ public class CocheUtil {
         }
     }
 
+    // Método para obtener datos de un coche por matrícula
+    public static void obtenerDatosCoche(String matricula, DatosCocheCallback callback) {
+        Query query = databaseReference.orderByChild("matricula").equalTo(matricula);
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot cocheSnapshot : snapshot.getChildren()) {
+                        Coche coche = cocheSnapshot.getValue(Coche.class);
+                        if (coche != null) {
+                            callback.onSuccess(coche);
+                            return; // Salimos tras encontrar el coche
+                        }
+                    }
+                    // Si no encuentra el coche válido (aunque existe el nodo)
+                    callback.onFailure("Coche no encontrado");
+                } else {
+                    callback.onFailure("Coche no encontrado para la matrícula: " + matricula);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                callback.onFailure("Error al cargar datos del coche: " + error.getMessage());
+            }
+        });
+    }
+
+    // Interfaz Callback para manejar los resultados
+    public interface DatosCocheCallback {
+        void onSuccess(Coche coche);
+        void onFailure(String mensajeError);
+    }
 }
+
+
 
 

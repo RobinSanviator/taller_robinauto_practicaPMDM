@@ -56,7 +56,7 @@ public class MecanicoMenuPrincipalFragment extends Fragment {
     private void obtenerHelper(){
         if(getActivity() instanceof MecanicoActivity){
             mecanicoActivity =((MecanicoActivity) getActivity());
-            helperMenuPrincipal = (((MecanicoActivity) getActivity()).getHelperFragmento());
+            helperMenuPrincipal = (((MecanicoActivity) getActivity()).getHelperMenuPrincipal());
             helperNavegacionInferior = (((MecanicoActivity) getActivity()).getHelperNavegacionInferior());
 
         }

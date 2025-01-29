@@ -16,6 +16,7 @@ import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperAjustes
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperMenuPrincipal;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperNavegacionInferior;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperPerfil;
+import com.example.practica_2ev_pmdm_robingonzalez.vista.administrativo.AdministrativoActivity;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 import java.util.HashMap;
@@ -23,13 +24,12 @@ import java.util.Map;
 
 public class MecanicoActivity extends AppCompatActivity {
 
-    private ChipNavigationBar chipNavigationBarNavegacionInferior; // Referencia al ChipNavigationBar
-    private HelperMenuPrincipal helperMenuPrincipal; // Instancia del manejador de fragmentos
+    private ChipNavigationBar chipNavigationBarNavegacionInferior;
+    private HelperMenuPrincipal helperMenuPrincipal;
     private HelperNavegacionInferior helperNavegacionInferior;
     private HelperPerfil helperPerfil;
     private HelperAjustes helperAjustes;
     private TallerRobinautoSQLite baseDeDatosGestionUsuarios;
-    private UsuarioConsulta usuarioConsulta;
     private int frameLayoutContenedorFragmento;
 
     @Override
@@ -59,7 +59,7 @@ public class MecanicoActivity extends AppCompatActivity {
     private void inicializarBaseDeDatos(){
         baseDeDatosGestionUsuarios = TallerRobinautoSQLite.getInstance(MecanicoActivity.this);
         // Obtener la instancia de UsuarioConsultas
-        usuarioConsulta = baseDeDatosGestionUsuarios.obtenerUsuarioConsultas();
+        baseDeDatosGestionUsuarios.obtenerUsuarioConsultas();
     }
 
     private void obtenerHelper(){
@@ -97,7 +97,7 @@ public class MecanicoActivity extends AppCompatActivity {
         return getIntent().getStringExtra("correo");
     }
 
-    public HelperMenuPrincipal getHelperFragmento() {
+    public HelperMenuPrincipal getHelperMenuPrincipal() {
         return helperMenuPrincipal;
     }
 

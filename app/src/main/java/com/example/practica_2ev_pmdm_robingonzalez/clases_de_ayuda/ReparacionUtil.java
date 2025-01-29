@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.practica_2ev_pmdm_robingonzalez.modelo.Reparacion;
+import com.example.practica_2ev_pmdm_robingonzalez.modelo.Tarea;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -20,16 +21,25 @@ public class ReparacionUtil {
     public static void cargarReparaciones(ValueEventListener listener) {
         databaseReference.addValueEventListener(listener);
     }
+    public static void cargarReparacionesPorCorreoCliente(String correoCliente, ValueEventListener listener) {
+        // Realizar la consulta filtrada por correoCliente
+        databaseReference.orderByChild("correoCliente").equalTo(correoCliente)
+                .addListenerForSingleValueEvent(listener);
+    }
 
-    public static void guardarReparacionEnFirebase(Reparacion reparacion){
-        // Obtener una clave única para la reparacion usando push() para generar un ID
+    public static void guardarReparacionEnFirebase(Reparacion reparacion) {
+        // Obtener una clave única para la reparación usando push() para generar un ID
         String idReparacion = databaseReference.push().getKey();
+
         if (idReparacion != null) {
-            // Guardar el coche con la clave generada
+            // Asignar el ID generado al objeto reparacion
+            reparacion.setIdReparacion(idReparacion);
+
+            // Guardar la reparación con el ID generado en Firebase
             databaseReference.child(idReparacion).setValue(reparacion)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
-                            Log.d("ReparacionUtil", "Reparación guardado correctamente en Firebase.");
+                            Log.d("ReparacionUtil", "Reparación guardada correctamente en Firebase.");
                         } else {
                             Log.e("ReparacionUtil", "Error al guardar la reparación en Firebase", task.getException());
                         }
@@ -214,6 +224,26 @@ public class ReparacionUtil {
                         Log.e("ReparacionUtil", "Error al consultar reparaciones", databaseError.toException());
                     }
                 });
+    }
+
+    public static void guardarTareaEnFirebase(String idReparacion, Tarea tarea) {
+        // Referencia al nodo de tareas dentro de la reparación específica
+        DatabaseReference tareasRef = databaseReference.child(idReparacion).child("Tareas");
+
+        // Generar una ID única para la tarea usando push()
+        String tareaId = tareasRef.push().getKey();
+
+        if (tareaId != null) {
+            // Guardar la tarea bajo la ID generada
+            tareasRef.child(tareaId).setValue(tarea)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Log.d("ReparacionUtil", "Tarea guardada exitosamente.");
+                        } else {
+                            Log.e("ReparacionUtil", "Error al guardar la tarea.", task.getException());
+                        }
+                    });
+        }
     }
 
 }
