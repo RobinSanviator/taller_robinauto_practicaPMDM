@@ -263,5 +263,43 @@ public class UsuarioUtil {
         }
     }
 
+    public static void esMecanicoPorCorreo(String correo, final esMecanicoListener listener) {
+        DatabaseReference usuariosRef = FirebaseUtil.getDatabaseReference();
+        usuariosRef.orderByChild("correo").equalTo(correo).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        // Obtener el tipo de usuario del registro
+                        String tipoUsuario = snapshot.child("tipoUsuario").getValue(String.class);
+
+                        // Verificar si el tipo de usuario es "Mecanico"
+                        if ("Mecanico".equals(tipoUsuario)) {
+                            // Es un mecánico
+                            listener.onResultado(true);
+                        } else {
+                            // No es un mecánico
+                            listener.onResultado(false);
+                        }
+                        break;  // Solo procesamos un usuario
+                    }
+                } else {
+                    // El correo no existe en la base de datos
+                    listener.onResultado(false);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("UsuarioUtil", "Error al buscar el tipo de usuario: " + databaseError.getMessage());
+                listener.onResultado(false);
+            }
+        });
+    }
+
+    // Interfaz de callback para manejar el resultado
+    public interface esMecanicoListener {
+        void onResultado(boolean esMecanico);
+    }
 
 }

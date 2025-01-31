@@ -25,22 +25,51 @@ public class PiezaUtil {
         databaseReference.addValueEventListener(listener);
     }
 
-    // Nuevo método para actualizar la cantidad de una pieza
-    public static void actualizarCantidadPieza(String nombrePieza, int nuevaCantidad) {
-        databaseReference.orderByChild("nombre").equalTo(nombrePieza).addListenerForSingleValueEvent(new ValueEventListener() {
+    // Método para cargar las piezas disponibles (con cantidad mayor a 0)
+    public static void cargarPiezasDisponibles(ValueEventListener listener) {
+        // Realizar la consulta para obtener las piezas con cantidad mayor a 0
+        databaseReference.orderByChild("cantidad")
+                .startAt(1) // Solo las piezas con cantidad mayor a 0
+                .addListenerForSingleValueEvent(listener);
+    }
+
+    public static void actualizarCantidadPieza(String nombrePieza, int cantidadSolicitada) {
+        // Realizar una consulta para buscar la pieza por nombre
+        Query query = databaseReference.orderByChild("nombre").equalTo(nombrePieza);
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot piezaSnapshot : snapshot.getChildren()) {
-                    piezaSnapshot.getRef().child("cantidad").setValue(nuevaCantidad); // Actualizar a la nueva cantidad
+                if (snapshot.exists()) {
+                    for (DataSnapshot piezaSnapshot : snapshot.getChildren()) {
+                        Integer cantidadActual = piezaSnapshot.child("cantidad").getValue(Integer.class);
+                        if (cantidadActual != null) {
+                            // Restar la cantidad solicitada de la cantidad actual
+                            int nuevaCantidad = cantidadActual - cantidadSolicitada;
+                            if (nuevaCantidad >= 0) {
+                                // Actualizar la cantidad de la pieza en la base de datos
+                                piezaSnapshot.getRef().child("cantidad").setValue(nuevaCantidad)
+                                        .addOnSuccessListener(aVoid -> Log.d("PiezaUtil", "Cantidad actualizada correctamente."))
+                                        .addOnFailureListener(e -> Log.e("PiezaUtil", "Error al actualizar cantidad: " + e.getMessage()));
+                            } else {
+                                Log.e("PiezaUtil", "La cantidad solicitada excede la cantidad disponible.");
+                            }
+                        } else {
+                            Log.e("PiezaUtil", "Cantidad actual es nula.");
+                        }
+                    }
+                } else {
+                    Log.e("PiezaUtil", "No se encontró la pieza con el nombre especificado.");
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("PiezaUtil", "Error al actualizar cantidad de la pieza: " + error.getMessage());
+                Log.e("PiezaUtil", "Error en la consulta: " + error.getMessage());
             }
         });
     }
+
 
     public static void sumarCantidadPieza(String nombrePieza, int cantidadSeleccionada) {
         // Realizar una consulta para buscar la pieza por nombre

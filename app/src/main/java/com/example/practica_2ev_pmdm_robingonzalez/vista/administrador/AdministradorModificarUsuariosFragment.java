@@ -25,76 +25,103 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Fragmento de la pantalla de modificación de usuarios desde administrador.
+ * Permite cargar y visualizar la lista de usuarios para su modificación.
+ */
 public class AdministradorModificarUsuariosFragment extends Fragment {
 
-    private ImageView imageViewVolver;
-    private AdministradorActivity administradorActivity;
-    private List<Usuario> usuariosList;
-    private UsuarioModificarUsuariosAdapter usuariosModificarAdapter;
-    private RecyclerView recyclerViewUsuarios;
+    private ImageView imageViewVolver;  // Imagen para volver al menú principal
+    private AdministradorActivity administradorActivity;  // Actividad principal del administrador
+    private List<Usuario> usuariosList;  // Lista de usuarios a mostrar
+    private UsuarioModificarUsuariosAdapter usuariosModificarAdapter;  // Adaptador para el RecyclerView
+    private RecyclerView recyclerViewUsuarios;  // RecyclerView para mostrar los usuarios
 
-
-
+    /**
+     * Se llama cuando el fragmento es creado. Este método se deja vacío si no es necesario guardar ningún estado.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
+    /**
+     * Se llama para inflar la vista del fragmento.
+     * Aquí se inicializan los componentes visuales y se cargan los usuarios.
+     */
     @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //Inflar diseño del layout del menú principal
+        // Inflar el diseño del layout de modificar usuarios
         View vista = inflater.inflate(R.layout.administrador_modificar_usuarios_fragment, container, false);
 
-        inicializarComponentes(vista);
-        obtenerHelper();
-        volverMenuPrincipalDesdeUsuarios();
-        configurarRecyclerView();
-        cargarUsuarios();
+        inicializarComponentes(vista);  // Inicializa las vistas
+        obtenerHelper();  // Obtiene la actividad principal
+        volverMenuPrincipalDesdeUsuarios();  // Configura el botón para volver al menú principal
+        configurarRecyclerView();  // Configura el RecyclerView para mostrar la lista de usuarios
+        cargarUsuarios();  // Carga los usuarios desde la base de datos o Firebase
 
-        return vista;
+        return vista;  // Retorna la vista inflada
     }
 
-    private void inicializarComponentes(View vista){
-        imageViewVolver = vista.findViewById(R.id.imageViewVolverMenuPrincipalDesdeCliente);
-        recyclerViewUsuarios = vista.findViewById(R.id.recyclerViewListaUsuariosModificar);
+    /**
+     * Inicializa los componentes visuales del fragmento.
+     * Se obtiene la referencia a las vistas (ImageView, RecyclerView, etc.).
+     */
+    private void inicializarComponentes(View vista) {
+        imageViewVolver = vista.findViewById(R.id.imageViewVolverMenuPrincipalDesdeCliente);  // Imagen para volver al menú principal
+        recyclerViewUsuarios = vista.findViewById(R.id.recyclerViewListaUsuariosModificar);  // RecyclerView de usuarios
     }
 
-    private void obtenerHelper(){
-        if(getActivity() instanceof AdministradorActivity){
-            administradorActivity = ((AdministradorActivity) getActivity());
+    /**
+     * Obtiene la instancia de la actividad principal del administrador.
+     * Asegura que la actividad sea una instancia de `AdministradorActivity`.
+     */
+    private void obtenerHelper() {
+        if (getActivity() instanceof AdministradorActivity) {
+            administradorActivity = (AdministradorActivity) getActivity();  // Obtiene la actividad principal del administrador
         }
     }
-    private void volverMenuPrincipalDesdeUsuarios(){
+
+    /**
+     * Configura la acción para volver al menú principal al hacer clic en la imagen correspondiente.
+     */
+    private void volverMenuPrincipalDesdeUsuarios() {
         imageViewVolver.setOnClickListener(v -> {
             if (administradorActivity != null) {
-                administradorActivity.volverMenuPrincipal();
-            }else {
-
+                administradorActivity.volverMenuPrincipal();  // Vuelve al menú principal
+            } else {
+                Log.e("AdministradorModificarUsuariosFragment", "No se pudo volver al menú principal");
             }
         });
     }
 
-    private void configurarRecyclerView(){
-        recyclerViewUsuarios.setLayoutManager(new LinearLayoutManager(getContext()));
-        usuariosList = new ArrayList<>();
-        usuariosModificarAdapter = new UsuarioModificarUsuariosAdapter(usuariosList, getContext());
-        recyclerViewUsuarios.setAdapter(usuariosModificarAdapter);
+    /**
+     * Configura el RecyclerView para mostrar la lista de usuarios.
+     * Se establece un LinearLayoutManager y se crea el adaptador para el RecyclerView.
+     */
+    private void configurarRecyclerView() {
+        recyclerViewUsuarios.setLayoutManager(new LinearLayoutManager(getContext()));  // Configura el LayoutManager
+        usuariosList = new ArrayList<>();  // Crea la lista de usuarios
+        usuariosModificarAdapter = new UsuarioModificarUsuariosAdapter(usuariosList, getContext());  // Crea el adaptador
+        recyclerViewUsuarios.setAdapter(usuariosModificarAdapter);  // Asocia el adaptador al RecyclerView
     }
 
-
+    /**
+     * Carga los usuarios desde Firebase o desde la base de datos local.
+     * Si hay conexión a Internet, los usuarios se cargan desde Firebase.
+     */
     private void cargarUsuarios() {
         if (hayConexionInternet()) {
-            // Cargar los usuarios desde Firebase sin necesidad del tipo de usuario
+            // Si hay conexión a Internet, se cargan los usuarios desde Firebase
             UsuarioUtil.cargarUsuariosBBBDD(new UsuarioUtil.usuariosCargadosListener() {
                 @Override
                 public void onUsuariosCargados(List<Usuario> usuarios) {
                     // Actualiza el RecyclerView con los usuarios obtenidos
-                    usuariosList.clear(); // Limpiar la lista actual
-                    usuariosList.addAll(usuarios); // Añadir los usuarios cargados
-                    usuariosModificarAdapter.notifyDataSetChanged(); // Notificar que los datos han cambiado
+                    usuariosList.clear();  // Limpiar la lista actual
+                    usuariosList.addAll(usuarios);  // Añadir los usuarios cargados
+                    usuariosModificarAdapter.notifyDataSetChanged();  // Notificar que los datos han cambiado
                 }
 
                 @Override
@@ -105,17 +132,21 @@ public class AdministradorModificarUsuariosFragment extends Fragment {
                 }
             });
         } else {
+            // Si no hay conexión a Internet, mostrar mensaje
             Snackbar.make(getActivity().findViewById(android.R.id.content), "No tienes conexión a Internet. Conéctate para ver los usuarios", Snackbar.LENGTH_LONG).show();
         }
     }
 
+    /**
+     * Verifica si el dispositivo tiene conexión a Internet.
+     * @return true si hay conexión, false si no la hay.
+     */
     private boolean hayConexionInternet() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivityManager != null) {
             NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-            return networkInfo != null && networkInfo.isConnected();
+            return networkInfo != null && networkInfo.isConnected();  // Retorna si la red está conectada
         }
-        return false;
-
-}
+        return false;  // Si no hay conexión
+    }
 }

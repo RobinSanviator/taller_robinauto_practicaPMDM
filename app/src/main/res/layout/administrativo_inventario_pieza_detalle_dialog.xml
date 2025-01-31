@@ -48,4 +48,38 @@
         android:layout_marginTop="8dp"
         android:gravity="center"/>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutCantidadSolicitar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:hintEnabled="true"
+        app:hintAnimationEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextCantidadSolicitar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_gravity="center_vertical"
+            android:background="@color/fondo"
+            android:gravity="center"
+            android:visibility="visible"
+            android:inputType="number"
+            android:hint="@string/textoSolicitaCantidadPiezas" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonSolicitarPieza"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:elevation="8dp"
+        android:padding="8dp"
+        app:cornerRadius="10dp"
+        android:backgroundTint="@color/azul"
+        android:text="@string/textoGuardarSolicitar"
+        android:textColor="@color/color_texto"/>
+
 </LinearLayout>

@@ -21,6 +21,7 @@ public class ReparacionUtil {
     public static void cargarReparaciones(ValueEventListener listener) {
         databaseReference.addValueEventListener(listener);
     }
+
     public static void cargarReparacionesPorCorreoCliente(String correoCliente, ValueEventListener listener) {
         // Realizar la consulta filtrada por correoCliente
         databaseReference.orderByChild("correoCliente").equalTo(correoCliente)
@@ -116,37 +117,6 @@ public class ReparacionUtil {
                 });
     }
 
-    public static void actualizarFechaFinDiagnostico(Long timestamp, String correoMecanicoJefe, String matriculaCoche) {
-        // Realizar la actualización en Firebase
-        // Nota: Este es un ejemplo, debes asegurarte de que encuentres la reparación correctamente
-        databaseReference.orderByChild("correoMecanicoJefe").equalTo(correoMecanicoJefe)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        boolean encontrado = false;
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            Reparacion reparacion = snapshot.getValue(Reparacion.class);
-                            if (reparacion != null && reparacion.getMatriculaCoche().equals(matriculaCoche)) {
-                                // Actualizar la fecha de finalización con el timestamp
-                                snapshot.getRef().child("fechaFin").setValue(timestamp)
-                                        .addOnSuccessListener(aVoid -> Log.d("FechaGuardada", "Fecha de finalización actualizada correctamente."))
-                                        .addOnFailureListener(e -> Log.e("FechaGuardada", "Error al actualizar la fecha de finalización", e));
-                                encontrado = true;
-                                break;
-                            }
-                        }
-
-                        if (!encontrado) {
-                            Log.e("FechaGuardada", "Reparación no encontrada para este correo y matrícula.");
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        Log.e("FechaGuardada", "Error al acceder a la base de datos: " + databaseError.getMessage());
-                    }
-                });
-    }
 
     public static void actualizarEstadoReparacion(String correoCliente, String respuesta) {
         // Obtener la referencia a las reparaciones
@@ -226,15 +196,20 @@ public class ReparacionUtil {
                 });
     }
 
+    // Método para guardar la tarea en el nodo "Tareas"
     public static void guardarTareaEnFirebase(String idReparacion, Tarea tarea) {
-        // Referencia al nodo de tareas dentro de la reparación específica
-        DatabaseReference tareasRef = databaseReference.child(idReparacion).child("Tareas");
+        // Obtener la referencia al nodo "Tareas" en la base de datos de Firebase
+        DatabaseReference tareasRef = FirebaseDatabase.getInstance().getReference("Tareas");
 
-        // Generar una ID única para la tarea usando push()
+        // Generar un ID único para la tarea usando push(). Esto crea una clave única que sirve como identificador
         String tareaId = tareasRef.push().getKey();
 
         if (tareaId != null) {
-            // Guardar la tarea bajo la ID generada
+            // Asignar el ID generado y el ID de la reparación a la tarea
+            tarea.setIdTarea(tareaId);  // Asegura que cada tarea tiene un ID único
+            tarea.setIdReparacion(idReparacion);  // Asocia esta tarea con la reparación específica
+
+            // Guardar la tarea en el nodo "Tareas"
             tareasRef.child(tareaId).setValue(tarea)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
@@ -243,9 +218,10 @@ public class ReparacionUtil {
                             Log.e("ReparacionUtil", "Error al guardar la tarea.", task.getException());
                         }
                     });
+        } else {
+            // Si no se pudo generar un ID único para la tarea
+            Log.e("ReparacionUtil", "No se pudo generar un ID para la tarea.");
         }
     }
-
 }
-
 

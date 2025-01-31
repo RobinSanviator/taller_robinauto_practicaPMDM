@@ -2,6 +2,7 @@ package com.example.practica_2ev_pmdm_robingonzalez.adaptadores;
 
 import android.content.Context;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +13,19 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.practica_2ev_pmdm_robingonzalez.R;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.CocheUtil;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.FirebaseUtil;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.UsuarioUtil;
 import com.example.practica_2ev_pmdm_robingonzalez.modelo.Coche;
+import com.example.practica_2ev_pmdm_robingonzalez.modelo.Notificacion;
 import com.example.practica_2ev_pmdm_robingonzalez.modelo.Reparacion;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -79,6 +89,8 @@ public class ReparacionAdapter extends RecyclerView.Adapter<ReparacionAdapter.Re
 
         holder.textViewReparacionEstado.setText("Estado: " + reparacion.getEstadoReparacion());
         colorearFondoEstadoReparacion(reparacion, holder);
+        // Verificar que está finalizada la reparación y enviar notificación
+
 
         //Mostrar textView una vez que el cliente responde a la notificaión
         mostrarSiAceptaPresupuesto(reparacion, holder);
@@ -160,6 +172,7 @@ public class ReparacionAdapter extends RecyclerView.Adapter<ReparacionAdapter.Re
         }
     }
 
+
     private void colorearFondoDiagnosticado(Reparacion reparacion, ReparacionViewHolder holder) {
         TextView textViewReparacionDiagnosticado = holder.itemView.findViewById(R.id.textViewReparacionNombre);
 
@@ -214,7 +227,6 @@ public class ReparacionAdapter extends RecyclerView.Adapter<ReparacionAdapter.Re
         TextView dialogCorreoCliente = vistaDialogo.findViewById(R.id.textViewClienteDetalleReparacion);
         TextView dialogCorreoMecanico = vistaDialogo.findViewById(R.id.textViewMecanicoDetalleReparacion);
         TextView dialogFechaInicio = vistaDialogo.findViewById(R.id.textViewFechaInicioDetalleReparacion);
-        TextView dialogFechaFin = vistaDialogo.findViewById(R.id.textViewFechaFinDetalleReparacion);
         TextView dialogoAprobado = vistaDialogo.findViewById(R.id.textViewAceptadoPresupuesto);
 
 
@@ -240,7 +252,7 @@ public class ReparacionAdapter extends RecyclerView.Adapter<ReparacionAdapter.Re
         dialogoAprobado.setText(reparacion.getPresupuestoAprobado());
 
 
-        transformarFechaEnObjetoDate(reparacion, dialogFechaInicio, dialogFechaFin);
+        transformarFechaEnObjetoDate(reparacion, dialogFechaInicio);
 
 
 
@@ -254,10 +266,9 @@ public class ReparacionAdapter extends RecyclerView.Adapter<ReparacionAdapter.Re
 
 
     private void transformarFechaEnObjetoDate(Reparacion reparacion,
-                                              TextView dialogFechaInicio, TextView dialogFechaFin) {
+                                              TextView dialogFechaInicio) {
         // Obtener y formatear la fecha de inicio
         Long timestampInicio = reparacion.getFechaInicio();
-        Long timestampFin = reparacion.getFechaFin();
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 
@@ -269,12 +280,5 @@ public class ReparacionAdapter extends RecyclerView.Adapter<ReparacionAdapter.Re
             dialogFechaInicio.setText("Fecha no disponible");
         }
 
-        // Verificar si hay una fecha de fin
-        if (timestampFin != null) {
-            Date fechaFin = new Date(timestampFin); // Convertir a objeto Date
-            dialogFechaFin.setText(sdf.format(fechaFin)); // Formatear y mostrar la fecha de fin
-        } else {
-            dialogFechaFin.setText("Fecha no asignada");
-        }
     }
 }

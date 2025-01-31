@@ -71,29 +71,6 @@
             android:padding="8dp">
 
             <TextView
-                android:id="@+id/textViewEstado"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/textoEstadoRep"
-                android:textColor="@color/color_texto"
-                android:textStyle="bold"
-                android:textSize="18sp"/>
-
-            <TextView
-                android:id="@+id/textViewEstadoDetalleReparacion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/color_texto"
-                android:textSize="18sp"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="8dp">
-
-            <TextView
                 android:id="@+id/textViewPresupuesto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -110,7 +87,9 @@
                 android:textSize="18sp"/>
         </LinearLayout>
 
-        <LinearLayout
+
+
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -133,28 +112,6 @@
                 android:textSize="18sp"/>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="8dp">
-
-            <TextView
-                android:id="@+id/textViewFechaFin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/textoFechaFReparacion"
-                android:textColor="@color/color_texto"
-                android:textStyle="bold"
-                android:textSize="18sp"/>
-
-            <TextView
-                android:id="@+id/textViewFechaFinDetalleReparacion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/color_texto"
-                android:textSize="18sp"/>
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -224,5 +181,28 @@
                 android:textColor="@color/color_texto"
                 android:textSize="18sp"/>
         </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/textViewEstado"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/textoEstadoRep"
+            android:textColor="@color/color_texto"
+            android:textStyle="bold"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/textViewEstadoDetalleReparacion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_texto"
+            android:textSize="18sp"/>
+    </LinearLayout>
 
 </LinearLayout>

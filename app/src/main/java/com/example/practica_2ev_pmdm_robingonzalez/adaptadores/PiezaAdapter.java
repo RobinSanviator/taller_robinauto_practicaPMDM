@@ -1,6 +1,8 @@
 package com.example.practica_2ev_pmdm_robingonzalez.adaptadores;
 
+import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +14,15 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
-import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperMenuPrincipal;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.PiezaUtil;
+import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.UsuarioUtil;
 import com.example.practica_2ev_pmdm_robingonzalez.modelo.Pieza;
-import com.example.practica_2ev_pmdm_robingonzalez.vista.administrativo.AdministrativoActivity;
-import com.example.practica_2ev_pmdm_robingonzalez.vista.administrativo.AdministrativoInventarioPedidoFragment;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
@@ -25,10 +30,12 @@ public class PiezaAdapter extends RecyclerView.Adapter<PiezaAdapter.PiezaViewHol
 
     private List<Pieza> piezas;
     private Context contexto;
+    private String correoUsuarioActual;
 
-    public PiezaAdapter(List<Pieza> piezas, Context contexto) {
+    public PiezaAdapter(List<Pieza> piezas, Context contexto, String correoUsuarioActual) {
         this.piezas = piezas;
         this.contexto = contexto;
+        this.correoUsuarioActual = correoUsuarioActual;
     }
 
     @NonNull
@@ -70,7 +77,10 @@ public class PiezaAdapter extends RecyclerView.Adapter<PiezaAdapter.PiezaViewHol
             mostrarDetallesPieza(pieza);
         });
 
+
+        holder.itemView.setOnClickListener(v -> mostrarDetallesPieza(pieza));
     }
+
 
     @Override
     public int getItemCount() {
@@ -102,18 +112,19 @@ public class PiezaAdapter extends RecyclerView.Adapter<PiezaAdapter.PiezaViewHol
         TextView textViewNombre = vistaDialogo.findViewById(R.id.textViewNombrePieza);
         TextView textViewCantidad = vistaDialogo.findViewById(R.id.textViewCantidadPieza);
         TextView textViewPrecio = vistaDialogo.findViewById(R.id.textViewPrecioPieza);
+        TextInputEditText editTextCantidad = vistaDialogo.findViewById(R.id.editTextCantidadSolicitar);
+        MaterialButton buttonSolicitar = vistaDialogo.findViewById(R.id.buttonSolicitarPieza);
 
         // Asignar los valores al layout del Dialog
         imageView.setImageResource(pieza.getImagenPieza());
         textViewNombre.setText(pieza.getNombre());
         textViewCantidad.setText(contexto.getString(R.string.cantidadPieza, pieza.getCantidad()));
-
-        
-
         textViewPrecio.setText(contexto.getString(R.string.precioPieza, pieza.getPrecio()));
 
+        // Verificar la visibilidad de los elementos solo para los mecánicos
+        verificarVisibilidadMecanico(correoUsuarioActual, editTextCantidad, textViewPrecio, buttonSolicitar);
 
-        // Crear el Dialog
+        // Crear el Dialog de Material Design
         MaterialAlertDialogBuilder builderPieza = new MaterialAlertDialogBuilder(contexto);
         builderPieza.setView(vistaDialogo)
                 .setTitle("Detalle pieza")
@@ -123,10 +134,51 @@ public class PiezaAdapter extends RecyclerView.Adapter<PiezaAdapter.PiezaViewHol
         // Mostrar el dialog
         builderPieza.show();
 
+        // Configurar el comportamiento del botón "Solicitar"
+        buttonSolicitar.setOnClickListener(v -> {
+            // Verificar si la cantidad ingresada es válida
+            String cantidadStr = editTextCantidad.getText().toString();
+            if (!cantidadStr.isEmpty()) {
+                int cantidadSolicitada = Integer.parseInt(cantidadStr);
+
+                // Verificar que la cantidad solicitada no sea mayor que la cantidad disponible
+                if (cantidadSolicitada > pieza.getCantidad()) {
+                    // Mostrar un mensaje de error si la cantidad solicitada excede el stock
+                    Snackbar.make(vistaDialogo, "No hay suficiente stock", Snackbar.LENGTH_SHORT).show();
+                } else {
+                    // Actualizar la cantidad en la base de datos
+                    PiezaUtil.actualizarCantidadPieza(pieza.getNombre(), cantidadSolicitada);
+                    // Mostrar un mensaje de éxito
+                    Snackbar.make(vistaDialogo, "Pieza solicitada con éxito", Snackbar.LENGTH_SHORT).show();
+                }
+            } else {
+                // Mostrar un mensaje si no se ingresa una cantidad
+                Snackbar.make(vistaDialogo, "Por favor, ingresa una cantidad válida", Snackbar.LENGTH_SHORT).show();
+            }
+        });
     }
 
+    private void verificarVisibilidadMecanico(String correoUsuarioActual, TextInputEditText editTextCantidad,
+                                              TextView textViewPrecio, MaterialButton buttonSolicitar) {
+        // Verificar si el usuario es un mecánico y mostrar el campo para cantidad
+        UsuarioUtil.esMecanicoPorCorreo(correoUsuarioActual, new UsuarioUtil.esMecanicoListener() {
+            @Override
+            public void onResultado(boolean esMecanico) {
+                if (esMecanico) {
+                    editTextCantidad.setVisibility(View.VISIBLE);
+                    textViewPrecio.setVisibility(View.GONE);
+                    buttonSolicitar.setVisibility(View.VISIBLE);
+                } else {
+                    editTextCantidad.setVisibility(View.GONE);
+                    textViewPrecio.setVisibility(View.VISIBLE);
+                    buttonSolicitar.setVisibility(View.GONE);
+                }
+            }
+        });
+    }
 
 }
+
 
 
 

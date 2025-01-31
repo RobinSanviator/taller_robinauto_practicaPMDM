@@ -58,7 +58,7 @@ public class AdministrativoInventarioPiezaFragment extends Fragment {
 
     private void configurarRecyclerView() {
         listaPieza = new ArrayList<>();
-        piezaAdapter = new PiezaAdapter(listaPieza, getContext());
+        piezaAdapter = new PiezaAdapter(listaPieza, getContext(), null);
         recyclerViewPieza.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerViewPieza.setAdapter(piezaAdapter);
     }

@@ -54,8 +54,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayoutAppBarTareasMjefe">
 
+        <TextView
+            android:id="@+id/textViewNoHayReparacionesEnProceso"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/textoNoHayReparacionesEnProceso"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_gravity="center"
+            android:textColor="@color/color_texto"
+            android:background="@color/color_notificacion"
+            android:padding="16dp"
+            android:elevation="8dp"
+            android:visibility="gone"
+            />
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewAsignarTareaMecanico"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/color_enProceso"
@@ -83,20 +98,18 @@
                     android:id="@+id/spinnerSeleccionaReparacionParaTarea"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     android:elevation="8dp"
                     android:background="@color/fondo"
                     android:minHeight="48dp" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="20dp"
-                    android:background="@color/fondo"
+                    android:layout_marginTop="50dp"
                     android:elevation="8dp"
+
                     android:gravity="center"
-                    android:padding="8dp"
                     android:text="@string/textoMecanicosAsignado"
                     android:textColor="@color/color_texto"
                     android:textStyle="bold" />

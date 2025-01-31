@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="4dp"
+    android:elevation="8dp"
+    app:cardCornerRadius="10dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:background="@color/fondo">
+
+
+        <TextView
+            android:id="@+id/textViewDescripcionTarea"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="@string/textoTareas"
+            android:textSize="16sp"
+            android:textColor="@color/negro"
+            android:textStyle="bold"
+            android:layout_marginBottom="12dp"
+            android:maxLines="3"
+            android:lineSpacingExtra="4dp"/>
+
+        <EditText
+            android:id="@+id/editTextComentarioTarea"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/textoComentarioTarea"
+            android:minHeight="48dp"
+            android:padding="4dp"/>
+
+
+        <TextView
+            android:id="@+id/textViewEstadoTarea"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:background="@color/color_advertencia"
+            android:text="@string/textoEstadoTarea"
+            android:textColor="@color/negro"
+            android:padding="4dp"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonTerminadaTara"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/textoTerminado"
+            android:textColor="@android:color/white"
+            android:layout_gravity="end"
+            app:cornerRadius="8dp"
+            app:icon="@drawable/ic_aceptar"
+            app:iconGravity="textStart"
+            app:iconPadding="4dp"
+            app:iconTint="@color/negro"
+            android:backgroundTint="@color/verde" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

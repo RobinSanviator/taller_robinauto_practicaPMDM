@@ -254,5 +254,12 @@
     <string name="textoTareasMjefe">Asigna las tareas en tus reparaciones</string>
     <string name="textoSeleccionaReparacionTarea">Selecciona la reparación</string>
     <string name="textoDefineTarea">Describe la tarea para este mecánico</string>
+    <string name="textoTerminado">Terminada</string>
+    <string name="textoEstadoTarea">"Estado de la tarea: "</string>
+    <string name="textoComentarioTarea">Escribe un comentario de la tarea</string>
+    <string name="textoNoHayTareas">¡No tienes ninguna tarea asignada!</string>
+    <string name="textoNoHayReparacionesEnProceso">No tienes ninguna reparación en proceso</string>
+    <string name="textoSolicitaCantidadPiezas">Cantidad de piezas</string>
+    <string name="textoGuardarSolicitar">Solicitar</string>
 
 </resources>

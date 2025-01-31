@@ -38,45 +38,56 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Map;
 
+/**
+ * Actividad que gestiona el proceso de registro de un nuevo usuario.
+ * Incluye la validación de campos, la selección de perfil y la conexión a la base de datos.
+ */
 public class RegistroActivity extends AppCompatActivity {
-  private  TextInputEditText editTextNombre, editTexApellidos, editTextCorreoRegistro, editTextTelefono,
+    // Elementos de la interfaz de usuario para el formulario de registro
+    private TextInputEditText editTextNombre, editTexApellidos, editTextCorreoRegistro, editTextTelefono,
             editTextContrasenyaRegistro, editTextConfirmarContrasenya;
-  private AutoCompleteTextView spinnerSeleccionarPerfil;
-  private  MaterialButton buttonRegistrarse;
-  private  TextView textViewTextoVolverInicioSesion;
-  private  CheckBox checkBoxUsoServicio, checkBoxPropiedadIntelectual, checkBoxPrivacidad, checkBoxPromociones,
+    private AutoCompleteTextView spinnerSeleccionarPerfil;
+    private MaterialButton buttonRegistrarse;
+    private TextView textViewTextoVolverInicioSesion;
+    private CheckBox checkBoxUsoServicio, checkBoxPropiedadIntelectual, checkBoxPrivacidad, checkBoxPromociones,
             checkBoxAceptarTodo;
-  private TallerRobinautoSQLite baseDeDatosGestionUsuarios;
-  private UsuarioConsulta usuarioConsulta;
+    private TallerRobinautoSQLite baseDeDatosGestionUsuarios;
+    private UsuarioConsulta usuarioConsulta;
 
-
-
-
-
+    /**
+     * Método que se ejecuta cuando la actividad es creada. Inicializa la interfaz y los componentes.
+     *
+     * @param savedInstanceState Estado guardado de la actividad (si aplica).
+     */
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Activa la funcionalidad EdgeToEdge para la interfaz.
         EdgeToEdge.enable(this);
+        // Establece el layout de la actividad.
         setContentView(R.layout.registro_activity);
+        // Ajusta el padding de la vista para que se vea correctamente con las barras del sistema.
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-
+        // Inicializa los componentes y los servicios necesarios.
         inicializarComponentes();
         inicializarBaseDeDatos();
         registrarse();
         volverInicioSesion();
         seleccionarPerfil();
         configurarValidacionDinamica();
-
     }
 
-    private void inicializarComponentes(){
-        // Referencias a los elementos del formulario
+    /**
+     * Método para inicializar los componentes de la interfaz.
+     */
+    private void inicializarComponentes() {
+        // Referencias a los elementos del formulario de registro
         editTextNombre = findViewById(R.id.editTextNombreRegistro);
         editTexApellidos = findViewById(R.id.editTextApellidosRegistro);
         editTextCorreoRegistro = findViewById(R.id.editTextCorreoRegistro);
@@ -86,76 +97,99 @@ public class RegistroActivity extends AppCompatActivity {
         spinnerSeleccionarPerfil = findViewById(R.id.spinnerSeleccionarPerfil);
         buttonRegistrarse = findViewById(R.id.buttonRegistrarse);
         textViewTextoVolverInicioSesion = findViewById(R.id.textViewVolverInicioSesion);
-
     }
 
-    private void inicializarBaseDeDatos(){
-        // Usar el Singleton para obtener la instancia de la base de datos
+    /**
+     * Método para inicializar la conexión con la base de datos.
+     */
+    private void inicializarBaseDeDatos() {
+        // Usar el patrón Singleton para obtener la instancia de la base de datos
         baseDeDatosGestionUsuarios = TallerRobinautoSQLite.getInstance(RegistroActivity.this);
-        // Obtener la instancia de UsuarioConsultas
+        // Obtener la instancia de UsuarioConsultas para gestionar usuarios en la base de datos
         usuarioConsulta = baseDeDatosGestionUsuarios.obtenerUsuarioConsultas();
     }
 
-    private void registrarse(){
+    /**
+     * Método para gestionar el evento de registro al pulsar el botón "Registrarse".
+     */
+    private void registrarse() {
         buttonRegistrarse.setOnClickListener(v -> mostrarTerminosYCondicionesEnAlertDialog());
     }
 
-    private void volverInicioSesion(){
+    /**
+     * Método que gestiona el evento de volver a la pantalla de inicio de sesión.
+     */
+    private void volverInicioSesion() {
         textViewTextoVolverInicioSesion.setOnClickListener(v -> startActivity(new Intent(RegistroActivity.this, InicioSesionActivity.class)));
     }
 
-    private void seleccionarPerfil(){
-        // Configurar el autocompletetext como spinner para seleccionar el tipo de usuario
-
+    /**
+     * Método para configurar el selector de perfil (spinner) con los tipos de usuario.
+     */
+    private void seleccionarPerfil() {
+        // Configura el AutoCompleteTextView como un spinner para seleccionar el tipo de usuario
         String[] perfiles = getResources().getStringArray(R.array.tipo_usuarios);
         ArrayAdapter<String> adaptadorPerfiles = new ArrayAdapter<>(this, R.layout.lista_tipo_usuario, perfiles);
         spinnerSeleccionarPerfil.setAdapter(adaptadorPerfiles);
 
+        // Oculta el teclado cuando se enfoca el spinner y muestra las opciones disponibles
         spinnerSeleccionarPerfil.setOnFocusChangeListener((v, hasFocus) -> {
-            if(hasFocus){
-                //Ocultar teclado cuando se foculiza en el spinner
+            if (hasFocus) {
                 InputMethodManager teclado = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                teclado.hideSoftInputFromWindow(spinnerSeleccionarPerfil.getWindowToken(),0);
+                teclado.hideSoftInputFromWindow(spinnerSeleccionarPerfil.getWindowToken(), 0);
                 spinnerSeleccionarPerfil.showDropDown();
             }
         });
-
-
     }
 
-    private boolean validarNombre(String nombre){
+    /**
+     * Método para validar el nombre del usuario.
+     *
+     * @param nombre El nombre a validar.
+     * @return true si el nombre es válido, false si es inválido.
+     */
+    private boolean validarNombre(String nombre) {
         TextInputLayout textInputLayoutNombreRegistro = findViewById(R.id.textInputNombreLayoutR);
 
-        if(editTextNombre.getText().toString().trim().isEmpty()){
-
+        // Verifica si el campo nombre está vacío
+        if (editTextNombre.getText().toString().trim().isEmpty()) {
             textInputLayoutNombreRegistro.setHelperText("Obligatorio*");
             return false;
-
         } else {
             textInputLayoutNombreRegistro.setHelperText(null);
         }
         return true;
     }
 
-    private boolean validarApellidos(String apellidos){
-
+    /**
+     * Método para validar los apellidos del usuario.
+     *
+     * @param apellidos Los apellidos a validar.
+     * @return true si los apellidos son válidos, false si son inválidos.
+     */
+    private boolean validarApellidos(String apellidos) {
         TextInputLayout textInputLayoutApellidos = findViewById(R.id.textInputApellidosLayoutR);
 
-        if(editTexApellidos.getText().toString().trim().isEmpty()){
-
+        // Verifica si el campo apellidos está vacío
+        if (editTexApellidos.getText().toString().trim().isEmpty()) {
             textInputLayoutApellidos.setHelperText("Obligatorio*");
             return false;
-
         } else {
             textInputLayoutApellidos.setHelperText(null);
         }
-
         return true;
     }
 
-    private boolean validarCorreo(String correo){
+    /**
+     * Método para validar el correo electrónico del usuario.
+     *
+     * @param correo El correo a validar.
+     * @return true si el correo es válido, false si es inválido.
+     */
+    private boolean validarCorreo(String correo) {
         TextInputLayout textInputLayoutCorreoRegistro = findViewById(R.id.textInputCorreoLayoutR);
 
+        // Verifica si el campo correo está vacío o no tiene el formato correcto
         if (editTextCorreoRegistro.getText().toString().trim().isEmpty()) {
             textInputLayoutCorreoRegistro.setHelperText("Obligatorio*");
             textInputLayoutCorreoRegistro.setError(null);
@@ -172,17 +206,29 @@ public class RegistroActivity extends AppCompatActivity {
             textInputLayoutCorreoRegistro.setError(null);
             textInputLayoutCorreoRegistro.setHelperText(null);
         }
-
         return true;
     }
 
+    /**
+     * Método para verificar si el correo electrónico ya está en uso.
+     *
+     * @param correo El correo a verificar.
+     * @return true si el correo ya está en uso, false si no.
+     */
     private boolean verificarCorreoEnUso(String correo) {
         return usuarioConsulta.correoEnUso(correo);
     }
 
-    private boolean validarTelefono(String telefono){
+    /**
+     * Método para validar el número de teléfono del usuario.
+     *
+     * @param telefono El teléfono a validar.
+     * @return true si el teléfono es válido, false si es inválido.
+     */
+    private boolean validarTelefono(String telefono) {
         TextInputLayout textInputLayoutTelefonoRegistro = findViewById(R.id.textInputTelefonoLayoutR);
 
+        // Verifica si el campo teléfono está vacío o no tiene el formato correcto
         if (editTextTelefono.getText().toString().trim().isEmpty()) {
             textInputLayoutTelefonoRegistro.setHelperText("Obligatorio*");
             textInputLayoutTelefonoRegistro.setError(null);
@@ -195,14 +241,21 @@ public class RegistroActivity extends AppCompatActivity {
             textInputLayoutTelefonoRegistro.setError(null);
             textInputLayoutTelefonoRegistro.setHelperText(null);
         }
-
         return true;
     }
 
-    private boolean validarContrasenyas(String contrasenya, String confirmarContrasenya){
+    /**
+     * Valida las contraseñas introducidas por el usuario.
+     *
+     * @param contrasenya          La contraseña introducida por el usuario.
+     * @param confirmarContrasenya La contraseña confirmada por el usuario.
+     * @return true si las contraseñas son válidas, false si alguna de las validaciones falla.
+     */
+    private boolean validarContrasenyas(String contrasenya, String confirmarContrasenya) {
         TextInputLayout textInputLayoutContrasenya = findViewById(R.id.textInputContrasenyaLayoutR);
         TextInputLayout textInputLayoutConfirmarContrasenya = findViewById(R.id.textInputConfirmarContrasenyaLayoutR);
 
+        // Verifica que la contraseña tenga al menos 6 caracteres
         if (editTextContrasenyaRegistro.getText().toString().trim().isEmpty() || editTextContrasenyaRegistro.length() < 6) {
             textInputLayoutContrasenya.setError("La contraseña debe contener al menos 6 caracteres");
             return false;
@@ -211,6 +264,7 @@ public class RegistroActivity extends AppCompatActivity {
             textInputLayoutContrasenya.setHelperText(null);
         }
 
+        // Verifica que el campo de confirmar contraseña no esté vacío y que coincida con la contraseña original
         if (editTextConfirmarContrasenya.getText().toString().trim().isEmpty()) {
             textInputLayoutConfirmarContrasenya.setError("Obligatorio*");
             textInputLayoutConfirmarContrasenya.setHelperText(null);
@@ -227,13 +281,19 @@ public class RegistroActivity extends AppCompatActivity {
         return true;
     }
 
-    private boolean validarSeleccionarPerfil(String perfil){
+    /**
+     * Valida que el perfil seleccionado no esté vacío.
+     *
+     * @param perfil El perfil seleccionado en el Spinner.
+     * @return true si el perfil es válido, false si el perfil está vacío.
+     */
+    private boolean validarSeleccionarPerfil(String perfil) {
         TextInputLayout textInputLayoutSeleccionarPerfil = findViewById(R.id.textInputSpinnerLayoutR);
 
-        if(spinnerSeleccionarPerfil.getText().toString().trim().isEmpty()){
+        // Verifica si el perfil está vacío y muestra un mensaje de error
+        if (spinnerSeleccionarPerfil.getText().toString().trim().isEmpty()) {
             textInputLayoutSeleccionarPerfil.setHelperText("Obligatorio*");
             return false;
-
         } else {
             textInputLayoutSeleccionarPerfil.setHelperText(null);
         }
@@ -241,7 +301,11 @@ public class RegistroActivity extends AppCompatActivity {
         return true;
     }
 
-    // Método para verificar todas las validaciones y habilitar/deshabilitar el botón
+    /**
+     * Verifica todas las validaciones de los campos de entrada y habilita o deshabilita el botón de registro.
+     * <p>
+     * Este método se asegura de que todos los campos sean válidos antes de permitir que el usuario se registre.
+     */
     private void verificarValidaciones() {
         String nombre = editTextNombre.getText().toString();
         String apellidos = editTexApellidos.getText().toString();
@@ -251,7 +315,7 @@ public class RegistroActivity extends AppCompatActivity {
         String confirmarContrasenya = editTextConfirmarContrasenya.getText().toString();
         String perfil = spinnerSeleccionarPerfil.getText().toString().trim();
 
-        // Verificar todas las condiciones de validación
+        // Verifica todas las condiciones de validación
         boolean esValido = validarNombre(nombre)
                 && validarApellidos(apellidos)
                 && validarCorreo(correo)
@@ -259,36 +323,42 @@ public class RegistroActivity extends AppCompatActivity {
                 && validarContrasenyas(contrasenya, confirmarContrasenya)
                 && validarSeleccionarPerfil(perfil);
 
-        // Habilitar o deshabilitar el botón según el resultado
+        // Habilita o deshabilita el botón de registro según el resultado de la validación
         buttonRegistrarse.setEnabled(esValido);
 
-        if(buttonRegistrarse.isEnabled()){
+        // Cambia el color del botón según su estado de habilitación
+        if (buttonRegistrarse.isEnabled()) {
             buttonRegistrarse.setBackgroundColor(getColor(R.color.color_botonIntro));
             buttonRegistrarse.setTextColor(getColor(R.color.blanco));
-
         } else {
             buttonRegistrarse.setBackgroundColor(getColor(R.color.color_desactivado_fondo));
             buttonRegistrarse.setTextColor(getColor(R.color.color_desactivado_texto));
         }
-
     }
 
+    /**
+     * Configura la validación dinámica de los campos de texto.
+     * <p>
+     * Este método agrega un TextWatcher a cada campo para verificar la validez de los datos a medida que el usuario los ingresa.
+     */
     private void configurarValidacionDinamica() {
-        // Crear un único TextWatcher
+        // Crear un único TextWatcher que será agregado a todos los campos
         TextWatcher textWatcherCambios = new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                verificarValidaciones(); // Llamar al método de verificación
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                verificarValidaciones(); // Llama al método que verifica las validaciones
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
         };
 
-        // Agregar el TextWatcher a cada campo
+        // Agregar el TextWatcher a cada campo de entrada
         editTextNombre.addTextChangedListener(textWatcherCambios);
         editTexApellidos.addTextChangedListener(textWatcherCambios);
         editTextCorreoRegistro.addTextChangedListener(textWatcherCambios);
@@ -297,10 +367,15 @@ public class RegistroActivity extends AppCompatActivity {
         editTextConfirmarContrasenya.addTextChangedListener(textWatcherCambios);
         spinnerSeleccionarPerfil.addTextChangedListener(textWatcherCambios);
 
-        // Verificar el estado inicial al configurar
+        // Verificar las validaciones al configurar
         verificarValidaciones();
     }
 
+    /**
+     * Muestra un diálogo de Términos y Condiciones antes de completar el registro.
+     * <p>
+     * Este método muestra un diálogo con los términos y condiciones y verifica si el usuario acepta los términos.
+     */
     private void mostrarTerminosYCondicionesEnAlertDialog() {
 
         if (isFinishing()) {
@@ -310,12 +385,13 @@ public class RegistroActivity extends AppCompatActivity {
         LayoutInflater inflaterTerminosCondiciones = getLayoutInflater();
         View vistaDialogo = inflaterTerminosCondiciones.inflate(R.layout.alert_dialog_terminos_condiciones, null);
 
+        // Crear el diálogo y configurarlo
         AlertDialog.Builder builderTyC = new AlertDialog.Builder(this);
         builderTyC.setTitle("Términos y Condiciones");
         builderTyC.setIcon(R.drawable.ic_terminos_condiciones);
         builderTyC.setView(vistaDialogo);
 
-        // Configuración de Checkboxes
+        // Configurar los checkboxes en el diálogo
         configurarCheckBoxesAlertDialog(vistaDialogo);
 
         // Botones del diálogo
@@ -334,6 +410,11 @@ public class RegistroActivity extends AppCompatActivity {
         builderTyC.show(); // Muestra el diálogo
     }
 
+    /**
+     * Configura los checkboxes de los términos y condiciones en el diálogo.
+     * <p>
+     * Este método configura el comportamiento de los checkboxes en el diálogo de términos y condiciones.
+     */
     private void configurarCheckBoxesAlertDialog(View vistaDialogo) {
         checkBoxUsoServicio = vistaDialogo.findViewById(R.id.checkBoxUsoServicio);
         checkBoxPropiedadIntelectual = vistaDialogo.findViewById(R.id.checkBoxPropiedadIntelectual);
@@ -341,6 +422,7 @@ public class RegistroActivity extends AppCompatActivity {
         checkBoxPromociones = vistaDialogo.findViewById(R.id.checkBoxPromociones);
         checkBoxAceptarTodo = vistaDialogo.findViewById(R.id.checkBoxAceptarTodo);
 
+        // Si el usuario marca "Aceptar todo", se marcan todos los checkboxes
         checkBoxAceptarTodo.setOnCheckedChangeListener((buttonView, isChecked) -> {
             checkBoxUsoServicio.setChecked(isChecked);
             checkBoxPropiedadIntelectual.setChecked(isChecked);
@@ -349,8 +431,13 @@ public class RegistroActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Guarda los datos del nuevo usuario en la base de datos local (SQLite) y en Firebase.
+     * <p>
+     * Este método crea un nuevo objeto de usuario, lo guarda en SQLite y luego lo sube a Firebase.
+     */
     private void guardarUsuario() {
-        // Obtener texto de los editText
+        // Obtener los datos de los campos
         String nombre = editTextNombre.getText().toString();
         String apellidos = editTexApellidos.getText().toString();
         String correo = editTextCorreoRegistro.getText().toString();
@@ -361,65 +448,64 @@ public class RegistroActivity extends AppCompatActivity {
         // Crear un objeto Usuario con los datos obtenidos
         Usuario nuevoUsuario = new Usuario(nombre, apellidos, correo, telefono, contrasenya, tipoUsuario);
 
-        // Guardar en la base de datos local SQLite
+        // Guardar en SQLite y Firebase
         long idUsuario = usuarioConsulta.insertarUsuario(nuevoUsuario);
         Log.d("ID Usuario", "Id usuario" + idUsuario);
 
         if (idUsuario != -1) {
-            // Inserción exitosa en SQLite, ahora guardar en Firebase
+            // Guardar en Firebase
             Map<String, Object> mapUsuario = UsuarioUtil.anadirUsuarioFirebase(nuevoUsuario);
             guardarUsuarioEnFirebase(correo, contrasenya, mapUsuario);
-
         } else {
-            // Error al registrar en la base de datos local
             Log.e("Error", "Error al insertar usuario ");
             Snackbar.make(buttonRegistrarse, "Error en el registro", Snackbar.LENGTH_LONG).show();
             recargarInterfaz();
         }
     }
 
+    /**
+     * Guarda los datos del usuario en Firebase después de su registro exitoso.
+     *
+     * @param correo      El correo electrónico del usuario.
+     * @param contrasenya La contraseña del usuario.
+     * @param mapUsuario  Los datos del usuario a guardar en Firebase.
+     */
     private void guardarUsuarioEnFirebase(String correo, String contrasenya, Map<String, Object> mapUsuario) {
-        // Usar FirebaseUtils para registrar al usuario
+        // Usar FirebaseUtils para registrar al usuario en Firebase
         FirebaseUtil.registrarUsuarioConEmailYContrasena(correo, contrasenya, task -> {
             if (task.isSuccessful()) {
-                // El usuario fue registrado con éxito, ahora obtenemos el userId
                 String userId = FirebaseUtil.obtenerUserId();
                 if (userId != null) {
-                    // Guardar los datos del usuario en la base de datos
                     FirebaseUtil.guardarUsuarioEnFirebaseDatabase(userId, mapUsuario, dbTask -> {
                         if (dbTask.isSuccessful()) {
-                            // Datos guardados correctamente
                             Log.d("Firebase guardarusuario", "Se completó el registro");
                             Snackbar.make(buttonRegistrarse, "Usuario registrado con éxito", Snackbar.LENGTH_LONG).show();
-                            // Redirigir a la pantalla de inicio de sesión
                             startActivity(new Intent(RegistroActivity.this, InicioSesionActivity.class));
-                            finish();  // Opcional: para asegurarse de que no se puede volver a esta actividad
+                            finish();
                         } else {
-                            // Error al guardar los datos del usuario
                             Log.e("Firebase guardarusuario", "Error al guardar datos en Firebase", dbTask.getException());
                             Snackbar.make(buttonRegistrarse, "Error al guardar datos del usuario", Snackbar.LENGTH_LONG).show();
                         }
                     });
                 } else {
-                    // Error al obtener el ID del usuario
                     Log.e("Firebase", "No se pudo obtener el ID del usuario");
                     Snackbar.make(buttonRegistrarse, "Error en el registro", Snackbar.LENGTH_LONG).show();
                 }
             } else {
-                // Error en el registro
                 Log.e("Firebase", "Error al registrar usuario", task.getException());
                 Snackbar.make(buttonRegistrarse, "Error en el registro: " + task.getException().getMessage(), Snackbar.LENGTH_LONG).show();
             }
         });
+    }
 
-}
-
-    private void recargarInterfaz(){
+    /**
+     * Recarga la interfaz de usuario después de un error en el registro.
+     * Este método limpia los campos de correo y contraseña para que el usuario pueda intentar registrarse nuevamente.
+     */
+    private void recargarInterfaz() {
         editTextCorreoRegistro.getText().clear();
         editTextContrasenyaRegistro.getText().clear();
         editTextConfirmarContrasenya.getText().clear();
     }
-
-
 }
 

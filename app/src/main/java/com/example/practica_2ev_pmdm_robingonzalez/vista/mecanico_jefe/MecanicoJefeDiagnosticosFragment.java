@@ -138,7 +138,7 @@ public class MecanicoJefeDiagnosticosFragment extends Fragment implements Repara
             }
         };
 
-        // Llamar a la utilidad para cargar las reparaciones sin ningún filtro
+        // Llamar al metodo para cargar las reparaciones
         ReparacionUtil.cargarReparaciones(listener);
     }
 
@@ -173,7 +173,7 @@ public class MecanicoJefeDiagnosticosFragment extends Fragment implements Repara
     }
 
     private void configurarRecyclerView() {
-        // Configurar el adaptador solo una vez
+
         listaReparacion = new ArrayList<>();
         reparacionAdapter = new ReparacionAdapter(listaReparacion, getContext(), MecanicoJefeDiagnosticosFragment.this);
         recyclerViewDiagnostico.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -188,7 +188,7 @@ public class MecanicoJefeDiagnosticosFragment extends Fragment implements Repara
         // Inicializar elementos en la vista
         AutoCompleteTextView autoCompleteDiagnostico = vistaDialogo.findViewById(R.id.autoCompleteTextViewDiagnostico);
         TextInputEditText textInputEditTextPresupuesto = vistaDialogo.findViewById(R.id.editTextPresupuesto);
-        DatePicker datePickerDiagnosticos = vistaDialogo.findViewById(R.id.datePickerDiagnosticos);
+
 
         // Configurar los valores existentes
         if (reparacion.getTipoReparacion() != null) {
@@ -202,21 +202,11 @@ public class MecanicoJefeDiagnosticosFragment extends Fragment implements Repara
             textInputEditTextPresupuesto.setText(""); // Si no hay presupuesto, dejar vacío el campo
         }
 
-        // Verificar si la fecha de fin no es null y asignar al DatePicker
-        if (reparacion.getFechaFin() != null) {
-            // Convertir la fecha fin al formato para el DatePicker
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(reparacion.getFechaFin());
-            datePickerDiagnosticos.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-        }
 
         // Crear un adaptador para el AutoCompleteTextView
         String[] diagnosticosArray = getResources().getStringArray(R.array.diagnosticos_array);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, diagnosticosArray);
         autoCompleteDiagnostico.setAdapter(adapter);
-
-        // Configurar el click en el DatePicker
-        datePickerDiagnosticos.setOnClickListener(v -> configurarDatePickerDialog(datePickerDiagnosticos));
 
         builderDiagnostico.setView(vistaDialogo)
                 .setTitle("Diagnóstico, presupuesto y fecha fin")
@@ -224,11 +214,7 @@ public class MecanicoJefeDiagnosticosFragment extends Fragment implements Repara
                 .setPositiveButton("Guardar", (dialog, which) -> {
                     String diagnosticoSeleccionado = autoCompleteDiagnostico.getText().toString().trim();
 
-                    // Convertir la fecha del DatePicker a string para mostrarla
-                    int year = datePickerDiagnosticos.getYear();
-                    int month = datePickerDiagnosticos.getMonth();
-                    int day = datePickerDiagnosticos.getDayOfMonth();
-                    String fechaFinDiagnostico = day + "/" + (month + 1) + "/" + year;
+
 
                     // Obtener el presupuesto
                     Double presupuesto = obtenerPresupuesto(textInputEditTextPresupuesto);
@@ -238,9 +224,9 @@ public class MecanicoJefeDiagnosticosFragment extends Fragment implements Repara
 
                     if (!diagnosticoSeleccionado.isEmpty() && Arrays.asList(diagnosticosArray).contains(diagnosticoSeleccionado)) {
                         // Guardar diagnóstico, presupuesto y fecha de finalización en Firebase
-                        guardarDiagnosticoEnFirebase(reparacion, diagnosticoSeleccionado, fechaFinDiagnostico, presupuesto);
+                        guardarDiagnosticoEnFirebase(reparacion, diagnosticoSeleccionado, presupuesto);
                     } else {
-                        Snackbar.make(vistaDialogo, "Seleccione un diagnóstico válido y una fecha de finalización.", Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(vistaDialogo, "Seleccione un diagnóstico válido", Snackbar.LENGTH_LONG).show();
                     }
                 })
                 .setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
@@ -271,55 +257,16 @@ public class MecanicoJefeDiagnosticosFragment extends Fragment implements Repara
         }
     }
 
-    private void configurarDatePickerDialog(DatePicker datePicker) {
-
-        // Obtener la fecha actual
-        Calendar calendar = Calendar.getInstance();
-        int ano = calendar.get(Calendar.YEAR);
-        int mes = calendar.get(Calendar.MONTH);
-        int dia = calendar.get(Calendar.DAY_OF_MONTH);
-
-        // Establecer la fecha mínima que el usuario puede elegir (solo fechas futuras)
-        calendar.add(Calendar.DATE, 1); // Evitar que se seleccione el mismo día o días anteriores
-        long minDate = calendar.getTimeInMillis();
-
-        // Configurar el DatePicker para la fecha actual
-        datePicker.updateDate(ano, mes, dia);
-
-        // Establecer la fecha mínima que el usuario puede elegir
-        datePicker.setMinDate(minDate);
-    }
 
 
-    private void guardarDiagnosticoEnFirebase(Reparacion reparacion, String diagnosticoSeleccionado, String fechaFinDiagnostico, double presupuesto) {
-        // Convertir la fecha de fin (string) a un Timestamp
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        try {
-            Date date = sdf.parse(fechaFinDiagnostico);
-            long timestamp = date != null ? date.getTime() : 0;
-
-            // Comprobar si la fecha seleccionada es anterior a la fecha actual
-            Calendar currentCalendar = Calendar.getInstance();
-            long currentTimeInMillis = currentCalendar.getTimeInMillis();
-
-            if (timestamp < currentTimeInMillis) {
-                // Mostrar un Snackbar de advertencia y cancelar la actualización
-                Snackbar.make(recyclerViewDiagnostico,
-                        "¡La fecha seleccionada no es válida! Selecciona una fecha futura", Snackbar.LENGTH_LONG).show();
-                return; // Salir del método y no continuar con la actualización
-            }
+    private void guardarDiagnosticoEnFirebase(Reparacion reparacion, String diagnosticoSeleccionado, double presupuesto) {
 
             // Actualizar los campos en Firebase
             ReparacionUtil.actualizarTipoReparacion(reparacion.getCorreoMecanicoJefe(), reparacion.getMatriculaCoche(), diagnosticoSeleccionado);
-            ReparacionUtil.actualizarFechaFinDiagnostico(timestamp, reparacion.getCorreoMecanicoJefe(), reparacion.getMatriculaCoche());
             ReparacionUtil.actualizarPresupuesto(reparacion.getCorreoMecanicoJefe(), reparacion.getMatriculaCoche(), presupuesto);
 
             // Notificar al usuario que el diagnóstico se ha guardado
             Snackbar.make(recyclerViewDiagnostico, "Diagnóstico guardado correctamente.", Snackbar.LENGTH_SHORT).show();
-        } catch (ParseException e) {
-            e.printStackTrace();
-            Snackbar.make(recyclerViewDiagnostico, "Error al procesar la fecha.", Snackbar.LENGTH_LONG).show();
-        }
     }
 
 }

@@ -15,7 +15,6 @@ public class Reparacion {
     private List<Tarea> tareas;
     private Double presupuesto;
     private Long fechaInicio;
-    private Long fechaFin;
     private List<String> correosMecanicosAsignados;
     private String correoMecanicoJefe;
     private String correoCliente;
@@ -33,7 +32,6 @@ public class Reparacion {
         this.tareas = new ArrayList<>();
         this.presupuesto = null;
         this.fechaInicio = System.currentTimeMillis();
-        this.fechaFin = null;
         this.correoMecanicoJefe = correoMecanicoJefe;
         this.correoCliente = correoCliente;
         this.correosMecanicosAsignados = correosMecanicosAsignados != null ? correosMecanicosAsignados : new ArrayList<>();
@@ -97,13 +95,6 @@ public class Reparacion {
         this.fechaInicio = fechaInicio;
     }
 
-    public Long getFechaFin() {
-        return fechaFin;
-    }
-
-    public void setFechaFin(Long fechaFin) {
-        this.fechaFin = fechaFin;
-    }
 
     public List<String> getCorreosMecanicosAsignados() {
         return correosMecanicosAsignados;

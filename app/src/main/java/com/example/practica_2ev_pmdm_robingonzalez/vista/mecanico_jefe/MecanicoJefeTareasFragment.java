@@ -1,8 +1,11 @@
 package com.example.practica_2ev_pmdm_robingonzalez.vista.mecanico_jefe;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,10 +19,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.practica_2ev_pmdm_robingonzalez.R;
 import com.example.practica_2ev_pmdm_robingonzalez.adaptadores.MecanicoAdapter;
-import com.example.practica_2ev_pmdm_robingonzalez.adaptadores.ReparacionAdapter;
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.FirebaseUtil;
 import com.example.practica_2ev_pmdm_robingonzalez.modelo.Reparacion;
 import com.example.practica_2ev_pmdm_robingonzalez.modelo.Usuario;
@@ -44,6 +47,8 @@ public class MecanicoJefeTareasFragment extends Fragment {
     private RecyclerView recyclerViewListaMecanicos;
     private MecanicoAdapter mecanicoAdapter;
     private List<Usuario> listaMecanicos;
+    private TextView textViewNoHayReparacionEnProceso;
+    private CardView cardViewAsignarTareasMecanico;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,7 +63,7 @@ public class MecanicoJefeTareasFragment extends Fragment {
         View vista = inflater.inflate(R.layout.mecanico_jefe_tareas_fragment, container, false);
         inicializarComponentes(vista);
         obtenerHelper();
-        volverMenuPrincipalDesdeDiagnosticos();
+        volverMenuPrincipalDesdeTareas();
         configurarRecyclerView();
         cargarSpinnerReparacionesEnProceso();
         return vista;
@@ -69,8 +74,9 @@ public class MecanicoJefeTareasFragment extends Fragment {
         spinnerSeleccionaReparacionTarea = vista.findViewById(R.id.spinnerSeleccionaReparacionParaTarea);
         linearLayoutAsignarTareas = vista.findViewById(R.id.linearLayoutAsignarTareas);
         recyclerViewListaMecanicos = vista.findViewById(R.id.recyclerViewListaMecánicos);
+        textViewNoHayReparacionEnProceso = vista.findViewById(R.id.textViewNoHayReparacionesEnProceso);
+        cardViewAsignarTareasMecanico = vista.findViewById(R.id.cardViewAsignarTareaMecanico);
     }
-
     private void obtenerHelper() {
         if (getActivity() instanceof MecanicoJefeActivity) {
             mecanicoJefeActivity = (MecanicoJefeActivity) getActivity();
@@ -79,7 +85,7 @@ public class MecanicoJefeTareasFragment extends Fragment {
         }
     }
 
-    private void volverMenuPrincipalDesdeDiagnosticos() {
+    private void volverMenuPrincipalDesdeTareas() {
         imageViewVolver.setOnClickListener(v -> mecanicoJefeActivity.volverMenuPrincipal());
     }
 
@@ -114,7 +120,7 @@ public class MecanicoJefeTareasFragment extends Fragment {
                             if (reparacion != null && reparacion.getCorreoMecanicoJefe().equals(correoMecanicoJefe)) {
                                 // Guardar el ID único de la reparación y el nombre/estado para mostrar
                                 String reparacionInfo = reparacion.getTipoReparacion() + " - "
-                                        + reparacion.getCorreoCliente() + " (" + reparacion.getMatriculaCoche() + ")";
+                                        + reparacion.getCorreoCliente();
                                 reparacionesEnProceso.add(reparacionInfo);
                                 reparacionesMap.put(reparacionInfo, snapshot.getKey()); // Guardar el ID de la reparación
                             }
@@ -122,6 +128,15 @@ public class MecanicoJefeTareasFragment extends Fragment {
 
                         // Llamar al método para cargar datos en el spinner
                         cargarDatosEnSpinner(reparacionesEnProceso, reparacionesMap);
+
+                        // Si no hay reparaciones en proceso, ocultar el CardView y mostrar el TextView
+                        if (reparacionesEnProceso.isEmpty()) {
+                            cardViewAsignarTareasMecanico.setVisibility(View.GONE); // Ocultar CardView
+                            textViewNoHayReparacionEnProceso.setVisibility(View.VISIBLE); // Mostrar TextView
+                        } else {
+                            cardViewAsignarTareasMecanico.setVisibility(View.VISIBLE); // Mostrar CardView
+                            textViewNoHayReparacionEnProceso.setVisibility(View.GONE); // Ocultar TextView
+                        }
                     }
 
                     @Override
@@ -130,6 +145,7 @@ public class MecanicoJefeTareasFragment extends Fragment {
                     }
                 });
     }
+
 
     private void cargarDatosEnSpinner(List<String> reparacionesEnProceso, Map<String, String> reparacionesMap) {
         if (reparacionesEnProceso != null && !reparacionesEnProceso.isEmpty()) {
@@ -141,29 +157,32 @@ public class MecanicoJefeTareasFragment extends Fragment {
             spinnerSeleccionaReparacionTarea.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    // Obtener la reparación seleccionada
                     String seleccionada = parent.getItemAtPosition(position).toString();
                     String idReparacion = reparacionesMap.get(seleccionada);
 
-                    // Mostrar el LinearLayout para asignar tareas
-                    linearLayoutAsignarTareas.setVisibility(View.VISIBLE);
+                    // Actualizar en SharedPreferences (opcional)
+                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("idReparacion", idReparacion);
+                    editor.apply();
+                    Log.d("TAREAS MJEFE", "idReparacion Enviado: " +idReparacion);
 
-                    // Cargar los mecánicos y actualizar el adaptador con el nuevo idReparacion
+
+
+                    Log.d("ID_REPARACION", "ID de reparación seleccionado: " + idReparacion);
+                    mecanicoAdapter.setIdReparacion(idReparacion);
+                    mecanicoAdapter.notifyDataSetChanged();
+                    // Mostrar el LinearLayout y cargar mecánicos
+                    linearLayoutAsignarTareas.setVisibility(View.VISIBLE);
                     cargarMecanicosDeReparacion(idReparacion);
-                    mecanicoAdapter = new MecanicoAdapter(listaMecanicos, getContext(), idReparacion);
-                    recyclerViewListaMecanicos.setAdapter(mecanicoAdapter);
                 }
 
                 @Override
                 public void onNothingSelected(AdapterView<?> parent) {
-                    // No hacer nada
                 }
             });
-        } else {
-            Log.d("MecanicoJefeTareas", "No hay reparaciones en proceso para mostrar en el spinner.");
         }
     }
-
 
     private void cargarMecanicosDeReparacion(String idReparacion) {
         DatabaseReference reparacionesRef = FirebaseUtil.getFirebaseDatabase().getReference("Reparaciones");
@@ -218,5 +237,6 @@ public class MecanicoJefeTareasFragment extends Fragment {
                     });
         }
     }
+
 
 }

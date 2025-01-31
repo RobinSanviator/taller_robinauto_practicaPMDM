@@ -1,5 +1,10 @@
 package com.example.practica_2ev_pmdm_robingonzalez.modelo;
 
+import android.util.Log;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class Notificacion {
     private String id;
     private String correoEmisor;
@@ -67,5 +72,22 @@ public class Notificacion {
 
     public void setFechaEnvio(Long fechaEnvio) {
         this.fechaEnvio = fechaEnvio;
+    }
+
+    // Método para guardar la notificación en Firebase
+    public void guardarNotificacionEnFirebase() {
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference("Notificaciones");
+        String idNotificacion = database.push().getKey();  // Obtiene una clave única para la notificación
+        this.setId(idNotificacion);
+
+        // Guarda la notificación en Firebase
+        database.child(idNotificacion).setValue(this)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Log.d("Notificacion", "Notificación guardada exitosamente");
+                    } else {
+                        Log.d("Notificacion", "Error al guardar la notificación", task.getException());
+                    }
+                });
     }
 }
