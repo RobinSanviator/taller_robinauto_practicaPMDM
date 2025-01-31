@@ -202,9 +202,9 @@ public class ClientePerfilFragment extends Fragment {
     private void guardarModificacionEnBaseDeDatos(Usuario usuario) {
         // Obtener instancia de consultas y realizar la actualización en SQLite
         UsuarioConsulta usuarioConsulta = TallerRobinautoSQLite.getInstance(getContext()).obtenerUsuarioConsultas();
-        boolean actualizadoEnSQLite = usuarioConsulta.actualizarUsuario(usuario);
+         usuarioConsulta.actualizarUsuario(usuario);
 
-        if (actualizadoEnSQLite) {
+
             // Actualizar usuario en Firebase si SQLite fue exitoso
             UsuarioUtil.actualizarUsuarioEnFirebase(usuario);
 
@@ -225,8 +225,6 @@ public class ClientePerfilFragment extends Fragment {
                             Snackbar.make(getView(), "Error al verificar la actualización en Firebase", Snackbar.LENGTH_LONG).show();
                         }
                     });
-        } else {
-            Snackbar.make(getView(), "Error al actualizar usuario en la base de datos local", Snackbar.LENGTH_LONG).show();
+
         }
     }
-}

@@ -21,6 +21,10 @@ import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperAjustes
 import com.example.practica_2ev_pmdm_robingonzalez.clases_de_ayuda.HelperMenuPrincipal;
 
 
+/**
+ * Fragmento que representa la pantalla de ajustes del administrador.
+ * Permite al administrador gestionar configuraciones como el modo oscuro, cerrar sesión, ver términos y condiciones, etc.
+ */
 public class AdministrativoAjustesFragment extends Fragment {
 
     private SwitchCompat switchCompatBotonModoOscuro;
@@ -35,33 +39,60 @@ public class AdministrativoAjustesFragment extends Fragment {
     private HelperMenuPrincipal helperMenuPrincipal;
     private HelperAjustes helperAjustes;
 
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
+    /**
+     * Infla el layout del fragmento y configura los componentes y funcionalidades.
+     *
+     * @param inflater El inflador para convertir el layout XML en un objeto de vista.
+     * @param container El contenedor donde el fragmento será insertado.
+     * @param savedInstanceState El estado guardado del fragmento, si lo hubiera.
+     * @return La vista inflada con el contenido del fragmento.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflar disño del layout de ajustes
+        // Inflar diseño del layout de ajustes
         View vista = inflater.inflate(R.layout.administrativo_ajustes_fragment, container, false);
 
+        // Inicializar componentes
         inicializarComponentes(vista);
+
+        // Obtener los helpers para funcionalidades
         obtenerHelper();
+
+        // Cargar preferencia del modo oscuro desde SharedPreferences
         cargarPreferenciaModoOscuro();
+
+        // Activar el modo oscuro basado en la preferencia
         modoOscuro();
+
+        // Configurar el botón para volver al menú principal
         volverAlMenuDesdeAjustes();
+
+        // Introducir el nombre del usuario en el ajuste de la interfaz
         introducirNombreUsuarioAjustes();
+
+        // Configurar los términos y condiciones
         mostrarTyC();
+
+        // Configurar la funcionalidad para cerrar sesión
         cerrarSesion();
+
+        // Configurar la funcionalidad para salir de la aplicación
         salir();
 
         return vista;
     }
 
+    /**
+     * Inicializa los componentes del layout asociados con este fragmento.
+     *
+     * @param vista La vista inflada del fragmento.
+     */
     private void inicializarComponentes(View vista) {
         switchCompatBotonModoOscuro = vista.findViewById(R.id.switchBotonModoOscuroAjustesAdministrativo);
         progressBarModoOscuro = vista.findViewById(R.id.progressBarModoOscuroAjustesAdministrativo);
@@ -72,19 +103,22 @@ public class AdministrativoAjustesFragment extends Fragment {
         relativeLayoutSalir = vista.findViewById(R.id.relativeLayoutSalirAjustesAdministrativo);
         baseDeDatosGestionUsuarios = TallerRobinautoSQLite.getInstance(getContext());
         usuarioConsulta = baseDeDatosGestionUsuarios.obtenerUsuarioConsultas();
-
     }
 
+    /**
+     * Obtiene los objetos Helper necesarios para la funcionalidad del fragmento.
+     */
     private void obtenerHelper() {
         if (getActivity() instanceof AdministrativoActivity) {
             activityAdministrativo = ((AdministrativoActivity) getActivity());
             helperMenuPrincipal = activityAdministrativo.getHelperMenuPrincipal();
             helperAjustes = activityAdministrativo.getHelperAjustes();
-
         }
     }
 
-
+    /**
+     * Configura el comportamiento del botón para volver al menú principal.
+     */
     private void volverAlMenuDesdeAjustes(){
         imageViewVolverMenu.setOnClickListener(v -> {
             if(helperMenuPrincipal != null){
@@ -92,10 +126,15 @@ public class AdministrativoAjustesFragment extends Fragment {
             } else {
                 Log.e("AdministrativoAjustesFragment", "No se pudo volver al menú principal");
             }
-
         });
     }
 
+    /**
+     * Introduce el nombre del usuario en el ajuste de la interfaz, obteniéndolo desde la base de datos.
+     *
+     * Si el nombre está disponible en la base de datos, lo muestra en la interfaz,
+     * y si no, lo obtiene de Firebase a través del helper.
+     */
     private void introducirNombreUsuarioAjustes(){
         correo = activityAdministrativo.getCorreo();
         String nombre = usuarioConsulta.obtenerNombreYApellidos(correo);
@@ -106,61 +145,71 @@ public class AdministrativoAjustesFragment extends Fragment {
         } else {
             helperAjustes.cargarNombreCabeceraDesdeFirebase(correo, textViewNombre);
         }
-
     }
 
+    /**
+     * Configura el modo oscuro según la preferencia del usuario.
+     * Llama al helper para que active el modo oscuro si es necesario.
+     */
     private void modoOscuro() {
         String correo = activityAdministrativo.getCorreo();
         if(helperAjustes != null ){
             helperAjustes.modoOscuro(correo, switchCompatBotonModoOscuro, progressBarModoOscuro,  getContext());
-
-        }else{
+        } else {
             Log.e("AdministrativoAjustesFragment", "Error al cargar el modo oscuro");
         }
     }
 
-
-    // Cargar la preferencia del modo oscuro desde SharedPreferences
+    /**
+     * Carga la preferencia del modo oscuro desde las SharedPreferences.
+     *
+     * Llama al helper para cargar y aplicar la preferencia de modo oscuro.
+     */
     private void cargarPreferenciaModoOscuro() {
         if(helperAjustes != null){
             helperAjustes.cargarPreferenciaModoOscuro(switchCompatBotonModoOscuro, getContext());
-        }else{
+        } else {
             Log.e("AdministrativoAjustesFragment", "No se puede cargar la preferencia de modo oscuro");
         }
     }
 
+    /**
+     * Configura la funcionalidad para mostrar los términos y condiciones cuando el usuario lo solicite.
+     */
     private void mostrarTyC(){
         relativeLayoutTyC.setOnClickListener(v -> {
             if(helperAjustes != null){
                 helperAjustes.mostrarTerminosYCondiciones(getContext());
-            }else{
+            } else {
                 Log.e("AdministrativoAjustesFragment", "helperAjustes null: no se pudo mostrar términos y condiciones");
             }
         });
-
     }
 
+    /**
+     * Configura el comportamiento para cerrar sesión en la aplicación.
+     */
     private void cerrarSesion(){
         relativeLayoutCerrarSesion.setOnClickListener(v -> {
             if(helperAjustes != null){
                 helperAjustes.cerrarSesion(getContext());
-
             } else {
                 Log.e("AdministrativoAjustesFragment", "No se pudo cerrar sesión");
             }
         });
     }
 
+    /**
+     * Configura el comportamiento para salir de la aplicación.
+     */
     private void salir(){
         relativeLayoutSalir.setOnClickListener(v -> {
             if(helperAjustes != null){
                 helperAjustes.salir(getContext());
-
             } else {
                 Log.e("AdministrativoAjustesFragment", "No se pudo salir de la app");
             }
         });
     }
-
-
 }
+

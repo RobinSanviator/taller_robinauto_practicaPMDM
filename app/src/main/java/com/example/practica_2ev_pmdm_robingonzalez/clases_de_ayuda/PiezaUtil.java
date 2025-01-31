@@ -14,18 +14,31 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+/**
+ * Clase de utilidad para gestionar las operaciones relacionadas con las piezas en Firebase.
+ * Proporciona métodos para cargar piezas, actualizar cantidades, obtener precios y iconos asociados a las piezas.
+ */
 public class PiezaUtil {
-    // Obtener la instancia de la base de datos
+
+    // Obtener la instancia de la base de datos de Firebase
     private static FirebaseDatabase database = FirebaseUtil.getFirebaseDatabase();
-    // Obtener la referencia del nodo "Piezas"
+    // Obtener la referencia del nodo "Piezas" en la base de datos
     private static DatabaseReference databaseReference = database.getReference("Piezas");
 
-    // Método para cargar las piezas desde Firebase
+    /**
+     * Carga todas las piezas desde Firebase y notifica los cambios a través de un ValueEventListener.
+     *
+     * @param listener El listener que maneja los eventos de cambio en los datos.
+     */
     public static void cargarPiezas(ValueEventListener listener) {
         databaseReference.addValueEventListener(listener);
     }
 
-    // Método para cargar las piezas disponibles (con cantidad mayor a 0)
+    /**
+     * Carga las piezas disponibles (con cantidad mayor a 0) desde Firebase.
+     *
+     * @param listener El listener que maneja los eventos de cambio en los datos.
+     */
     public static void cargarPiezasDisponibles(ValueEventListener listener) {
         // Realizar la consulta para obtener las piezas con cantidad mayor a 0
         databaseReference.orderByChild("cantidad")
@@ -33,6 +46,12 @@ public class PiezaUtil {
                 .addListenerForSingleValueEvent(listener);
     }
 
+    /**
+     * Actualiza la cantidad de una pieza en Firebase restando la cantidad solicitada.
+     *
+     * @param nombrePieza El nombre de la pieza a actualizar.
+     * @param cantidadSolicitada La cantidad a restar de la pieza.
+     */
     public static void actualizarCantidadPieza(String nombrePieza, int cantidadSolicitada) {
         // Realizar una consulta para buscar la pieza por nombre
         Query query = databaseReference.orderByChild("nombre").equalTo(nombrePieza);
@@ -70,7 +89,12 @@ public class PiezaUtil {
         });
     }
 
-
+    /**
+     * Suma una cantidad específica a la cantidad actual de una pieza en Firebase.
+     *
+     * @param nombrePieza El nombre de la pieza a actualizar.
+     * @param cantidadSeleccionada La cantidad a sumar a la pieza.
+     */
     public static void sumarCantidadPieza(String nombrePieza, int cantidadSeleccionada) {
         // Realizar una consulta para buscar la pieza por nombre
         Query query = databaseReference.orderByChild("nombre").equalTo(nombrePieza);
@@ -102,6 +126,12 @@ public class PiezaUtil {
         });
     }
 
+    /**
+     * Obtiene el precio de una pieza según su nombre.
+     *
+     * @param nombrePieza El nombre de la pieza.
+     * @return El precio de la pieza. Si no se encuentra, devuelve un precio genérico (10.0).
+     */
     public static double obtenerPrecioPorNombre(String nombrePieza) {
         switch (nombrePieza) {
             case "Pastillas de freno":
@@ -135,7 +165,12 @@ public class PiezaUtil {
         }
     }
 
-    // Método que retorna el ID del icono correspondiente según el nombre de la pieza
+    /**
+     * Obtiene el ID del icono correspondiente a una pieza según su nombre.
+     *
+     * @param nombrePieza El nombre de la pieza.
+     * @return El ID del recurso de icono. Si no se encuentra, devuelve un icono genérico (R.drawable.pieza).
+     */
     public static int obtenerIconoPorNombre(String nombrePieza) {
         switch (nombrePieza) {
             case "Pastillas de freno":
@@ -165,7 +200,7 @@ public class PiezaUtil {
             case "Gas refrigerante":
                 return R.drawable.ic_gas_refrigerante;
             default:
-                return R.drawable.pieza;
+                return R.drawable.pieza; // Icono genérico para piezas no especificadas
         }
     }
 }

@@ -12,13 +12,24 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+/**
+ * Clase de utilidad para gestionar las operaciones relacionadas con las tareas en Firebase.
+ * Proporciona métodos para guardar, actualizar y cargar tareas, así como para verificar y actualizar
+ * el estado de las reparaciones asociadas.
+ */
 public class TareaUtil {
-    //Obtener la instancia de la base de datos
+
+    // Obtener la instancia de la base de datos de Firebase
     private static FirebaseDatabase database = FirebaseUtil.getFirebaseDatabase();
-    //Obtener la referencia del nodo "Tareas"
+    // Obtener la referencia del nodo "Tareas" en la base de datos
     private static DatabaseReference databaseReference = database.getReference("Tareas");
 
-    // Método para guardar la tarea en Firebase
+    /**
+     * Guarda una tarea en Firebase asociada a una reparación específica.
+     *
+     * @param idReparacion El ID de la reparación a la que pertenece la tarea.
+     * @param tarea La tarea que se va a guardar.
+     */
     public static void guardarTareaEnFirebase(String idReparacion, Tarea tarea) {
         // Generar un ID único para la tarea usando push()
         String tareaId = databaseReference.push().getKey();
@@ -42,7 +53,12 @@ public class TareaUtil {
         }
     }
 
-    // Método para actualizar la tarea en Firebase (estado y comentario)
+    /**
+     * Actualiza una tarea en Firebase, modificando su estado y comentario.
+     *
+     * @param tareaId El ID de la tarea que se va a actualizar.
+     * @param tarea La tarea con los nuevos datos.
+     */
     public static void actualizarTareaEnFirebase(String tareaId, Tarea tarea) {
         // Actualizamos el estado y el comentario de la tarea
         databaseReference.child(tareaId).setValue(tarea)
@@ -55,13 +71,24 @@ public class TareaUtil {
                 });
     }
 
-    // Método para cargar las tareas filtradas por el correo del mecánico
+    /**
+     * Carga las tareas asociadas a un mecánico específico, filtradas por su correo.
+     *
+     * @param correoMecanico El correo del mecánico cuyas tareas se van a cargar.
+     * @param listener El listener que maneja los eventos de cambio en los datos.
+     */
     public static void cargarTareasPorCorreoMecanico(String correoMecanico, ValueEventListener listener) {
         // Realizar la consulta para obtener las tareas filtradas por el correo del mecánico
         databaseReference.orderByChild("correoMecanicoAsignado").equalTo(correoMecanico)
                 .addListenerForSingleValueEvent(listener);
     }
 
+    /**
+     * Verifica si todas las tareas asociadas a una reparación están terminadas y, en ese caso,
+     * actualiza el estado de la reparación a "Finalizado".
+     *
+     * @param idReparacion El ID de la reparación cuyas tareas se van a verificar.
+     */
     public static void verificarYActualizarEstadoReparacion(String idReparacion) {
         // Referencia a la base de datos de reparaciones
         DatabaseReference reparacionesReference = database.getReference("Reparaciones");
@@ -122,5 +149,4 @@ public class TareaUtil {
                 });
     }
 }
-
 

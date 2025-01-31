@@ -32,100 +32,106 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * Adaptador para mostrar una lista de reparaciones en un RecyclerView.
+ * Este adaptador maneja la vinculación de los datos de las reparaciones a las vistas de la interfaz de usuario.
+ *
+ */
 public class ReparacionAdapter extends RecyclerView.Adapter<ReparacionAdapter.ReparacionViewHolder> {
 
-    private List<Reparacion> reparaciones;
-    private Context contexto;
-    private OnItemClickListener onItemClickListener;
+    private List<Reparacion> reparaciones;  // Lista de reparaciones que se van a mostrar
+    private Context contexto;  // Contexto de la actividad o fragmento
+    private OnItemClickListener onItemClickListener;  // Listener para manejar clics en los ítems
 
-
-    // Constructor
+    /**
+     * Constructor para inicializar el adaptador con los datos y el listener de clics.
+     *
+     * @param reparaciones        lista de reparaciones
+     * @param contexto            contexto de la aplicación
+     * @param onItemClickListener listener para los clics en los ítems
+     */
     public ReparacionAdapter(List<Reparacion> reparaciones, Context contexto, OnItemClickListener onItemClickListener) {
         this.reparaciones = reparaciones;
         this.contexto = contexto;
         this.onItemClickListener = onItemClickListener;
-
     }
 
-    // Interfaz para manejar el clic en el item
+    /**
+     * Interfaz para manejar el clic en un ítem de la lista.
+     */
     public interface OnItemClickListener {
-        void onItemClick(Reparacion reparacion);
+        void onItemClick(Reparacion reparacion);  // Método que se ejecuta cuando se hace clic en un ítem
     }
 
     @NonNull
     @Override
     public ReparacionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // Inflamos la vista del ítem de la lista (cada elemento de la RecyclerView)
         View view = LayoutInflater.from(contexto).inflate(R.layout.lista_reparacion, parent, false);
-        return new ReparacionViewHolder(view);
+        return new ReparacionViewHolder(view);  // Retornamos un nuevo ViewHolder con la vista inflada
     }
-
 
     @Override
     public void onBindViewHolder(@NonNull ReparacionViewHolder holder, int position) {
-        Reparacion reparacion = reparaciones.get(position);
+        Reparacion reparacion = reparaciones.get(position);  // Obtenemos la reparación correspondiente a la posición
 
-
-        // Mostrar datos básicos de la reparación
+        // Mostrar los datos de la reparación en las vistas
         holder.textViewReparacionNombre.setText("Reparación: " + reparacion.getTipoReparacion());
-        colorearFondoDiagnosticado(reparacion, holder);
+        colorearFondoDiagnosticado(reparacion, holder);  // Coloreamos el fondo según el estado de la reparación
 
-        holder.textViewMatriculaCoche.setText("Matrícula: " + reparacion.getMatriculaCoche());
-        // Mostrar inicialmente solo la matrícula
+        // Mostrar la matrícula del coche (inicialmente solo la matrícula)
         holder.textViewMatriculaCoche.setText("Matrícula: " + reparacion.getMatriculaCoche());
 
-        // Usar el método de CocheUtil para obtener datos adicionales
+        // Llamamos a un método que obtiene más detalles sobre el coche usando la matrícula
         CocheUtil.obtenerDatosCoche(reparacion.getMatriculaCoche(), new CocheUtil.DatosCocheCallback() {
             @Override
             public void onSuccess(Coche coche) {
+                // Si la consulta es exitosa, mostramos los datos del coche completos
                 String datosCoche = "Coche: " + coche.getMarca() + " " + coche.getModelo() + " (" + coche.getMatricula() + ")";
                 holder.textViewMatriculaCoche.setText(datosCoche);
             }
 
             @Override
             public void onFailure(String mensajeError) {
+                // Si la consulta falla, mostramos un mensaje de error
                 holder.textViewMatriculaCoche.setText(mensajeError);
             }
         });
 
+        // Mostramos el estado de la reparación
         holder.textViewReparacionEstado.setText("Estado: " + reparacion.getEstadoReparacion());
-        colorearFondoEstadoReparacion(reparacion, holder);
-        // Verificar que está finalizada la reparación y enviar notificación
+        colorearFondoEstadoReparacion(reparacion, holder);  // Coloreamos el fondo según el estado de la reparación
 
-
-        //Mostrar textView una vez que el cliente responde a la notificaión
+        // Mostrar si el cliente ha aceptado el presupuesto
         mostrarSiAceptaPresupuesto(reparacion, holder);
 
-        // Obtener y mostrar el nombre completo del mecánico jefe
+        // Obtener el nombre del mecánico jefe y mostrarlo en el UI
         if (reparacion.getCorreoMecanicoJefe() != null) {
             UsuarioUtil.obtenerNombreMecanicoPorCorreo(reparacion.getCorreoMecanicoJefe(), holder.textViewReparacionNombreMecanicoJefe);
         } else {
             holder.textViewReparacionNombreMecanicoJefe.setText("Correo mecánico jefe no proporcionado");
         }
 
-
-        // Obtener y mostrar el nombre completo del cliente
+        // Obtener el nombre del cliente y mostrarlo en el UI
         if (reparacion.getCorreoCliente() != null) {
             UsuarioUtil.obtenerNombreClientePorCorreo(reparacion.getCorreoCliente(), holder.textViewReparacionNombreCliente);
         } else {
             holder.textViewReparacionNombreCliente.setText("Correo cliente no proporcionado");
         }
 
-
-
-
-        // Configurar el botón "Mostrar más"
+        // Configurar el botón "Mostrar más" para ver detalles de la reparación
         holder.buttonMostrarDetalleReparacion.setOnClickListener(v -> mostrarDetalleReparacion(reparacion));
     }
 
-
-
     @Override
     public int getItemCount() {
-        return reparaciones.size();
+        return reparaciones.size();  // Retorna el tamaño de la lista de reparaciones
     }
 
-
-    // ViewHolder
+    /**
+     * ViewHolder que contiene las vistas para cada ítem de la lista.
+     * Este es el encargado de asociar los datos con las vistas.
+     */
     public class ReparacionViewHolder extends RecyclerView.ViewHolder {
         TextView textViewReparacionNombre, textViewMatriculaCoche, textViewReparacionNombreCliente,
                 textViewReparacionNombreMecanicoJefe, textViewReparacionEstado, textViewAprobado;
@@ -133,6 +139,7 @@ public class ReparacionAdapter extends RecyclerView.Adapter<ReparacionAdapter.Re
 
         public ReparacionViewHolder(@NonNull View itemView) {
             super(itemView);
+            // Inicializamos las vistas dentro del ítem
             textViewReparacionNombre = itemView.findViewById(R.id.textViewReparacionNombre);
             textViewMatriculaCoche = itemView.findViewById(R.id.textViewReparacionMatriculaCoche);
             textViewReparacionNombreCliente = itemView.findViewById(R.id.textViewReparacionNombreCliente);
@@ -141,19 +148,28 @@ public class ReparacionAdapter extends RecyclerView.Adapter<ReparacionAdapter.Re
             textViewAprobado = itemView.findViewById(R.id.textViewReparacionAceptadoPresupuesto);
             buttonMostrarDetalleReparacion = itemView.findViewById(R.id.buttonMostrarDetalleReparacion);
 
-            // Añadir el clic en todo el item (CardView)
+            // Añadimos el clic en todo el item (CardView)
             itemView.setOnClickListener(v -> {
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
                     Reparacion reparacion = reparaciones.get(position);
                     if (onItemClickListener != null) {
-                        onItemClickListener.onItemClick(reparacion); // Llamamos al onItemClick() del fragmento
+                        onItemClickListener.onItemClick(reparacion);  // Llamamos al método onItemClick del listener
                     }
                 }
             });
         }
     }
 
+
+    /**
+     * Cambia el color de fondo de un TextView según el estado de la reparación.
+     * Este método se utiliza para resaltar visualmente el estado de una reparación
+     * (Pendiente, En proceso, Finalizado) con colores específicos.
+     *
+     * @param reparacion La reparación cuyo estado se va a representar.
+     * @param holder     El ViewHolder que contiene las vistas a actualizar.
+     */
     private void colorearFondoEstadoReparacion(Reparacion reparacion, ReparacionViewHolder holder) {
         TextView textViewReparacionEstado = holder.itemView.findViewById(R.id.textViewReparacionEstado);
         switch (reparacion.getEstadoReparacion()) {
@@ -172,18 +188,30 @@ public class ReparacionAdapter extends RecyclerView.Adapter<ReparacionAdapter.Re
         }
     }
 
-
+    /**
+     * Cambia el color de fondo de un TextView dependiendo de si la reparación ha sido diagnosticada.
+     * Si la reparación no ha sido diagnosticada, se resalta con un color específico.
+     *
+     * @param reparacion La reparación cuyo estado de diagnóstico se va a representar.
+     * @param holder     El ViewHolder que contiene las vistas a actualizar.
+     */
     private void colorearFondoDiagnosticado(Reparacion reparacion, ReparacionViewHolder holder) {
         TextView textViewReparacionDiagnosticado = holder.itemView.findViewById(R.id.textViewReparacionNombre);
 
-        if(reparacion.getTipoReparacion().equals("Sin diagnosticar")){
+        if (reparacion.getTipoReparacion().equals("Sin diagnosticar")) {
             textViewReparacionDiagnosticado.setBackgroundColor(ContextCompat.getColor(contexto, R.color.color_pendiente));
         } else {
             textViewReparacionDiagnosticado.setBackgroundColor(ContextCompat.getColor(contexto, R.color.color_desactivado_fondo));
         }
-
     }
 
+    /**
+     * Muestra un TextView indicando si el presupuesto de la reparación ha sido aprobado o no.
+     * Dependiendo del estado del presupuesto, se muestra un mensaje y se aplica un color de fondo.
+     *
+     * @param reparacion La reparación cuyo estado de presupuesto se va a representar.
+     * @param holder     El ViewHolder que contiene las vistas a actualizar.
+     */
     private void mostrarSiAceptaPresupuesto(Reparacion reparacion, ReparacionViewHolder holder) {
         TextView textViewPresupuestoAprobado = holder.textViewAprobado;
 
@@ -206,18 +234,21 @@ public class ReparacionAdapter extends RecyclerView.Adapter<ReparacionAdapter.Re
                     ContextCompat.getColor(contexto, R.color.color_texto)
             );
         } else {
-            textViewPresupuestoAprobado.setVisibility(View.GONE);
+            textViewPresupuestoAprobado.setVisibility(View.GONE); // Ocultar si no hay información
         }
     }
 
-
-
-    // Método para mostrar el AlertDialog
+    /**
+     * Muestra un diálogo con los detalles de una reparación.
+     * Este diálogo incluye información como el coche asociado, el tipo de reparación,
+     * el estado, el presupuesto, los correos del cliente y del mecánico, y la fecha de inicio.
+     *
+     * @param reparacion La reparación cuyos detalles se van a mostrar.
+     */
     private void mostrarDetalleReparacion(Reparacion reparacion) {
         AlertDialog.Builder builder = new AlertDialog.Builder(contexto);
         LayoutInflater inflater = LayoutInflater.from(contexto);
         View vistaDialogo = inflater.inflate(R.layout.reparacion_mostrar_detalle_dialog, null);
-
 
         // Configurar los campos del AlertDialog
         TextView dialogCoche = vistaDialogo.findViewById(R.id.textViewCocheDetalleReparacion);
@@ -229,21 +260,21 @@ public class ReparacionAdapter extends RecyclerView.Adapter<ReparacionAdapter.Re
         TextView dialogFechaInicio = vistaDialogo.findViewById(R.id.textViewFechaInicioDetalleReparacion);
         TextView dialogoAprobado = vistaDialogo.findViewById(R.id.textViewAceptadoPresupuesto);
 
-
-        // Usar el método para obtener los datos del coche
+        // Obtener los datos del coche asociado a la reparación
         CocheUtil.obtenerDatosCoche(reparacion.getMatriculaCoche(), new CocheUtil.DatosCocheCallback() {
             @Override
             public void onSuccess(Coche coche) {
-                String datosCoche = " " +coche.getMarca() + " " + coche.getModelo() + " (" + coche.getMatricula() + ")";
+                String datosCoche = " " + coche.getMarca() + " " + coche.getModelo() + " (" + coche.getMatricula() + ")";
                 dialogCoche.setText(datosCoche);
             }
 
             @Override
             public void onFailure(String mensajeError) {
-                dialogCoche.setText(mensajeError);
+                dialogCoche.setText(mensajeError); // Mostrar mensaje de error si falla la obtención de datos
             }
         });
 
+        // Establecer los datos de la reparación en los campos del diálogo
         dialogTipoReparacion.setText(reparacion.getTipoReparacion());
         dialogEstadoReparacion.setText(reparacion.getEstadoReparacion());
         dialogPresupuesto.setText(String.valueOf(reparacion.getPresupuesto() + "€"));
@@ -251,25 +282,27 @@ public class ReparacionAdapter extends RecyclerView.Adapter<ReparacionAdapter.Re
         dialogCorreoMecanico.setText(reparacion.getCorreoMecanicoJefe());
         dialogoAprobado.setText(reparacion.getPresupuestoAprobado());
 
-
+        // Formatear y mostrar la fecha de inicio
         transformarFechaEnObjetoDate(reparacion, dialogFechaInicio);
 
-
-
+        // Configurar el diálogo y mostrarlo
         builder.setView(vistaDialogo)
                 .setPositiveButton("Cerrar", (dialog, which) -> dialog.dismiss());
-
 
         AlertDialog dialog = builder.create();
         dialog.show();
     }
 
-
-    private void transformarFechaEnObjetoDate(Reparacion reparacion,
-                                              TextView dialogFechaInicio) {
+    /**
+     * Convierte un timestamp en una fecha legible y la muestra en un TextView.
+     * Si no hay fecha disponible, se muestra un mensaje predeterminado.
+     *
+     * @param reparacion        La reparación que contiene el timestamp de la fecha de inicio.
+     * @param dialogFechaInicio El TextView donde se mostrará la fecha formateada.
+     */
+    private void transformarFechaEnObjetoDate(Reparacion reparacion, TextView dialogFechaInicio) {
         // Obtener y formatear la fecha de inicio
         Long timestampInicio = reparacion.getFechaInicio();
-
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 
         // Verificar si hay una fecha de inicio
@@ -277,8 +310,7 @@ public class ReparacionAdapter extends RecyclerView.Adapter<ReparacionAdapter.Re
             Date fechaInicio = new Date(timestampInicio); // Convertir a objeto Date
             dialogFechaInicio.setText(sdf.format(fechaInicio)); // Formatear y mostrar la fecha de inicio
         } else {
-            dialogFechaInicio.setText("Fecha no disponible");
+            dialogFechaInicio.setText("Fecha no disponible"); // Mostrar mensaje si no hay fecha
         }
-
     }
 }

@@ -12,31 +12,47 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+/**
+ * Clase utilitaria para manejar las operaciones relacionadas con las reparaciones en Firebase.
+ * Esta clase permite cargar reparaciones, guardar reparaciones, y actualizar datos como el diagnóstico,
+ * el presupuesto, el estado de la reparación, y las tareas asociadas a las reparaciones.
+ */
 public class ReparacionUtil {
-    //Obtener la instancia de la base de datos
     private static FirebaseDatabase database = FirebaseUtil.getFirebaseDatabase();
-    //Obtener la referencia del nodo "Reparaciones"
     private static DatabaseReference databaseReference = database.getReference("Reparaciones");
 
+    /**
+     * Carga todas las reparaciones desde Firebase y ejecuta el listener pasado.
+     *
+     * @param listener El listener que manejará los datos obtenidos desde Firebase.
+     */
     public static void cargarReparaciones(ValueEventListener listener) {
         databaseReference.addValueEventListener(listener);
     }
 
+    /**
+     * Carga las reparaciones filtradas por el correo del cliente desde Firebase
+     * y ejecuta el listener pasado.
+     *
+     * @param correoCliente El correo del cliente para filtrar las reparaciones.
+     * @param listener El listener que manejará los datos obtenidos desde Firebase.
+     */
     public static void cargarReparacionesPorCorreoCliente(String correoCliente, ValueEventListener listener) {
-        // Realizar la consulta filtrada por correoCliente
         databaseReference.orderByChild("correoCliente").equalTo(correoCliente)
                 .addListenerForSingleValueEvent(listener);
     }
 
+    /**
+     * Guarda una reparación en Firebase.
+     *
+     * @param reparacion El objeto de la reparación a guardar en Firebase.
+     */
     public static void guardarReparacionEnFirebase(Reparacion reparacion) {
-        // Obtener una clave única para la reparación usando push() para generar un ID
         String idReparacion = databaseReference.push().getKey();
 
         if (idReparacion != null) {
-            // Asignar el ID generado al objeto reparacion
             reparacion.setIdReparacion(idReparacion);
 
-            // Guardar la reparación con el ID generado en Firebase
             databaseReference.child(idReparacion).setValue(reparacion)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
@@ -48,12 +64,16 @@ public class ReparacionUtil {
         }
     }
 
-    // Método para actualizar el tipo de reparación en Firebase
+    /**
+     * Actualiza el tipo de reparación (diagnóstico) en Firebase para una reparación específica.
+     *
+     * @param correoMecanicoJefe El correo del mecánico jefe que está asociada con la reparación.
+     * @param matriculaCoche La matrícula del coche para identificar la reparación.
+     * @param nuevoDiagnostico El nuevo diagnóstico a establecer en la reparación.
+     */
     public static void actualizarTipoReparacion(String correoMecanicoJefe, String matriculaCoche, String nuevoDiagnostico) {
-        // Obtener la referencia a las reparaciones
         DatabaseReference reparacionesRef = databaseReference;
 
-        // Realizar una consulta para encontrar la reparación basada en el correo del mecánico jefe
         reparacionesRef.orderByChild("correoMecanicoJefe").equalTo(correoMecanicoJefe)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -62,7 +82,6 @@ public class ReparacionUtil {
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             Reparacion reparacion = snapshot.getValue(Reparacion.class);
                             if (reparacion != null && reparacion.getMatriculaCoche().equals(matriculaCoche)) {
-                                // Actualizar el tipo de reparación con el nuevo diagnóstico
                                 snapshot.getRef().child("tipoReparacion").setValue(nuevoDiagnostico)
                                         .addOnSuccessListener(aVoid -> Log.d("ReparacionUtil", "Diagnóstico actualizado correctamente."))
                                         .addOnFailureListener(e -> Log.e("ReparacionUtil", "Error al actualizar diagnóstico", e));
@@ -83,11 +102,16 @@ public class ReparacionUtil {
                 });
     }
 
+    /**
+     * Actualiza el presupuesto en Firebase para una reparación específica.
+     *
+     * @param correoMecanicoJefe El correo del mecánico jefe que está asociada con la reparación.
+     * @param matriculaCoche La matrícula del coche para identificar la reparación.
+     * @param nuevoPresupuesto El nuevo presupuesto a establecer en la reparación.
+     */
     public static void actualizarPresupuesto(String correoMecanicoJefe, String matriculaCoche, double nuevoPresupuesto) {
-        // Obtener la referencia a las reparaciones
         DatabaseReference reparacionesRef = databaseReference;
 
-        // Realizar una consulta para encontrar la reparación basada en el correo del mecánico jefe
         reparacionesRef.orderByChild("correoMecanicoJefe").equalTo(correoMecanicoJefe)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -96,7 +120,6 @@ public class ReparacionUtil {
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             Reparacion reparacion = snapshot.getValue(Reparacion.class);
                             if (reparacion != null && reparacion.getMatriculaCoche().equals(matriculaCoche)) {
-                                // Actualizar el presupuesto con el nuevo valor
                                 snapshot.getRef().child("presupuesto").setValue(nuevoPresupuesto)
                                         .addOnSuccessListener(aVoid -> Log.d("ReparacionUtil", "Presupuesto actualizado correctamente."))
                                         .addOnFailureListener(e -> Log.e("ReparacionUtil", "Error al actualizar presupuesto", e));
@@ -117,12 +140,15 @@ public class ReparacionUtil {
                 });
     }
 
-
+    /**
+     * Actualiza el estado de la reparación en Firebase en función de la respuesta del cliente.
+     *
+     * @param correoCliente El correo del cliente asociado con la reparación.
+     * @param respuesta La respuesta del cliente (aceptación o rechazo del presupuesto).
+     */
     public static void actualizarEstadoReparacion(String correoCliente, String respuesta) {
-        // Obtener la referencia a las reparaciones
         DatabaseReference reparacionesRef = databaseReference;
 
-        // Realizar una consulta para encontrar la reparación basada en el correo del cliente
         reparacionesRef.orderByChild("correoCliente").equalTo(correoCliente)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -131,15 +157,13 @@ public class ReparacionUtil {
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             Reparacion reparacion = snapshot.getValue(Reparacion.class);
                             if (reparacion != null) {
-                                // Actualizar el estado de la reparación según la respuesta
                                 String nuevoEstado = "Acepta el presupuesto".equals(respuesta) ? "En proceso" : "Finalizado";
                                 snapshot.getRef().child("estadoReparacion").setValue(nuevoEstado)
                                         .addOnSuccessListener(aVoid -> Log.d("ReparacionUtil", "Estado de reparación actualizado a " + nuevoEstado))
                                         .addOnFailureListener(e -> Log.e("ReparacionUtil", "Error al actualizar el estado de la reparación", e));
 
-                                // Si el cliente no acepta el presupuesto, actualizar la fecha de finalización
                                 if ("No acepta el presupuesto".equals(respuesta)) {
-                                    long fechaActual = System.currentTimeMillis(); // Fecha y hora actuales
+                                    long fechaActual = System.currentTimeMillis();
                                     snapshot.getRef().child("fechaFin").setValue(fechaActual)
                                             .addOnSuccessListener(aVoid -> Log.d("ReparacionUtil", "Fecha de finalización actualizada correctamente"))
                                             .addOnFailureListener(e -> Log.e("ReparacionUtil", "Error al actualizar la fecha de finalización", e));
@@ -162,11 +186,15 @@ public class ReparacionUtil {
                 });
     }
 
+    /**
+     * Actualiza el estado del presupuesto aprobado para una reparación.
+     *
+     * @param correoCliente El correo del cliente asociado con la reparación.
+     * @param estadoPresupuesto El estado del presupuesto aprobado (aprobado o no).
+     */
     public static void actualizarPresupuestoAprobado(String correoCliente, String estadoPresupuesto) {
-        // Obtener la referencia a las reparaciones
         DatabaseReference reparacionesRef = databaseReference;
 
-        // Realizar una consulta para encontrar la reparación basada en el correo del cliente
         reparacionesRef.orderByChild("correoCliente").equalTo(correoCliente)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -175,7 +203,6 @@ public class ReparacionUtil {
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             Reparacion reparacion = snapshot.getValue(Reparacion.class);
                             if (reparacion != null) {
-                                // Actualizar el campo presupuestoAprobado
                                 snapshot.getRef().child("presupuestoAprobado").setValue(estadoPresupuesto)
                                         .addOnSuccessListener(aVoid -> Log.d("ReparacionUtil", "Presupuesto aprobado actualizado correctamente."))
                                         .addOnFailureListener(e -> Log.e("ReparacionUtil", "Error al actualizar presupuesto aprobado", e));
@@ -196,20 +223,21 @@ public class ReparacionUtil {
                 });
     }
 
-    // Método para guardar la tarea en el nodo "Tareas"
+    /**
+     * Guarda una tarea en el nodo "Tareas" de Firebase.
+     *
+     * @param idReparacion El ID de la reparación asociada a la tarea.
+     * @param tarea El objeto de la tarea a guardar en Firebase.
+     */
     public static void guardarTareaEnFirebase(String idReparacion, Tarea tarea) {
-        // Obtener la referencia al nodo "Tareas" en la base de datos de Firebase
         DatabaseReference tareasRef = FirebaseDatabase.getInstance().getReference("Tareas");
 
-        // Generar un ID único para la tarea usando push(). Esto crea una clave única que sirve como identificador
         String tareaId = tareasRef.push().getKey();
 
         if (tareaId != null) {
-            // Asignar el ID generado y el ID de la reparación a la tarea
-            tarea.setIdTarea(tareaId);  // Asegura que cada tarea tiene un ID único
-            tarea.setIdReparacion(idReparacion);  // Asocia esta tarea con la reparación específica
+            tarea.setIdTarea(tareaId);
+            tarea.setIdReparacion(idReparacion);
 
-            // Guardar la tarea en el nodo "Tareas"
             tareasRef.child(tareaId).setValue(tarea)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
@@ -219,7 +247,6 @@ public class ReparacionUtil {
                         }
                     });
         } else {
-            // Si no se pudo generar un ID único para la tarea
             Log.e("ReparacionUtil", "No se pudo generar un ID para la tarea.");
         }
     }

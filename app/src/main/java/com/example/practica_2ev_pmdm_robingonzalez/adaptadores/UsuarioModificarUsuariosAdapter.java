@@ -19,24 +19,48 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import java.util.List;
 
+/**
+ * Adaptador para mostrar una lista de usuarios en un RecyclerView con la opción de modificar sus datos.
+ * Este adaptador permite editar la información de los usuarios y actualizarla tanto en la base de datos local (SQLite)
+ * como en la base de datos remota (Firebase).
+ */
 public class UsuarioModificarUsuariosAdapter extends RecyclerView.Adapter<UsuarioModificarUsuariosAdapter.UsuarioViewHolder> {
 
-    private List<Usuario> usuarios;
-    private Context contexto;
+    private List<Usuario> usuarios; // Lista de usuarios a mostrar
+    private Context contexto; // Contexto de la aplicación
 
-    // Constructor
+    /**
+     * Constructor del adaptador.
+     *
+     * @param usuarios Lista de usuarios a mostrar.
+     * @param contexto Contexto de la aplicación.
+     */
     public UsuarioModificarUsuariosAdapter(List<Usuario> usuarios, Context contexto) {
         this.usuarios = usuarios;
         this.contexto = contexto;
-    };
+    }
 
+    /**
+     * Se llama cuando se necesita crear un nuevo ViewHolder.
+     * Infla el layout correspondiente para cada usuario.
+     *
+     * @param parent El ViewGroup al que se añadirá la nueva vista.
+     * @param viewType El tipo de vista (no se utiliza en este caso).
+     * @return Un nuevo UsuarioViewHolder que contiene la vista inflada.
+     */
     @Override
     public UsuarioViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        // Inflar layout para los usuarios
+        // Inflar el layout para los usuarios
         View view = LayoutInflater.from(contexto).inflate(R.layout.lista_usuario, parent, false);
         return new UsuarioViewHolder(view);
     }
 
+    /**
+     * Se llama para enlazar los datos de un usuario con las vistas del ViewHolder.
+     *
+     * @param holder El ViewHolder que contiene las vistas a actualizar.
+     * @param position La posición del usuario en la lista.
+     */
     @Override
     public void onBindViewHolder(@NonNull UsuarioViewHolder holder, int position) {
         Usuario usuario = usuarios.get(position);
@@ -51,12 +75,22 @@ public class UsuarioModificarUsuariosAdapter extends RecyclerView.Adapter<Usuari
         holder.textViewModificarUsuario.setOnClickListener(v -> mostrarDialogoModificacion(usuario, holder));
     }
 
+    /**
+     * Devuelve el número de elementos en la lista de usuarios.
+     *
+     * @return El número de usuarios en la lista.
+     */
     @Override
     public int getItemCount() {
         return usuarios.size();
-    };
+    }
 
-
+    /**
+     * Muestra un diálogo para modificar los datos de un usuario.
+     *
+     * @param usuario El usuario cuyos datos se van a modificar.
+     * @param holder El ViewHolder que contiene las vistas del usuario.
+     */
     private void mostrarDialogoModificacion(Usuario usuario, UsuarioViewHolder holder) {
         // Crear el cuadro de diálogo
         AlertDialog.Builder builder = new AlertDialog.Builder(contexto);
@@ -69,7 +103,7 @@ public class UsuarioModificarUsuariosAdapter extends RecyclerView.Adapter<Usuari
         MaterialButton materialButtonGuardar = view.findViewById(R.id.buttonGuardarCambios);
 
         // Cargar los datos del usuario en los campos de texto
-       cargarDatosUsuarioEnCampos(usuario, editTextNombre, editTextApellidos, editTextTelefono);
+        cargarDatosUsuarioEnCampos(usuario, editTextNombre, editTextApellidos, editTextTelefono);
 
         builder.setView(view)
                 .setTitle("Modificar Usuario")
@@ -86,45 +120,51 @@ public class UsuarioModificarUsuariosAdapter extends RecyclerView.Adapter<Usuari
             usuario.setApellidos(editTextApellidos.getText().toString());
             usuario.setTelefono(editTextTelefono.getText().toString());
 
-
             // Llamar al método para actualizar el usuario en la base de datos local
             UsuarioConsulta usuarioConsulta = TallerRobinautoSQLite.getInstance(contexto).obtenerUsuarioConsultas();
-            boolean actualizadoEnSQLite = usuarioConsulta.actualizarUsuario(usuario);
+            usuarioConsulta.actualizarUsuario(usuario);
 
+            // Obtener el correo seguro para Firebase
             String correoFirebase = correoFirebase(usuario.getCorreo());
 
             // Llamar al método para actualizar el usuario en la base de datos remota (Firebase)
             UsuarioUtil.actualizarUsuarioEnFirebase(usuario);
 
-            // Verificar si la actualización fue exitosa en ambas bases de datos
-
-            if (actualizadoEnSQLite) {
-                // Si la actualización fue exitosa en SQLite, verificamos Firebase
                 FirebaseUtil.getDatabaseReference().child(correoFirebase) // Usar correo seguro aquí
                         .setValue(usuario)
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
                                 dialog.dismiss();
+                                Snackbar.make(holder.itemView, "Usuario actualizado correctamente", Snackbar.LENGTH_LONG).show();
+                                notifyDataSetChanged(); // Actualizar el RecyclerView
                             } else {
                                 // Si la actualización en Firebase falla
                                 Snackbar.make(holder.itemView, "Error al actualizar el usuario", Snackbar.LENGTH_LONG).show();
                             }
                         });
-            } else {
-                // Si no se pudo actualizar en SQLite, cerrar el diálogo
-                dialog.dismiss();
-                //Si se actualizó en Firebase
-                Snackbar.make(holder.itemView, "Usuario actualizado correctamente", Snackbar.LENGTH_LONG).show();
-                notifyDataSetChanged();
-            }
+
         });
     }
 
+    /**
+     * Convierte el correo del usuario en un formato seguro para Firebase.
+     *
+     * @param correo El correo del usuario.
+     * @return El correo con puntos reemplazados por guiones bajos.
+     */
     private String correoFirebase(String correo) {
         // Reemplazar el punto por guion bajo para que sea seguro para Firebase
         return correo.replace(".", "_");
     }
 
+    /**
+     * Carga los datos actuales del usuario en los campos de edición del diálogo.
+     *
+     * @param usuario El usuario cuyos datos se van a cargar.
+     * @param editTextNombre Campo de texto para el nombre.
+     * @param editTextApellidos Campo de texto para los apellidos.
+     * @param editTextTelefono Campo de texto para el teléfono.
+     */
     private void cargarDatosUsuarioEnCampos(Usuario usuario, TextInputEditText editTextNombre, TextInputEditText editTextApellidos, TextInputEditText editTextTelefono) {
         // Cargar los datos actuales del usuario en los campos de edición
         editTextNombre.setText(usuario.getNombre());
@@ -132,20 +172,29 @@ public class UsuarioModificarUsuariosAdapter extends RecyclerView.Adapter<Usuari
         editTextTelefono.setText(usuario.getTelefono());
     }
 
+    /**
+     * ViewHolder para los items del RecyclerView.
+     * Contiene las vistas que representan cada usuario en la lista.
+     */
     public static class UsuarioViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewNombreUsuario, textViewCorreoUsuario, textViewTelefonoUsuario, textViewTipoUsuario , textViewModificarUsuario;
+        TextView textViewNombreUsuario, textViewCorreoUsuario, textViewTelefonoUsuario, textViewTipoUsuario, textViewModificarUsuario;
         MaterialButton materialButtonGuardarCambios;
+
+        /**
+         * Constructor del ViewHolder.
+         *
+         * @param itemView La vista que representa un item en el RecyclerView.
+         */
         public UsuarioViewHolder(View itemView) {
             super(itemView);
+
+            // Inicializar las vistas que estarán en cada item
             textViewNombreUsuario = itemView.findViewById(R.id.textViewNombreUsuario);
             textViewCorreoUsuario = itemView.findViewById(R.id.textViewCorreoUsuario);
             textViewTelefonoUsuario = itemView.findViewById(R.id.textViewTelefonoUsuario);
             textViewModificarUsuario = itemView.findViewById(R.id.textViewModificarUsuario);
             textViewTipoUsuario = itemView.findViewById(R.id.textViewTipoUsuario);
             materialButtonGuardarCambios = itemView.findViewById(R.id.buttonGuardarCambios);
-
         }
     }
 }
-
-

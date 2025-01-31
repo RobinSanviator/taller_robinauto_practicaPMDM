@@ -13,10 +13,21 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+/**
+ * Clase auxiliar para manejar la carga y visualización de datos del perfil de usuario.
+ * Proporciona métodos para obtener y mostrar información del usuario desde la base de datos local (SQLite)
+ * y la base de datos remota (Firebase).
+ */
 public class HelperPerfil {
-    private UsuarioConsulta usuarioConsulta;
 
-    // Constructor para inicializar la instancia de UsuarioConsultas
+    private UsuarioConsulta usuarioConsulta; // Instancia para realizar consultas de usuario
+
+    /**
+     * Constructor del HelperPerfil.
+     *
+     * @param baseDeDatosGestionUsuarios Instancia de la base de datos SQLite para gestionar usuarios.
+     * @throws IllegalArgumentException Si la base de datos es null.
+     */
     public HelperPerfil(TallerRobinautoSQLite baseDeDatosGestionUsuarios) {
         if (baseDeDatosGestionUsuarios == null) {
             throw new IllegalArgumentException("La base de datos no puede ser null");
@@ -24,11 +35,21 @@ public class HelperPerfil {
         this.usuarioConsulta = baseDeDatosGestionUsuarios.obtenerUsuarioConsultas();
     }
 
-    // Método para cargar los datos del usuario en los TextViews
+    /**
+     * Carga los datos del usuario en los TextViews proporcionados.
+     * Primero intenta obtener los datos desde la base de datos local (SQLite).
+     * Si no se encuentran, los obtiene desde Firebase.
+     *
+     * @param correo El correo del usuario cuyos datos se van a cargar.
+     * @param textViewNombre TextView para mostrar el nombre del usuario.
+     * @param textViewApellido TextView para mostrar los apellidos del usuario.
+     * @param textViewCorreo TextView para mostrar el correo del usuario.
+     * @param textViewTelefono TextView para mostrar el teléfono del usuario.
+     */
     public void cargarDatosPerfil(String correo, TextView textViewNombre, TextView textViewApellido,
                                   TextView textViewCorreo, TextView textViewTelefono) {
 
-        // Llamar al método obtenerDatosUsuario de la base de datos
+        // Obtener los datos del usuario desde SQLite
         String[] datosUsuario = usuarioConsulta.obtenerDatosUsuario(correo);
 
         if (datosUsuario != null) {
@@ -38,19 +59,27 @@ public class HelperPerfil {
             textViewCorreo.setText(datosUsuario[2]);
             textViewTelefono.setText(datosUsuario[3]);
         } else {
-            // Si no encontramos los datos en SQLite, obtenemos los datos de Firebase
+            // Si no se encuentran los datos en SQLite, obtenerlos desde Firebase
             obtenerDatosUsuarioDesdeFirebase(correo, textViewNombre, textViewApellido, textViewCorreo, textViewTelefono);
         }
     }
 
-    // Método para obtener los datos de usuario desde Firebase y actualizar los TextViews
+    /**
+     * Obtiene los datos del usuario desde Firebase y los asigna a los TextViews proporcionados.
+     *
+     * @param correo El correo del usuario cuyos datos se van a obtener.
+     * @param textViewNombre TextView para mostrar el nombre del usuario.
+     * @param textViewApellido TextView para mostrar los apellidos del usuario.
+     * @param textViewCorreo TextView para mostrar el correo del usuario.
+     * @param textViewTelefono TextView para mostrar el teléfono del usuario.
+     */
     private void obtenerDatosUsuarioDesdeFirebase(String correo, TextView textViewNombre,
                                                   TextView textViewApellido, TextView textViewCorreo,
                                                   TextView textViewTelefono) {
 
         DatabaseReference usuariosRef = FirebaseUtil.getDatabaseReference();
 
-        // Buscar el usuario por correo en la base de datos de Firebase
+        // Buscar el usuario por correo en Firebase
         usuariosRef.orderByChild("correo").equalTo(correo)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -80,13 +109,20 @@ public class HelperPerfil {
                 });
     }
 
-    // Método para cargar el nombre y apellidos del usuario en el TextView de la cabecera
+    /**
+     * Carga el nombre y apellidos del usuario, así como su correo, en los TextViews de la cabecera.
+     * Los datos se obtienen desde Firebase.
+     *
+     * @param correo El correo del usuario cuyos datos se van a cargar.
+     * @param textViewNombreCabecera TextView para mostrar el nombre completo del usuario.
+     * @param textViewCorreoCabecera TextView para mostrar el correo del usuario.
+     */
     public void cargarDatosPerfilCabeceraDesdeFirebase(String correo, TextView textViewNombreCabecera,
                                                        TextView textViewCorreoCabecera) {
         // Obtener la referencia a la base de datos de Firebase
         DatabaseReference usuariosRef = FirebaseUtil.getDatabaseReference();
 
-        // Buscar el usuario por correo en la base de datos de Firebase
+        // Buscar el usuario por correo en Firebase
         usuariosRef.orderByChild("correo").equalTo(correo)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -119,8 +155,5 @@ public class HelperPerfil {
                     }
                 });
     }
-
-
 }
-
 

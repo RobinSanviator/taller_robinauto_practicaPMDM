@@ -26,24 +26,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * Fragmento que muestra una lista de piezas en el inventario para el usuario Administrativo.
+ * Permite cargar y visualizar las piezas disponibles, así como inicializar piezas predefinidas
+ * en Firebase si no existen.
+ */
 public class AdministrativoInventarioPiezaFragment extends Fragment {
 
-    private RecyclerView recyclerViewPieza;
-    private List<Pieza> listaPieza;
-    private PiezaAdapter piezaAdapter;
+    // Componentes de la interfaz de usuario
+    private RecyclerView recyclerViewPieza; // RecyclerView para mostrar la lista de piezas
+    private List<Pieza> listaPieza; // Lista de piezas
+    private PiezaAdapter piezaAdapter; // Adaptador para el RecyclerView
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        // Lógica de inicialización (si es necesaria)
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflar diseño layout para consultar el stock de piezas
+        // Inflar el diseño del layout del fragmento de piezas
         View vista = inflater.inflate(R.layout.administrativo_inventario_pieza_fragment, container, false);
 
+        // Inicializar componentes y configurar la lógica
         inicializarComponentes(vista);
         configurarRecyclerView();
         inicializarPiezasPredefinidas();
@@ -52,10 +59,18 @@ public class AdministrativoInventarioPiezaFragment extends Fragment {
         return vista;
     }
 
+    /**
+     * Inicializa los componentes de la interfaz de usuario.
+     *
+     * @param vista La vista inflada del fragmento.
+     */
     private void inicializarComponentes(View vista) {
         recyclerViewPieza = vista.findViewById(R.id.recyclerViewPiezas);
     }
 
+    /**
+     * Configura el RecyclerView para mostrar la lista de piezas.
+     */
     private void configurarRecyclerView() {
         listaPieza = new ArrayList<>();
         piezaAdapter = new PiezaAdapter(listaPieza, getContext(), null);
@@ -63,9 +78,13 @@ public class AdministrativoInventarioPiezaFragment extends Fragment {
         recyclerViewPieza.setAdapter(piezaAdapter);
     }
 
+    /**
+     * Inicializa las piezas predefinidas en Firebase si no existen.
+     */
     private void inicializarPiezasPredefinidas() {
         DatabaseReference piezasRef = FirebaseUtil.getFirebaseDatabase().getReference("Piezas");
 
+        // Lista de piezas predefinidas
         String[] piezasPredefinidas = {
                 "Pastillas de freno", "Líquido de frenos",
                 "Filtro de aceite", "Aceite de motor",
@@ -76,8 +95,9 @@ public class AdministrativoInventarioPiezaFragment extends Fragment {
                 "Gas refrigerante"
         };
 
-        int umbralMinimo = 5;
+        int umbralMinimo = 5; // Umbral mínimo de cantidad para las piezas
 
+        // Verificar y añadir piezas predefinidas a Firebase si no existen
         for (String piezaNombre : piezasPredefinidas) {
             piezasRef.orderByChild("nombre").equalTo(piezaNombre)
                     .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -86,7 +106,7 @@ public class AdministrativoInventarioPiezaFragment extends Fragment {
                             if (!snapshot.exists()) {
                                 String piezaId = piezasRef.push().getKey();
                                 if (piezaId != null) {
-                                    //Asignar precio por nombre
+                                    // Asignar precio por nombre
                                     double precio = PiezaUtil.obtenerPrecioPorNombre(piezaNombre);
                                     // Asignar el ID de la imagen según el nombre de la pieza
                                     int imagenPieza = PiezaUtil.obtenerIconoPorNombre(piezaNombre);
@@ -110,21 +130,22 @@ public class AdministrativoInventarioPiezaFragment extends Fragment {
         }
     }
 
-
-
+    /**
+     * Carga las piezas desde Firebase y las muestra en el RecyclerView.
+     */
     private void cargarPiezas() {
         PiezaUtil.cargarPiezas(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                listaPieza.clear();
+                listaPieza.clear(); // Limpiar la lista actual
                 for (DataSnapshot piezaSnapshot : snapshot.getChildren()) {
                     Pieza pieza = piezaSnapshot.getValue(Pieza.class);
                     if (pieza != null) {
-                        listaPieza.add(pieza);
+                        listaPieza.add(pieza); // Añadir la pieza a la lista
                     }
                 }
                 Log.d("Fragment", "Número de piezas cargadas: " + listaPieza.size());
-                piezaAdapter.notifyDataSetChanged();
+                piezaAdapter.notifyDataSetChanged(); // Notificar al adaptador que los datos han cambiado
             }
 
             @Override
@@ -133,5 +154,4 @@ public class AdministrativoInventarioPiezaFragment extends Fragment {
             }
         });
     }
-
 }

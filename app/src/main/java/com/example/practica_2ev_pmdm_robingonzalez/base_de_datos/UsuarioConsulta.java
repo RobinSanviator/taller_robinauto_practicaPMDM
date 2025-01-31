@@ -110,12 +110,7 @@ public class UsuarioConsulta {
         return usuario;
     }
 
-    public boolean actualizarUsuario(Usuario usuario) {
-        // Validar que el correo no sea nulo ni vacío
-        if (usuario.getCorreo() == null || usuario.getCorreo().isEmpty()) {
-            Log.e("ActualizarUsuario", "Correo del usuario no válido.");
-            return false;
-        }
+    public void actualizarUsuario(Usuario usuario) {
 
         // Crear un objeto ContentValues para almacenar los valores que se van a actualizar
         ContentValues values = new ContentValues();
@@ -126,7 +121,7 @@ public class UsuarioConsulta {
         // Verificar si hay campos para actualizar
         if (values.size() == 0) {
             Log.e("ActualizarUsuario", "No se proporcionaron datos para actualizar.");
-            return false;
+
         }
 
         // Intentar actualizar los datos del usuario en la base de datos
@@ -141,14 +136,14 @@ public class UsuarioConsulta {
             // Verificar si se actualizaron filas
             if (filasAfectadas > 0) {
                 Log.d("ActualizarUsuario", "Usuario actualizado correctamente. Filas afectadas: " + filasAfectadas);
-                return true;
+
             } else {
                 Log.e("ActualizarUsuario", "No se encontró ningún usuario con ese correo.");
-                return false;
+
             }
         } catch (SQLException e) {
             Log.e("ActualizarUsuario", "Error al actualizar el usuario", e);
-            return false;
+
         }
     }
 

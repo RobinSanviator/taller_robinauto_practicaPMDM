@@ -21,20 +21,45 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.List;
 
+/**
+ * Adaptador para manejar la lista de piezas en un RecyclerView.
+ * Este adaptador se encarga de mostrar la información de cada pieza, permitiendo al usuario
+ * añadir o eliminar cantidades de las mismas. Además, notifica a un listener cuando hay cambios
+ * en la cantidad o en el precio total.
+ */
 public class PiezaPedidoAdapter extends RecyclerView.Adapter<PiezaPedidoAdapter.PiezaPedidoViewHolder> {
 
-    private List<Pieza> listaPiezaPedido;
-    private Context contexto;
-    private OnCantidadChangeListener cantidadChangeListener;
+    private List<Pieza> listaPiezaPedido; // Lista de piezas a mostrar
+    private Context contexto; // Contexto de la aplicación
+    private OnCantidadChangeListener cantidadChangeListener; // Listener para cambios en la cantidad
 
-
-    // Interfaz para comunicar cambios al Fragment
+    /**
+     * Interfaz para comunicar cambios en la cantidad de piezas y el precio total.
+     */
     public interface OnCantidadChangeListener {
+        /**
+         * Método llamado cuando cambia la cantidad de una pieza.
+         *
+         * @param pieza La pieza cuya cantidad ha cambiado.
+         * @param cantidad La nueva cantidad de la pieza.
+         */
         void onCantidadChanged(Pieza pieza, int cantidad);
+
+        /**
+         * Método llamado cuando cambia el precio total de las piezas.
+         *
+         * @param precioTotal El nuevo precio total.
+         */
         void onPrecioTotalChanged(double precioTotal);
     }
 
-
+    /**
+     * Constructor del adaptador.
+     *
+     * @param listaPiezaPedido Lista de piezas a mostrar.
+     * @param contexto Contexto de la aplicación.
+     * @param listener Listener para manejar cambios en la cantidad y el precio total.
+     */
     public PiezaPedidoAdapter(List<Pieza> listaPiezaPedido, Context contexto,
                               OnCantidadChangeListener listener) {
         this.listaPiezaPedido = listaPiezaPedido;
@@ -42,6 +67,13 @@ public class PiezaPedidoAdapter extends RecyclerView.Adapter<PiezaPedidoAdapter.
         this.cantidadChangeListener = listener;
     }
 
+    /**
+     * Crea un nuevo ViewHolder inflando el layout de cada item del RecyclerView.
+     *
+     * @param parent El ViewGroup al que se añadirá la nueva vista.
+     * @param viewType El tipo de vista del nuevo ViewHolder.
+     * @return Un nuevo PiezaPedidoViewHolder que contiene la vista del item.
+     */
     @NonNull
     @Override
     public PiezaPedidoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -50,7 +82,12 @@ public class PiezaPedidoAdapter extends RecyclerView.Adapter<PiezaPedidoAdapter.
         return new PiezaPedidoViewHolder(vista);
     }
 
-
+    /**
+     * Vincula los datos de una pieza con las vistas del ViewHolder.
+     *
+     * @param holder El ViewHolder que contiene las vistas a actualizar.
+     * @param position La posición del item en la lista.
+     */
     @Override
     public void onBindViewHolder(@NonNull PiezaPedidoViewHolder holder, int position) {
         Pieza pieza = listaPiezaPedido.get(position);
@@ -66,7 +103,6 @@ public class PiezaPedidoAdapter extends RecyclerView.Adapter<PiezaPedidoAdapter.
         double precioTotal = pieza.getCantidad() * pieza.getPrecio();
         holder.textViewPrecioCantidad.setText(contexto.getString(R.string.precioPiezasAnadido, precioTotal));
 
-
         // Establecer la imagen de la pieza usando el método de PiezaUtil
         int iconoPieza = PiezaUtil.obtenerIconoPorNombre(pieza.getNombre());
         holder.imageViewPieza.setImageResource(iconoPieza);
@@ -77,21 +113,35 @@ public class PiezaPedidoAdapter extends RecyclerView.Adapter<PiezaPedidoAdapter.
         holder.materialButtonEliminar.setOnClickListener(view -> eliminarCantidad(pieza, position));
     }
 
+    /**
+     * Devuelve el número de items en la lista.
+     *
+     * @return El número de items en la lista.
+     */
     @Override
     public int getItemCount() {
         return listaPiezaPedido.size();
     }
 
-    // ViewHolder para los items del RecyclerView
+    /**
+     * ViewHolder para los items del RecyclerView.
+     * Contiene las vistas que representan cada pieza en la lista.
+     */
     public static class PiezaPedidoViewHolder extends RecyclerView.ViewHolder {
 
         TextView textViewNombre, textViewPrecio, textViewCantidad, textViewPrecioCantidad;
         ImageView imageViewPieza;
         MaterialButton materialButtonAnadir, materialButtonEliminar;
 
+        /**
+         * Constructor del ViewHolder.
+         *
+         * @param itemView La vista que representa un item en el RecyclerView.
+         */
         public PiezaPedidoViewHolder(View itemView) {
             super(itemView);
 
+            // Inicializar las vistas
             textViewNombre = itemView.findViewById(R.id.textViewNombrePieza);
             textViewPrecio = itemView.findViewById(R.id.textViewPrecioPiezaPedido);
             textViewCantidad = itemView.findViewById(R.id.textViewCantidadSeleccionada);
@@ -102,6 +152,12 @@ public class PiezaPedidoAdapter extends RecyclerView.Adapter<PiezaPedidoAdapter.
         }
     }
 
+    /**
+     * Muestra un diálogo para que el usuario introduzca la cantidad de una pieza.
+     *
+     * @param pieza La pieza cuya cantidad se va a modificar.
+     * @param position La posición de la pieza en la lista.
+     */
     private void mostrarDialogoCantidad(Pieza pieza, int position) {
         MaterialAlertDialogBuilder builderCantidad = new MaterialAlertDialogBuilder(contexto);
         LayoutInflater inflater = LayoutInflater.from(contexto);
@@ -156,7 +212,12 @@ public class PiezaPedidoAdapter extends RecyclerView.Adapter<PiezaPedidoAdapter.
                 .show();
     }
 
-
+    /**
+     * Elimina la cantidad seleccionada de una pieza.
+     *
+     * @param pieza La pieza cuya cantidad se va a eliminar.
+     * @param position La posición de la pieza en la lista.
+     */
     private void eliminarCantidad(Pieza pieza, int position) {
         // Reiniciar la cantidad de la pieza
         pieza.setCantidad(0);
@@ -174,6 +235,11 @@ public class PiezaPedidoAdapter extends RecyclerView.Adapter<PiezaPedidoAdapter.
         cantidadChangeListener.onPrecioTotalChanged(precioTotal);  // Notificar sobre el nuevo precio total
     }
 
+    /**
+     * Calcula el precio total de todas las piezas en la lista.
+     *
+     * @return El precio total de todas las piezas.
+     */
     public double calcularPrecioTotal() {
         double precioTotal = 0.0;
         for (Pieza pieza : listaPiezaPedido) {
@@ -182,6 +248,11 @@ public class PiezaPedidoAdapter extends RecyclerView.Adapter<PiezaPedidoAdapter.
         return precioTotal;
     }
 
+    /**
+     * Obtiene el contexto de la actividad actual.
+     *
+     * @return La vista raíz de la actividad.
+     */
     private View obtenerContexto(){
         // Obtener la vista raíz de la actividad
         View rootView = null;

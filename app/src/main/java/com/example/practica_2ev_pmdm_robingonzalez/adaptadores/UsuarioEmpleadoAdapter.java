@@ -18,22 +18,39 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import java.util.List;
 
+/**
+ * Adaptador para mostrar una lista de usuarios (empleados) en un RecyclerView.
+ * Este adaptador maneja diferentes tipos de vistas según el tipo de usuario (Administrativo, Mecánico Jefe, Mecánico).
+ * Además, permite eliminar usuarios tanto de la lista como de las bases de datos local (SQLite) y remota (Firebase).
+ */
 public class UsuarioEmpleadoAdapter extends RecyclerView.Adapter<UsuarioEmpleadoAdapter.UsuarioViewHolder> {
 
-    private List<Usuario> usuarios;
-    private Context contexto;
+    private List<Usuario> usuarios; // Lista de usuarios a mostrar
+    private Context contexto; // Contexto de la aplicación
 
-    // Constructor
+    /**
+     * Constructor del adaptador.
+     *
+     * @param usuarios Lista de usuarios a mostrar.
+     * @param contexto Contexto de la aplicación.
+     */
     public UsuarioEmpleadoAdapter(List<Usuario> usuarios, Context contexto) {
         this.usuarios = usuarios;
         this.contexto = contexto;
     }
 
-    //Se llama cuando se crea un nuevo ViewHolder e inflar la vista de los layouts
+    /**
+     * Se llama cuando se necesita crear un nuevo ViewHolder.
+     * Infla el layout correspondiente según el tipo de usuario.
+     *
+     * @param parent El ViewGroup al que se añadirá la nueva vista.
+     * @param viewType El tipo de vista, que depende del tipo de usuario.
+     * @return Un nuevo UsuarioViewHolder que contiene la vista inflada.
+     */
     @Override
     public UsuarioViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
-        // Se infla el layout correspondiente según el tipo de usuario
+        // Inflar el layout correspondiente según el tipo de usuario
         if (viewType == 1) {
             view = LayoutInflater.from(contexto).inflate(R.layout.lista_administrativo, parent, false);
         } else if (viewType == 2) {
@@ -44,7 +61,12 @@ public class UsuarioEmpleadoAdapter extends RecyclerView.Adapter<UsuarioEmpleado
         return new UsuarioViewHolder(view);
     }
 
-    // Se llama para enlazar los datos del usuario con el ViewHolder
+    /**
+     * Se llama para enlazar los datos de un usuario con las vistas del ViewHolder.
+     *
+     * @param holder El ViewHolder que contiene las vistas a actualizar.
+     * @param position La posición del usuario en la lista.
+     */
     @Override
     public void onBindViewHolder(UsuarioViewHolder holder, int position) {
         Usuario usuario = usuarios.get(position);
@@ -54,42 +76,57 @@ public class UsuarioEmpleadoAdapter extends RecyclerView.Adapter<UsuarioEmpleado
         holder.textViewCorreo.setText(usuario.getCorreo());
         holder.textViewTelefono.setText(usuario.getTelefono());
 
-        //Al hacer clic en el textView llamará al alert dialog para eliminar el empleado
-        holder.textViewEliminarEmpleado.setOnClickListener(v ->{
+        // Configurar el clic en el TextView para eliminar el empleado
+        holder.textViewEliminarEmpleado.setOnClickListener(v -> {
             String correo = usuario.getCorreo();
-            alertDialogEliminarEmpleado(correo);
+            alertDialogEliminarEmpleado(correo); // Mostrar diálogo de confirmación para eliminar
         });
-
     }
 
-    // Devuelve el número de elementos en la lista
+    /**
+     * Devuelve el número de elementos en la lista de usuarios.
+     *
+     * @return El número de usuarios en la lista.
+     */
     @Override
     public int getItemCount() {
         return usuarios.size();
     }
 
-    //Determina el tipo de vista según el tipo de empleado
+    /**
+     * Determina el tipo de vista según el tipo de usuario.
+     *
+     * @param position La posición del usuario en la lista.
+     * @return Un entero que representa el tipo de vista (1: Administrativo, 2: Mecánico Jefe, 3: Mecánico).
+     */
     @Override
     public int getItemViewType(int position) {
         String tipoUsuario = usuarios.get(position).getTipoUsuario();
         if (tipoUsuario.equals("Administrativo")) {
             return 1;
-        } else if (tipoUsuario.equals("Mecanico jefe")) {
+        } else if (tipoUsuario.equals("Mecánico jefe")) {
             return 2;
         } else {
             return 3;
         }
     }
 
-    // Clase view holder para inicializar las vistas de los item texView
+    /**
+     * ViewHolder para los items del RecyclerView.
+     * Contiene las vistas que representan cada usuario en la lista.
+     */
     public static class UsuarioViewHolder extends RecyclerView.ViewHolder {
         TextView textViewNombre, textViewCorreo, textViewTelefono, textViewEliminarEmpleado;
 
-        // Constructor del ViewHolder
+        /**
+         * Constructor del ViewHolder.
+         *
+         * @param itemView La vista que representa un item en el RecyclerView.
+         */
         public UsuarioViewHolder(View itemView) {
             super(itemView);
 
-            // Inicializamos las vistas que estarán en cada item
+            // Inicializar las vistas que estarán en cada item
             textViewNombre = itemView.findViewById(R.id.textViewNombreEmpleado);
             textViewCorreo = itemView.findViewById(R.id.textViewCorreoEmpleado);
             textViewTelefono = itemView.findViewById(R.id.textViewTelefonoEmpleado);
@@ -97,22 +134,30 @@ public class UsuarioEmpleadoAdapter extends RecyclerView.Adapter<UsuarioEmpleado
         }
     }
 
-    // Método para eliminar un usuario de la lista del RecyclerView
+    /**
+     * Elimina un usuario de la lista del RecyclerView por su correo.
+     *
+     * @param correo El correo del usuario a eliminar.
+     */
     public void eliminarEmpleadoPorCorreo(String correo) {
         for (int i = 0; i < usuarios.size(); i++) {
             if (usuarios.get(i).getCorreo().equals(correo)) {
-                usuarios.remove(i);
-                notifyItemRemoved(i);
+                usuarios.remove(i); // Eliminar de la lista
+                notifyItemRemoved(i); // Notificar al adaptador
                 break;
             }
         }
     }
 
-    // Método para eliminar un usuario de la base de datos de Firebase
+    /**
+     * Elimina un usuario de la base de datos de Firebase por su correo.
+     *
+     * @param correoEmpleado El correo del usuario a eliminar.
+     */
     public void eliminarEmpleadoFirebase(String correoEmpleado) {
         // Referencia a la base de datos en Firebase Realtime Database
         DatabaseReference databaseRef = FirebaseUtil.getDatabaseReference();
-        // Obtener todos los usuarios sin usar un índice
+        // Obtener todos los usuarios
         databaseRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 DataSnapshot dataSnapshot = task.getResult();
@@ -145,8 +190,11 @@ public class UsuarioEmpleadoAdapter extends RecyclerView.Adapter<UsuarioEmpleado
         });
     }
 
-
-    // Método para eliminar un usuario de la base de datos local SQLite
+    /**
+     * Elimina un usuario de la base de datos local SQLite por su correo.
+     *
+     * @param correo El correo del usuario a eliminar.
+     */
     private void eliminarDeSQLite(String correo) {
         // Obtener la instancia de UsuarioConsultas a través de TallerRobinautoSQLite
         UsuarioConsulta usuarioConsultas = TallerRobinautoSQLite.getInstance(contexto.getApplicationContext()).obtenerUsuarioConsultas();
@@ -155,24 +203,27 @@ public class UsuarioEmpleadoAdapter extends RecyclerView.Adapter<UsuarioEmpleado
 
         if (eliminado) {
             Log.d("SQLite", "Usuario eliminado de la base de datos local");
-        } else{
+        } else {
             Log.d("SQLite", "Usuario no registrado en la base de datos local");
         }
 
-        if(correo == null){
+        if (correo == null) {
             Log.e("SQLite", "Error al eliminar el usuario en la base de datos local");
         }
     }
 
-    // Método crear un cuadro de diálogo para preguntar si realmente quiere eliminar el usuario
-    private void alertDialogEliminarEmpleado(String correoEmpleado){
-
+    /**
+     * Muestra un diálogo de confirmación para eliminar un usuario.
+     *
+     * @param correoEmpleado El correo del usuario a eliminar.
+     */
+    private void alertDialogEliminarEmpleado(String correoEmpleado) {
         MaterialAlertDialogBuilder builderEliminar = new MaterialAlertDialogBuilder(contexto);
         builderEliminar.setTitle("Eliminar usuario")
                 .setMessage("¿Estás seguro de que deseas eliminar al usuario con el correo: " + correoEmpleado + "? Esta acción no se puede deshacer.")
                 .setIcon(R.drawable.ic_alerta)
                 .setPositiveButton("Si", (dialog, which) -> {
-                    //Llamar a los métodos para eliminar el empleado seleccionado
+                    // Llamar a los métodos para eliminar el empleado seleccionado
                     eliminarEmpleadoPorCorreo(correoEmpleado);
                     eliminarDeSQLite(correoEmpleado);
                     eliminarEmpleadoFirebase(correoEmpleado);
@@ -180,5 +231,4 @@ public class UsuarioEmpleadoAdapter extends RecyclerView.Adapter<UsuarioEmpleado
                 .setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss())
                 .show();
     }
-
 }
